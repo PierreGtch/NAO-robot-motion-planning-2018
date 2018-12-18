@@ -1,0 +1,605 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALMath &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="Python Examples" href="../../examples.html" />
+    <link rel="next" title="Sensors" href="../sensors/index.html" />
+    <link rel="prev" title="Collision detection" href="../motion/collision_detection.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../motion/collision_detection.html" title="Collision detection">previous</a>
+     |
+    <a href="../../examples.html" title="Python Examples" accesskey="U">up</a>
+   |
+    <a href="../sensors/index.html" title="Sensors">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-python-examples-almath-index">
+            
+  <div class="section" id="almath">
+<span id="python-example-almath"></span><h1>ALMath<a class="headerlink" href="#almath" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<p>This section contains some examples showing how to use libalmath Python wrapping.
+The C++ documentation of this library can be found <a class="reference internal" href="../../../../ref/cpp-api.html#libalmath-doc"><em>here</em></a>.
+The wrapping allows to use all functions contained in this library, which is very
+useful for computations related with motions (effectors positions for example).</p>
+<div class="section" id="python-wrapping">
+<h2>Python wrapping<a class="headerlink" href="#python-wrapping" title="Permalink to this headline">¶</a></h2>
+<p>libalmath is wrapped in Python. This makes it possible for example to use this
+library from Choregraphe, or from any Python script.</p>
+<p>To import almath, use the following line (after having correctly configured
+the Python SDK path if you are coding outside Choregraphe,
+see <a class="reference internal" href="../../install_guide.html#python-install-guide"><em>Python SDK Install Guide</em></a> ):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">almath</span>
+</pre></div>
+</div>
+<p>You can now call any method from libalmath with the following line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">almath</span><span class="o">.</span><span class="n">methodName</span><span class="p">(</span><span class="n">arg0</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Since libalmath is using particular types, you have to be careful to use
+them correctly. This can cause some difficulties when interfacing with
+other modules, such as ALMotion, which do not give the right format
+directly.</p>
+</div>
+<div class="section" id="using-almath-with-almotion">
+<h2>Using ALMath with ALMotion<a class="headerlink" href="#using-almath-with-almotion" title="Permalink to this headline">¶</a></h2>
+<p>This example shows how to retrieve transforms from ALMotion
+using the <a class="reference internal" href="../../../../naoqi/motion/control-cartesian-api.html#ALMotionProxy::getTransform__ssCR.iCR.bCR" title="ALMotionProxy::getTransform"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getTransform()</span></tt></a> method, and how to
+send transforms computed with ALMath back to ALMotion using
+the <a class="reference internal" href="../../../../naoqi/motion/control-cartesian-api.html#ALMotionProxy::setTransform__ssCR.iCR.std::vector:float:CR.floatCR.iCR" title="ALMotionProxy::setTransform"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setTransform()</span></tt></a> for example (but the principle
+is still the same for other methods using transforms).</p>
+<p><a class="reference download internal" href="../../../../_downloads/almath_transform.py"><tt class="xref download docutils literal"><span class="pre">almath_transform.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39; Example showing how to use almath with python and send the results to</span>
+<span class="sd">    the robot by using a proxy to ALMotion &#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="kn">import</span> <span class="nn">almath</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">IP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="c"># Create a proxy to ALMotion.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">IP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+
+    <span class="n">chainName</span> <span class="o">=</span> <span class="s">&quot;RArm&quot;</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">useSensors</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="c"># Set stiffness on.</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="s">&quot;Body&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Stand up.</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveInit</span><span class="p">()</span>
+
+    <span class="c">##############################################</span>
+    <span class="c"># Retrieve a transform matrix using ALMotion #</span>
+    <span class="c">##############################################</span>
+
+    <span class="c"># Retrieve current transform from ALMotion.</span>
+    <span class="c"># Convert it to a transform matrix for ALMath.</span>
+    <span class="n">origTransform</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span>
+        <span class="n">motionProxy</span><span class="o">.</span><span class="n">getTransform</span><span class="p">(</span><span class="n">chainName</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">useSensors</span><span class="p">))</span>
+
+    <span class="c"># Visualize the transform using overriden print from ALMath</span>
+    <span class="k">print</span> <span class="s">&quot;Original transform&quot;</span>
+    <span class="k">print</span> <span class="n">origTransform</span>
+
+    <span class="c">##########################################################</span>
+    <span class="c"># Use almath to do some computations on transform matrix #</span>
+    <span class="c">##########################################################</span>
+
+    <span class="c"># Compute a transform corresponding to the desired move</span>
+    <span class="c"># (here, move the chain for 5cm along the Z axis and the X axis).</span>
+    <span class="n">moveTransform</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Transform</span><span class="o">.</span><span class="n">fromPosition</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+
+    <span class="c"># Compute the corresponding target transform.</span>
+    <span class="n">targetTransform</span> <span class="o">=</span> <span class="n">moveTransform</span> <span class="o">*</span> <span class="n">origTransform</span>
+
+    <span class="c"># Visualize it.</span>
+    <span class="k">print</span> <span class="s">&quot;Target transform&quot;</span>
+    <span class="k">print</span> <span class="n">targetTransform</span>
+
+    <span class="c">##############################################</span>
+    <span class="c"># Send a transform to the robot via ALMotion #</span>
+    <span class="c">##############################################</span>
+
+    <span class="c"># Convert it to a tuple.</span>
+    <span class="n">targetTransformList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">targetTransform</span><span class="o">.</span><span class="n">toVector</span><span class="p">())</span>
+
+    <span class="c"># Send the target transform to NAO through ALMotion.</span>
+    <span class="n">fractionOfMaxSpeed</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">axisMask</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">AXIS_MASK_VEL</span> <span class="c"># Translation X, Y, Z</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setTransform</span><span class="p">(</span>
+        <span class="n">chainName</span><span class="p">,</span>
+        <span class="n">space</span><span class="p">,</span>
+        <span class="n">targetTransformList</span><span class="p">,</span>
+        <span class="n">fractionOfMaxSpeed</span><span class="p">,</span>
+        <span class="n">axisMask</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almath_transform.py robotIP&quot;</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-almath-to-generate-footsteps">
+<h2>Using ALMath to generate footsteps<a class="headerlink" href="#using-almath-to-generate-footsteps" title="Permalink to this headline">¶</a></h2>
+<p>ALMath is widely used inside ALMotion. Using ALMath, you can then reproduce some
+of the features included in ALMath, in particular concerning footsteps. If you
+send any footstep to ALMotion, you will get a lot of warnings because they are
+probably dangerous for the robot: they might cause foot collision or be too
+long for NAO. If you want to generate footsteps without any warnings, you have
+to clip them, using ALMath functionnalities.</p>
+<p>The following example allows you to lead NAO by its arm. It generates footsteps
+according to the left arm position, and then clips them to make sure they are
+possible for NAO.</p>
+<p>To use the example, launch the script giving your NAO&#8217;s IP as an argument. NAO
+will stand up. When you are ready, take NAO&#8217;s left arm and press the front tactil
+sensor. You can now guide NAO by inclining its arm forward and backwards, and
+make him turn by turning his left wrist. NAO&#8217;s eyes will turn green when its arm
+position gives him a target, and blue when the arm position is neutral. To end the
+example, press the rear tactile sensor: NAO will crouch and remove its stiffness.</p>
+<p>The code for the robot guide is the
+following: <a class="reference download internal" href="../../../../_downloads/almath_robot_guide.py"><tt class="xref download docutils literal"><span class="pre">almath_robot_guide.py</span></tt></a>.
+Do not forget to put the code for the foot clipping in the same
+folder: <a class="reference download internal" href="../../../../_downloads/almath_foot_clip.py"><tt class="xref download docutils literal"><span class="pre">almath_foot_clip.py</span></tt></a>.</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39; This example shows how to guide NAO by the hand, while computing his</span>
+<span class="sd">    moves with only footsteps, using ALMath library. Footstep clipping is</span>
+<span class="sd">    described in almath_foot_clip.py. &#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+
+<span class="kn">import</span> <span class="nn">almath_foot_clip</span>
+
+<span class="n">armName</span> <span class="o">=</span> <span class="s">&quot;LArm&quot;</span>
+<span class="n">lFootOffset</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.09</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">rFootOffset</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.09</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">stepSpeed</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">stepLength</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+<span class="k">def</span> <span class="nf">initRobotPosition</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Inits NAO&#39;s position and stiffnesses to make the guiding possible.&#39;&#39;&#39;</span>
+
+  <span class="n">motionProxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="s">&quot;Body&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+  <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveInit</span><span class="p">()</span>
+  <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+  <span class="c"># Make left arm loose.</span>
+  <span class="n">motionProxy</span><span class="o">.</span><span class="n">setAngles</span><span class="p">(</span><span class="s">&quot;LWristYaw&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+  <span class="n">motionProxy</span><span class="o">.</span><span class="n">setAngles</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.44</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.44</span><span class="p">],</span> <span class="mf">0.5</span><span class="p">)</span>
+  <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;LArm&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+  <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;LWristYaw&quot;</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+
+  <span class="c"># Disable arm moves while walking on left arm.</span>
+  <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkArmsEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+  <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">interpretJointsPose</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">,</span> <span class="n">memoryProxy</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Translates the current left arm pose into a target position for NAO&#39;s</span>
+<span class="sd">      foot. &#39;&#39;&#39;</span>
+
+  <span class="c"># Retrieve current arm position.</span>
+  <span class="n">armPose</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getAngles</span><span class="p">(</span><span class="n">armName</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+  <span class="n">targetX</span> <span class="o">=</span> <span class="mf">0.0</span>
+  <span class="n">targetY</span> <span class="o">=</span> <span class="mf">0.0</span>
+  <span class="n">targetTheta</span> <span class="o">=</span> <span class="mf">0.0</span>
+  <span class="n">gaitConfig</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getMoveConfig</span><span class="p">(</span><span class="s">&quot;Default&quot;</span><span class="p">)</span>
+
+  <span class="c"># Filter Shoulder Pitch.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">armPose</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span> <span class="mf">0.9</span> <span class="ow">and</span> <span class="n">armPose</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.20</span><span class="p">):</span>
+    <span class="n">targetX</span> <span class="o">=</span> <span class="n">stepLength</span>
+  <span class="k">elif</span> <span class="p">(</span><span class="n">armPose</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">2.5</span> <span class="ow">and</span> <span class="n">armPose</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">):</span>
+    <span class="n">targetX</span> <span class="o">=</span> <span class="o">-</span> <span class="n">stepLength</span> <span class="o">-</span> <span class="mf">0.02</span>
+
+  <span class="c"># Filter Wrist Yaw.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">armPose</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.2</span><span class="p">):</span>
+    <span class="n">targetTheta</span> <span class="o">=</span> <span class="n">gaitConfig</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+  <span class="k">elif</span> <span class="p">(</span><span class="n">armPose</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="n">targetTheta</span> <span class="o">=</span> <span class="o">-</span> <span class="n">gaitConfig</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+  <span class="c"># Return corresponding pose.</span>
+  <span class="k">return</span> <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="n">targetX</span><span class="p">,</span> <span class="n">targetY</span><span class="p">,</span> <span class="n">targetTheta</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">moveToTargetPose</span><span class="p">(</span><span class="n">targetPose</span><span class="p">,</span> <span class="n">motionProxy</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Move to the desired target with the current foot. &#39;&#39;&#39;</span>
+
+  <span class="n">targetTf</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">transformFromPose2D</span><span class="p">(</span><span class="n">targetPose</span><span class="p">)</span>
+
+  <span class="c"># Compute foot position with the offset in NAOSpace.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">isLeftSupport</span><span class="p">):</span>
+    <span class="n">footTargetTf</span> <span class="o">=</span> <span class="n">targetTf</span> <span class="o">*</span> <span class="n">almath</span><span class="o">.</span><span class="n">transformFromPose2D</span><span class="p">(</span><span class="n">rFootOffset</span><span class="p">)</span>
+    <span class="n">footTargetPose</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">pose2DFromTransform</span><span class="p">(</span><span class="n">footTargetTf</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;RLeg&quot;</span><span class="p">]</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">footTargetTf</span> <span class="o">=</span> <span class="n">targetTf</span> <span class="o">*</span> <span class="n">almath</span><span class="o">.</span><span class="n">transformFromPose2D</span><span class="p">(</span><span class="n">lFootOffset</span><span class="p">)</span>
+    <span class="n">footTargetPose</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">pose2DFromTransform</span><span class="p">(</span><span class="n">footTargetTf</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;LLeg&quot;</span><span class="p">]</span>
+
+  <span class="c"># Clip the footstep to avoid collisions and too wide steps.</span>
+  <span class="n">almath_foot_clip</span><span class="o">.</span><span class="n">clipFootStep</span><span class="p">(</span><span class="n">footTargetPose</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">)</span>
+
+  <span class="n">step</span> <span class="o">=</span> <span class="p">[[</span><span class="n">footTargetPose</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">footTargetPose</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">footTargetPose</span><span class="o">.</span><span class="n">theta</span><span class="p">]]</span>
+  <span class="n">speed</span> <span class="o">=</span> <span class="p">[</span><span class="n">stepSpeed</span><span class="p">]</span>
+
+  <span class="c"># Send the footstep to NAO.</span>
+  <span class="n">motionProxy</span><span class="o">.</span><span class="n">setFootStepsWithSpeed</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+
+  <span class="c"># Change current foot.</span>
+  <span class="n">isLeftSupport</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">isLeftSupport</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+
+  <span class="c"># Init proxies.</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMemory&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">ledsProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALLeds&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALLeds&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+  <span class="c"># Init robot position.</span>
+  <span class="n">initRobotPosition</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+  <span class="c"># Wait for the user to press the front tactile sensor.</span>
+  <span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;FrontTactilTouched&quot;</span><span class="p">)):</span>
+    <span class="k">pass</span>
+
+  <span class="c"># Start by moving left foot.</span>
+  <span class="n">isLeftSupport</span> <span class="o">=</span> <span class="bp">False</span>
+  <span class="n">isMoving</span> <span class="o">=</span> <span class="bp">False</span>
+  <span class="n">ledsProxy</span><span class="o">.</span><span class="n">fadeRGB</span><span class="p">(</span><span class="s">&quot;FaceLeds&quot;</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+  <span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;RearTactilTouched&quot;</span><span class="p">)):</span>
+    <span class="n">targetPose</span> <span class="o">=</span> <span class="n">interpretJointsPose</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">,</span> <span class="n">memoryProxy</span><span class="p">)</span>
+
+    <span class="c"># Filter the pose to avoid too small steps.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">targetPose</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.01</span> <span class="ow">or</span>\
+        <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">targetPose</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.01</span> <span class="ow">or</span>\
+        <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">targetPose</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.08</span><span class="p">):</span>
+      <span class="n">moveToTargetPose</span><span class="p">(</span><span class="n">targetPose</span><span class="p">,</span> <span class="n">motionProxy</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">)</span>
+      <span class="n">isLeftSupport</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">isLeftSupport</span>
+      <span class="n">isMoving</span> <span class="o">=</span> <span class="bp">True</span>
+      <span class="c"># Set LEDs to green.</span>
+      <span class="n">ledsProxy</span><span class="o">.</span><span class="n">fadeRGB</span><span class="p">(</span><span class="s">&quot;FaceLeds&quot;</span><span class="p">,</span> <span class="mi">256</span> <span class="o">*</span> <span class="mi">255</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="n">isMoving</span><span class="p">):</span>
+      <span class="c"># Stop the robot.</span>
+      <span class="n">motionProxy</span><span class="o">.</span><span class="n">stopMove</span><span class="p">()</span>
+      <span class="n">isMoving</span> <span class="o">=</span> <span class="bp">False</span>
+      <span class="c"># Set LEDs to blue.</span>
+      <span class="n">ledsProxy</span><span class="o">.</span><span class="n">fadeRGB</span><span class="p">(</span><span class="s">&quot;FaceLeds&quot;</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+  <span class="c"># Set LEDs to white.</span>
+  <span class="n">ledsProxy</span><span class="o">.</span><span class="n">fadeRGB</span><span class="p">(</span><span class="s">&quot;FaceLeds&quot;</span><span class="p">,</span> <span class="mi">256</span> <span class="o">*</span> <span class="mi">256</span> <span class="o">*</span> <span class="mi">255</span> <span class="o">+</span> <span class="mi">256</span> <span class="o">*</span> <span class="mi">255</span> <span class="o">+</span> <span class="mi">255</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+  <span class="c"># Crouch.</span>
+  <span class="n">motionProxy</span><span class="o">.</span><span class="n">rest</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&quot;Usage python almath_robot_guide.py robotIP&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+  <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The code for the foot clipping is the
+following:</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39; This file shows how to use ALMath library in Python to clip</span>
+<span class="sd">    NAO footsteps to correct moves (avoiding too big steps and collision).</span>
+<span class="sd">    Use clipFootStep to clip your desired pose.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">almath</span>
+
+<span class="c"># Various parameters describing step characteristics.</span>
+<span class="n">minFootSeparation</span> <span class="o">=</span> <span class="mf">0.088</span>
+<span class="n">minStepX</span> <span class="o">=</span> <span class="o">-</span> <span class="mf">0.04</span>
+<span class="n">maxStepX</span> <span class="o">=</span> <span class="mf">0.08</span>
+<span class="n">maxStepY</span> <span class="o">=</span> <span class="mf">0.16</span>
+<span class="n">maxStepTheta</span> <span class="o">=</span> <span class="mf">0.35</span>
+
+<span class="k">def</span> <span class="nf">clipFootStepOnGaitConfig</span><span class="p">(</span><span class="n">footMove</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Clip the foot move so that it does not exceed the maximum</span>
+<span class="sd">      size of steps.</span>
+<span class="sd">      footMove is an almath.Pose2D (x, y, theta position).</span>
+<span class="sd">      isLeftSupport must be set to True if the move is on the right leg</span>
+<span class="sd">      (the robot is supporting itself on the left leg).</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="k">def</span> <span class="nf">clipFloat</span><span class="p">(</span><span class="n">minValue</span><span class="p">,</span> <span class="n">maxValue</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Clip value between two extremes. &#39;&#39;&#39;</span>
+    <span class="n">clipped</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">clipped</span> <span class="o">&lt;</span> <span class="n">minValue</span><span class="p">):</span>
+      <span class="n">clipped</span> <span class="o">=</span> <span class="n">minValue</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">clipped</span> <span class="o">&gt;</span> <span class="n">maxValue</span><span class="p">):</span>
+      <span class="n">clipped</span> <span class="o">=</span> <span class="n">maxValue</span>
+    <span class="k">return</span> <span class="n">clipped</span>
+
+  <span class="c"># Clip X.</span>
+  <span class="n">clippedX</span> <span class="o">=</span> <span class="n">clipFloat</span><span class="p">(</span><span class="n">minStepX</span><span class="p">,</span> <span class="n">maxStepX</span><span class="p">,</span> <span class="n">footMove</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">footMove</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">clippedX</span>
+
+  <span class="c"># Clip Y.</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">isLeftSupport</span><span class="p">:</span>
+    <span class="n">clippedY</span> <span class="o">=</span> <span class="n">clipFloat</span><span class="p">(</span><span class="n">minFootSeparation</span><span class="p">,</span> <span class="n">maxStepY</span><span class="p">,</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">clippedY</span> <span class="o">=</span> <span class="n">clipFloat</span><span class="p">(</span><span class="o">-</span><span class="n">maxStepY</span><span class="p">,</span> <span class="o">-</span> <span class="n">minFootSeparation</span><span class="p">,</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+  <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">clippedY</span>
+
+  <span class="c"># Clip Theta.</span>
+  <span class="n">clippedTheta</span> <span class="o">=</span> <span class="n">clipFloat</span><span class="p">(</span><span class="o">-</span><span class="n">maxStepTheta</span><span class="p">,</span> <span class="n">maxStepTheta</span><span class="p">,</span> <span class="n">footMove</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
+  <span class="n">footMove</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">clippedTheta</span>
+
+
+<span class="k">def</span> <span class="nf">clipFootStepWithEllipse</span><span class="p">(</span><span class="n">footMove</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Clip the foot move inside an ellipse defined by the foot&#39;s dimansions.</span>
+<span class="sd">      footMove is an almath.Pose2D (x, y, theta position).</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="c"># Apply an offset to have Y component of foot move centered on 0.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">minFootSeparation</span><span class="p">):</span>
+    <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">minFootSeparation</span>
+  <span class="k">elif</span> <span class="p">(</span><span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">minFootSeparation</span><span class="p">):</span>
+    <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">minFootSeparation</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span>
+
+  <span class="c"># Clip the foot move to an ellipse using ALMath method.</span>
+  <span class="k">if</span> <span class="n">footMove</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">almath</span><span class="o">.</span><span class="n">clipFootWithEllipse</span><span class="p">(</span><span class="n">maxStepX</span><span class="p">,</span> <span class="n">maxStepY</span> <span class="o">-</span> <span class="n">minFootSeparation</span><span class="p">,</span> <span class="n">footMove</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">almath</span><span class="o">.</span><span class="n">clipFootWithEllipse</span><span class="p">(</span><span class="n">minStepX</span><span class="p">,</span> <span class="n">maxStepY</span> <span class="o">-</span> <span class="n">minFootSeparation</span><span class="p">,</span> <span class="n">footMove</span><span class="p">)</span>
+
+  <span class="c"># Correct the previous offset on Y component.</span>
+  <span class="k">if</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">footMove</span><span class="o">.</span><span class="n">y</span>  <span class="o">=</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">minFootSeparation</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">minFootSeparation</span>
+
+
+<span class="k">def</span> <span class="nf">clipFootStepToAvoidCollision</span><span class="p">(</span><span class="n">footMove</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Clip the foot move to avoid collision with the other foot.</span>
+<span class="sd">      footMove is an almath.Pose2D (x, y, theta position).</span>
+<span class="sd">      isLeftSupport must be set to True if the move is on the right leg</span>
+<span class="sd">      (the robot is supporting itself on the left leg).</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="c"># Bounding boxes of NAO&#39;s feet.</span>
+  <span class="n">rFootBox</span> <span class="o">=</span> <span class="p">[</span><span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="mf">0.038</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>    <span class="c"># rFootBoxFL</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.050</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>   <span class="c"># rFootBoxFR</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="o">-</span><span class="mf">0.047</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.050</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="c"># rFootBoxRR</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="o">-</span><span class="mf">0.047</span><span class="p">,</span> <span class="mf">0.038</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span>  <span class="c"># rFootBoxRL</span>
+  <span class="n">lFootBox</span> <span class="o">=</span> <span class="p">[</span><span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="mf">0.050</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>    <span class="c"># lFootBoxFL</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.038</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>   <span class="c"># lFootBoxFR</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="o">-</span><span class="mf">0.047</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.038</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="c"># lFootBoxRR</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="o">-</span><span class="mf">0.047</span><span class="p">,</span>  <span class="mf">0.050</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span> <span class="c"># lFootBoxRL</span>
+
+  <span class="c"># Use ALMath method.</span>
+  <span class="n">almath</span><span class="o">.</span><span class="n">avoidFootCollision</span><span class="p">(</span><span class="n">lFootBox</span><span class="p">,</span> <span class="n">rFootBox</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">,</span> <span class="n">footMove</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">clipFootStep</span><span class="p">(</span><span class="n">footMove</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Clipping functions to avoid any warnings and undesired effects</span>
+<span class="sd">      when sending the footsteps to ALMotion.</span>
+<span class="sd">      footMove is an almath.Pose2D (x, y, theta position)</span>
+<span class="sd">      isLeftSupport must be set to True if the move is on the right leg</span>
+<span class="sd">      (the robot is supporting itself on the left leg).</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="c"># First clip the foot move with gait config.</span>
+  <span class="n">clipFootStepOnGaitConfig</span><span class="p">(</span><span class="n">footMove</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">)</span>
+  <span class="c"># Then clip it on an ellipse.</span>
+  <span class="n">clipFootStepWithEllipse</span><span class="p">(</span><span class="n">footMove</span><span class="p">)</span>
+  <span class="c"># Then make sure you do not have any collision.</span>
+  <span class="n">clipFootStepToAvoidCollision</span><span class="p">(</span><span class="n">footMove</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../motion/collision_detection.html" title="Collision detection">Collision detection</a>
+     |
+    <a href="../../examples.html" title="Python Examples" accesskey="U">Python Examples</a>
+   |
+    <a href="../sensors/index.html" title="Sensors">Sensors</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../cpp/index.html">Cpp</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html">Python</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../install_guide.html">Python SDK Install Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tutorials.html">Python tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../examples.html">Python Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../nonascii/index.html">Reading non-ASCII text</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../motion/index.html">Motion</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALMath</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/index.html">Sensors</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/index.html">Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../tips-and-tricks.html">Python SDK tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALMath</a><ul>
+<li><a class="reference internal" href="#python-wrapping">Python wrapping</a></li>
+<li><a class="reference internal" href="#using-almath-with-almotion">Using ALMath with ALMotion</a></li>
+<li><a class="reference internal" href="#using-almath-to-generate-footsteps">Using ALMath to generate footsteps</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../motion/collision_detection.html" title="Collision detection">previous</a>
+     |
+    <a href="../../examples.html" title="Python Examples" accesskey="U">up</a>
+   |
+    <a href="../sensors/index.html" title="Sensors">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

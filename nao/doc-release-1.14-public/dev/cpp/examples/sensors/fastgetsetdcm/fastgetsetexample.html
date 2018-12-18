@@ -1,0 +1,815 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fast getting and setting joint angles &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../../index.html" />
+    <link rel="up" title="C++ Examples" href="../../../examples.html" />
+    <link rel="next" title="Capturing audio and video" href="../../audiovideocapture/audiovideocapture.html" />
+    <link rel="prev" title="Control the LEDs" href="../leds/leds.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../leds/leds.html" title="Control the LEDs">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../../audiovideocapture/audiovideocapture.html" title="Capturing audio and video">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-cpp-examples-sensors-fastgetsetdcm-fastgetsetexample">
+            
+  <div class="section" id="fast-getting-and-setting-joint-angles">
+<span id="cpp-examples-fastgetsetexample"></span><h1>Fast getting and setting joint angles<a class="headerlink" href="#fast-getting-and-setting-joint-angles" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><strong>fastGetSetExample</strong> module shows how to have quick access (every 10ms) to
+joint angles values using the <a class="reference internal" href="../../../../../naoqi/sensors/dcm.html#dcm"><em>DCM</em></a>.</p>
+<p>This is a <strong>local</strong> module, it must be cross-compiled and sent to the robot.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This example is quite advanced, and could lead to disastrous results if
+modified or used incorrectly. Do not try to edit it unless you know what
+you are doing.</p>
+</div>
+</div>
+<div class="section" id="downloads">
+<h2>Downloads<a class="headerlink" href="#downloads" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="whole-module">
+<h3>Whole module<a class="headerlink" href="#whole-module" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/fastgetsetdcm.zip"><tt class="xref download docutils literal"><span class="pre">fastgetsetdcm.zip</span></tt></a></p>
+</div>
+<div class="section" id="header-fastgetsetdcm-h">
+<h3>Header: fastgetsetdcm.h<a class="headerlink" href="#header-fastgetsetdcm-h" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/fastgetsetdcm.h"><tt class="xref download docutils literal"><span class="pre">fastgetsetdcm.h</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Example module to use fast method to get/set joints every 10ms with minimum delays.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+
+<span class="cp">#ifndef _FAST_GET_SET_DCM_H</span>
+<span class="cp">#define _FAST_GET_SET_DCM_H</span>
+
+<span class="cp">#include &lt;boost/shared_ptr.hpp&gt;</span>
+<span class="cp">#include &lt;alcommon/almodule.h&gt;</span>
+<span class="cp">#include &lt;boost/shared_ptr.hpp&gt;</span>
+
+<span class="k">namespace</span> <span class="n">AL</span>
+<span class="p">{</span>
+  <span class="k">class</span> <span class="nc">ALBroker</span><span class="p">;</span>
+  <span class="k">class</span> <span class="nc">ALMemoryFastAccess</span><span class="p">;</span>
+  <span class="k">class</span> <span class="nc">DCMProxy</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Example module tu use fast method to get/set joints every 10ms with minimum delays.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">class</span> <span class="nc">FastGetSetDCM</span> <span class="o">:</span> <span class="k">public</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALModule</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">FastGetSetDCM</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALBroker</span><span class="o">&gt;</span> <span class="n">pBroker</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">pName</span> <span class="p">);</span>
+
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">FastGetSetDCM</span><span class="p">();</span>
+
+  <span class="c1">// Start the example</span>
+  <span class="kt">void</span> <span class="n">startLoop</span><span class="p">();</span>
+
+  <span class="c1">// Stop the example</span>
+  <span class="kt">void</span> <span class="n">stopLoop</span><span class="p">();</span>
+
+<span class="k">private</span><span class="o">:</span>
+
+  <span class="c1">// Initialisation of ALMemory/DCM link</span>
+  <span class="kt">void</span> <span class="n">init</span><span class="p">();</span>
+
+  <span class="c1">// ALMemory fast access</span>
+  <span class="kt">void</span> <span class="n">initFastAccess</span><span class="p">();</span>
+
+  <span class="c1">//  Connect callback to the DCM post proccess</span>
+  <span class="kt">void</span> <span class="n">connectToDCMloop</span><span class="p">();</span>
+
+  <span class="c1">// Callback called by the DCM every 10ms</span>
+  <span class="kt">void</span> <span class="n">synchronisedDCMcallback</span><span class="p">();</span>
+
+  <span class="c1">// Create DCM hardness Actuator Alias</span>
+  <span class="kt">void</span> <span class="n">createHardnessActuatorAlias</span><span class="p">();</span>
+
+  <span class="c1">// Create DCM Position Actuator Alias</span>
+  <span class="kt">void</span> <span class="n">createPositionActuatorAlias</span><span class="p">();</span>
+
+  <span class="c1">// Prepare Command ALValue to send command to actuator</span>
+  <span class="kt">void</span> <span class="n">preparePositionActuatorCommand</span><span class="p">();</span>
+
+  <span class="c1">// Set one hardness value to all joint</span>
+  <span class="kt">void</span> <span class="n">setStiffness</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="o">&amp;</span><span class="n">stiffnessValue</span><span class="p">);</span>
+
+  <span class="c1">// Used for postprocess sync with the DCM</span>
+  <span class="n">ProcessSignalConnection</span> <span class="n">fDCMPostProcessConnection</span><span class="p">;</span>
+
+  <span class="c1">// Sensors names</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">fSensorKeys</span><span class="p">;</span>
+
+  <span class="c1">// Used for fast memory access</span>
+  <span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALMemoryFastAccess</span><span class="o">&gt;</span> <span class="n">fMemoryFastAccess</span><span class="p">;</span>
+
+  <span class="c1">// Store sensor values.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">sensorValues</span><span class="p">;</span>
+  <span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">DCMProxy</span><span class="o">&gt;</span> <span class="n">dcmProxy</span><span class="p">;</span>
+
+  <span class="c1">// Used for the test actuator = sensor</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span>  <span class="n">initialJointSensorValues</span><span class="p">;</span>
+
+  <span class="c1">// Used to store command to send</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">commands</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">enum</span> <span class="n">SensorType</span> <span class="p">{</span> <span class="n">HEAD_PITCH</span><span class="p">,</span> <span class="n">HEAD_YAW</span><span class="p">,</span>
+                  <span class="n">L_ANKLE_PITCH</span><span class="p">,</span>
+                  <span class="n">L_ANKLE_ROLL</span><span class="p">,</span>
+                  <span class="n">L_ELBOW_ROLL</span><span class="p">,</span>
+                  <span class="n">L_ELBOW_YAW</span><span class="p">,</span>
+                  <span class="n">L_HAND</span><span class="p">,</span>
+                  <span class="n">L_HIP_PITCH</span><span class="p">,</span>
+                  <span class="n">L_HIP_ROLL</span><span class="p">,</span>
+                  <span class="n">L_HIP_YAW_PITCH</span><span class="p">,</span>
+                  <span class="n">L_KNEE_PITCH</span><span class="p">,</span>
+                  <span class="n">L_SHOULDER_PITCH</span><span class="p">,</span>
+                  <span class="n">L_SHOULDER_ROLL</span><span class="p">,</span>
+                  <span class="n">L_WRIST_YAW</span><span class="p">,</span>
+                  <span class="n">R_ANKLE_PITCH</span><span class="p">,</span>
+                  <span class="n">R_ANKLE_ROLL</span><span class="p">,</span>
+                  <span class="n">R_ELBOW_ROLL</span><span class="p">,</span>
+                  <span class="n">R_ELBOW_YAW</span><span class="p">,</span>
+                  <span class="n">R_HAND</span><span class="p">,</span>
+                  <span class="n">R_HIP_PITCH</span><span class="p">,</span>
+                  <span class="n">R_HIP_ROLL</span><span class="p">,</span>
+                  <span class="n">R_KNEE_PITCH</span><span class="p">,</span>
+                  <span class="n">R_SHOULDER_PITCH</span><span class="p">,</span>
+                  <span class="n">R_SHOULDER_ROLL</span><span class="p">,</span>
+                  <span class="n">R_WRIST_YAW</span><span class="p">,</span>
+                  <span class="n">ACC_X</span><span class="p">,</span>
+                  <span class="n">ACC_Y</span><span class="p">,</span>
+                  <span class="n">ACC_Z</span><span class="p">,</span>
+                  <span class="n">GYR_X</span><span class="p">,</span>
+                  <span class="n">GYR_Y</span><span class="p">,</span>
+                  <span class="n">ANGLE_X</span><span class="p">,</span>
+                  <span class="n">ANGLE_Y</span><span class="p">,</span>
+                  <span class="n">L_COP_X</span><span class="p">,</span>
+                  <span class="n">L_COP_Y</span><span class="p">,</span>
+                  <span class="n">L_TOTAL_WEIGHT</span><span class="p">,</span>
+                  <span class="n">R_COP_X</span><span class="p">,</span>
+                  <span class="n">R_COP_Y</span><span class="p">,</span>
+                  <span class="n">R_TOTAL_WEIGHT</span><span class="p">};</span>
+
+<span class="cp">#endif  </span><span class="c1">// _FAST_GET_SET_DCM_H</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="source-fastgetsetdcm-cpp">
+<h3>Source: fastgetsetdcm.cpp<a class="headerlink" href="#source-fastgetsetdcm-cpp" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/fastgetsetdcm.cpp"><tt class="xref download docutils literal"><span class="pre">fastgetsetdcm.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Example module to use fast method to get/set joints every 10ms with minimum delays.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+
+<span class="cp">#include &quot;fastgetsetdcm.h&quot;</span>
+<span class="cp">#include &lt;boost/shared_ptr.hpp&gt;</span>
+<span class="cp">#include &lt;alcommon/alproxy.h&gt;</span>
+<span class="cp">#include &lt;alcommon/albroker.h&gt;</span>
+<span class="cp">#include &lt;alcommon/almodule.h&gt;</span>
+
+<span class="cp">#include &lt;alerror/alerror.h&gt;</span>
+
+<span class="c1">// Use DCM proxy</span>
+<span class="cp">#include &lt;alproxies/dcmproxy.h&gt;</span>
+
+<span class="c1">// Used to read values of ALMemory directly in RAM</span>
+<span class="cp">#include &lt;almemoryfastaccess/almemoryfastaccess.h&gt;</span>
+
+<span class="cp">#include &lt;boost/bind.hpp&gt;</span>
+
+<span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Example module to use fast method to get/set joints every 10ms with minimum delays.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="c1">/// &lt;param name=&quot;broker&quot;&gt; A smart pointer to the broker.&lt;/param&gt;</span>
+<span class="c1">/// &lt;param name=&quot;name&quot;&gt;   The name of the module. &lt;/param&gt;</span>
+<span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">FastGetSetDCM</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALBroker</span><span class="o">&gt;</span> <span class="n">broker</span><span class="p">,</span>
+                                     <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">name</span> <span class="p">)</span>
+  <span class="o">:</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALModule</span><span class="p">(</span><span class="n">broker</span><span class="p">,</span> <span class="n">name</span> <span class="p">)</span>
+  <span class="p">,</span> <span class="n">fMemoryFastAccess</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALMemoryFastAccess</span><span class="o">&gt;</span><span class="p">(</span><span class="k">new</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALMemoryFastAccess</span><span class="p">()))</span>
+<span class="p">{</span>
+  <span class="n">setModuleDescription</span><span class="p">(</span> <span class="s">&quot;Example module to use fast method to get/set joints every 10ms with minimum delays.&quot;</span> <span class="p">);</span>
+
+  <span class="n">functionName</span><span class="p">(</span><span class="s">&quot;startLoop&quot;</span><span class="p">,</span> <span class="n">getName</span><span class="p">()</span> <span class="p">,</span> <span class="s">&quot;start&quot;</span><span class="p">);</span>
+  <span class="n">BIND_METHOD</span><span class="p">(</span><span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">startLoop</span><span class="p">);</span>
+
+  <span class="n">functionName</span><span class="p">(</span><span class="s">&quot;stopLoop&quot;</span><span class="p">,</span> <span class="n">getName</span><span class="p">()</span> <span class="p">,</span> <span class="s">&quot;stop&quot;</span><span class="p">);</span>
+  <span class="n">BIND_METHOD</span><span class="p">(</span><span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">stopLoop</span><span class="p">);</span>
+
+  <span class="n">functionName</span><span class="p">(</span><span class="s">&quot;setStiffness&quot;</span> <span class="p">,</span> <span class="n">getName</span><span class="p">(),</span>
+                <span class="s">&quot;change stiffness of all joint&quot;</span><span class="p">);</span>
+  <span class="n">addParam</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">,</span> <span class="s">&quot;new stiffness value from 0.0 to 1.0&quot;</span><span class="p">);</span>
+  <span class="n">BIND_METHOD</span><span class="p">(</span><span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">setStiffness</span><span class="p">);</span>
+
+  <span class="c1">//  start the example.</span>
+  <span class="c1">//  You can remove it and call FastGetSetDCM.startLoop() to start instead.</span>
+  <span class="n">startLoop</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">FastGetSetDCM</span><span class="o">::~</span><span class="n">FastGetSetDCM</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">stopLoop</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// Start the example</span>
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">startLoop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">signed</span> <span class="kt">long</span> <span class="n">isDCMRunning</span><span class="p">;</span>
+
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="c1">// Get the DCM proxy</span>
+    <span class="n">dcmProxy</span> <span class="o">=</span> <span class="n">getParentBroker</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getDcmProxy</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="n">AL</span><span class="o">::</span><span class="n">ALError</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;startLoop()&quot;</span><span class="p">,</span> <span class="s">&quot;Impossible to create DCM Proxy : &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Is the DCM running ?</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="n">isDCMRunning</span> <span class="o">=</span> <span class="n">getParentBroker</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getProxy</span><span class="p">(</span><span class="s">&quot;ALLauncher&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">call</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;isModulePresent&quot;</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;DCM&quot;</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="n">AL</span><span class="o">::</span><span class="n">ALError</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;startLoop()&quot;</span><span class="p">,</span> <span class="s">&quot;Error when connecting to DCM : &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isDCMRunning</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;startLoop()&quot;</span><span class="p">,</span> <span class="s">&quot;Error no DCM running &quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">init</span><span class="p">();</span>
+  <span class="n">connectToDCMloop</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// Stop the example</span>
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">stopLoop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">setStiffness</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">);</span>
+  <span class="c1">// Remove the postProcess call back connection</span>
+  <span class="n">fDCMPostProcessConnection</span><span class="p">.</span><span class="n">disconnect</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// Initialisation of ALmemory fast access, DCM commands, Alias, stiffness, ...</span>
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">init</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">initFastAccess</span><span class="p">();</span>
+  <span class="n">createPositionActuatorAlias</span><span class="p">();</span>
+  <span class="n">createHardnessActuatorAlias</span><span class="p">();</span>
+  <span class="n">setStiffness</span><span class="p">(</span><span class="mf">0.2f</span><span class="p">);</span> <span class="c1">// Set to 1.0 for maximum stiffness, but only after a test</span>
+  <span class="n">preparePositionActuatorCommand</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// ALMemory fast access</span>
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">initFastAccess</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">fSensorKeys</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="c1">//  Here as an example inertial + joints + FSR are read</span>
+  <span class="n">fSensorKeys</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">7</span> <span class="o">+</span> <span class="mi">25</span> <span class="o">+</span> <span class="mi">6</span><span class="p">);</span>
+  <span class="c1">// Joints Sensor list</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">HEAD_PITCH</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/HeadPitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">HEAD_YAW</span><span class="p">]</span>         <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/HeadYaw/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_ANKLE_PITCH</span><span class="p">]</span>    <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LAnklePitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_ANKLE_ROLL</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LAnkleRoll/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_ELBOW_ROLL</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LElbowRoll/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_ELBOW_YAW</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LElbowYaw/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_HAND</span><span class="p">]</span>           <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHand/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_HIP_PITCH</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHipPitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_HIP_ROLL</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHipRoll/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_HIP_YAW_PITCH</span><span class="p">]</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHipYawPitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_KNEE_PITCH</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LKneePitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_SHOULDER_PITCH</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LShoulderPitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_SHOULDER_ROLL</span><span class="p">]</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LShoulderRoll/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_WRIST_YAW</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LWristYaw/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_ANKLE_PITCH</span><span class="p">]</span>    <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RAnklePitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_ANKLE_ROLL</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RAnkleRoll/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_ELBOW_ROLL</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RElbowRoll/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_ELBOW_YAW</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RElbowYaw/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_HAND</span><span class="p">]</span>           <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RHand/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_HIP_PITCH</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RHipPitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_HIP_ROLL</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RHipRoll/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_KNEE_PITCH</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RKneePitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_SHOULDER_PITCH</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RShoulderPitch/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_SHOULDER_ROLL</span><span class="p">]</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RShoulderRoll/Position/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_WRIST_YAW</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RWristYaw/Position/Sensor/Value&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Inertial sensors</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">ACC_X</span><span class="p">]</span>   <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AccX/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">ACC_Y</span><span class="p">]</span>   <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AccY/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">ACC_Z</span><span class="p">]</span>   <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AccZ/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">GYR_X</span><span class="p">]</span>   <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/GyrX/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">GYR_Y</span><span class="p">]</span>   <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/GyrY/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">ANGLE_X</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AngleX/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">ANGLE_Y</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AngleY/Sensor/Value&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Some FSR sensors</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_COP_X</span><span class="p">]</span>        <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/CenterOfPressure/X/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_COP_Y</span><span class="p">]</span>        <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/CenterOfPressure/Y/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">L_TOTAL_WEIGHT</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/TotalWeight/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_COP_X</span><span class="p">]</span>        <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/CenterOfPressure/X/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_COP_Y</span><span class="p">]</span>        <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/CenterOfPressure/Y/Sensor/Value&quot;</span><span class="p">);</span>
+  <span class="n">fSensorKeys</span><span class="p">[</span><span class="n">R_TOTAL_WEIGHT</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/TotalWeight/Sensor/Value&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Create the fast memory access</span>
+  <span class="n">fMemoryFastAccess</span><span class="o">-&gt;</span><span class="n">ConnectToVariables</span><span class="p">(</span><span class="n">getParentBroker</span><span class="p">(),</span> <span class="n">fSensorKeys</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">createPositionActuatorAlias</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">jointAliasses</span><span class="p">;</span>
+
+  <span class="n">jointAliasses</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;jointActuator&quot;</span><span class="p">);</span> <span class="c1">// Alias for all 25 joint actuators</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">25</span><span class="p">);</span>
+
+  <span class="c1">// Joints actuator list</span>
+
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">HEAD_PITCH</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/HeadPitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">HEAD_YAW</span><span class="p">]</span>         <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/HeadYaw/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_ANKLE_PITCH</span><span class="p">]</span>    <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LAnklePitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_ANKLE_ROLL</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LAnkleRoll/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_ELBOW_ROLL</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LElbowRoll/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_ELBOW_YAW</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LElbowYaw/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_HAND</span><span class="p">]</span>           <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHand/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_HIP_PITCH</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHipPitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_HIP_ROLL</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHipRoll/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_HIP_YAW_PITCH</span><span class="p">]</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHipYawPitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_KNEE_PITCH</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LKneePitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_SHOULDER_PITCH</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LShoulderPitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_SHOULDER_ROLL</span><span class="p">]</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LShoulderRoll/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_WRIST_YAW</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LWristYaw/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_ANKLE_PITCH</span><span class="p">]</span>    <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RAnklePitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_ANKLE_ROLL</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RAnkleRoll/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_ELBOW_ROLL</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RElbowRoll/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_ELBOW_YAW</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RElbowYaw/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_HAND</span><span class="p">]</span>           <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RHand/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_HIP_PITCH</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RHipPitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_HIP_ROLL</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RHipRoll/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_KNEE_PITCH</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RKneePitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_SHOULDER_PITCH</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RShoulderPitch/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_SHOULDER_ROLL</span><span class="p">]</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RShoulderRoll/Position/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_WRIST_YAW</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RWristYaw/Position/Actuator/Value&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Create alias</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="n">dcmProxy</span><span class="o">-&gt;</span><span class="n">createAlias</span><span class="p">(</span><span class="n">jointAliasses</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALError</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;createPositionActuatorAlias()&quot;</span><span class="p">,</span> <span class="s">&quot;Error when creating Alias : &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">createHardnessActuatorAlias</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">jointAliasses</span><span class="p">;</span>
+  <span class="c1">// Alias for all joint stiffness</span>
+  <span class="n">jointAliasses</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="n">jointAliasses</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;jointStiffness&quot;</span><span class="p">);</span> <span class="c1">// Alias for all 25 actuators</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">25</span><span class="p">);</span>
+
+  <span class="c1">// stiffness list</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">HEAD_PITCH</span><span class="p">]</span>        <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/HeadPitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">HEAD_YAW</span><span class="p">]</span>          <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/HeadYaw/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_ANKLE_PITCH</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LAnklePitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_ANKLE_ROLL</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LAnkleRoll/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_ELBOW_ROLL</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LElbowRoll/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_ELBOW_YAW</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LElbowYaw/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_HAND</span><span class="p">]</span>            <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHand/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_HIP_PITCH</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHipPitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_HIP_ROLL</span><span class="p">]</span>        <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHipRoll/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_HIP_YAW_PITCH</span><span class="p">]</span>   <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LHipYawPitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_KNEE_PITCH</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LKneePitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_SHOULDER_PITCH</span><span class="p">]</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LShoulderPitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_SHOULDER_ROLL</span><span class="p">]</span>   <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LShoulderRoll/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">L_WRIST_YAW</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LWristYaw/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_ANKLE_PITCH</span><span class="p">]</span>     <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RAnklePitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_ANKLE_ROLL</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RAnkleRoll/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_ELBOW_ROLL</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RElbowRoll/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_ELBOW_YAW</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RElbowYaw/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_HAND</span><span class="p">]</span>            <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RHand/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_HIP_PITCH</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RHipPitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_HIP_ROLL</span><span class="p">]</span>        <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RHipRoll/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_KNEE_PITCH</span><span class="p">]</span>      <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RKneePitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_SHOULDER_PITCH</span><span class="p">]</span>  <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RShoulderPitch/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_SHOULDER_ROLL</span><span class="p">]</span>   <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RShoulderRoll/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+  <span class="n">jointAliasses</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">R_WRIST_YAW</span><span class="p">]</span>       <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RWristYaw/Hardness/Actuator/Value&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Create alias</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="n">dcmProxy</span><span class="o">-&gt;</span><span class="n">createAlias</span><span class="p">(</span><span class="n">jointAliasses</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALError</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;createHardnessActuatorAlias()&quot;</span><span class="p">,</span> <span class="s">&quot;Error when creating Alias : &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">preparePositionActuatorCommand</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">commands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span>
+  <span class="n">commands</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;jointActuator&quot;</span><span class="p">);</span>
+  <span class="n">commands</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;ClearAll&quot;</span><span class="p">);</span> <span class="c1">// Erase all previous commands</span>
+  <span class="n">commands</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;time-separate&quot;</span><span class="p">);</span>
+  <span class="n">commands</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">commands</span><span class="p">[</span><span class="mi">4</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="c1">//commands[4][0]  Will be the new time</span>
+
+  <span class="n">commands</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">25</span><span class="p">);</span> <span class="c1">// For all joints</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">25</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">commands</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">i</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="c1">//commands[5][i][0] will be the new angle</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">setStiffness</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span> <span class="o">&amp;</span><span class="n">stiffnessValue</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">stiffnessCommands</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">DCMtime</span><span class="p">;</span>
+  <span class="c1">// increase stiffness with the &quot;jointStiffness&quot; Alias created at initialisation</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="c1">// Get time : return the time in 1 seconde</span>
+    <span class="n">DCMtime</span> <span class="o">=</span> <span class="n">dcmProxy</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALError</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;setStiffness()&quot;</span><span class="p">,</span> <span class="s">&quot;Error on DCM getTime : &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Prepare one dcm command:</span>
+  <span class="c1">// it will linearly &quot;Merge&quot; all joint stiffness</span>
+  <span class="c1">// from last value to &quot;stiffnessValue&quot; in 1 seconde</span>
+  <span class="n">stiffnessCommands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="n">stiffnessCommands</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;jointStiffness&quot;</span><span class="p">);</span>
+  <span class="n">stiffnessCommands</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;Merge&quot;</span><span class="p">);</span>
+  <span class="n">stiffnessCommands</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">stiffnessCommands</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="n">stiffnessCommands</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">stiffnessValue</span><span class="p">;</span>
+  <span class="n">stiffnessCommands</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">DCMtime</span><span class="p">;</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="n">dcmProxy</span><span class="o">-&gt;</span><span class="n">set</span><span class="p">(</span><span class="n">stiffnessCommands</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALError</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;setStiffness()&quot;</span><span class="p">,</span> <span class="s">&quot;Error when sending stiffness to DCM : &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">connectToDCMloop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// Get all values from ALMemory using fastaccess</span>
+  <span class="n">fMemoryFastAccess</span><span class="o">-&gt;</span><span class="n">GetValues</span><span class="p">(</span><span class="n">sensorValues</span><span class="p">);</span>
+
+  <span class="c1">// Save all sensor position for the sensor=actuator test</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">25</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">initialJointSensorValues</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">sensorValues</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Connect callback to the DCM post proccess</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="n">fDCMPostProcessConnection</span> <span class="o">=</span>
+      <span class="n">getParentBroker</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getProxy</span><span class="p">(</span><span class="s">&quot;DCM&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">getModule</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">atPostProcess</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">synchronisedDCMcallback</span><span class="p">,</span> <span class="k">this</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALError</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;connectToDCMloop()&quot;</span><span class="p">,</span> <span class="s">&quot;Error when connecting to DCM postProccess: &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="cm">/**</span>
+<span class="cm"> *  WARNING</span>
+<span class="cm"> *</span>
+<span class="cm"> *  Once this method is connected to DCM postprocess</span>
+<span class="cm"> *  it will be called in Real Time every 10 milliseconds from DCM thread</span>
+<span class="cm"> *  Dynamic allocation and system call are strictly forbidden in this method</span>
+<span class="cm"> *  Computation time in this section must remain as short as possible to prevent</span>
+<span class="cm"> *  erratic move or joint getting loose.</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="c1">//  Send the new values of all joints to the DCM.</span>
+<span class="c1">//  Note : a joint could be ignore unsing a NAN value.</span>
+<span class="c1">//  Note : do not forget to set stiffness</span>
+<span class="kt">void</span> <span class="n">FastGetSetDCM</span><span class="o">::</span><span class="n">synchronisedDCMcallback</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">DCMtime</span><span class="p">;</span>
+
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="c1">// Get absolute time, at 0 ms in the future ( i.e. now )</span>
+    <span class="n">DCMtime</span> <span class="o">=</span> <span class="n">dcmProxy</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALError</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;synchronisedDCMcallback()&quot;</span><span class="p">,</span> <span class="s">&quot;Error on DCM getTime : &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+  <span class="p">}</span>
+
+  <span class="n">commands</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">DCMtime</span><span class="p">;</span> <span class="c1">// To be used in the next cycle</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">25</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// new actuator value = first Sensor value</span>
+    <span class="n">commands</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">initialJointSensorValues</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="c1">// Uncomment this to activate</span>
+  <span class="c1">// Left Arm mirror Right Arm</span>
+  <span class="c1">// Get all values from ALMemory using fastaccess</span>
+  <span class="n">fMemoryFastAccess</span><span class="o">-&gt;</span><span class="n">GetValues</span><span class="p">(</span><span class="n">sensorValues</span><span class="p">);</span>
+  <span class="n">commands</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">L_SHOULDER_PITCH</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span>   <span class="n">sensorValues</span><span class="p">[</span><span class="n">R_SHOULDER_PITCH</span><span class="p">];</span>
+  <span class="n">commands</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">L_SHOULDER_ROLL</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="o">=</span> <span class="o">-</span> <span class="n">sensorValues</span><span class="p">[</span><span class="n">R_SHOULDER_ROLL</span><span class="p">];</span>
+  <span class="n">commands</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">L_ELBOW_YAW</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>      <span class="o">=</span> <span class="o">-</span> <span class="n">sensorValues</span><span class="p">[</span><span class="n">R_ELBOW_YAW</span><span class="p">];</span>
+  <span class="n">commands</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">L_ELBOW_ROLL</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>     <span class="o">=</span> <span class="o">-</span> <span class="n">sensorValues</span><span class="p">[</span><span class="n">R_ELBOW_ROLL</span><span class="p">];</span>
+
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="n">dcmProxy</span><span class="o">-&gt;</span><span class="n">setAlias</span><span class="p">(</span><span class="n">commands</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALError</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">ALERROR</span><span class="p">(</span><span class="n">getName</span><span class="p">(),</span> <span class="s">&quot;synchronisedDCMcallback()&quot;</span><span class="p">,</span> <span class="s">&quot;Error when sending command to DCM : &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">toString</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="main-main-cpp">
+<h3>Main: main.cpp<a class="headerlink" href="#main-main-cpp" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/main9.cpp"><tt class="xref download docutils literal"><span class="pre">main.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;signal.h&gt;</span>
+<span class="cp">#include &lt;boost/shared_ptr.hpp&gt;</span>
+<span class="cp">#include &lt;alcommon/albroker.h&gt;</span>
+<span class="cp">#include &lt;alcommon/almodule.h&gt;</span>
+<span class="cp">#include &lt;alcommon/albrokermanager.h&gt;</span>
+<span class="cp">#include &lt;alcommon/altoolsmain.h&gt;</span>
+<span class="cp">#include &quot;fastgetsetdcm.h&quot;</span>
+
+<span class="cp">#ifdef _WIN32</span>
+<span class="cp"># define ALCALL __declspec(dllexport)</span>
+<span class="cp">#else</span>
+<span class="cp"># define ALCALL</span>
+<span class="cp">#endif</span>
+
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span>
+<span class="p">{</span>
+  <span class="n">ALCALL</span> <span class="kt">int</span> <span class="n">_createModule</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALBroker</span><span class="o">&gt;</span> <span class="n">pBroker</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// init broker with the main broker instance</span>
+    <span class="c1">// from the parent executable</span>
+    <span class="n">AL</span><span class="o">::</span><span class="n">ALBrokerManager</span><span class="o">::</span><span class="n">setInstance</span><span class="p">(</span><span class="n">pBroker</span><span class="o">-&gt;</span><span class="n">fBrokerManager</span><span class="p">.</span><span class="n">lock</span><span class="p">());</span>
+    <span class="n">AL</span><span class="o">::</span><span class="n">ALBrokerManager</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">addBroker</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+
+    <span class="c1">// create module instances</span>
+    <span class="n">AL</span><span class="o">::</span><span class="n">ALModule</span><span class="o">::</span><span class="n">createModule</span><span class="o">&lt;</span><span class="n">FastGetSetDCM</span><span class="o">&gt;</span><span class="p">(</span><span class="n">pBroker</span><span class="p">,</span><span class="s">&quot;FastGetSetDCM&quot;</span> <span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">ALCALL</span> <span class="kt">int</span> <span class="n">_closeModule</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span> <span class="c1">// extern &quot;C&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cmakelists-txt">
+<h3>CMakeLists.txt<a class="headerlink" href="#cmakelists-txt" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/CMakeLists10.txt"><tt class="xref download docutils literal"><span class="pre">CMakeLists.txt</span></tt></a></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="c">##</span>
+<span class="c">## Copyright (C) 2009 Aldebaran Robotics</span>
+<span class="c">##</span>
+
+<span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.6.4</span> <span class="s">FATAL_ERROR</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">fastgetsetdcm</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">qibuild</span><span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span><span class="s">_srcs</span>
+    <span class="s">main.cpp</span>
+    <span class="s">fastgetsetdcm.h</span>
+    <span class="s">fastgetsetdcm.cpp</span>
+<span class="p">)</span>
+
+<span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">fastgetsetdcm</span> <span class="s">SHARED</span> <span class="o">${</span><span class="nv">_srcs</span><span class="o">}</span> <span class="s">SUBFOLDER</span> <span class="s">naoqi</span><span class="p">)</span>
+
+<span class="nb">qi_use_lib</span><span class="p">(</span><span class="s">fastgetsetdcm</span> <span class="s">ALCOMMON</span> <span class="s">ALMEMORYFASTACCESS</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../leds/leds.html" title="Control the LEDs">Control the LEDs</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">C++ Examples</a>
+   |
+    <a href="../../audiovideocapture/audiovideocapture.html" title="Capturing audio and video">Capturing audio and video</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../index.html">Cpp</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../install_guide.html">C++ SDK Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tutorials.html">C++ Tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../examples.html">C++ Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../../core/events/events.html">Creating events</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/sayhelloworld/sayhelloworld.html">Say Hello World</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/index.html">Creating a simple remote module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/example.html">Example: HelloWorld module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/custommain/custom_main.html">Creating a custom main</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../motion/movehead/movehead.html">Moving NAO&#8217;s head</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../bumper/index.html">Reacting to an event: bumper</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../bumper/example.html">Example code: Bumper module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../bumper/principle.html">Principle</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../leds/leds.html">Control the LEDs</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">Fast getting and setting joint angles</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../audiovideocapture/audiovideocapture.html">Capturing audio and video</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/opencv.html">Using OpenCV</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/optimizedimage/optimizedimage.html">Optimized access to images</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/img2arv/img2arv.html">img2arv example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/arv2avi/arv2avi.html">arv2avi example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/getimage/getimage.html">Getting an image</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/genericvideomodule/genericvideomodule.html">Generic video module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/onfacedetection/onfacedetection.html">Reacting to a vision event: face detected</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/alvisualcompass/alvisualcompass.html">Using ALVisualCompass</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundplayback/soundplayback.html">Sound playback</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/speechbasedreaction/speechbasedreaction.html">Speech based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundbasedreaction/soundbasedreaction.html">Sound based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundbasedreaction/onloudnoise.html">Reacting to an audio event: loud noise</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundprocessing/soundprocessing.html">Sound processing</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tips-and-tricks.html">C++ Tips and tricks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../tools/gdb-on-nao.html">Debugging C/C++ on the robot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../python/index.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Fast getting and setting joint angles</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#downloads">Downloads</a><ul>
+<li><a class="reference internal" href="#whole-module">Whole module</a></li>
+<li><a class="reference internal" href="#header-fastgetsetdcm-h">Header: fastgetsetdcm.h</a></li>
+<li><a class="reference internal" href="#source-fastgetsetdcm-cpp">Source: fastgetsetdcm.cpp</a></li>
+<li><a class="reference internal" href="#main-main-cpp">Main: main.cpp</a></li>
+<li><a class="reference internal" href="#cmakelists-txt">CMakeLists.txt</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../leds/leds.html" title="Control the LEDs">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../../audiovideocapture/audiovideocapture.html" title="Capturing audio and video">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

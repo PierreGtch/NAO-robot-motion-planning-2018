@@ -1,0 +1,395 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Box - Inputs/outputs &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="Mastering the main objects" href="../main_objects.html" />
+    <link rel="next" title="Box - Optional components" href="box_optional_components.html" />
+    <link rel="prev" title="Box" href="box.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="box.html" title="Box">previous</a>
+     |
+    <a href="../main_objects.html" title="Mastering the main objects" accesskey="U">up</a>
+   |
+    <a href="box_optional_components.html" title="Box - Optional components">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="software-choregraphe-objects-box_input_output">
+            
+  <div class="section" id="box-inputs-outputs">
+<h1>Box - Inputs/outputs<a class="headerlink" href="#box-inputs-outputs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="input-of-a-box">
+<span id="choregraphe-reference-box-input"></span><h2>Input of a box<a class="headerlink" href="#input-of-a-box" title="Permalink to this headline">¶</a></h2>
+<p>They are several natures of inputs.
+Some are only accessible from the inside of the box (from its <a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-reference-box-flow-diagram"><em>diagram</em></a> or its <a class="reference internal" href="../panels/timeline_panel.html#choregraphe-reference-box-timeline"><em>Timeline</em></a>), some only from outside (from the parent diagram) and some from both.</p>
+<p>To activate those which are available from the outside of the box, you have to <strong>connect</strong> them to either the main input of the diagram, or the <a class="reference internal" href="#choregraphe-reference-box-output"><em>output</em></a> of a box.</p>
+<p>The others are automatically activated when a special event is raised.</p>
+<p>The <strong>picture</strong> displayed on an input depends on its <strong>nature</strong>:</p>
+<table border="1" class="docutils">
+<caption>Nature of the inputs</caption>
+<colgroup>
+<col width="12%" />
+<col width="12%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">On the box</th>
+<th class="head"><div class="first last line-block">
+<div class="line">Within the</div>
+<div class="line">box diagram</div>
+</div>
+</th>
+<th class="head">Nature</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="../../../_images/chore_input_onstart_outside.png" class="first last" src="../../../_images/chore_input_onstart_outside.png" />
+</td>
+<td><img alt="../../../_images/chore_input_onstart_inside.png" class="first last" src="../../../_images/chore_input_onstart_inside.png" />
+</td>
+<td><strong>onStart</strong>: When this input is stimulated, the box is <a class="reference internal" href="../reference.html#choregraphe-reference-loading-unloading"><em>started</em></a>.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/chore_input_onstop_outside.png" class="first last" src="../../../_images/chore_input_onstop_outside.png" />
+</td>
+<td>&nbsp;</td>
+<td><p class="first"><strong>onStop</strong>: When this input is stimulated, the box is <a class="reference internal" href="../reference.html#choregraphe-reference-loading-unloading"><em>stopped</em></a>.</p>
+<p class="last">This input is only visible outside the box (not within the diagram of the box) as it automatically stops everything within the diagram.</p>
+</td>
+</tr>
+<tr class="row-even"><td><img alt="../../../_images/chore_input_onevent_outside.png" class="first last" src="../../../_images/chore_input_onevent_outside.png" />
+</td>
+<td><img alt="../../../_images/chore_input_onevent_inside.png" class="first last" src="../../../_images/chore_input_onevent_inside.png" />
+</td>
+<td><p class="first"><strong>onEvent</strong>: This input has no specific effect on the box, it does not start nor stop it.
+When it is stimulated:</p>
+<ol class="last arabic simple">
+<li>The <tt class="docutils literal"><span class="pre">onInput_&lt;input_name&gt;</span></tt> function of the <a class="reference internal" href="script_box.html#choregraphe-reference-box-script"><em>box script</em></a> is called.</li>
+<li>The signal received on the input is transmitted to the <a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-reference-box-flow-diagram"><em>diagram</em></a> of the box.
+Note though that the signal will only be transmitted to the diagram if this diagram is already <a class="reference internal" href="../reference.html#choregraphe-reference-loading-unloading"><em>loaded</em></a>.</li>
+</ol>
+</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><img alt="../../../_images/chore_input_almemory_inside.png" class="first last" src="../../../_images/chore_input_almemory_inside.png" />
+</td>
+<td><p class="first"><strong>ALMemory Input</strong>: This special type of input is only visible within the diagram.
+So you cannot stimulate it from the outside of the box.
+It is stimulated every time the value of the data stored in <a class="reference internal" href="../../../naoqi/core/almemory.html#almemory"><em>ALMemory</em></a> corresponding to this input is updated and an event is raised to tell that it has been updated.
+Note that these inputs are only active when the diagram is <a class="reference internal" href="../reference.html#choregraphe-reference-loading-unloading"><em>loaded</em></a>.</p>
+<p class="last">To have an example of use of this type of input, see the tutorial <a class="reference internal" href="../tutos/boxes.html#choregraphe-tuto-right-bumper-almemory"><em>Creating a box to retrieve right bumper value using ALMemory</em></a>.</p>
+</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><img alt="../../../_images/chore_input_onload_inside.png" class="first last" src="../../../_images/chore_input_onload_inside.png" />
+</td>
+<td><strong>onLoad</strong>: This type of input is only visible within the diagram and when the box is a Timeline.
+So you cannot stimulate it from the outside of the box.
+It is only stimulated when the box diagram has been <a class="reference internal" href="../reference.html#choregraphe-reference-loading-unloading"><em>loaded</em></a>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All these special natures of inputs have no special effect on a <a class="reference internal" href="script_box.html#choregraphe-reference-box-type-script"><em>script box</em></a> as it has no <a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-reference-box-flow-diagram"><em>flow diagram</em></a> nor <a class="reference internal" href="../panels/timeline_panel.html#choregraphe-reference-box-timeline"><em>Timeline</em></a>.
+For those accessible from the outside of the box, the <tt class="docutils literal"><span class="pre">onInput_&lt;input_name&gt;</span></tt> function of the <a class="reference internal" href="script_box.html#choregraphe-reference-box-script"><em>box script</em></a> is just called.</p>
+</div>
+</div>
+<div class="section" id="output-of-a-box">
+<span id="choregraphe-reference-box-output"></span><h2>Output of a box<a class="headerlink" href="#output-of-a-box" title="Permalink to this headline">¶</a></h2>
+<p>They are several natures of outputs.</p>
+<p>You can stimulate them either from the <a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-reference-box-flow-diagram"><em>diagram</em></a> or the <a class="reference internal" href="../panels/timeline_panel.html#choregraphe-reference-box-timeline"><em>Timeline</em></a> or the <a class="reference internal" href="script_box.html#choregraphe-reference-box-script"><em>script</em></a> of the box.</p>
+<p>To stimulate it from the <a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-reference-box-flow-diagram"><em>diagram</em></a> or the <a class="reference internal" href="../panels/timeline_panel.html#choregraphe-reference-box-timeline"><em>Timeline</em></a> of the box, you need to connect it to a <a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-reference-box-child"><em>sub-box</em></a> output.</p>
+<p>To stimulate it from the <a class="reference internal" href="script_box.html#choregraphe-reference-box-script"><em>script</em></a> of the box, you need to call its corresponding method.
+For more information about this corresponding method, see the section: <a class="reference internal" href="script_box.html#choregraphe-reference-box-script-built-in-functions"><em>Built-in functions in the script of a box</em></a>.</p>
+<p>The <strong>picture</strong> displayed on an output depends on its <strong>nature</strong>:</p>
+<table border="1" class="docutils">
+<caption>Nature of the outputs</caption>
+<colgroup>
+<col width="12%" />
+<col width="12%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">On the box</th>
+<th class="head"><div class="first last line-block">
+<div class="line">Within the</div>
+<div class="line">box diagram</div>
+</div>
+</th>
+<th class="head">Nature</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="../../../_images/chore_output_onstopped_outside.png" class="first last" src="../../../_images/chore_output_onstopped_outside.png" />
+</td>
+<td><img alt="../../../_images/chore_output_onstopped_inside.png" class="first last" src="../../../_images/chore_output_onstopped_inside.png" />
+</td>
+<td><strong>onStopped</strong>: When this output is stimulated (from the script or from the diagram), the box is <a class="reference internal" href="../reference.html#choregraphe-reference-loading-unloading"><em>stopped</em></a>.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/chore_output_ponctual_outside.png" class="first last" src="../../../_images/chore_output_ponctual_outside.png" />
+</td>
+<td><img alt="../../../_images/chore_output_ponctual_inside.png" class="first last" src="../../../_images/chore_output_ponctual_inside.png" />
+</td>
+<td><strong>punctual</strong>: This output has no specific effect on the box, it does not start nor stop it.
+When it is stimulated, the signal received on the output is transmitted to the parent <a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-reference-box-flow-diagram"><em>diagram</em></a>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="type-of-i-o-input-output">
+<span id="choregraphe-reference-box-io-type"></span><h2>Type of I/O (input/output)<a class="headerlink" href="#type-of-i-o-input-output" title="Permalink to this headline">¶</a></h2>
+<p>The communication between boxes is <strong>event based</strong>, so a simple event signal can be sent from one box to another.
+But the signal can also <strong>carry information</strong> (such as a string, a number, an array...).</p>
+<p>Then an important thing you need to know about <abbr title="inputs/outputs">I/O</abbr> is that the <strong>color</strong> of an <abbr title="input/output">I/O</abbr> depends on the <strong>type</strong> of the data it carries.</p>
+<p>Here is a table gathering all types of <abbr title="inputs/outputs">I/O</abbr> with their corresponding color:</p>
+<table border="1" class="docutils">
+<caption>Type of <abbr title="inputs/outputs">I/O</abbr></caption>
+<colgroup>
+<col width="12%" />
+<col width="12%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Input</th>
+<th class="head">Output</th>
+<th class="head">Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="../../../_images/chore_input_onevent_outside.png" class="first last" src="../../../_images/chore_input_onevent_outside.png" />
+</td>
+<td><img alt="../../../_images/chore_output_ponctual_outside.png" class="first last" src="../../../_images/chore_output_ponctual_outside.png" />
+</td>
+<td><strong>Bang</strong>: Represents an <strong>simple event</strong>.
+This type of <abbr title="input/output">I/O</abbr> does not carry any data with it, only the information that it is stimulated.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/chore_input_number.png" class="first last" src="../../../_images/chore_input_number.png" />
+</td>
+<td><img alt="../../../_images/chore_output_number.png" class="first last" src="../../../_images/chore_output_number.png" />
+</td>
+<td><strong>Number</strong>: Represents an <strong>event carrying a data</strong>.
+This data is either a number (float or int) or an array of numbers.</td>
+</tr>
+<tr class="row-even"><td><img alt="../../../_images/chore_input_string.png" class="first last" src="../../../_images/chore_input_string.png" />
+</td>
+<td><img alt="../../../_images/chore_output_string.png" class="first last" src="../../../_images/chore_output_string.png" />
+</td>
+<td><strong>String</strong>: Represents an <strong>event carrying a data</strong>.
+This data is either a string or an array of strings.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/chore_input_dynamic.png" class="first last" src="../../../_images/chore_input_dynamic.png" />
+</td>
+<td><img alt="../../../_images/chore_output_dynamic.png" class="first last" src="../../../_images/chore_output_dynamic.png" />
+</td>
+<td><strong>Dynamic</strong>: Represents either a <strong>simple event</strong> (as the Bang type) or an <strong>event carrying a data</strong>.
+This data (if any) is either a number (float or int), a string or an array of numbers, strings and arrays.</td>
+</tr>
+</tbody>
+</table>
+<p>Depending on their type, it is not always possible to connect two <abbr title="inputs/outputs">I/O</abbr>: the information the output sends has to be understandable by the input.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can connect any type of <abbr title="input/output">I/O</abbr> to a <strong>Bang</strong> input.
+The data sent will then be lost and will only be understood as a <strong>simple event</strong>.</p>
+</div>
+</div>
+<div class="section" id="input-and-output-edition-widgets">
+<span id="choregraphe-detailed-interface-ioparam-edition-widget"></span><h2>Input, and output  edition widgets<a class="headerlink" href="#input-and-output-edition-widgets" title="Permalink to this headline">¶</a></h2>
+<p>When you <strong>create</strong> or <strong>edit</strong> an <a class="reference internal" href="#choregraphe-reference-box-input"><em>box input</em></a>, the following widget is displayed:</p>
+<img alt="../../../_images/chore_edit_input.png" src="../../../_images/chore_edit_input.png" style="width: 510px; height: 454px;" />
+<p>You can here set:</p>
+<ul>
+<li><p class="first">the <strong>name</strong> of the input.</p>
+</li>
+<li><p class="first">the brief <strong>description</strong> of what is done when this input is stimulated in the field <strong>Tooltip</strong>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This description will appear in a tooltip displayed by <strong>passing above the input</strong> in the flow diagram.</p>
+</div>
+</li>
+<li><p class="first">the type of <strong>data expected</strong> by this input in the field <strong>Type</strong>:
+Dynamic, &#8220;Bang&#8221;, Number or String.
+For further details about these types, see the section: <a class="reference internal" href="#choregraphe-reference-box-io-type"><em>Type of I/O (input/output)</em></a>.</p>
+</li>
+</ul>
+<p>You can also choose the <strong>nature</strong> of the input:
+onEvent, onStart, onStop or ALMemory Input.
+For more information about these natures, see the section: <a class="reference internal" href="#choregraphe-reference-box-input"><em>Input of a box</em></a>.</p>
+<p>If the input is an ALMemory input, you will be able to choose which value from ALMemory the input will be connected to.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You need to be connected to a robot if you want to browse the list of available values.</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>When you <strong>create</strong> or <strong>edit</strong> an <a class="reference internal" href="#choregraphe-reference-box-output"><em>box output</em></a>, you get a very similar widget:</p>
+<img alt="../../../_images/chore_edit_output.png" src="../../../_images/chore_edit_output.png" style="width: 413px; height: 421px;" />
+<p>But you have no field <strong>ALMemory Value name</strong> and the available <strong>nature</strong> of outputs are different:
+onStopped or punctual.
+For more information about these natures, see the section: <a class="reference internal" href="#choregraphe-reference-box-output"><em>Output of a box</em></a>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="box.html" title="Box">Box</a>
+     |
+    <a href="../main_objects.html" title="Mastering the main objects" accesskey="U">Mastering the main objects</a>
+   |
+    <a href="box_optional_components.html" title="Box - Optional components">Box - Optional components</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Software</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Choregraphe User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../starting_discovery.html">Getting started</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../main_objects.html">Mastering the main objects</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="choregraphe_project.html">Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="behavior.html">Behavior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Box - Inputs/outputs</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="box_optional_components.html">Box - Optional components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow_diagram_box.html">Flow diagram box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="script_box.html">Script box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timeline_box.html">Timeline box</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_panels.html">Advanced panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mouvement.html">Mastering movements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../miscel.html">How to ...</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../customizing.html">Customizing Choregraphe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutos/index.html">Choregraphe Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutos/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Box - Inputs/outputs</a><ul>
+<li><a class="reference internal" href="#input-of-a-box">Input of a box</a></li>
+<li><a class="reference internal" href="#output-of-a-box">Output of a box</a></li>
+<li><a class="reference internal" href="#type-of-i-o-input-output">Type of I/O (input/output)</a></li>
+<li><a class="reference internal" href="#input-and-output-edition-widgets">Input, and output  edition widgets</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="box.html" title="Box">previous</a>
+     |
+    <a href="../main_objects.html" title="Mastering the main objects" accesskey="U">up</a>
+   |
+    <a href="box_optional_components.html" title="Box - Optional components">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

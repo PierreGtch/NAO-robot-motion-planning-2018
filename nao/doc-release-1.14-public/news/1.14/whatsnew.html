@@ -1,0 +1,958 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>What’s new - 1.14 &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Release notes - 1.14" href="index.html" />
+    <link rel="next" title="Release notes - 1.12" href="../1.12/index.html" />
+    <link rel="prev" title="Release notes - 1.14" href="index.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="index.html" title="Release notes - 1.14">previous</a>
+     |
+    <a href="index.html" title="Release notes - 1.14" accesskey="U">up</a>
+   |
+    <a href="../1.12/index.html" title="Release notes - 1.12">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="news-1.14-whatsnew">
+            
+  <div class="section" id="what-s-new-1-14">
+<span id="whats-new-1-14"></span><h1>What&#8217;s new - 1.14<a class="headerlink" href="#what-s-new-1-14" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="improving-customer-support">
+<h2>Improving customer support<a class="headerlink" href="#improving-customer-support" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="implementation-of-an-issue-reporter">
+<h3>Implementation of an issue reporter<a class="headerlink" href="#implementation-of-an-issue-reporter" title="Permalink to this headline">¶</a></h3>
+<p>Help us improve our software! In case of a <strong>NAOqi</strong> issue,
+you can now send us an issue report, automatically or manually.</p>
+<p>For an automatic upload, see: the <strong>Bug report</strong> option in <a class="reference internal" href="../../nao/nao-webpage.html#opennao-web-page-settings"><em>Settings</em></a>,
+for a manual upload, see: <a class="reference internal" href="../../nao/contacting_support.html#send-crash-report"><em>How to retrieve an issue report</em></a>.</p>
+</div>
+</div>
+<div class="section" id="improving-upgrade-process">
+<h2>Improving upgrade process<a class="headerlink" href="#improving-upgrade-process" title="Permalink to this headline">¶</a></h2>
+<p>Trying to detect and to better manage potential issue during the upgrade process,
+we have slightly modified the upgrading process.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Make sure you read the updated documentation before proceeding an upgrade:
+<a class="reference internal" href="../../nao/upgrade.html#upgrading-opennao"><em>Upgrading your robot</em></a>.</p>
+</div>
+</div>
+<div class="section" id="supported-operating-systems">
+<h2>Supported Operating Systems<a class="headerlink" href="#supported-operating-systems" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bits-fully-supported">
+<h3>64-bits fully supported<a class="headerlink" href="#bits-fully-supported" title="Permalink to this headline">¶</a></h3>
+<p>This release fully supports 64-bits OS.</p>
+</div>
+<div class="section" id="mac-os-x-32-bits-no-longer-supported">
+<h3>MAC OS X 32-bits no longer supported<a class="headerlink" href="#mac-os-x-32-bits-no-longer-supported" title="Permalink to this headline">¶</a></h3>
+<p>MAC OS X 32-bits is no longer supported.</p>
+<p>Therefore, upgrading Choregraphe is no longer possible on computer running
+non-supported Operating Systems such as Mac OS X version 10.5 Leopard or earlier.</p>
+</div>
+<div class="section" id="ubuntu-10-04-lts-lucid-eol">
+<h3>Ubuntu 10.04 LTS (Lucid) EOL<a class="headerlink" href="#ubuntu-10-04-lts-lucid-eol" title="Permalink to this headline">¶</a></h3>
+<p>This is the last release supporting Ubuntu 10.04 LTS (Lucid).</p>
+<p>The next major release will only support Ubuntu 12.04 LTS (Precise) and later.</p>
+<p>As a consequence, this is also the last release supporting Python 2.6.</p>
+</div>
+</div>
+<div class="section" id="audio">
+<h2>Audio<a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-voice-for-japanese-text-to-speech">
+<h3>New voice for Japanese text to speech<a class="headerlink" href="#new-voice-for-japanese-text-to-speech" title="Permalink to this headline">¶</a></h3>
+<p>NAO Speaks Japanese with a new, much better voice.</p>
+<p><strong>ALTextToSpeech</strong> now uses the speech synthesizer provided by <strong>ACAPELA</strong>
+for all languages, including Japanese.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/audio/altexttospeech.html#altexttospeech"><em>ALTextToSpeech</em></a>.</p>
+</div>
+<div class="section" id="text-to-speech-voices-have-been-improved">
+<h3>Text to speech: voices have been improved<a class="headerlink" href="#text-to-speech-voices-have-been-improved" title="Permalink to this headline">¶</a></h3>
+<p>In order to improve voice quality, <strong>ALTextToSpeech</strong> now uses a new version of
+language files.</p>
+<div class="line-block">
+<div class="line">Upgrading your robot will automatically update the default languages.</div>
+<div class="line">For further details see: <a class="reference internal" href="../../software/choregraphe/choregraphe_update_system.html#choregraphe-howto-update-nao-system"><em>How to update NAO system</em></a>.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line-block">
+<div class="line">If you have installed additional languages provided by our Customer support team, contact them to request an update.</div>
+<div class="line">For further details, see: <a class="reference internal" href="../../nao/contacting_support.html#contacting-support"><em>Contacting customer support</em></a>.</div>
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="vision">
+<h2>Vision<a class="headerlink" href="#vision" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-module-alvisualcompass">
+<h3>New module: ALVisualCompass<a class="headerlink" href="#new-module-alvisualcompass" title="Permalink to this headline">¶</a></h3>
+<p><strong>ALVisualCompass</strong> is an extractor which gives the current rotation angles of
+the robot compared to a given reference image along the Y and Z axis.</p>
+<p>The module gives the rotation of the FRAME_ROBOT reference, so the whole body of
+the robot and not only its head. This means that if the robot stays standing
+but moves its head, the deviation angles will not change.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/vision/alvisualcompass.html#alvisualcompass"><em>ALVisualCompass</em></a>.</p>
+</div>
+<div class="section" id="new-module-almovementdetection">
+<h3>New module: ALMovementDetection<a class="headerlink" href="#new-module-almovementdetection" title="Permalink to this headline">¶</a></h3>
+<p><strong>ALMovementDetection</strong> extractor enables to detect movements around the
+robot thanks to its camera.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This module is experimental. In order to improve its performances, it is
+likely the algorithm used for the detection will change in the next version,
+which may result in API changes.</p>
+</div>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/vision/almovementdetection.html#almovementdetection"><em>ALMovementDetection</em></a>.</p>
+</div>
+<div class="section" id="module-refactoring-alvideodevice">
+<h3>Module refactoring: ALVideoDevice<a class="headerlink" href="#module-refactoring-alvideodevice" title="Permalink to this headline">¶</a></h3>
+<p>An experimental refactoring of <strong>ALVideoDevice</strong> module allows you to test
+a kind of stereo vision using simultaneously both cameras.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#alvideodevice-api"><em>ALVideoDevice API</em></a>.</p>
+</div>
+<div class="section" id="alvisiontoolbox-is-deprecated">
+<h3>ALVisionToolbox is deprecated<a class="headerlink" href="#alvisiontoolbox-is-deprecated" title="Permalink to this headline">¶</a></h3>
+<p>Use the following modules instead:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../../naoqi/vision/albacklightingdetection.html#albacklightingdetection"><em>ALBacklightingDetection</em></a> to detect back-lighting situations and be notified by an
+event when back-lighting occurs.</li>
+<li><a class="reference internal" href="../../naoqi/vision/aldarknessdetection.html#aldarknessdetection"><em>ALDarknessDetection</em></a> to detect darkness situations and be notified by an
+event when the image becomes dark.</li>
+<li><a class="reference internal" href="../../naoqi/vision/alphotocapture.html#alphotocapture"><em>ALPhotoCapture</em></a> to take one or several pictures.</li>
+<li><a class="reference internal" href="../../naoqi/vision/alvideorecorder.html#alvideorecorder"><em>ALVideoRecorder</em></a> to record video.</li>
+</ul>
+</div>
+<div class="section" id="alvideodevice-deprecated-methods">
+<h3>ALVideoDevice deprecated methods<a class="headerlink" href="#alvideodevice-deprecated-methods" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Deprecated method</th>
+<th class="head">Replaced by ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::subscribe__ssCR.iCR.iCR.iCR" title="ALVideoDeviceProxy::subscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::subscribe()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::subscribeCamera__ssCR.iCR.iCR.iCR.iCR" title="ALVideoDeviceProxy::subscribeCamera"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::subscribeCamera()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::unsubscribeAllInstances__ssCR" title="ALVideoDeviceProxy::unsubscribeAllInstances"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::unsubscribeAllInstances()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::unsubscribe__ssCR" title="ALVideoDeviceProxy::unsubscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::unsubscribe()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::startFrameGrabber__iCR" title="ALVideoDeviceProxy::startFrameGrabber"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::startFrameGrabber()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::startFrameGrabber__iCR" title="ALVideoDeviceProxy::startFrameGrabber"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::startFrameGrabber()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::stopFrameGrabber__iCR" title="ALVideoDeviceProxy::stopFrameGrabber"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::stopFrameGrabber()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::stopFrameGrabber__iCR" title="ALVideoDeviceProxy::stopFrameGrabber"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::stopFrameGrabber()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::isFrameGrabberOff__iCR" title="ALVideoDeviceProxy::isFrameGrabberOff"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::isFrameGrabberOff()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::isFrameGrabberOff__iCR" title="ALVideoDeviceProxy::isFrameGrabberOff"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::isFrameGrabberOff()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getActiveCamera__ssCR" title="ALVideoDeviceProxy::getActiveCamera"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getActiveCamera()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getActiveCamera__ssCR" title="ALVideoDeviceProxy::getActiveCamera"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getActiveCamera()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getVIMResolution" title="ALVideoDeviceProxy::getVIMResolution"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getVIMResolution()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getResolution__iCR" title="ALVideoDeviceProxy::getResolution"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getResolution()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getVIMColorSpace" title="ALVideoDeviceProxy::getVIMColorSpace"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getVIMColorSpace()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getColorSpace__iCR" title="ALVideoDeviceProxy::getColorSpace"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getColorSpace()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getVIMFrameRate" title="ALVideoDeviceProxy::getVIMFrameRate"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getVIMFrameRate()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getFrameRate__iCR" title="ALVideoDeviceProxy::getFrameRate"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getFrameRate()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getGVMResolution__ssCR" title="ALVideoDeviceProxy::getGVMResolution"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getGVMResolution()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getResolution__iCR" title="ALVideoDeviceProxy::getResolution"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getResolution()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getGVMColorSpace__ssCR" title="ALVideoDeviceProxy::getGVMColorSpace"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getGVMColorSpace()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getColorSpace__iCR" title="ALVideoDeviceProxy::getColorSpace"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getColorSpace()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getGVMFrameRate__ssCR" title="ALVideoDeviceProxy::getGVMFrameRate"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getGVMFrameRate()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getFrameRate__iCR" title="ALVideoDeviceProxy::getFrameRate"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getFrameRate()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getCameraModelID" title="ALVideoDeviceProxy::getCameraModelID"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getCameraModelID()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getCameraModel__iCR" title="ALVideoDeviceProxy::getCameraModel"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getCameraModel()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getParam__iCR" title="ALVideoDeviceProxy::getParam"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getParam()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getCameraParameter__ssCR.iCR" title="ALVideoDeviceProxy::getCameraParameter"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getCameraParameter()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::setParam__iCR.iCR" title="ALVideoDeviceProxy::setParam"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::setParam()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::setCameraParameter__ssCR.iCR.iCR" title="ALVideoDeviceProxy::setCameraParameter"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::setCameraParameter()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::setParamDefault__iCR" title="ALVideoDeviceProxy::setParamDefault"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::setParamDefault()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::setCameraParameterToDefault__ssCR.iCR" title="ALVideoDeviceProxy::setCameraParameterToDefault"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::setCameraParameterToDefault()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getAngPosFromImgPos__std::vector:float:CR" title="ALVideoDeviceProxy::getAngPosFromImgPos"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getAngPosFromImgPos()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getAngularPositionFromImagePosition__iCR.std::vector:float:CR" title="ALVideoDeviceProxy::getAngularPositionFromImagePosition"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getAngularPositionFromImagePosition()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getAngSizeFromImgSize__std::vector:float:CR" title="ALVideoDeviceProxy::getAngSizeFromImgSize"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getAngSizeFromImgSize()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getAngularSizeFromImageSize__iCR.std::vector:float:CR" title="ALVideoDeviceProxy::getAngularSizeFromImageSize"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getAngularSizeFromImageSize()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getImgInfoFromAngInfo__std::vector:float:CR" title="ALVideoDeviceProxy::getImgInfoFromAngInfo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getImgInfoFromAngInfo()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getImageInfoFromAngularInfo__iCR.std::vector:float:CR" title="ALVideoDeviceProxy::getImageInfoFromAngularInfo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getImageInfoFromAngularInfo()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getImgInfoFromAngInfoWithRes__std::vector:float:CR.iCR" title="ALVideoDeviceProxy::getImgInfoFromAngInfoWithRes"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getImgInfoFromAngInfoWithRes()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getImageInfoFromAngularInfoWithResolution__iCR.std::vector:float:CR.iCR" title="ALVideoDeviceProxy::getImageInfoFromAngularInfoWithResolution"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getImageInfoFromAngularInfoWithResolution()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getImgPosFromAngPos__std::vector:float:CR" title="ALVideoDeviceProxy::getImgPosFromAngPos"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getImgPosFromAngPos()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getImagePositionFromAngularPosition__iCR.std::vector:float:CR" title="ALVideoDeviceProxy::getImagePositionFromAngularPosition"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getImagePositionFromAngularPosition()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getImgSizeFromAngSize__std::vector:float:CR" title="ALVideoDeviceProxy::getImgSizeFromAngSize"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getImgSizeFromAngSize()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getImageSizeFromAngularSize__iCR.std::vector:float:CR" title="ALVideoDeviceProxy::getImageSizeFromAngularSize"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getImageSizeFromAngularSize()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getExpectedImageParameters__iCR" title="ALVideoDeviceProxy::getExpectedImageParameters"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getExpectedImageParameters()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::getExpectedImageParameters__iCR" title="ALVideoDeviceProxy::getExpectedImageParameters"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::getExpectedImageParameters()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::setSimCamInputSize__iCR.iCR" title="ALVideoDeviceProxy::setSimCamInputSize"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::setSimCamInputSize()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::putImage__iCR.iCR.iCR.AL::ALValueCR" title="ALVideoDeviceProxy::putImage"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::putImage()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::putImage__iCR.iCR.iCR.AL::ALValueCR" title="ALVideoDeviceProxy::putImage"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::putImage()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::putImage__iCR.iCR.iCR.AL::ALValueCR" title="ALVideoDeviceProxy::putImage"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::putImage()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::resolutionToSizes__iCR" title="ALVideoDeviceProxy::resolutionToSizes"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::resolutionToSizes()</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">AL::setSizeFromResolution</span></tt> instead.
+For further details, see:
+<a class="reference internal" href="../../ref/cpp-api.html#libalvision-doc"><em>libalvision API reference</em></a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/vision/alvideodevice-api.html#ALVideoDeviceProxy::sizesToResolution__iCR.iCR" title="ALVideoDeviceProxy::sizesToResolution"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::sizesToResolution()</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">AL::getResolutionFromSize</span></tt> instead.
+For further details, see:
+<a class="reference internal" href="../../ref/cpp-api.html#libalvision-doc"><em>libalvision API reference</em></a>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="trackers">
+<h2>Trackers<a class="headerlink" href="#trackers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="alredballdetection-alfacedetection-improved">
+<h3>ALRedballDetection - ALFaceDetection improved<a class="headerlink" href="#alredballdetection-alfacedetection-improved" title="Permalink to this headline">¶</a></h3>
+<p>Tracking is now possible with both cameras.</p>
+<p>For further details see: <a class="reference internal" href="../../naoqi/trackers/index.html#naoqi-trackers"><em>NAOqi Trackers</em></a>.</p>
+<p>The camera used for the detection in now precised in the information returned,
+as well as its position in <a class="reference internal" href="../../glossary.html#term-frame-torso"><em class="xref std std-term">FRAME_TORSO</em></a> and <a class="reference internal" href="../../glossary.html#term-frame-robot"><em class="xref std std-term">FRAME_ROBOT</em></a>.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/vision/alredballdetection.html#alredballdetection"><em>ALRedBallDetection</em></a> and <a class="reference internal" href="../../naoqi/vision/alfacedetection.html#alfacedetection"><em>ALFaceDetection</em></a>.</p>
+</div>
+</div>
+<div class="section" id="sensors">
+<h2>Sensors<a class="headerlink" href="#sensors" title="Permalink to this headline">¶</a></h2>
+<p>Since release 1.14, usage of the <strong>Chest button</strong> LEDs is deprecated.
+The usage of the <strong>Chest button</strong> will be soon restricted in order to use it
+as a system button.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/sensors/alleds.html#alleds"><em>ALLeds</em></a>.</p>
+</div>
+<div class="section" id="motion">
+<h2>Motion<a class="headerlink" href="#motion" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-module-alnavigation">
+<h3>New module: ALNavigation<a class="headerlink" href="#new-module-alnavigation" title="Permalink to this headline">¶</a></h3>
+<p><strong>ALNavigation</strong> is a first attempt to make the robot go safely to a different
+<a class="reference internal" href="../../glossary.html#term-pose"><em class="xref std std-term">pose</em></a> (i.e. location + orientation).
+The robot cannot yet avoid obstacles, but it is able to move cautiously,
+stopping as soon as an obstacle enters its security zone.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/motion/alnavigation.html#alnavigation"><em>ALNavigation</em></a>.</p>
+</div>
+<div class="section" id="new-module-alrobotposture">
+<h3>New module: ALRobotPosture<a class="headerlink" href="#new-module-alrobotposture" title="Permalink to this headline">¶</a></h3>
+<p><strong>ALRobotPosture</strong> module allows you to make the robot go to a different
+<a class="reference internal" href="../../naoqi/motion/alrobotposture.html#term-posture"><em class="xref std std-term">posture</em></a>.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/motion/alrobotposture.html#alrobotposture"><em>ALRobotPosture</em></a>.</p>
+</div>
+<div class="section" id="new-methods-wakeup-and-rest">
+<h3>New methods: wakeUp and rest<a class="headerlink" href="#new-methods-wakeup-and-rest" title="Permalink to this headline">¶</a></h3>
+<p>These new methods are convenient to manage the <strong>Stiffness</strong> globally, for the whole robot.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/motion/control-stiffness-api.html#ALMotionProxy::wakeUp" title="ALMotionProxy::wakeUp"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::wakeUp()</span></tt></a> and <a class="reference internal" href="../../naoqi/motion/control-stiffness-api.html#ALMotionProxy::rest" title="ALMotionProxy::rest"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::rest()</span></tt></a>.</p>
+</div>
+<div class="section" id="self-collision-avoidance-improved">
+<h3>Self-collision avoidance improved<a class="headerlink" href="#self-collision-avoidance-improved" title="Permalink to this headline">¶</a></h3>
+<p>Self-collision avoidance can be deactivated  in any case, even if the current state of the chain in collision.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/motion/reflexes-collision-avoidance-api.html#ALMotionProxy::setCollisionProtectionEnabled__ssCR.bCR" title="ALMotionProxy::setCollisionProtectionEnabled"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setCollisionProtectionEnabled()</span></tt></a>.</p>
+</div>
+<div class="section" id="getlimits-returns-also-maxtorque">
+<h3>getLimits returns also maxTorque<a class="headerlink" href="#getlimits-returns-also-maxtorque" title="Permalink to this headline">¶</a></h3>
+<p>Additionally to minAngle, maxAngle and maxVelocity,
+<a class="reference internal" href="../../naoqi/motion/tools-general-api.html#ALMotionProxy::getLimits__ssCR" title="ALMotionProxy::getLimits"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getLimits()</span></tt></a> returns the maxTorque.</p>
+</div>
+<div class="section" id="space-names-have-changed">
+<h3>Space names have changed<a class="headerlink" href="#space-names-have-changed" title="Permalink to this headline">¶</a></h3>
+<p>Constant names have changed:</p>
+<ul class="simple">
+<li><strong>SPACE_TORSO</strong> becomes <strong>FRAME_TORSO</strong></li>
+<li><strong>SPACE_WORLD</strong> becomes <strong>FRAME_WORLD</strong></li>
+<li><strong>SPACE_NAO</strong> becomes <strong>FRAME_ROBOT</strong></li>
+</ul>
+<p>Note that for backward compatibility, former constants are still available.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/motion/control-cartesian.html#motion-effectors-space"><em>Spaces</em></a>.</p>
+</div>
+<div class="section" id="deprecated-module-almotionrecorder">
+<h3>Deprecated module: ALMotionRecorder<a class="headerlink" href="#deprecated-module-almotionrecorder" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>Animation Mode</strong> instead.</p>
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/animation_mode.html#animation-mode"><em>Animation Mode</em></a>.</p>
+</div>
+<div class="section" id="almotion-deprecated-methods">
+<h3>ALMotion deprecated methods<a class="headerlink" href="#almotion-deprecated-methods" title="Permalink to this headline">¶</a></h3>
+<p><strong>Walk control becomes Locomotion control</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Deprecated method</th>
+<th class="head">Replaced by ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::walkTo__floatCR.floatCR.floatCR" title="ALMotionProxy::walkTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::walkTo()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::walkInit" title="ALMotionProxy::walkInit"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::walkInit()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::moveInit" title="ALMotionProxy::moveInit"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveInit()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::waitUntilWalkIsFinished" title="ALMotionProxy::waitUntilWalkIsFinished"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::waitUntilWalkIsFinished()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::waitUntilMoveIsFinished" title="ALMotionProxy::waitUntilMoveIsFinished"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::waitUntilMoveIsFinished()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::walkIsActive" title="ALMotionProxy::walkIsActive"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::walkIsActive()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::moveIsActive" title="ALMotionProxy::moveIsActive"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveIsActive()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::stopWalk" title="ALMotionProxy::stopWalk"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::stopWalk()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::stopMove" title="ALMotionProxy::stopMove"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::stopMove()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::getFootGaitConfig__ssCR" title="ALMotionProxy::getFootGaitConfig"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getFootGaitConfig()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/motion/control-walk-api.html#ALMotionProxy::getMoveConfig__ssCR" title="ALMotionProxy::getMoveConfig"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getMoveConfig()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>General Tools</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Deprecated method</th>
+<th class="head">Replaced by ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/motion/tools-general-api.html#ALMotionProxy::getJointNames__ssCR" title="ALMotionProxy::getJointNames"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getJointNames()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/motion/tools-general-api.html#ALMotionProxy::getBodyNames__ssCR" title="ALMotionProxy::getBodyNames"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getBodyNames()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Motion task</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Deprecated method</th>
+<th class="head">Replaced by ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/motion/tools-motion-task-api.html#ALMotionProxy::killWalk" title="ALMotionProxy::killWalk"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::killWalk()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/motion/tools-motion-task-api.html#ALMotionProxy::killMove" title="ALMotionProxy::killMove"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::killMove()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="core">
+<h2>Core<a class="headerlink" href="#core" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-module-alconnectionmanager">
+<h3>New module: ALConnectionManager<a class="headerlink" href="#new-module-alconnectionmanager" title="Permalink to this headline">¶</a></h3>
+<p>This new module provides methods for network configuration and connection.
+<strong>ALConnectionManager</strong> supports several technologies such as Ethernet, WiFi and Bluetooth.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/connectionmanager/index.html#alconnectionmanager"><em>ALConnectionManager</em></a>.</p>
+</div>
+<div class="section" id="almemory-2-new-methods">
+<h3>ALMemory: 2 new methods<a class="headerlink" href="#almemory-2-new-methods" title="Permalink to this headline">¶</a></h3>
+<p>Two new methods allow you to set and get a description for each memory entry.</p>
+<p>For further details, see: <a class="reference internal" href="../../naoqi/core/almemory-api.html#ALMemoryProxy::getDescriptionList__std::vector:ss:CR" title="ALMemoryProxy::getDescriptionList"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getDescriptionList()</span></tt></a> and
+<a class="reference internal" href="../../naoqi/core/almemory-api.html#ALMemoryProxy::setDescription__ssCR.ssCR" title="ALMemoryProxy::setDescription"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::setDescription()</span></tt></a>.</p>
+</div>
+<div class="section" id="albehaviormanager-deprecated-methods">
+<h3>ALBehaviorManager deprecated methods<a class="headerlink" href="#albehaviormanager-deprecated-methods" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Deprecated method</th>
+<th class="head">Replaced by ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/core/albehaviormanager-api.html#ALBehaviorManagerProxy::getBehaviorNames" title="ALBehaviorManagerProxy::getBehaviorNames"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getBehaviorNames()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/core/albehaviormanager-api.html#ALBehaviorManagerProxy::getInstalledBehaviors" title="ALBehaviorManagerProxy::getInstalledBehaviors"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getInstalledBehaviors()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../naoqi/core/albehaviormanager-api.html#ALBehaviorManagerProxy::getUserBehaviorNames" title="ALBehaviorManagerProxy::getUserBehaviorNames"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getUserBehaviorNames()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/core/albehaviormanager-api.html#ALBehaviorManagerProxy::getInstalledBehaviors" title="ALBehaviorManagerProxy::getInstalledBehaviors"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getInstalledBehaviors()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../naoqi/core/albehaviormanager-api.html#ALBehaviorManagerProxy::isBehaviorPresent__ssCR" title="ALBehaviorManagerProxy::isBehaviorPresent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::isBehaviorPresent()</span></tt></a></td>
+<td><a class="reference internal" href="../../naoqi/core/albehaviormanager-api.html#ALBehaviorManagerProxy::isBehaviorInstalled__ssCR" title="ALBehaviorManagerProxy::isBehaviorInstalled"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::isBehaviorInstalled()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="libraries">
+<h3>Libraries<a class="headerlink" href="#libraries" title="Permalink to this headline">¶</a></h3>
+<p><strong>New</strong></p>
+<ul class="simple">
+<li>TBB</li>
+<li>lttng</li>
+<li>OpenNI (only in NAO v4 image)</li>
+<li>NumPy (only in NAO V4 image)</li>
+<li>Python support for OpenCV (only in NAO v4 image)</li>
+</ul>
+<p><strong>Removed</strong></p>
+<p>Urbi</p>
+<p><strong>Updated</strong></p>
+<p>Several libraries used by NAOqi SDK has been updated:</p>
+<ul class="simple">
+<li>eigen    2      =&gt; 3</li>
+<li>python   2.6.6  =&gt; 2.7.2</li>
+<li>boost    1.45.0 =&gt; 1.48.0</li>
+<li>opencv   2.1.0  =&gt; 2.3.1a</li>
+<li>glibc    2.11.3 =&gt; 2.13</li>
+<li>net-misc/connman 0.69.4 =&gt; 1.1</li>
+<li>net-wireless/wpa_supplicant 0.7.3 =&gt; 1.0</li>
+<li>wireless-compat 3.2 =&gt; 3.4</li>
+</ul>
+<p>For further details about OpenCV, see: <a class="reference internal" href="../../dev/cpp/examples/vision/opencv.html#cpp-tutos-opencv"><em>Using OpenCV</em></a>.</p>
+</div>
+<div class="section" id="updated-development-tools">
+<h3>Updated Development tools<a class="headerlink" href="#updated-development-tools" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>gdb        7.2    =&gt; 7.3.1</li>
+<li>strace     4.5.20 =&gt; 4.6</li>
+<li>valgrind   3.5.0  =&gt; 3.6.1</li>
+<li>Updated toolchain to gcc 4.5.3 in cross-toolchains.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="choregraphe-new-tools">
+<h2>Choregraphe - new tools<a class="headerlink" href="#choregraphe-new-tools" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="resource-viewer-panel">
+<h3>Resource Viewer panel<a class="headerlink" href="#resource-viewer-panel" title="Permalink to this headline">¶</a></h3>
+<p><strong>Resource viewer</strong> is a new panel that dynamically displays the name of the box locking resources.</p>
+<img alt="../../_images/resource_viewer_small.png" src="../../_images/resource_viewer_small.png" style="width: 500px; height: 250px;" />
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/panels/resource_viewer_panel.html#choregraphe-overview-resource-viewer-panel"><em>Resource viewer panel</em></a>.</p>
+</div>
+<div class="section" id="memory-watcher-panel">
+<h3>Memory watcher panel<a class="headerlink" href="#memory-watcher-panel" title="Permalink to this headline">¶</a></h3>
+<p><strong>Memory watcher</strong> is a new panel allowing you to easily display the value of
+events or data during the execution of a behavior.</p>
+<img alt="../../_images/memory_watcher_panel.png" src="../../_images/memory_watcher_panel.png" style="width: 462px; height: 248px;" />
+<p><strong>Memory watcher</strong> has a Recording function allowing you to save a CSV file
+containing the history of event or data values during the recording.</p>
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/panels/memory_watcher_panel.html#choregraphe-overview-memory-watcher-panel"><em>Memory watcher panel</em></a>.</p>
+</div>
+<div class="section" id="forward-kinematics-in-3d-view-experimental">
+<h3>Forward kinematics in 3D View (Experimental)<a class="headerlink" href="#forward-kinematics-in-3d-view-experimental" title="Permalink to this headline">¶</a></h3>
+<p>Activate the option <strong>Use 3D controller for motors (Experimental)</strong> in order to
+test new forward kinematics.</p>
+<img alt="../../_images/forward_kinematics_option_144.png" src="../../_images/forward_kinematics_option_144.png" style="width: 333px; height: 382px;" />
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/choregraphe_preference.html#choregraphe-detailed-interface-preferences"><em>Choregraphe Preferences</em></a>
+and <a class="reference internal" href="../../software/choregraphe/panels/robot_3d_view.html#d-nao-panel"><em>Robot view</em></a>.</p>
+</div>
+<div class="section" id="dialog-panel-experimental">
+<h3>Dialog panel (Experimental)<a class="headerlink" href="#dialog-panel-experimental" title="Permalink to this headline">¶</a></h3>
+<p>Activate the option <strong>Activate dialog widget (Experimental)</strong> in order to
+test new Dialog panel.</p>
+<img alt="../../_images/dialog_panel_noletters.png" src="../../_images/dialog_panel_noletters.png" style="width: 167px; height: 259px;" />
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/choregraphe_preference.html#choregraphe-detailed-interface-preferences"><em>Choregraphe Preferences</em></a>
+and <a class="reference internal" href="../../software/choregraphe/panels/dialog_panel.html#dialog-panel"><em>Dialog panel - Experimental</em></a>.</p>
+</div>
+</div>
+<div class="section" id="choregraphe-improvements">
+<h2>Choregraphe - improvements<a class="headerlink" href="#choregraphe-improvements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="optimization">
+<h3>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h3>
+<p>Optimization has been one of our major priority. More specifically, behavior loading
+is now much faster.</p>
+</div>
+<div class="section" id="timeline">
+<h3>Timeline<a class="headerlink" href="#timeline" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="supports-all-models">
+<h4>Supports all models<a class="headerlink" href="#supports-all-models" title="Permalink to this headline">¶</a></h4>
+<p>The <strong>Timeline</strong> tools are now aware of the <a class="reference internal" href="../../family/body_type.html#nao-family-nao-body-type"><em>Body type</em></a>
+of the connected robot.</p>
+<p>For example, when you are connected to a <strong>T14</strong>, legs joints are not displayed anymore.</p>
+<img alt="../../_images/timeline_t14.png" src="../../_images/timeline_t14.png" style="width: 500px; height: 265px;" />
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/panels/timeline_panel.html#timeline"><em>Timeline</em></a> and <a class="reference internal" href="../../software/choregraphe/panels/timeline_editor.html#choregraphe-detailed-interface-timeline-editor"><em>Timeline Editor</em></a>.</p>
+</div>
+<div class="section" id="timeline-properties-accessible-by-scripts">
+<h4>Timeline properties accessible by scripts<a class="headerlink" href="#timeline-properties-accessible-by-scripts" title="Permalink to this headline">¶</a></h4>
+<p>Methods allowing you to manage the Timeline execution have been improved and simplified.
+Now <strong>Timeline</strong> object can be accessed in python using:</p>
+<ul class="simple">
+<li>self.getTimeline()</li>
+<li>self.getParentTimeline()</li>
+</ul>
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/objects/script_box.html#choregraphe-reference-box-script-built-in-functions"><em>Built-in functions in the script of a box</em></a>.</p>
+</div>
+</div>
+<div class="section" id="animation-mode">
+<h3>Animation mode<a class="headerlink" href="#animation-mode" title="Permalink to this headline">¶</a></h3>
+<p>Animation mode is easier to use:</p>
+<ul class="simple">
+<li>it is no more necessary to be in <strong>Recording mode</strong> to use it,</li>
+<li>vocal commands &#8220;Store position&#8221; is available in all languages,</li>
+<li>using <strong>Animation Mode</strong> to define <strong>Motion keyframes</strong> is just as easy as pressing <strong>F8</strong>.</li>
+</ul>
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/animation_mode.html#choregraphe-howto-use-animation-mode"><em>How to use the Animation Mode</em></a>.</p>
+</div>
+<div class="section" id="behavior-manager-panel">
+<h3>Behavior manager panel<a class="headerlink" href="#behavior-manager-panel" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>Behavior manager</strong> panel has a new, simplified Toolbar.</p>
+<img alt="../../_images/behavior_manager_114.png" src="../../_images/behavior_manager_114.png" style="width: 340px; height: 179px;" />
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">To install a <strong>Behavior</strong> directly from your computer:</div>
+<div class="line">Drag and drop a the CRG file or the directory of a behavior into the
+<strong>Behavior manager</strong> panel.</div>
+</div>
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/panels/behavior_manager_panel.html#choregraphe-overview-behavior-manager-panel"><em>Behavior manager panel</em></a>.</p>
+</div>
+<div class="section" id="connection-management">
+<h3>Connection Management<a class="headerlink" href="#connection-management" title="Permalink to this headline">¶</a></h3>
+<p>The management of connection troubles has been improved: the modal alert has been
+replaced by a tooltip offering guidance to fix the problem.</p>
+<img alt="../../_images/connection_management_message.png" src="../../_images/connection_management_message.png" style="width: 467px; height: 180px;" />
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/connection_widget.html#chore-connection-management"><em>Connection Management</em></a>.</p>
+<p>The <strong>Connection widget</strong> has also evolved: now the IP address of the robot is
+displayed and can be refreshed if necessary.</p>
+<img alt="../../_images/connection_widget_114.png" src="../../_images/connection_widget_114.png" style="width: 550px; height: 382px;" />
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/connection_widget.html#connection-widget"><em>Connection widget</em></a>.</p>
+</div>
+<div class="section" id="flow-diagram">
+<h3>Flow diagram<a class="headerlink" href="#flow-diagram" title="Permalink to this headline">¶</a></h3>
+<p>New buttons appear on the <strong>Input</strong> and <strong>Output</strong> borders of the <strong>Flow diagram</strong>:</p>
+<img alt="../../_images/flow_diagram_add_buttons_114.png" src="../../_images/flow_diagram_add_buttons_114.png" style="width: 393px; height: 169px;" />
+<p>To display their names, hold down <strong>Shift-Control</strong>:</p>
+<img alt="../../_images/flow_diagram_add_buttons_infobulle_114.png" src="../../_images/flow_diagram_add_buttons_infobulle_114.png" style="width: 351px; height: 166px;" />
+<ul class="simple">
+<li><strong>(+) Add input</strong> and <strong>(+) Add output</strong>: eases the access to the existing contextual menu.</li>
+<li><strong>(+) Add event from ALMemory</strong>: gives an easier access to Events.</li>
+</ul>
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/panels/flow_diagram_panel.html#flow-diagram-input-ouput"><em>Managing Flow diagram inputs and outputs</em></a>.</p>
+</div>
+<div class="section" id="file-save-project">
+<h3>File &gt; Save project<a class="headerlink" href="#file-save-project" title="Permalink to this headline">¶</a></h3>
+<p><strong>File</strong> menu has been simplified: a single command allows saving a <strong>Project</strong>
+as a CRG file or as a directory.</p>
+<p>For further details, see <a class="reference internal" href="../../software/choregraphe/objects/choregraphe_project.html#choregraphe-howto-save-project-as-crg"><em>How to save a project as a CRG</em></a>
+and <a class="reference internal" href="../../software/choregraphe/objects/choregraphe_project.html#choregraphe-howto-save-project-as-directory"><em>How to save a project as a directory</em></a>.</p>
+</div>
+<div class="section" id="resource-editor">
+<h3>Resource Editor<a class="headerlink" href="#resource-editor" title="Permalink to this headline">¶</a></h3>
+<p><strong>Resource editor</strong> becomes <strong>Box resource selector</strong>,</p>
+<p>improved in order to be more intuitive.</p>
+<img alt="../../_images/box_resource_selector.png" src="../../_images/box_resource_selector.png" style="width: 249px; height: 432px;" />
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/objects/box_optional_components.html#choregraphe-detailed-interface-box-edition-resources"><em>Box resource selector</em></a>.</p>
+</div>
+<div class="section" id="inherited-parameters">
+<h3>Inherited parameters<a class="headerlink" href="#inherited-parameters" title="Permalink to this headline">¶</a></h3>
+<p>In order to clarify parameters inheritance, when activated, if a parent parameter
+is found:</p>
+<ul class="simple">
+<li>the child parameter Type is disabled and</li>
+<li>it is no more possible to edit the value of the child parameter.</li>
+</ul>
+</div>
+<div class="section" id="automatic-free-trial-license">
+<h3>Automatic free trial license<a class="headerlink" href="#automatic-free-trial-license" title="Permalink to this headline">¶</a></h3>
+<p>When installing <strong>Choregraphe</strong>, it is no more necessary to enter the free trial key.
+User can freely use <strong>Choregraphe</strong> for 90 days.</p>
+<p>During 90 days, at startup, a reminder gives the choice to use the free trial or to enter the license key.</p>
+</div>
+<div class="section" id="new-box-libraries">
+<h3>New Box Libraries<a class="headerlink" href="#new-box-libraries" title="Permalink to this headline">¶</a></h3>
+<p>the <strong>default</strong> Box Library has been split in 3 box libraries:</p>
+<ul class="simple">
+<li>standard,</li>
+<li>advanced and</li>
+<li>deprecated.</li>
+</ul>
+<p>For further details, see: <a class="reference internal" href="../../software/choregraphe/panels/box_libraries_panel.html#choregraphe-overview-box-libary-panel"><em>Box libraries panel</em></a>.</p>
+</div>
+</div>
+<div class="section" id="choregraphe-new-boxes">
+<h2>Choregraphe - new boxes<a class="headerlink" href="#choregraphe-new-boxes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Audio<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="sound-peak">
+<h4>Sound Peak<a class="headerlink" href="#sound-peak" title="Permalink to this headline">¶</a></h4>
+<p><strong>Audio</strong> &gt; <strong>Sound</strong> &gt; <strong>Sound Peak</strong>:</p>
+<div class="line-block">
+<div class="line">Detect sound peaks.</div>
+<div class="line">Each time a sound peak is detected, the onPeak output is stimulated.</div>
+</div>
+</div>
+</div>
+<div class="section" id="communication">
+<h3>Communication<a class="headerlink" href="#communication" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="choregraphe-connection">
+<h4>Choregraphe Connection<a class="headerlink" href="#choregraphe-connection" title="Permalink to this headline">¶</a></h4>
+<p><strong>Communication</strong> &gt; <strong>Network</strong> &gt; <strong>Choregraphe Connection</strong>:</p>
+<p>Check if NAO is connected to Choregraphe and warn when it gets connected or gets
+disconnected.</p>
+</div>
+<div class="section" id="internet-connection">
+<h4>Internet Connection<a class="headerlink" href="#internet-connection" title="Permalink to this headline">¶</a></h4>
+<p><strong>Communication</strong> &gt; <strong>Network</strong> &gt; <strong>Internet Connection</strong>:</p>
+<p>This box detects when NAO is connected or disconnected to the Internet.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Motion<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="set-fall-manager">
+<h4>Set Fall Manager<a class="headerlink" href="#set-fall-manager" title="Permalink to this headline">¶</a></h4>
+<p><strong>Advanced</strong> box Library &gt; <strong>Motions</strong> &gt; <strong>Set Fall Manager</strong>:</p>
+<div class="line-block">
+<div class="line">Enable or disable the Fall Manager.</div>
+<div class="line">It is automatically set to its previous state when the behavior is stopped.</div>
+</div>
+</div>
+</div>
+<div class="section" id="system">
+<h3>System<a class="headerlink" href="#system" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="get-date">
+<h4>Get Date<a class="headerlink" href="#get-date" title="Permalink to this headline">¶</a></h4>
+<p><strong>System</strong> &gt; <strong>Get Date</strong>:</p>
+<p>This box provides NAO&#8217;s local time and date.</p>
+</div>
+<div class="section" id="get-name">
+<h4>Get Name<a class="headerlink" href="#get-name" title="Permalink to this headline">¶</a></h4>
+<p><strong>System</strong> &gt; <strong>Get Name</strong>:</p>
+<div class="line-block">
+<div class="line">Returns NAO&#8217;s name.</div>
+<div class="line">For example: &#8220;Patate&#8221;.</div>
+<div class="line">Note: You can change the name of your robot on its webpage.</div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="log">
+<h4>Log<a class="headerlink" href="#log" title="Permalink to this headline">¶</a></h4>
+<p><strong>Debug</strong> &gt; <strong>Log</strong>:</p>
+<p>Prompt the message in the debug window. You can set a prefix and a priority
+for the message in the parameters.</p>
+</div>
+<div class="section" id="get-body-id">
+<h4>Get Body ID<a class="headerlink" href="#get-body-id" title="Permalink to this headline">¶</a></h4>
+<p><strong>Advanced</strong> box Library &gt; <strong>System</strong> &gt; <strong>Get Body ID</strong>:</p>
+<p>Returns the ID of NAO&#8217;s body.</p>
+</div>
+</div>
+<div class="section" id="templates">
+<h3>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h3>
+<p>3 templates are now available in order to quickly create <strong>Diagram</strong>, <strong>Script</strong>
+or <strong>Timeline boxes</strong>.</p>
+</div>
+<div class="section" id="id3">
+<h3>Trackers<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="movement-tracker">
+<h4>Movement Tracker<a class="headerlink" href="#movement-tracker" title="Permalink to this headline">¶</a></h4>
+<p><strong>Trackers</strong> &gt; <strong>Movement Tracker</strong>:</p>
+<p>Turn the head in the direction of detected movement</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Vision<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="record-video">
+<h4>Record Video<a class="headerlink" href="#record-video" title="Permalink to this headline">¶</a></h4>
+<p><strong>Vision</strong> &gt; <strong>Record Video</strong>:</p>
+<p>Record a video from NAO&#8217;s camera. Stop recording when the duration set in
+parameter is elapsed.</p>
+</div>
+<div class="section" id="take-picture">
+<h4>Take Picture<a class="headerlink" href="#take-picture" title="Permalink to this headline">¶</a></h4>
+<p><strong>Vision</strong> &gt; <strong>Take Picture</strong>:</p>
+<p>Take a picture with NAO&#8217;s camera and store it in his memory in
+~/recordings/cameras. The image format is JPG.</p>
+</div>
+<div class="section" id="unlearn-face">
+<h4>Unlearn Face<a class="headerlink" href="#unlearn-face" title="Permalink to this headline">¶</a></h4>
+<p><strong>Vision</strong> &gt; <strong>Unlearn Face</strong>:</p>
+<div class="line-block">
+<div class="line">Unlearn the face which name is set on the input.</div>
+<div class="line">Note: If the face has not been learnt before, the onFailure output will be stimulated.</div>
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="new-3d-simulator-for-nao-webots-for-nao">
+<h2>New 3D simulator for NAO: Webots for NAO<a class="headerlink" href="#new-3d-simulator-for-nao-webots-for-nao" title="Permalink to this headline">¶</a></h2>
+<p><strong>Cyberbotics</strong> has designed a version of its three-dimensional mobile
+robot simulator <strong>Webots</strong> exclusively dedicated to <strong>NAO</strong>.</p>
+<p>Like the former <strong>NAOsim</strong>, <strong>Webots for NAO</strong> allows you to launch a simulated
+<strong>NAO</strong> moving in a virtual world.
+It offers a safe place to test behaviors before playing them on a real robot.</p>
+<p>For further details, see: <a class="reference internal" href="../../software/webots/webots_index.html#webots4nao"><em>Webots for NAO</em></a>.</p>
+<p><strong>NAOsim</strong> is only compatible with 1.12 software version.
+If you want to still use <strong>NAOsim</strong>, the 1.12.5 software documentation is available
+here: <a class="reference external" href="http://www.aldebaran-robotics.com/documentation/old/1.12">http://www.aldebaran-robotics.com/documentation/old/1.12</a>.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="index.html" title="Release notes - 1.14">Release notes - 1.14</a>
+     |
+    <a href="index.html" title="Release notes - 1.14" accesskey="U">Release notes - 1.14</a>
+   |
+    <a href="../1.12/index.html" title="Release notes - 1.12">Release notes - 1.12</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">What&#8217;s new</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1.14.5/whatsnew.html">Release note - 1.14.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1.14.5/whatsnew.html#known-issues">Known issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html">ChangeLog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1.14.3/index.html">Release notes - 1.14.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1.14.2/index.html">Release notes - 1.14.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1.14.1/index.html">Release notes - 1.14.1</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Release notes - 1.14</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">What&#8217;s new - 1.14</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../1.12/index.html">Release notes - 1.12</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">What&#8217;s new - 1.14</a><ul>
+<li><a class="reference internal" href="#improving-customer-support">Improving customer support</a><ul>
+<li><a class="reference internal" href="#implementation-of-an-issue-reporter">Implementation of an issue reporter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improving-upgrade-process">Improving upgrade process</a></li>
+<li><a class="reference internal" href="#supported-operating-systems">Supported Operating Systems</a><ul>
+<li><a class="reference internal" href="#bits-fully-supported">64-bits fully supported</a></li>
+<li><a class="reference internal" href="#mac-os-x-32-bits-no-longer-supported">MAC OS X 32-bits no longer supported</a></li>
+<li><a class="reference internal" href="#ubuntu-10-04-lts-lucid-eol">Ubuntu 10.04 LTS (Lucid) EOL</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#audio">Audio</a><ul>
+<li><a class="reference internal" href="#new-voice-for-japanese-text-to-speech">New voice for Japanese text to speech</a></li>
+<li><a class="reference internal" href="#text-to-speech-voices-have-been-improved">Text to speech: voices have been improved</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#vision">Vision</a><ul>
+<li><a class="reference internal" href="#new-module-alvisualcompass">New module: ALVisualCompass</a></li>
+<li><a class="reference internal" href="#new-module-almovementdetection">New module: ALMovementDetection</a></li>
+<li><a class="reference internal" href="#module-refactoring-alvideodevice">Module refactoring: ALVideoDevice</a></li>
+<li><a class="reference internal" href="#alvisiontoolbox-is-deprecated">ALVisionToolbox is deprecated</a></li>
+<li><a class="reference internal" href="#alvideodevice-deprecated-methods">ALVideoDevice deprecated methods</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#trackers">Trackers</a><ul>
+<li><a class="reference internal" href="#alredballdetection-alfacedetection-improved">ALRedballDetection - ALFaceDetection improved</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sensors">Sensors</a></li>
+<li><a class="reference internal" href="#motion">Motion</a><ul>
+<li><a class="reference internal" href="#new-module-alnavigation">New module: ALNavigation</a></li>
+<li><a class="reference internal" href="#new-module-alrobotposture">New module: ALRobotPosture</a></li>
+<li><a class="reference internal" href="#new-methods-wakeup-and-rest">New methods: wakeUp and rest</a></li>
+<li><a class="reference internal" href="#self-collision-avoidance-improved">Self-collision avoidance improved</a></li>
+<li><a class="reference internal" href="#getlimits-returns-also-maxtorque">getLimits returns also maxTorque</a></li>
+<li><a class="reference internal" href="#space-names-have-changed">Space names have changed</a></li>
+<li><a class="reference internal" href="#deprecated-module-almotionrecorder">Deprecated module: ALMotionRecorder</a></li>
+<li><a class="reference internal" href="#almotion-deprecated-methods">ALMotion deprecated methods</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#core">Core</a><ul>
+<li><a class="reference internal" href="#new-module-alconnectionmanager">New module: ALConnectionManager</a></li>
+<li><a class="reference internal" href="#almemory-2-new-methods">ALMemory: 2 new methods</a></li>
+<li><a class="reference internal" href="#albehaviormanager-deprecated-methods">ALBehaviorManager deprecated methods</a></li>
+<li><a class="reference internal" href="#libraries">Libraries</a></li>
+<li><a class="reference internal" href="#updated-development-tools">Updated Development tools</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#choregraphe-new-tools">Choregraphe - new tools</a><ul>
+<li><a class="reference internal" href="#resource-viewer-panel">Resource Viewer panel</a></li>
+<li><a class="reference internal" href="#memory-watcher-panel">Memory watcher panel</a></li>
+<li><a class="reference internal" href="#forward-kinematics-in-3d-view-experimental">Forward kinematics in 3D View (Experimental)</a></li>
+<li><a class="reference internal" href="#dialog-panel-experimental">Dialog panel (Experimental)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#choregraphe-improvements">Choregraphe - improvements</a><ul>
+<li><a class="reference internal" href="#optimization">Optimization</a></li>
+<li><a class="reference internal" href="#timeline">Timeline</a><ul>
+<li><a class="reference internal" href="#supports-all-models">Supports all models</a></li>
+<li><a class="reference internal" href="#timeline-properties-accessible-by-scripts">Timeline properties accessible by scripts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#animation-mode">Animation mode</a></li>
+<li><a class="reference internal" href="#behavior-manager-panel">Behavior manager panel</a></li>
+<li><a class="reference internal" href="#connection-management">Connection Management</a></li>
+<li><a class="reference internal" href="#flow-diagram">Flow diagram</a></li>
+<li><a class="reference internal" href="#file-save-project">File &gt; Save project</a></li>
+<li><a class="reference internal" href="#resource-editor">Resource Editor</a></li>
+<li><a class="reference internal" href="#inherited-parameters">Inherited parameters</a></li>
+<li><a class="reference internal" href="#automatic-free-trial-license">Automatic free trial license</a></li>
+<li><a class="reference internal" href="#new-box-libraries">New Box Libraries</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#choregraphe-new-boxes">Choregraphe - new boxes</a><ul>
+<li><a class="reference internal" href="#id1">Audio</a><ul>
+<li><a class="reference internal" href="#sound-peak">Sound Peak</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#communication">Communication</a><ul>
+<li><a class="reference internal" href="#choregraphe-connection">Choregraphe Connection</a></li>
+<li><a class="reference internal" href="#internet-connection">Internet Connection</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">Motion</a><ul>
+<li><a class="reference internal" href="#set-fall-manager">Set Fall Manager</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#system">System</a><ul>
+<li><a class="reference internal" href="#get-date">Get Date</a></li>
+<li><a class="reference internal" href="#get-name">Get Name</a></li>
+<li><a class="reference internal" href="#log">Log</a></li>
+<li><a class="reference internal" href="#get-body-id">Get Body ID</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#templates">Templates</a></li>
+<li><a class="reference internal" href="#id3">Trackers</a><ul>
+<li><a class="reference internal" href="#movement-tracker">Movement Tracker</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">Vision</a><ul>
+<li><a class="reference internal" href="#record-video">Record Video</a></li>
+<li><a class="reference internal" href="#take-picture">Take Picture</a></li>
+<li><a class="reference internal" href="#unlearn-face">Unlearn Face</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#new-3d-simulator-for-nao-webots-for-nao">New 3D simulator for NAO: Webots for NAO</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="index.html" title="Release notes - 1.14">previous</a>
+     |
+    <a href="index.html" title="Release notes - 1.14" accesskey="U">up</a>
+   |
+    <a href="../1.12/index.html" title="Release notes - 1.12">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

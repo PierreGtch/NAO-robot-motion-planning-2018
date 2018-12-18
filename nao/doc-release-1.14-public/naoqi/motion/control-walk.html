@@ -1,0 +1,1087 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Locomotion control &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Motion" href="index.html" />
+    <link rel="next" title="Locomotion control API" href="control-walk-api.html" />
+    <link rel="prev" title="Joint control Tutorial: The Pose Init" href="control-joint-tuto.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="control-joint-tuto.html" title="Joint control Tutorial: The Pose Init">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="control-walk-api.html" title="Locomotion control API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-control-walk">
+            
+  <div class="section" id="locomotion-control">
+<span id="control-walk"></span><h1>Locomotion control<a class="headerlink" href="#locomotion-control" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-motion"><em>NAOqi Motion</em></a> - Overview | <a class="reference internal" href="control-walk-api.html#control-walk-api"><em>API</em></a> |
+<a class="reference internal" href="control-walk-tuto2.html#control-walk-tuto2"><em>robot position Tutorial</em></a></p>
+<hr class="docutils" />
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p>This API is dedicated to make robot move to places.</p>
+<p>There are 4 high-level ways to control the locomotion.
+Use:</p>
+<ul class="simple">
+<li><a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a>, to set a target <a class="reference internal" href="../../glossary.html#term-pose"><em class="xref std std-term">pose</em></a> on the
+ground plane, that NAO will walk to.</li>
+<li><a class="reference internal" href="control-walk-api.html#ALMotionProxy::move__floatCR.floatCR.floatCR" title="ALMotionProxy::move"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::move()</span></tt></a>, to set NAO&#8217;s
+instantaneous velocity (direction and intensity) in SI units
+(typically used to control the walk from a loop, with external input such as
+a visual tracker).</li>
+<li><a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveToward__floatCR.floatCR.floatCR" title="ALMotionProxy::moveToward"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveToward()</span></tt></a>, to set NAO&#8217;s
+instantaneous normalized velocity (direction and intensity) interactively
+(typically used to control the robot from a joystick, when the input gets
+normalized anyway).</li>
+<li><a class="reference internal" href="control-walk-api.html#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR" title="ALMotionProxy::setWalkTargetVelocity"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setWalkTargetVelocity()</span></tt></a>, to set NAO&#8217;s
+instantaneous (normalized) step length and frequency, and thus control its
+velocity (direction and intensity) indirectly.</li>
+</ul>
+<p>In addition, <a class="reference internal" href="#move-config"><em>Move config</em></a> parameters allow to alter the default walk
+settings.</p>
+<p>For even more control over the walk, one may also use
+<a class="reference internal" href="control-walk-api.html#ALMotionProxy::setFootSteps__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="ALMotionProxy::setFootSteps"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setFootSteps()</span></tt></a> or
+<a class="reference internal" href="control-walk-api.html#ALMotionProxy::setFootStepsWithSpeed__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="ALMotionProxy::setFootStepsWithSpeed"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setFootStepsWithSpeed()</span></tt></a>, to provide the exact
+footsteps NAO will follow.</p>
+<p>NAO&#8217;s walk is stabilized using feedback from his joint sensors. This
+makes the walk robust against small disturbances and absorbs torso
+oscillations in the frontal and lateral planes.</p>
+<p>NAO is able to walk on multiple floor surfaces such as carpet, tiles
+and wooden floors.</p>
+<p>He can transition between these surfaces while walking. However, large
+obstacles can still make him fall, as he assumes that the ground is more
+or less flat.</p>
+<img alt="../../_images/motion_omniwalk.png" src="../../_images/motion_omniwalk.png" style="width: 226px; height: 313px;" />
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>NAO&#8217;s walk uses a simple dynamic model (Linear Inverse Pendulum), inspired by
+work of Kajita et al. <a class="footnote-reference" href="#id3" id="id1">[1]</a>, and is solved using quadratic programming <a class="footnote-reference" href="#id4" id="id2">[2]</a>.</p>
+<div class="line-block">
+<div class="line">Each step is composed of a double leg and a single leg support phase.</div>
+<div class="line">The double support time uses one third of the step time.</div>
+<div class="line">The foot swing trajectory uses <a class="reference internal" href="control-cartesian.html#motion-se3-interpolation"><em>SE3 Interpolation</em></a>.</div>
+<div class="line">The preview controller length is 0.8s.</div>
+<div class="line">The walk is initialized and ended with a 0.6s phase of double support.</div>
+</div>
+<p><strong>References</strong></p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>S. Kajita and K. Tani.
+Experimental study of biped dynamic walking in the linear inverted
+pendulum mode.
+IEEE Int. Conf. on Robotics and Automation, 1995.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>P-B. Wieber.
+Trajectory-free linear model predictive control for stable walking in
+the presence of strong perturbation.
+IEEE Int. Conf. on Humanoids, 2006.</td></tr>
+</tbody>
+</table>
+<div class="section" id="footstep-planner">
+<h3>Footstep planner<a class="headerlink" href="#footstep-planner" title="Permalink to this headline">¶</a></h3>
+<p>A foot position is defined by an ALMath::Pose2D (<a class="reference external" href="../../ref/libalmath/index.html">libalmath API
+reference</a>) relative to the last position of
+the other foot.</p>
+<div class="figure">
+<img alt="../../_images/motion_footplanner.png" src="../../_images/motion_footplanner.png" style="width: 340px; height: 215px;" />
+<p class="caption">Position of one foot relative to the other as given by a translation
+(pX, pY) followed by a rotation of pTheta around the vertical axis.
+These three parameters are bundled in an ALMath::Pose2D.</p>
+</div>
+<p>The foot planner is used by the walk process, irrespective of the walk control
+used. When using <a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a>, <cite>ALMotionProxy::move</cite>,
+<cite>ALMotionProxy::moveToward</cite> or <a class="reference internal" href="control-walk-api.html#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR" title="ALMotionProxy::setWalkTargetVelocity"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setWalkTargetVelocity()</span></tt></a>,
+the planner chooses the best foot placement.
+If you plan the robot footsteps on your own and feed them to ALMotion using
+<a class="reference internal" href="control-walk-api.html#ALMotionProxy::setFootSteps__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="ALMotionProxy::setFootSteps"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setFootSteps()</span></tt></a> or
+<a class="reference internal" href="control-walk-api.html#ALMotionProxy::setFootStepsWithSpeed__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="ALMotionProxy::setFootStepsWithSpeed"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setFootStepsWithSpeed()</span></tt></a>, the builtin planner clips
+the given footsteps to ensure the resulting motions are both collision
+and <a class="reference internal" href="../../glossary.html#term-singularity"><em class="xref std std-term">singularity</em></a> free.</p>
+<p>The planner work is governed by several parameters which are described in
+<a class="reference internal" href="#control-walk-gait-parameters"><em>Gait parameters</em></a> section.
+The clipping algorithms are described in <a class="reference internal" href="#footsteps-clipping"><em>Footsteps clipping</em></a> section.</p>
+</div>
+<div class="section" id="gait-parameters">
+<span id="control-walk-gait-parameters"></span><h3>Gait parameters<a class="headerlink" href="#gait-parameters" title="Permalink to this headline">¶</a></h3>
+<p>These parameters are used by the planner when planning the footsteps and/or
+clipping them. The parameters which are marked as user-settable are part
+of the <a class="reference internal" href="#move-config"><em>Move config</em></a> which can be passed on by the user.</p>
+<table border="1" class="docutils" id="control-walk-gait-parameters-table">
+<caption>Gait parameters</caption>
+<colgroup>
+<col width="14%" />
+<col width="47%" />
+<col width="9%" />
+<col width="9%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">&nbsp;</th>
+<th class="head">Default</th>
+<th class="head">Minimum</th>
+<th class="head">Maximum</th>
+<th class="head">Settable</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>MaxStepX</td>
+<td>maximum forward translation along X (meters)</td>
+<td>0.040</td>
+<td>0.001</td>
+<td>0.080 <a class="footnote-reference" href="#id6" id="id5">[3]</a></td>
+<td>yes</td>
+</tr>
+<tr class="row-odd"><td>MinStepX</td>
+<td>maximum backward translation along X (meters)</td>
+<td>-0.040</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>no</td>
+</tr>
+<tr class="row-even"><td>MaxStepY</td>
+<td>absolute maximum lateral translation along Y (meters)</td>
+<td>0.140</td>
+<td>0.101</td>
+<td>0.160</td>
+<td>yes</td>
+</tr>
+<tr class="row-odd"><td>MaxStepTheta</td>
+<td>absolute maximum rotation around Z (radians)</td>
+<td>0.349</td>
+<td>0.001</td>
+<td>0.524</td>
+<td>yes</td>
+</tr>
+<tr class="row-even"><td>MaxStepFrequency</td>
+<td>maximum step frequency (normalized, unit-less)</td>
+<td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><ol class="first last arabic simple" start="0">
+<li></li>
+</ol>
+</td>
+<td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>yes</td>
+</tr>
+<tr class="row-odd"><td>MinStepPeriod</td>
+<td>minimum step duration (seconds)</td>
+<td>0.42</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>no</td>
+</tr>
+<tr class="row-even"><td>MaxStepPeriod</td>
+<td>maximum step duration (seconds)</td>
+<td>0.6</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>no</td>
+</tr>
+<tr class="row-odd"><td>StepHeight</td>
+<td>peak foot elevation along Z (meters)</td>
+<td>0.020</td>
+<td>0.005</td>
+<td>0.040</td>
+<td>yes</td>
+</tr>
+<tr class="row-even"><td>TorsoWx</td>
+<td>peak torso rotation around X (radians)</td>
+<td>0.000</td>
+<td>-0.122</td>
+<td>0.122</td>
+<td>yes</td>
+</tr>
+<tr class="row-odd"><td>TorsoWy</td>
+<td>peak torso rotation around Y (radians)</td>
+<td>0.000</td>
+<td>-0.122</td>
+<td>0.122</td>
+<td>yes</td>
+</tr>
+<tr class="row-even"><td>FootSeparation</td>
+<td>alter distance between both feet along Y (meters)</td>
+<td>0.1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>no</td>
+</tr>
+<tr class="row-odd"><td>MinFootSeparation</td>
+<td>minimum distance between both feet along Y (meters)</td>
+<td>0.088</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[3]</a></td><td>we recommend 0.060 meters for StepX for more stability. Better
+use 0.080 meters only when walking on flat hard floors.</td></tr>
+</tbody>
+</table>
+<p>Programmatically, you can access some of the gait parameters (Default, Max,
+Min), using the <a class="reference internal" href="control-walk-api.html#ALMotionProxy::getMoveConfig__ssCR" title="ALMotionProxy::getMoveConfig"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getMoveConfig()</span></tt></a> method.</p>
+</div>
+<div class="section" id="footsteps-clipping">
+<span id="id7"></span><h3>Footsteps clipping<a class="headerlink" href="#footsteps-clipping" title="Permalink to this headline">¶</a></h3>
+<p>The clipping is done in three successive steps, which are explained here with
+python functions implementing the same algorithms as ALMotion&#8217;s planner.
+You can download them here:
+<a class="reference download internal" href="../../_downloads/almath_foot_clip.py"><tt class="xref download docutils literal"><span class="pre">almath_foot_clip.py</span></tt></a></p>
+<p>For python-related troubleshooting, see the <a class="reference internal" href="../../dev/python/install_guide.html#python-install-guide"><em>Python SDK Install Guide</em></a>
+section.</p>
+<p>The clipping algorithms uses the extremal values from the <a class="reference internal" href="#control-walk-gait-parameters-table"><em>gait
+parameters table</em></a>, and <em>not</em> the default
+or user-provided ones.</p>
+<div class="section" id="clip-with-maximum-outreach">
+<span id="control-walk-clipping-outreach"></span><h4>Clip with maximum outreach<a class="headerlink" href="#clip-with-maximum-outreach" title="Permalink to this headline">¶</a></h4>
+<img alt="../../_images/motion_foot_max_gait.png" src="../../_images/motion_foot_max_gait.png" style="width: 440px; height: 355px;" />
+<p>Here, the python clipping algorithm is presented:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">clipFootStepOnGaitConfig</span><span class="p">(</span><span class="n">footMove</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Clip the foot move so that it does not exceed the maximum</span>
+<span class="sd">      size of steps.</span>
+<span class="sd">      footMove is an almath.Pose2D (x, y, theta position).</span>
+<span class="sd">      isLeftSupport must be set to True if the move is on the right leg</span>
+<span class="sd">      (the robot is supporting itself on the left leg).</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="k">def</span> <span class="nf">clipFloat</span><span class="p">(</span><span class="n">minValue</span><span class="p">,</span> <span class="n">maxValue</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Clip value between two extremes. &#39;&#39;&#39;</span>
+    <span class="n">clipped</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">clipped</span> <span class="o">&lt;</span> <span class="n">minValue</span><span class="p">):</span>
+      <span class="n">clipped</span> <span class="o">=</span> <span class="n">minValue</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">clipped</span> <span class="o">&gt;</span> <span class="n">maxValue</span><span class="p">):</span>
+      <span class="n">clipped</span> <span class="o">=</span> <span class="n">maxValue</span>
+    <span class="k">return</span> <span class="n">clipped</span>
+
+  <span class="c"># Clip X.</span>
+  <span class="n">clippedX</span> <span class="o">=</span> <span class="n">clipFloat</span><span class="p">(</span><span class="n">minStepX</span><span class="p">,</span> <span class="n">maxStepX</span><span class="p">,</span> <span class="n">footMove</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">footMove</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">clippedX</span>
+
+  <span class="c"># Clip Y.</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">isLeftSupport</span><span class="p">:</span>
+    <span class="n">clippedY</span> <span class="o">=</span> <span class="n">clipFloat</span><span class="p">(</span><span class="n">minFootSeparation</span><span class="p">,</span> <span class="n">maxStepY</span><span class="p">,</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">clippedY</span> <span class="o">=</span> <span class="n">clipFloat</span><span class="p">(</span><span class="o">-</span><span class="n">maxStepY</span><span class="p">,</span> <span class="o">-</span> <span class="n">minFootSeparation</span><span class="p">,</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+  <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">clippedY</span>
+
+  <span class="c"># Clip Theta.</span>
+  <span class="n">clippedTheta</span> <span class="o">=</span> <span class="n">clipFloat</span><span class="p">(</span><span class="o">-</span><span class="n">maxStepTheta</span><span class="p">,</span> <span class="n">maxStepTheta</span><span class="p">,</span> <span class="n">footMove</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
+  <span class="n">footMove</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">clippedTheta</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clip-with-ellipse">
+<h4>Clip with ellipse<a class="headerlink" href="#clip-with-ellipse" title="Permalink to this headline">¶</a></h4>
+<p>To avoid <a class="reference internal" href="../../glossary.html#term-singularity"><em class="xref std std-term">singularities</em></a> in the inverse kinematics, we clip
+the foot step data with an ellipsoid.</p>
+<p>We use the AL::Math:clipFootWithEllipse function
+(<a class="reference external" href="../../ref/libalmath/index.html">libalmath API reference</a>).</p>
+<p>The figure below gives an illustration of the allowed zone (blue in the
+picture).</p>
+<img alt="../../_images/motion_foot_ellipse.png" src="../../_images/motion_foot_ellipse.png" style="width: 263px; height: 350px;" />
+<p>Here, the python clipping algorithm with ellipse is presented:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">clipFootStepWithEllipse</span><span class="p">(</span><span class="n">footMove</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Clip the foot move inside an ellipse defined by the foot&#39;s dimansions.</span>
+<span class="sd">      footMove is an almath.Pose2D (x, y, theta position).</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="c"># Apply an offset to have Y component of foot move centered on 0.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">minFootSeparation</span><span class="p">):</span>
+    <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">minFootSeparation</span>
+  <span class="k">elif</span> <span class="p">(</span><span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">minFootSeparation</span><span class="p">):</span>
+    <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">minFootSeparation</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span>
+
+  <span class="c"># Clip the foot move to an ellipse using ALMath method.</span>
+  <span class="k">if</span> <span class="n">footMove</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">almath</span><span class="o">.</span><span class="n">clipFootWithEllipse</span><span class="p">(</span><span class="n">maxStepX</span><span class="p">,</span> <span class="n">maxStepY</span> <span class="o">-</span> <span class="n">minFootSeparation</span><span class="p">,</span> <span class="n">footMove</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">almath</span><span class="o">.</span><span class="n">clipFootWithEllipse</span><span class="p">(</span><span class="n">minStepX</span><span class="p">,</span> <span class="n">maxStepY</span> <span class="o">-</span> <span class="n">minFootSeparation</span><span class="p">,</span> <span class="n">footMove</span><span class="p">)</span>
+
+  <span class="c"># Correct the previous offset on Y component.</span>
+  <span class="k">if</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">footMove</span><span class="o">.</span><span class="n">y</span>  <span class="o">=</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">minFootSeparation</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">footMove</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">minFootSeparation</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clip-to-avoid-collision">
+<h4>Clip to avoid collision<a class="headerlink" href="#clip-to-avoid-collision" title="Permalink to this headline">¶</a></h4>
+<p>The last clipping adjust pTheta to avoid collision between the feet using
+the AL::Math:avoidFootCollision function
+(<a class="reference external" href="../../ref/libalmath/index.html">libalmath API reference</a>).</p>
+<p>The picture below illustrates this clipping. (The grey left foot print was the
+one given by the user and the black left foot print is the result of the
+clipping).</p>
+<img alt="../../_images/motion_foot_no_collision.png" src="../../_images/motion_foot_no_collision.png" style="width: 160px; height: 191px;" />
+<p>Here, the python clipping algorithm with ellipse is presented:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">clipFootStepToAvoidCollision</span><span class="p">(</span><span class="n">footMove</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39; Clip the foot move to avoid collision with the other foot.</span>
+<span class="sd">      footMove is an almath.Pose2D (x, y, theta position).</span>
+<span class="sd">      isLeftSupport must be set to True if the move is on the right leg</span>
+<span class="sd">      (the robot is supporting itself on the left leg).</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="c"># Bounding boxes of NAO&#39;s feet.</span>
+  <span class="n">rFootBox</span> <span class="o">=</span> <span class="p">[</span><span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="mf">0.038</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>    <span class="c"># rFootBoxFL</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.050</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>   <span class="c"># rFootBoxFR</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="o">-</span><span class="mf">0.047</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.050</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="c"># rFootBoxRR</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="o">-</span><span class="mf">0.047</span><span class="p">,</span> <span class="mf">0.038</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span>  <span class="c"># rFootBoxRL</span>
+  <span class="n">lFootBox</span> <span class="o">=</span> <span class="p">[</span><span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="mf">0.050</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>    <span class="c"># lFootBoxFL</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.038</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>   <span class="c"># lFootBoxFR</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="o">-</span><span class="mf">0.047</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.038</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="c"># lFootBoxRR</span>
+              <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="o">-</span><span class="mf">0.047</span><span class="p">,</span>  <span class="mf">0.050</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span> <span class="c"># lFootBoxRL</span>
+
+  <span class="c"># Use ALMath method.</span>
+  <span class="n">almath</span><span class="o">.</span><span class="n">avoidFootCollision</span><span class="p">(</span><span class="n">lFootBox</span><span class="p">,</span> <span class="n">rFootBox</span><span class="p">,</span> <span class="n">isLeftSupport</span><span class="p">,</span> <span class="n">footMove</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="velocity-control">
+<span id="control-walk-gait-config"></span><h3>Velocity control<a class="headerlink" href="#velocity-control" title="Permalink to this headline">¶</a></h3>
+<p>Use <a class="reference internal" href="control-walk-api.html#ALMotionProxy::move__floatCR.floatCR.floatCR" title="ALMotionProxy::move"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::move()</span></tt></a>, to set NAO&#8217;s instantaneous velocity
+directly in SI units, or <a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveToward__floatCR.floatCR.floatCR" title="ALMotionProxy::moveToward"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveToward()</span></tt></a> when normalized
+units are better suited.</p>
+<p>Alternatively, using <a class="reference internal" href="control-walk-api.html#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR" title="ALMotionProxy::setWalkTargetVelocity"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setWalkTargetVelocity()</span></tt></a>, one can
+set NAO’s instantaneous (normalized) step length and frequency, and thus control
+its velocity (both direction and intensity).</p>
+<p>The python program above illustrates the relationship between normalized step
+length and frequency and absolute velocity in SI units.
+The gait parameters used in the program are either the default values (see
+<a class="reference internal" href="#control-walk-gait-parameters-table"><em>gait parameters</em></a>), or the one
+provided in a <a class="reference internal" href="#move-config"><em>Move config</em></a>, as explained in the next section.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">normalized_length_to_si_length</span><span class="p">(</span><span class="n">x_n</span><span class="p">,</span> <span class="n">y_n</span><span class="p">,</span> <span class="n">theta_n</span><span class="p">,</span> <span class="n">f_n</span><span class="p">,</span> <span class="n">mc</span><span class="p">,</span>
+        <span class="n">is_left_support</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert the normalized step length and frequency into SI units.</span>
+
+<span class="sd">    mc is the move config</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_abs_step_x</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">MaxStepX</span> <span class="k">if</span> <span class="p">(</span><span class="n">x_n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="n">mc</span><span class="o">.</span><span class="n">MinStepX</span><span class="p">)</span>
+    <span class="n">x_si</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">max_abs_step_x</span>
+    <span class="k">if</span> <span class="n">is_left_support</span><span class="p">:</span>
+        <span class="n">y_si</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">MaxStepY</span> <span class="o">-</span> <span class="n">mc</span><span class="o">.</span><span class="n">FootSeparation</span><span class="p">)</span><span class="o">-</span><span class="n">mc</span><span class="o">.</span><span class="n">FootSeparation</span><span class="p">,</span>
+                   <span class="o">-</span><span class="n">MinFootSeparation</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">y_si</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">MaxStepY</span> <span class="o">-</span> <span class="n">mc</span><span class="o">.</span><span class="n">FootSeparation</span><span class="p">)</span><span class="o">+</span><span class="n">mc</span><span class="o">.</span><span class="n">FootSeparation</span><span class="p">,</span>
+                   <span class="n">MinFootSeparation</span><span class="p">)</span>
+    <span class="n">theta_si</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">mc</span><span class="o">.</span><span class="n">MaxStepTheta</span>
+    <span class="n">f_si</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">MaxStepPeriod</span> <span class="o">+</span> <span class="n">f_n</span> <span class="o">*</span> <span class="n">mc</span><span class="o">.</span><span class="n">MaxStepFrequency</span> <span class="o">*</span> \
+            <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">MinStepPeriod</span> <span class="o">-</span> <span class="n">mc</span><span class="o">.</span><span class="n">MaxStepPeriod</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x_si</span><span class="p">,</span> <span class="n">y_si</span><span class="p">,</span> <span class="n">theta_si</span><span class="p">,</span> <span class="n">f_si</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">normalized_length_to_si_velocity</span><span class="p">(</span><span class="n">x_n</span><span class="p">,</span> <span class="n">y_n</span><span class="p">,</span> <span class="n">theta_n</span><span class="p">,</span> <span class="n">f_n</span><span class="p">,</span> <span class="n">mc_l</span><span class="p">,</span> <span class="n">mc_r</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert the normalized step length and frequency into velocity</span>
+<span class="sd">    in SI units. We consider a full walk cycle: double support, left</span>
+<span class="sd">    support, double support, right support.</span>
+
+<span class="sd">    mc is the move config</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">(</span><span class="n">x_l</span><span class="p">,</span> <span class="n">y_l</span><span class="p">,</span> <span class="n">theta_l</span><span class="p">,</span> <span class="n">f_l</span><span class="p">)</span> <span class="o">=</span> <span class="n">normalized_length_to_si_length</span><span class="p">(</span>
+            <span class="n">x_n</span><span class="p">,</span> <span class="n">y_n</span><span class="p">,</span> <span class="n">theta_n</span><span class="p">,</span> <span class="n">f_n</span><span class="p">,</span> <span class="n">gc_l</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">x_r</span><span class="p">,</span> <span class="n">y_r</span><span class="p">,</span> <span class="n">theta_r</span><span class="p">,</span> <span class="n">f_r</span><span class="p">)</span> <span class="o">=</span> <span class="n">normalized_length_to_si_length</span><span class="p">(</span>
+            <span class="n">x_n</span><span class="p">,</span> <span class="n">y_n</span><span class="p">,</span> <span class="n">theta_n</span><span class="p">,</span> <span class="n">f_n</span><span class="p">,</span> <span class="n">gc_r</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">period</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">f_l</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">f_r</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">x_l</span> <span class="o">+</span> <span class="n">x_r</span><span class="p">)</span><span class="o">/</span><span class="n">period</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">y_l</span> <span class="o">+</span> <span class="n">y_r</span><span class="p">)</span><span class="o">/</span><span class="n">period</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">theta_l</span> <span class="o">+</span> <span class="n">theta_r</span><span class="p">)</span><span class="o">/</span><span class="n">period</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="move-config">
+<span id="id10"></span><h3>Move config<a class="headerlink" href="#move-config" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to define custom gait parameters for the walk, by giving a
+custom <strong>Move config</strong>.</p>
+<p>This allows you to modify the robot gait while still using the usual motion
+API. This custom configuration can be used for all
+<a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a>, <a class="reference internal" href="control-walk-api.html#ALMotionProxy::move__floatCR.floatCR.floatCR" title="ALMotionProxy::move"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::move()</span></tt></a>,
+<a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveToward__floatCR.floatCR.floatCR" title="ALMotionProxy::moveToward"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveToward()</span></tt></a> and
+<a class="reference internal" href="control-walk-api.html#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR" title="ALMotionProxy::setWalkTargetVelocity"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setWalkTargetVelocity()</span></tt></a> methods.</p>
+<p>For example, you can make NAO lift his feet higher to go over some small
+cables, etc.</p>
+<p>A move configuration is defined by the subset of user-settable
+<a class="reference internal" href="#control-walk-gait-parameters"><em>gait parameters</em></a> defined in the
+<a class="reference internal" href="#control-walk-gait-parameters-table"><em>table above</em></a>. On can
+provide a move config per foot or a single common one.</p>
+<p>For compatibility reasons, the way to pass per-foot config depends on the
+method called:</p>
+<ul>
+<li><p class="first"><a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a> accepts a single key-value list parameter,
+which is applied to both feet.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="control-walk-api.html#ALMotionProxy::move__floatCR.floatCR.floatCR" title="ALMotionProxy::move"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::move()</span></tt></a> and <a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveToward__floatCR.floatCR.floatCR" title="ALMotionProxy::moveToward"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveToward()</span></tt></a>
+accept a single key-value list parameter, whose keys may be prefixed with
+either &#8220;Left&#8221; or &#8220;Right&#8221; to target a single foot. For instance, one would do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">motionProxy</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span>
+    <span class="p">[</span>
+    <span class="p">[</span><span class="s">&quot;LeftStepHeight&quot;</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&quot;RightStepHeight&quot;</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&quot;RightTorsoWx&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&quot;TorsoWy&quot;</span><span class="p">,</span> <span class="mf">5.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">]</span> <span class="p">]</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>in order to set <tt class="docutils literal"><span class="pre">TorsoWy</span></tt> to 5 degrees for both feet, and to set
+<tt class="docutils literal"><span class="pre">TorsoWx</span></tt> and <tt class="docutils literal"><span class="pre">StepHeight</span></tt> on a per-foot basis. Note that, for the left
+foot, the default value (0.) will be used for <tt class="docutils literal"><span class="pre">TorsoWx</span></tt>. Note also that,
+in addition to the gait parameters, these two methods accept a <tt class="docutils literal"><span class="pre">Frequency</span></tt>
+parameter, which indicates a preferred normalized step frequency, just as for
+the <a class="reference internal" href="control-walk-api.html#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR" title="ALMotionProxy::setWalkTargetVelocity"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setWalkTargetVelocity()</span></tt></a> argument.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="control-walk-api.html#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR" title="ALMotionProxy::setWalkTargetVelocity"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setWalkTargetVelocity()</span></tt></a> accepts either a single
+key-value list parameter, which is applied to both feet or two distinct
+key-value lists parameters, each targeting one foot.
+For instance, the configuration from the previous example would be obtained
+in this way:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">,</span>
+    <span class="p">[</span> <span class="c"># LEFT FOOT</span>
+    <span class="p">[</span><span class="s">&quot;StepHeight&quot;</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&quot;TorsoWy&quot;</span><span class="p">,</span> <span class="mf">5.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">]</span> <span class="p">],</span>
+    <span class="p">[</span> <span class="c"># RIGHT FOOT</span>
+    <span class="p">[</span><span class="s">&quot;StepHeight&quot;</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&quot;TorsoWx&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&quot;TorsoWy&quot;</span><span class="p">,</span> <span class="mf">5.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">]</span> <span class="p">]</span> <span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The following examples give some custom gait for NAO:</p>
+<ul class="simple">
+<li><a class="reference download internal" href="../../_downloads/motion_walkCustomization.py"><tt class="xref download docutils literal"><span class="pre">motion_walkCustomization.py</span></tt></a></li>
+<li><a class="reference download internal" href="../../_downloads/motion_moveToCustomization.py"><tt class="xref download docutils literal"><span class="pre">motion_moveToCustomization.py</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="torso-height-trajectory">
+<h3>Torso height trajectory<a class="headerlink" href="#torso-height-trajectory" title="Permalink to this headline">¶</a></h3>
+<p>Since NAOqi version 1.12, the torso height is automatically adjusted to avoid
+<a class="reference internal" href="../../glossary.html#term-singularity"><em class="xref std std-term">singularities</em></a> and to enable longer steps.</p>
+<p>Beware that using the same gait parameters than in NAOqi version 1.10 together
+with this new feature will create torso oscillations
+and could increase the torque needed in the legs joints. This will in turn
+reduce the battery life and make the joint temperature increase faster.</p>
+</div>
+<div class="section" id="arm-motions">
+<h3>Arm motions<a class="headerlink" href="#arm-motions" title="Permalink to this headline">¶</a></h3>
+<p>During walk, the arm are used to improve the walk stability and look.
+The arms motion amplitude during walk is dependent on the step frequency and
+length.</p>
+<p>The arms motion can be activated or deactivated at any moment during a walk.
+Moreover, any user commands for the arms will have priority over the default
+arm motions during a walk. This enables you to control the arms as you wish.
+If the default arm movements are enabled, they resume automatically once you
+have finished controlling arm movements.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Example showing how to disable left arm motions during a walk</span>
+<span class="n">leftArmEnable</span>  <span class="o">=</span> <span class="bp">False</span>
+<span class="n">rightArmEnable</span>  <span class="o">=</span> <span class="bp">True</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setWalkArmsEnabled</span><span class="p">(</span><span class="n">leftArmEnable</span><span class="p">,</span> <span class="n">rightArmEnable</span><span class="p">)</span>
+<span class="c"># disable right arm motion after 10 seconds</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">rightArmEnable</span>  <span class="o">=</span> <span class="bp">False</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setWalkArmsEnabled</span><span class="p">(</span><span class="n">leftArmEnable</span><span class="p">,</span> <span class="n">rightArmEnable</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Example showing how to get the enabled flags for the arms</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">proxy</span><span class="o">.</span><span class="n">getWalkArmsEnabled</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">&#39;LeftArmEnabled: &#39;</span><span class="p">,</span>  <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span> <span class="s">&#39;RightArmEnabled: &#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>This section describes some key points to deal with move control.</p>
+<div class="section" id="walk-initialization">
+<h3>Walk Initialization<a class="headerlink" href="#walk-initialization" title="Permalink to this headline">¶</a></h3>
+<p>Before launching the walk process, the robot checks if:</p>
+<ul class="simple">
+<li>he is not in a <a class="reference internal" href="../../glossary.html#term-singularity"><em class="xref std std-term">singular configuration</em></a></li>
+<li>both its feet are flat on the ground.</li>
+</ul>
+<p>If it is not the case, the robot first performs an initialization movement.
+This movement duration is dependant on the robot actual configuration and
+is inderterminate.</p>
+<p>One can call <a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveInit" title="ALMotionProxy::moveInit"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveInit()</span></tt></a> to trigger the initialization
+movement manually.
+And by calling this function before the move process, you make sure that the
+move process will not take an indeterminate time before actually moving.</p>
+</div>
+<div class="section" id="robot-position">
+<h3>Robot Position<a class="headerlink" href="#robot-position" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="control-walk-api.html#ALMotionProxy::getRobotPosition__bCR" title="ALMotionProxy::getRobotPosition"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getRobotPosition()</span></tt></a> method gives you the current
+position of NAO in the <a class="reference internal" href="control-cartesian.html#motion-effectors-space"><em>FRAME_WORLD</em></a>.</p>
+<p>Due to the very nature of preview control, the footsteps are stored in a
+queue, where the few first ones cannot be changed.</p>
+<p>So, if the move process runs and you send a new target, your change is applied
+after the unchangeable footSteps.</p>
+<p>The <a class="reference internal" href="control-walk-api.html#ALMotionProxy::getNextRobotPosition" title="ALMotionProxy::getNextRobotPosition"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getNextRobotPosition()</span></tt></a> method let you know
+the future position of the robot after the last unchangeable foot step.</p>
+<p>The figure below illustrates this phenomenon. You can also look at the
+<a class="reference internal" href="control-walk-tuto2.html#control-walk-tuto2"><em>robot position Tutorial</em></a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># created a walk task</span>
+<span class="n">motionProxy</span><span class="o">.</span><span class="n">moveInit</span><span class="p">()</span>
+<span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+<span class="c"># wait that the move process start running</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="c"># get robotPosition and nextRobotPosition</span>
+<span class="n">robotPosition</span>     <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotPosition</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">nextRobotPosition</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getNextRobotPosition</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/motion_robotPosition.png" src="../../_images/motion_robotPosition.png" style="width: 480px; height: 452px;" />
+</div>
+<div class="section" id="synchronization">
+<h3>Synchronization<a class="headerlink" href="#synchronization" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="waituntilmoveisfinished">
+<h4>waitUntilMoveIsFinished<a class="headerlink" href="#waituntilmoveisfinished" title="Permalink to this headline">¶</a></h4>
+<p>The <a class="reference internal" href="control-walk-api.html#ALMotionProxy::waitUntilMoveIsFinished" title="ALMotionProxy::waitUntilMoveIsFinished"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::waitUntilMoveIsFinished()</span></tt></a> method can be used to
+block your script/code execution until the move task is finished.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Start a move</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="c"># Wait for it to finish</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">waitUntilMoveIsFinished</span><span class="p">()</span>
+<span class="c"># Then do something else</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="moveisactive">
+<h4>moveIsActive<a class="headerlink" href="#moveisactive" title="Permalink to this headline">¶</a></h4>
+<p>The <a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveIsActive" title="ALMotionProxy::moveIsActive"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveIsActive()</span></tt></a> method returns True while the move
+task is active.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># start a 1 meter move</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="k">while</span> <span class="n">proxy</span><span class="o">.</span><span class="n">moveIsActive</span><span class="p">():</span>
+<span class="c"># do something</span>
+<span class="c"># sleep a little</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c"># when finished do something else</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stopping-the-walk">
+<h4>Stopping the walk<a class="headerlink" href="#stopping-the-walk" title="Permalink to this headline">¶</a></h4>
+<p>The <a class="reference internal" href="control-walk-api.html#ALMotionProxy::stopMove" title="ALMotionProxy::stopMove"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::stopMove()</span></tt></a> method ends the walk task as soon as
+the robot is in a relatively safe position, meaning that the two feet are on
+the ground. This method is slower but safer than killing the walk, and is
+faster than setting target velocity to 0.</p>
+<p>The <a class="reference internal" href="tools-motion-task-api.html#ALMotionProxy::killMove" title="ALMotionProxy::killMove"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::killMove()</span></tt></a> method ends the walk task brutally,
+without attempting to return to a balanced state. If the robot has one foot in
+the air, he could easily fall.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># End the walk suddenly (~20ms)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">killMove</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To end the walk more gracefully, set the target velocity to zero.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># End the walk cleanly (~0.8s)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="walk-protection">
+<h3>Walk protection<a class="headerlink" href="#walk-protection" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="kill-the-walk-task-when-the-robot-is-lifted">
+<span id="motion-kill-walk-when-lifted"></span><h4>Kill the walk task when the robot is lifted<a class="headerlink" href="#kill-the-walk-task-when-the-robot-is-lifted" title="Permalink to this headline">¶</a></h4>
+<p>To stop the robot walking in the air, the FSRs are read to see if
+there is ground contact. When there is no ground contact, the
+walk task is killed if it is running, and not allowed to start if absent.
+This feature relies on the FSR extractor of the Sensors module, which
+is responsible for updating the following memory key:</p>
+<ul class="simple">
+<li>extractors/alfsr/footContact</li>
+</ul>
+<p>By default, this feature is active. To remove this feature, follow
+this procedure:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Deactivate the foot contact protection</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setMotionConfig</span><span class="p">([[</span><span class="s">&quot;ENABLE_FOOT_CONTACT_PROTECTION&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">]])</span>
+<span class="c"># Or for change the default value,</span>
+<span class="c"># define the new value of the key ENABLE_FOOT_CONTACT_PROTECTION</span>
+<span class="c"># in ALMotion.xml preference file</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="kill-the-walk-task-when-the-stiffness-is-low-on-at-least-one-leg-joint">
+<h4>Kill the walk task when the stiffness is low on at least one leg joint<a class="headerlink" href="#kill-the-walk-task-when-the-stiffness-is-low-on-at-least-one-leg-joint" title="Permalink to this headline">¶</a></h4>
+<p>If the move process is launched and the robot has stiffness off, our
+algorithm to solve the dynamics of the move fails. This is due to
+the closed loop, where we inject sensor information into the algorithm.
+When there is no stiffness, the command and sensor values diverge.
+To prevent this, the move process will be killed or prevented from launching,
+if one joint of the legs has a stiffness equal or less than 0,6.</p>
+<p>By default, this feature is active. To remove this feature, follow
+this procedure:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Deactivate the foot contact protection</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setMotionConfig</span><span class="p">([[</span><span class="s">&quot;ENABLE_STIFFNESS_PROTECTION&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">]])</span>
+<span class="c"># Or for change the default value,</span>
+<span class="c"># define the new value of the key ENABLE_STIFFNESS_PROTECTION</span>
+<span class="c"># in ALMotion.xml preference file</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="case-1-velocity-control">
+<h3>Case 1: Velocity Control<a class="headerlink" href="#case-1-velocity-control" title="Permalink to this headline">¶</a></h3>
+<p>Velocity control enables the move to be controlled reactively, allowing
+behaviors such as target tracking. It can be called as often as you
+like, as the most recent command overrides all previous commands.</p>
+<p>The walk uses a preview controller to guarantee stability. This uses
+a preview of time of 0.8s, so the walk will take this time to react
+to new commands. At maximum frequency this equates to about two steps.</p>
+<div class="section" id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>x [-1.0 to 1.0]: specifies the length of a step along the x axis
+(forwards and backwards) as a fraction of maxStepX.</li>
+<li>y [-1.0 to 1.0]: specifies the length of a step along the y axis (lateral)
+as a fraction of maxStepY.</li>
+<li>theta [-1.0 to 1.0]: specifies the angle between the feet as a fraction of
+maxStepTheta. A positive value result in a left turn(anti-clockwise) and a
+negative value results in a right turn (clockwise).</li>
+<li>frequency [0.0 to 1.0]: specifies the step frequency as a fraction of
+linear interpolation between minimumStepFrequency and
+maximumStepFrequency. One cycle is considered to be a phase of
+double leg support followed by a phase of single leg support.</li>
+</ul>
+</div>
+<div class="section" id="example">
+<h4>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Example showing the use of setWalkTargetVelocity</span>
+<span class="c"># The parameters are fractions of the maximum Step parameters</span>
+<span class="c"># Here we are asking for full speed forwards</span>
+<span class="c"># with maximum step frequency</span>
+<span class="n">x</span>  <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">y</span>  <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">theta</span>  <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">frequency</span>  <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+<span class="c"># If we don&#39;t send another command, he will walk forever</span>
+<span class="c"># Lets make him slow down (step length) and turn after 10 seconds</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+<span class="c"># Lets make him slow down(frequency) after 5 seconds</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">frequency</span>  <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+<span class="c"># After another 10 seconds, we&#39;ll make him stop</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+<span class="c"># Note that at any time, you can use a moveTo command</span>
+<span class="c"># to move a precise distance. The last command received,</span>
+<span class="c"># of velocity or position always wins</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="case-2-destination-control">
+<h3>Case 2: Destination Control<a class="headerlink" href="#case-2-destination-control" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="control-walk-api.html#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a> method is a generalized implementation of
+walk patterns. An <a class="reference internal" href="control-cartesian.html#motion-se3-interpolation"><em>SE3 Interpolation</em></a> is used to compute the path.
+It is a blocking function until walk process is finished. If you pCalled this
+function, the last command received overrides all previous commands.</p>
+<div class="section" id="id11">
+<h4>Parameters<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>x: the distance in meters along the X axis (forwards and backwards).</li>
+<li>y: the distance in meters along the Y axis (lateral motion).</li>
+<li>theta: the final robot orientation in radians relative to the current
+orientation.</li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h4>Example<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Example showing the moveTo command.</span>
+<span class="c"># As length of path is less than 0.4m</span>
+<span class="c"># the path will use an SE3 interpolation</span>
+<span class="c"># The units for this command are meters and radians</span>
+<span class="n">x</span>  <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">y</span>  <span class="o">=</span> <span class="mf">0.2</span>
+<span class="c"># pi/2 anti-clockwise (90 degrees)</span>
+<span class="n">theta</span>  <span class="o">=</span> <span class="mf">1.5709</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/motion_walktose3.png" src="../../_images/motion_walktose3.png" style="width: 400px; height: 299px;" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In previous releases, there used to be a
+<a class="reference external" href="http://planning.cs.uiuc.edu/node821.html">Dubins curve</a> interpolation when
+the distance to walk was greater than 0.4m. This has now been removed, but
+it can still be reconstituted manually
+(<a class="reference download internal" href="../../_downloads/motion_moveToDubinsCurve.py"><tt class="xref download docutils literal"><span class="pre">motion_moveToDubinsCurve.py</span></tt></a>)</p>
+</div>
+</div>
+</div>
+<div class="section" id="case-3-step-control">
+<h3>Case 3: Step Control<a class="headerlink" href="#case-3-step-control" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to control NAO&#8217;s steps individually, through a footstep planner.
+This allows to implement for example dance-like movements, where the footsteps
+need to be placed precisely:</p>
+<ul class="simple">
+<li>each leg can be controlled independently, giving the possibility of non
+symmetric behavior (for example, making the robot &#8220;limp&#8221;)</li>
+<li>each footstep has its own position (X, Y, Theta)</li>
+</ul>
+<p>The footsteps planner either associates footsteps with the time they occur
+in <a class="reference internal" href="control-walk-api.html#ALMotionProxy::setFootSteps__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="ALMotionProxy::setFootSteps"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setFootSteps()</span></tt></a> (in that case, this is a
+non-blocking call) or with a normalized footstep speed in
+<a class="reference internal" href="control-walk-api.html#ALMotionProxy::setFootStepsWithSpeed__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="ALMotionProxy::setFootStepsWithSpeed"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setFootStepsWithSpeed()</span></tt></a> (this is a blocking call).</p>
+<p>If you want to modify the footsteps planner, you may want to clear the footstep
+planner and add your new steps or to add the new footsteps at the end of the
+planner. To do so, you can use the <em>clearExistingFootsteps</em> parameter. If it
+is set to <strong>true</strong>, all footsteps that can be cleared are removed and the new
+footsteps are added, else the new footsteps are simply added at the end.</p>
+<p><a class="reference download internal" href="../../_downloads/motion_setFootStepDance.py"><tt class="xref download docutils literal"><span class="pre">motion_setFootStepDance.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39; setFootStep: Small example to make Nao execute     &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;              The Cha Cha Basic Steps for Men       &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;              Using setFootStep API                 &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39; http://www.dancing4beginners.com/cha-cha-steps.htm &#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="c"># Init proxies.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c">###############################</span>
+    <span class="c"># First we defined each step</span>
+    <span class="c">###############################</span>
+    <span class="n">footStepsList</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c"># 1) Step forward with your left foot</span>
+    <span class="n">footStepsList</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="s">&quot;LLeg&quot;</span><span class="p">],</span> <span class="p">[[</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]])</span>
+
+    <span class="c"># 2) Sidestep to the left with your left foot</span>
+    <span class="n">footStepsList</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="s">&quot;LLeg&quot;</span><span class="p">],</span> <span class="p">[[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.16</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]])</span>
+
+    <span class="c"># 3) Move your right foot to your left foot</span>
+    <span class="n">footStepsList</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="s">&quot;RLeg&quot;</span><span class="p">],</span> <span class="p">[[</span><span class="mf">0.00</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]])</span>
+
+    <span class="c"># 4) Sidestep to the left with your left foot</span>
+    <span class="n">footStepsList</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="s">&quot;LLeg&quot;</span><span class="p">],</span> <span class="p">[[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.16</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]])</span>
+
+    <span class="c"># 5) Step backward &amp; left with your right foot</span>
+    <span class="n">footStepsList</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="s">&quot;RLeg&quot;</span><span class="p">],</span> <span class="p">[[</span><span class="o">-</span><span class="mf">0.04</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]])</span>
+
+    <span class="c"># 6)Step forward &amp; right with your right foot</span>
+    <span class="n">footStepsList</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="s">&quot;RLeg&quot;</span><span class="p">],</span> <span class="p">[[</span><span class="mf">0.00</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.16</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]])</span>
+
+    <span class="c"># 7) Move your left foot to your right foot</span>
+    <span class="n">footStepsList</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="s">&quot;LLeg&quot;</span><span class="p">],</span> <span class="p">[[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]])</span>
+
+    <span class="c"># 8) Sidestep to the right with your right foot</span>
+    <span class="n">footStepsList</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="s">&quot;RLeg&quot;</span><span class="p">],</span> <span class="p">[[</span><span class="mf">0.00</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.16</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]])</span>
+
+    <span class="c">###############################</span>
+    <span class="c"># Send Foot step</span>
+    <span class="c">###############################</span>
+    <span class="n">stepFrequency</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">clearExisting</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">nbStepDance</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># defined the number of cycle to make</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span> <span class="n">nbStepDance</span> <span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span> <span class="nb">len</span><span class="p">(</span><span class="n">footStepsList</span><span class="p">)</span> <span class="p">):</span>
+            <span class="n">motionProxy</span><span class="o">.</span><span class="n">setFootStepsWithSpeed</span><span class="p">(</span>
+                <span class="n">footStepsList</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">footStepsList</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">stepFrequency</span><span class="p">],</span>
+                <span class="n">clearExisting</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_setFootStepDance.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>At any moment, you can retrieve the planned footsteps using
+<a class="reference internal" href="control-walk-api.html#ALMotionProxy::getFootSteps" title="ALMotionProxy::getFootSteps"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getFootSteps()</span></tt></a>. This method gives:</p>
+<ul class="simple">
+<li>the footsteps that cannot be cleared (current steps and immediate followers),
+and</li>
+<li>the ones that can be safely removed (See <a class="reference internal" href="control-walk-tuto2.html#control-walk-tuto2"><em>robot position Tutorial</em></a>).</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="control-joint-tuto.html" title="Joint control Tutorial: The Pose Init">Joint control Tutorial: The Pose Init</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">NAOqi Motion</a>
+   |
+    <a href="control-walk-api.html" title="Locomotion control API">Locomotion control API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Motion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-stiffness.html">Stiffness control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-joint.html">Joint control</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Locomotion control</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="control-walk-api.html">Locomotion control API</a></li>
+<li class="toctree-l5"><a class="reference internal" href="control-walk-tuto2.html">Locomotion control Tutorial: The Robot Position</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="control-cartesian.html">Cartesian control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-collision-avoidance.html">Self-collision avoidance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-motion-task.html">Motion task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Locomotion control</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a><ul>
+<li><a class="reference internal" href="#footstep-planner">Footstep planner</a></li>
+<li><a class="reference internal" href="#gait-parameters">Gait parameters</a></li>
+<li><a class="reference internal" href="#footsteps-clipping">Footsteps clipping</a><ul>
+<li><a class="reference internal" href="#clip-with-maximum-outreach">Clip with maximum outreach</a></li>
+<li><a class="reference internal" href="#clip-with-ellipse">Clip with ellipse</a></li>
+<li><a class="reference internal" href="#clip-to-avoid-collision">Clip to avoid collision</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#velocity-control">Velocity control</a></li>
+<li><a class="reference internal" href="#move-config">Move config</a></li>
+<li><a class="reference internal" href="#torso-height-trajectory">Torso height trajectory</a></li>
+<li><a class="reference internal" href="#arm-motions">Arm motions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-started">Getting started</a><ul>
+<li><a class="reference internal" href="#walk-initialization">Walk Initialization</a></li>
+<li><a class="reference internal" href="#robot-position">Robot Position</a></li>
+<li><a class="reference internal" href="#synchronization">Synchronization</a><ul>
+<li><a class="reference internal" href="#waituntilmoveisfinished">waitUntilMoveIsFinished</a></li>
+<li><a class="reference internal" href="#moveisactive">moveIsActive</a></li>
+<li><a class="reference internal" href="#stopping-the-walk">Stopping the walk</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#walk-protection">Walk protection</a><ul>
+<li><a class="reference internal" href="#kill-the-walk-task-when-the-robot-is-lifted">Kill the walk task when the robot is lifted</a></li>
+<li><a class="reference internal" href="#kill-the-walk-task-when-the-stiffness-is-low-on-at-least-one-leg-joint">Kill the walk task when the stiffness is low on at least one leg joint</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-cases">Use Cases</a><ul>
+<li><a class="reference internal" href="#case-1-velocity-control">Case 1: Velocity Control</a><ul>
+<li><a class="reference internal" href="#parameters">Parameters</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#case-2-destination-control">Case 2: Destination Control</a><ul>
+<li><a class="reference internal" href="#id11">Parameters</a></li>
+<li><a class="reference internal" href="#id12">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#case-3-step-control">Case 3: Step Control</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="control-joint-tuto.html" title="Joint control Tutorial: The Pose Init">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="control-walk-api.html" title="Locomotion control API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1157 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>C++ Changes &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="Release notes - 1.12" href="../index.html" />
+    <link rel="next" title="Python SDK changes" href="python.html" />
+    <link rel="prev" title="OpenNAO Changes" href="opennao.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="opennao.html" title="OpenNAO Changes">previous</a>
+     |
+    <a href="../index.html" title="Release notes - 1.12" accesskey="U">up</a>
+   |
+    <a href="python.html" title="Python SDK changes">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="news-1.12-changes-cpp">
+            
+  <div class="section" id="c-changes">
+<span id="news-cpp"></span><h1>C++ Changes<a class="headerlink" href="#c-changes" title="Permalink to this headline">¶</a></h1>
+<p>Previously there was almost no distinction between Aldebaran&#8217;s public headers
+and private headers.</p>
+<p>Now this distinction has been made.</p>
+<p>We continue to provide our private headers, but please keep in mind that
+backward-compatibility will <strong>not</strong> be guaranteed on those headers.</p>
+<p>We also went through a lot of cleaning, which explains why some attributes are
+no longer available, and why you must use an accessor instead, for instance.</p>
+<p>After each table, you will find an example that hopefully will help you get rid
+of your dependencies on deprecated or private headers.</p>
+<p>Below are the complete list of C++ changes.
+If you have code from 1.10 version, please see the section <a class="reference internal" href="../../../dev/cpp/tutos/porting_to_1.12.html#cpp-tutos-porting-1-12"><em>Porting code to 1.12</em></a></p>
+<div class="section" id="deprecated-libraries">
+<h2>Deprecated libraries<a class="headerlink" href="#deprecated-libraries" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Replacement</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ALCORE, LIBCORE</td>
+<td><ul class="first last simple">
+<li><a class="reference external" href="../../../ref/libalerror/classAL_1_1ALError.html">AL::ALError</a> and
+<a class="reference external" href="../../../ref/libalerror/classAL_1_1ALNetworkError.html">AL::ALNetworkError</a> for exception</li>
+<li>assert for AL_ASSERT,AL_VERIFY</li>
+<li>boost::shared_ptr for ALPtr</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>ALTOOLS, TOOLS</td>
+<td><ul class="first last simple">
+<li>std::stringstream for string conversion</li>
+<li><a class="reference external" href="../../../ref/libqi/group__qios.html#gacf5aa6bfe7217f0b4873b3d74cef6bfd">qi::os::gettimeofday()</a>, <a class="reference external" href="../../../ref/libqi/structqi_1_1os_1_1timeval.html">qi::os::timeval</a>,
+<a class="reference external" href="../../../ref/libqi/group__qios.html#ga957b15b60f5c43d548b1bd39014fd987">qi::os::sleep()</a>, <a class="reference external" href="../../../ref/libqi/group__qios.html#ga4484ac8bad4d40063f8240098a6ef499">qi::os::msleep()</a>
+for time related functions.</li>
+<li><a class="reference external" href="../../../ref/libqi/group__qios.html#gaa4452c676efa459a280170aad04a1aa3">qi::os::system()</a> and related for
+launchshellcommand</li>
+<li>boost::date_time to handle date</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>ALFILE</td>
+<td><a class="reference external" href="../../../ref/libqi/namespaceqi_1_1path.html">qi::path</a>, boost::filesystem</td>
+</tr>
+<tr class="row-odd"><td>ALLOG</td>
+<td><a class="reference external" href="../../../ref/libqi/namespaceqi_1_1log.html">qi::log</a></td>
+</tr>
+<tr class="row-even"><td>ALTHREAD</td>
+<td>boost::thread or pthread</td>
+</tr>
+<tr class="row-odd"><td>NAOQICLIENT</td>
+<td>alcommon or simulator-sdk</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ALPtr</strong></p>
+<p><em>old</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alcore/alptr.h&gt;</span>
+<span class="n">AL</span><span class="o">::</span><span class="n">Ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">Proxy</span><span class="o">&gt;</span> <span class="n">proxy</span> <span class="o">=</span> <span class="p">...</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;boost/shared_ptr.hpp&gt;</span>
+<span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALProxy</span><span class="o">&gt;</span> <span class="n">proxy</span> <span class="o">=</span> <span class="p">....</span>
+</pre></div>
+</div>
+<p><strong>Logs</strong></p>
+<p><em>old</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;allog/allog.h&gt;</span>
+<span class="n">alinfo</span><span class="p">(</span><span class="s">&quot;This is an old information&quot;</span><span class="p">);</span>
+<span class="n">alsinfo</span><span class="p">(</span><span class="s">&quot;This is an old information&quot;</span><span class="p">);</span>
+<span class="n">alminfo</span><span class="p">(</span><span class="s">&quot;This is an old information&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;qi/log.hpp&gt;</span>
+<span class="c1">// C style</span>
+<span class="n">qiLogInfo</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">,</span> <span class="s">&quot;This is an new information</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="c1">// C++ style</span>
+<span class="n">qiLogInfo</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;This is an new information&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>There is now 7 logs levels that you can change using &#8211;log-level (-L) [log_level_number] option in order form 0 to 6:</p>
+<ul class="simple">
+<li>silent: hide logs.</li>
+<li>fatal: This one is used before exit the program if a fatal error occured,</li>
+<li>error: classical error,</li>
+<li>warning: useful to warn user,</li>
+<li>info: useful to user informations, logs level by default (also show all lower log level).</li>
+<li>verbose: not mandatory but useful to user informations, not show by default. If you want them you need to use &#8211;verbose (-v) option on naoqi command line.</li>
+<li>debug: useful to developer informations. Show on debug comilaption using &#8211;debug (-d) option on naoqi command line. <strong>Not compile on release</strong>.</li>
+</ul>
+<p>For each verbosity there is only one macro to use:</p>
+<ul class="simple">
+<li>qiLogFatal (old: alfatal, alsfatal, almfatal)</li>
+<li>qiLogError (old: alerror, alserror, almerror)</li>
+<li>qiLogWarning (old: alwarning, alswarning, almwarning)</li>
+<li>qiLogInfo (old: alinfo, alsinfo, alminfo)</li>
+<li>qiLogVerbose (old: nothing)</li>
+<li>qiLogDebug (old: aldebug, alsdebug, almdebug)</li>
+</ul>
+<div class="section" id="c-headers">
+<h3>C++ Headers<a class="headerlink" href="#c-headers" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Deprecated header</th>
+<th class="head">Replacement</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>alvisiondefinitions.h</td>
+<td><a class="reference external" href="../../../ref/libalvision/alvisiondefinitions_8h.html">alvision/alvisiondefinitions.h</a></td>
+</tr>
+<tr class="row-odd"><td>alvideo.h</td>
+<td><a class="reference external" href="../../../ref/libalvision/alvideo_8h.html">alvision/alvideo.h</a></td>
+</tr>
+<tr class="row-even"><td>alimage.h</td>
+<td><a class="reference external" href="../../../ref/libalvision/alimage_8h.html">alvision/alimage.h</a></td>
+</tr>
+<tr class="row-odd"><td>alcore/alerror.h</td>
+<td><a class="reference external" href="../../../ref/libalerror/alerror_8h.html">alerror/alerror.h</a></td>
+</tr>
+<tr class="row-even"><td>alcore/alnetworkerror.h</td>
+<td><a class="reference external" href="../../../ref/libalerror/alnetworkerror_8h.html">alerror/alnetworkerror.h</a></td>
+</tr>
+<tr class="row-odd"><td>alcore/configcore.h</td>
+<td>removed</td>
+</tr>
+<tr class="row-even"><td>alcore/altypes.h</td>
+<td>deprecated</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="subdirectories">
+<h2>Subdirectories<a class="headerlink" href="#subdirectories" title="Permalink to this headline">¶</a></h2>
+<p>We made sure every header was in it&#8217;s own subdirectory, for consistency and
+to prevent conflicts.</p>
+<p><em>old</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alvisiondefinitions.h&gt;</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alvision/alvisiondefinitions.h&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="alerror">
+<h2>ALError<a class="headerlink" href="#alerror" title="Permalink to this headline">¶</a></h2>
+<p>Also, please note that since alcore is now a private library, a new header-only
+library has been create to contains <a class="reference external" href="../../../ref/libalerror/classAL_1_1ALError.html">AL::ALError</a> and <a class="reference external" href="../../../ref/libalerror/classAL_1_1ALNetworkError.html">AL::ALNetworkError</a> classes</p>
+<p><em>old</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alcore/alerror.h&gt;</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alerror/alerror.h&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="missing-headers">
+<h2>Missing headers<a class="headerlink" href="#missing-headers" title="Permalink to this headline">¶</a></h2>
+<p>Also, we went through a lot of cleaning so including &#8220;alproxy.h&#8221; includes much
+less headers than it used to, so you probably will have to add missing includes
+here and there.</p>
+<p>Here are of symbols that are now deprecated but used to be available via
+<cite>alproxy.h</cite> or <cite>almodule.h</cite> inclusion:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="27%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Symbol</th>
+<th class="head">Header</th>
+<th class="head">Replacement</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>AL_ASSERT</td>
+<td>alcore/alerror.h</td>
+<td>assert</td>
+</tr>
+<tr class="row-odd"><td>AL_VERIFY</td>
+<td>alcore/alerror.h</td>
+<td>assert</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>TIntArrary</li>
+<li>TFloatArray</li>
+<li>...</li>
+</ul>
+</td>
+<td>alcore/altypes</td>
+<td><ul class="first last simple">
+<li>std::vector&lt;int&gt;</li>
+<li>std::vector&lt;float&gt;</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>AL_CATCH_ERR</td>
+<td>alcore/alcatcherror.h</td>
+<td>cath(const <a class="reference external" href="../../../ref/libalerror/classAL_1_1ALError.html">AL::ALError</a> &amp;e) {...}</td>
+</tr>
+</tbody>
+</table>
+<p>You can either fix compilation of your code by re-adding the deprecated header
+(if you are in a hurry), but it&#8217;s advised to fix the code instead.</p>
+</div>
+<div class="section" id="cross-platforms-issues">
+<h2>Cross-platforms issues<a class="headerlink" href="#cross-platforms-issues" title="Permalink to this headline">¶</a></h2>
+<p>This was not very well handled by our various headers.</p>
+<p>We chose to make things simpler by writing a POSIX compatibility layer for
+Visual Studio, see the <a class="reference external" href="../../../ref/libqi/namespaceqi_1_1os.html">qi::os</a> namespace.</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">alcore/alconficore.h</span></tt> used to contain a few #defines like <tt class="docutils literal"><span class="pre">OE_CROSS_BUILD</span></tt>.</li>
+</ul>
+<p><tt class="docutils literal"><span class="pre">OE_CROSS_BUILD</span></tt> is now set by CMake as soon as you are using your
+cross-toolchain, so you simply do not need to include this file anymore.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">OE_CROSS_BUILD is also deprecated, and you should use the I_AM_A_ROBOT define
+instead</p>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">alcore/altypes.h</span></tt> contains a few very dangerous defines, mostly to hide
+differences between the str* C functions on Visual Studio and for other compilers.</li>
+</ul>
+<p>You must now handle those differences yourself:</p>
+<p><em>old</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alcore/altypes.h&gt;</span>
+
+<span class="n">snprintf</span><span class="p">(...)</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#ifdef _MSC_VER</span>
+   <span class="n">sprintf_s</span><span class="p">(...)</span>
+<span class="cp">#else</span>
+   <span class="n">snprintf</span><span class="p">(...)</span>
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<p>You have the same problems for other functions, mosty <tt class="docutils literal"><span class="pre">sleep</span></tt> and <tt class="docutils literal"><span class="pre">gettimeofday</span></tt>.</p>
+<p><em>old</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">SleepMs</span><span class="p">(...)</span>
+<span class="n">gettimeofday</span><span class="p">(...)</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;qi/os.hpp&gt;</span>
+
+<span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">msleep</span><span class="p">(...);</span>
+<span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">gettimeofday</span><span class="p">(...);</span>
+</pre></div>
+</div>
+<div class="section" id="typedefs-and-macros">
+<h3>Typedefs and macros<a class="headerlink" href="#typedefs-and-macros" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="51%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Removed typedef</th>
+<th class="head">Replacement</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>TALModuleInfoVector</td>
+<td>std::vector&lt;ALModuleInfo&gt;</td>
+</tr>
+<tr class="row-odd"><td>CITALModuleInfoVector</td>
+<td>std::vector&lt;ALModuleInfo&gt;::iterator</td>
+</tr>
+<tr class="row-even"><td>ALModuleCore::ConstPtr</td>
+<td>boost::shared_ptr&lt;const ALModuleCore&gt;</td>
+</tr>
+<tr class="row-odd"><td>ALModuleCore::ConstWeakPtr</td>
+<td>boost::weak_ptr&lt;const ALModuleCore&gt;</td>
+</tr>
+<tr class="row-even"><td>ALBroker::Ptr</td>
+<td>boost::shared_ptr&lt;ALBroker&gt;</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::WeakPtr</td>
+<td>boost::weak_ptr&lt;ALBroker&gt;</td>
+</tr>
+<tr class="row-even"><td>ALProxy::Ptr</td>
+<td>boost::shared_ptr&lt;ALProxy&gt;</td>
+</tr>
+<tr class="row-odd"><td>ALProxy::WeakPtr</td>
+<td>boost::weak_ptr&lt;ALProxy&gt;</td>
+</tr>
+<tr class="row-even"><td>ALModuleCore::Ptr</td>
+<td>boost::shared_ptr&lt;ALModuleCore&gt;</td>
+</tr>
+<tr class="row-odd"><td>ALModuleCore::WeakPtr</td>
+<td>boost::weak_ptr&lt;ALModuleCore&gt;</td>
+</tr>
+<tr class="row-even"><td>AL_DEBUG_LINE</td>
+<td>use <a class="reference external" href="../../../ref/libqi/namespaceqi_1_1log.html">qi::log</a> instead</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Removed method</th>
+<th class="head">Replacement/Reason</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ALBehavior::log</td>
+<td>use <a class="reference external" href="../../../ref/libqi/namespaceqi_1_1log.html">qi::log</a> instead</td>
+</tr>
+<tr class="row-odd"><td>ALModuleCore::setParentBroker</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALModuleCore::methodMissing0</td>
+<td>private, used for Python wrapping</td>
+</tr>
+<tr class="row-odd"><td>ALModuleCore::methodMissing1</td>
+<td>private, used for Python wrapping</td>
+</tr>
+<tr class="row-even"><td>ALModuleCore::methodMissing2</td>
+<td>private, used for Python wrapping</td>
+</tr>
+<tr class="row-odd"><td>ALModuleCore::methodMissing3</td>
+<td>private, used for Python wrapping</td>
+</tr>
+<tr class="row-even"><td>ALModuleCore::methodMissing4</td>
+<td>private, used for Python wrapping</td>
+</tr>
+<tr class="row-odd"><td>ALModuleCore::methodMissing5</td>
+<td>private, used for Python wrapping</td>
+</tr>
+<tr class="row-even"><td>ALModuleCore::methodMissing6</td>
+<td>private, used for Python wrapping</td>
+</tr>
+<tr class="row-odd"><td>ALProxy::getParentBrokerName</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALProxy.html#a3823313e9bd659d522d4cb7ac0355905">AL::ALProxy::remoteBrokerName()</a></td>
+</tr>
+<tr class="row-even"><td>ALProxy::TGenericCall_CallbackOnFinished</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALProxy.html#aab22baaedd97c5ea92045ee5766fb723">AL::ALProxy::onFinishedCallback</a></td>
+</tr>
+<tr class="row-odd"><td>ALProxy::isScript</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALProxy::subscribeToTask</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALProxy::isIPPC</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALProxy::isForcedLocal</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALProxy::isNoLoadDepends</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALProxy::isMainProxy</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALProxy::CALL_METHODS</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALProxy.html#a3914b8dc0a10934eb1a7926e6e7350b7">AL::ALProxy::genericCall()</a></td>
+</tr>
+<tr class="row-even"><td>ALProxy::PCALL_METHODSNoID</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALProxy::PCALL_METHODS</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALProxy.html#acbec916e180fe45bdd0f62076e07ab13">AL::ALProxy::genericPCall()</a></td>
+</tr>
+<tr class="row-even"><td>ALProxy::callLocal(name)</td>
+<td>boost::dynamic_pointer_cast&lt;modulename&gt;(ALProxy::getModule())-&gt;name()</td>
+</tr>
+<tr class="row-odd"><td>ALProxy::callLocal(name, p1)</td>
+<td>boost::dynamic_pointer_cast&lt;modulename&gt;(ALProxy::getModule())-&gt;name(p1)</td>
+</tr>
+<tr class="row-even"><td>ALProxy::callLocal(name, p1, p2)</td>
+<td>boost::dynamic_pointer_cast&lt;modulename&gt;(ALProxy::getModule())-&gt;name(p1, p2)</td>
+</tr>
+<tr class="row-odd"><td>ALProxy::callLocal(name, p1, p2, p3)</td>
+<td>boost::dynamic_pointer_cast&lt;modulename&gt;(ALProxy::getModule())-&gt;name(p1, p2, p3)</td>
+</tr>
+<tr class="row-even"><td>ALBroker::unregisterBroker</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALBrokerManager.html#a92daac26b5d06e777ea4e9d9b59c5340">AL::ALBrokerManager::removeBroker()</a></td>
+</tr>
+<tr class="row-odd"><td>ALBroker::registerBroker</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALBrokerManager.html#a76214f009e141c00739b9db96dc48c00">AL::ALBrokerManager::addBroker()</a></td>
+</tr>
+<tr class="row-even"><td>ALBroker::setCurrentIP</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getChildNumber</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::checkHeartBeat</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getConnectionInformation</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::TaskID</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getChildBrokers</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALBroker.html#a4e40f9e973b41b1e925ebc1a53dad8e1">AL::ALBroker::getBrokerList()</a></td>
+</tr>
+<tr class="row-even"><td>ALBroker::moduleID</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::updateIPFromOS</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::launchNetwork</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::ippcGetPort</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::getModuleByName(3 params)</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALBroker.html#af5674e4d3603b1e303b43d8dd0d92751">AL::ALBroker::getModuleByName()</a></td>
+</tr>
+<tr class="row-odd"><td>ALBroker::unregisterModuleReference</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::removeAllProxies</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::removeProxy</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::removeProxyFromBroker</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::removeParentBrokerProxy</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::initProxy</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::init</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::sendBackIP</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::translateModuleInfo</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::getBrokerInfo</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALBroker.html#a447519031302a58441dd9d8fe3fab723">AL::ALBroker::getIP()</a>, <a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALBroker.html#a262661a5de4b3619bde9fd29e8d3f9af">AL::ALBroker::getPort()</a></td>
+</tr>
+<tr class="row-odd"><td>ALBroker::exploreToGetModuleByName</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALBroker.html#a356f150f11209bcb84f3d9ce3a69d0ff">AL::ALBroker::getGlobalModuleList()</a></td>
+</tr>
+<tr class="row-even"><td>ALBroker::runServer</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::configureClient</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::registerClient</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getMethodList</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALModuleCore.html#a41a475f9b7759bbe1f498c9403ce765d">AL::ALModuleCore::getMethodList()</a></td>
+</tr>
+<tr class="row-even"><td>ALBroker::version</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALModuleCore.html#ab05eb39926288b32c416d91659872457">AL::ALModuleCore::version()</a></td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getInfo</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::getModuleInfo</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALModuleCore.html#a9ff26b2ee274d01c8ed0fd221cef97a7">AL::ALModuleCore::getModuleInfo()</a></td>
+</tr>
+<tr class="row-odd"><td>ALBroker::isFullDisplay</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::HasParent</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getBrokerSoap</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::setIP</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::setPort</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::getParentBrokerProxy</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getParentBrokerInfo</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::getThreadPool</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getCallQueueManager</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::getTaskMonitor</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::isDebug</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::getSpecialisedProxy</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getThreadPool()-&gt;enqueue(mytask)</td>
+<td>boost::thread or pthread</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>ALBroker::getExecutableName</li>
+<li>ALBroker::setExecutableName</li>
+</ul>
+</td>
+<td>use <a class="reference external" href="../../../ref/libqi/group__qi.html#ga3e9312d2b3395bcba1749d532c63b0d9">qi::program()</a>, after calling <a class="reference external" href="../../../ref/libqi/group__qi.html#ga0b536bf8de2d544abd2468d80c595943">qi::init()</a> in your main function</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li>ALBroker::getForcedPath</li>
+<li>ALBroker::setForcedPath</li>
+<li>ALBroker::isValidPath</li>
+<li>ALBroker::getALPath</li>
+<li>ALBroker::getLogPath</li>
+<li>ALBroker::getModuleBinPath</li>
+<li>ALBroker::getModuleLibPath</li>
+<li>ALBroker::getBinPath</li>
+<li>ALBroker::getPreferencesPath</li>
+</ul>
+</td>
+<td>use <a class="reference external" href="../../../ref/libqi/namespaceqi_1_1path.html">qi::path</a> instead</td>
+</tr>
+</tbody>
+</table>
+<p>Some getters of ALBroker were returning pointers to other classes, but they are now private.</p>
+<p><tt class="docutils literal"><span class="pre">getTaskMonitor</span></tt> was removed, and the <tt class="docutils literal"><span class="pre">ALTaskMonitor</span></tt> class is no longer available.</p>
+<p>But there was only one useful method in ALTaskMonitor: <tt class="docutils literal"><span class="pre">isRequireStop</span></tt>.</p>
+<p>Wen you call <tt class="docutils literal"><span class="pre">stop</span></tt> on a method with <a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALProxy.html#a0159a4e02b7fc05d6f9d061214787463">AL::ALProxy::stop()</a>, you
+must use <tt class="docutils literal"><span class="pre">isRequiredStop</span></tt> inside your implementation for the stop to really work,
+otherwise it has no effect.</p>
+<p>This method has moved to <a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALModule.html#a02f37911068217b632c90bbf1f7b611a">AL::ALModule::isStopRequired()</a>.</p>
+<p>Old</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="n">MyModule</span><span class="o">::</span><span class="n">doSomething</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">bool</span> <span class="n">shouldStop</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span> <span class="n">shouldStop</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">doStep</span><span class="p">();</span>
+    <span class="n">SleepMs</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+    <span class="n">shouldStop</span> <span class="o">=</span> <span class="n">getParentBroker</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getTaskMonitor</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">isRequireStop</span><span class="p">();</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>New</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="n">MyModule</span><span class="o">::</span><span class="n">doSomething</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span> <span class="n">isStopRequired</span><span class="p">())</span>
+  <span class="p">{</span>
+    <span class="n">doStep</span><span class="p">();</span>
+    <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">msleep</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="removed-attributes">
+<h3>Removed attributes<a class="headerlink" href="#removed-attributes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Removed attribute</th>
+<th class="head">Replacement/Reason</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ALBroker::fStopServer</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::fBrokerManager</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBroker::fFileMutex</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALModuleCore::fName</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALModuleCore.html#a4a5011cb0bdb5a5ee0fa305531bbc3a1">AL::ALModuleCore::getName()</a></td>
+</tr>
+<tr class="row-even"><td>ALModuleCore::fMethodDesc</td>
+<td><a class="reference external" href="../../../ref/libalcommon/classAL_1_1ALModuleCore.html#a42bb1de016a1845dac3983d669f6659b">AL::ALModuleCore::getCurrentMethodDescription()</a></td>
+</tr>
+<tr class="row-odd"><td>ALImage::fTimeStamp</td>
+<td><a class="reference external" href="../../../ref/libalvision/classAL_1_1ALImage.html#acdeda43f90049b623c48916fedb74f3b">AL::ALImage::getTimeStamp()</a></td>
+</tr>
+</tbody>
+</table>
+<p>Some public members are now protected, so we added accessors for these.</p>
+<p><em>old</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">timeStamp</span> <span class="o">=</span> <span class="n">alimage</span><span class="o">-&gt;</span><span class="n">fTimeStamp</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">timeStamp</span> <span class="o">=</span> <span class="n">alimage</span><span class="o">-&gt;</span><span class="n">getTimeStamp</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Few attributes have been removed in favor of Private pointer implementation,
+this should help having ABI compatibles
+modules with the next versions.</p>
+<p><tt class="docutils literal"><span class="pre">fMethodDesc</span></tt> was used for binding overloaded methods.</p>
+</div>
+<div class="section" id="deprecated-methods">
+<h3>Deprecated methods<a class="headerlink" href="#deprecated-methods" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Old method</th>
+<th class="head">Replacement</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ALBroker::getMemoryProxy</td>
+<td>use ALMemoryProxy constructor instead</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getLedsProxy</td>
+<td>use ALLedsProxy constructor instead</td>
+</tr>
+<tr class="row-even"><td>ALBroker::getLoggerProxy</td>
+<td>use ALLoggerProxy constructor instead</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getMotionProxy</td>
+<td>use ALMotionProxy constructor instead</td>
+</tr>
+<tr class="row-even"><td>ALBroker::getPreferencesProxy</td>
+<td>use ALPreferencesProxy  constructor instead</td>
+</tr>
+<tr class="row-odd"><td>ALBroker::getDcmProxy</td>
+<td>use DCMProxy constructor instead</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>ALError::getDescription</li>
+<li>ALError::getFileName</li>
+<li>ALError::getLine</li>
+<li>ALError::getMethodName</li>
+<li>ALError::getModuleName</li>
+<li>ALError::toString</li>
+</ul>
+</td>
+<td><a class="reference external" href="../../../ref/libalerror/classAL_1_1ALError.html">AL::ALError</a> inherits from
+std::exception, so simply use <cite>e.what()</cite></td>
+</tr>
+</tbody>
+</table>
+<p>First version <tt class="docutils literal"><span class="pre">ALError</span></tt> did not inherit from <tt class="docutils literal"><span class="pre">std::exception</span></tt>, leading to a lot of confustion.</p>
+<p>This is now fixed, so we got rid of the useless methods.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The line and the filename where the exception occured are no
+longer displayed in e.what()</p>
+</div>
+<p><em>old</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">try</span>
+<span class="p">{</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="k">const</span> <span class="n">ALError</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Error occured! &quot;</span>
+            <span class="o">&lt;&lt;</span> <span class="s">&quot;For module: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">getModuleName</span><span class="p">()</span>
+            <span class="o">&lt;&lt;</span> <span class="s">&quot; and method : &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">getMethodName</span><span class="p">()</span>
+            <span class="p">....</span>
+            <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">try</span>
+<span class="p">{</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="k">const</span> <span class="n">ALError</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Error occured! &quot;</span>
+            <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">()</span>
+            <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="moved-methods">
+<h3>Moved methods<a class="headerlink" href="#moved-methods" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Old name</th>
+<th class="head">New name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>AL::_get_type&lt;T&gt;</td>
+<td>AL::detail::_get_type&lt;T&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_get_type&lt;AL::ALValue&gt;</td>
+<td>AL::detail::_get_type&lt;AL::ALValue&gt;</td>
+</tr>
+<tr class="row-even"><td>AL::_get_type&lt;bool&gt;</td>
+<td>AL::detail::_get_type&lt;bool&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_get_type&lt;const T&gt;</td>
+<td>AL::detail::_get_type&lt;const T&gt;</td>
+</tr>
+<tr class="row-even"><td>AL::_get_type&lt;float&gt;</td>
+<td>AL::detail::_get_type&lt;float&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_get_type&lt;int&gt;</td>
+<td>AL::detail::_get_type&lt;int&gt;</td>
+</tr>
+<tr class="row-even"><td>AL::_get_type&lt;std::string&gt;</td>
+<td>AL::detail::_get_type&lt;std::string&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_get_type&lt;std::vector&lt; float&gt;&gt;</td>
+<td>AL::detail::_get_type&lt;std::vector&lt; float&gt;&gt;</td>
+</tr>
+<tr class="row-even"><td>AL::_get_type&lt;std::vector&lt; int&gt;&gt;</td>
+<td>AL::detail::_get_type&lt;std::vector&lt; int&gt;&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_get_type&lt;std::vector&lt; std::string&gt;&gt;</td>
+<td>AL::detail::_get_type&lt;std::vector&lt; std::string&gt;&gt;</td>
+</tr>
+<tr class="row-even"><td>AL::_get_type&lt;T &amp;&gt;</td>
+<td>AL::detail::_get_type&lt;T &amp;&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_get_type&lt;T *&gt;</td>
+<td>AL::detail::_get_type&lt;T *&gt;</td>
+</tr>
+<tr class="row-even"><td>AL::_get_type&lt;void&gt;</td>
+<td>AL::detail::_get_type&lt;void&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_pcall</td>
+<td>AL::detail::_pcall</td>
+</tr>
+<tr class="row-even"><td>AL::_pcall0</td>
+<td>AL::detail::_pcall0</td>
+</tr>
+<tr class="row-odd"><td>AL::_pcall1&lt;P1&gt;</td>
+<td>AL::detail::_pcall1&lt;P1&gt;</td>
+</tr>
+<tr class="row-even"><td>AL::_pcall2&lt;P1, P2&gt;</td>
+<td>AL::detail::_pcall2&lt;P1, P2&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_pcall3&lt;P1, P2, P3&gt;</td>
+<td>AL::detail::_pcall3&lt;P1, P2, P3&gt;</td>
+</tr>
+<tr class="row-even"><td>AL::_pcall4&lt;P1, P2, P3, P4&gt;</td>
+<td>AL::detail::_pcall4&lt;P1, P2, P3, P4&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_pcall5&lt;P1, P2, P3, P4, P5&gt;</td>
+<td>AL::detail::_pcall5&lt;P1, P2, P3, P4, P5&gt;</td>
+</tr>
+<tr class="row-even"><td>AL::_pcall6&lt;P1, P2, P3, P4, P5, P6&gt;</td>
+<td>AL::detail::_pcall6&lt;P1, P2, P3, P4, P5, P6&gt;</td>
+</tr>
+<tr class="row-odd"><td>AL::_pcalln</td>
+<td>AL::detail::_pcalln</td>
+</tr>
+<tr class="row-even"><td>AL::_pcallScript</td>
+<td>AL::detail::_pcallScript</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="removed-classes">
+<h3>Removed classes<a class="headerlink" href="#removed-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Removed class</th>
+<th class="head">Reason/ Replacement</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>AL::al__ALModuleInfoNaoqi</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::ALBrokerInfo</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::ALBrokerInfoIPC</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::ALBrokerInfoRPC</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::ALBrokerProxy</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::ALBrokerProxyIPC</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::ALCallQueue</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::ALCallQueueManager</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::ALConnection</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::ALConnectionInformation</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::ALEnqueueRequest</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::ALFileManager</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::ALFunctionMonitoring</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::ALLogSection</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::ALMonitoredSection</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::ALNetwork</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::ALRemotePCallPool</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::ALTaskMonitor</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::AsynchronousCallTools</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::AsynchronousTask</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::AsynchronousTaskModule</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::AsynchronousTaskMonitor</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::AsynchronousTaskMonitorModule</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::BrokerTask</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>AL::enqueue_request</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>AL::remotePCallElement</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>ALSharedClass</li>
+<li>dummySharedClass</li>
+</ul>
+</td>
+<td>use:
+- <a class="reference external" href="../../../ref/libqi/group__qios.html#gaff4375fab3861b9e9d0bdb7084c3a693">qi::os::dlerror()</a>
+- <a class="reference external" href="../../../ref/libqi/group__qios.html#ga9def1f3428f7a3c8863b872bcc829d7c">qi::os::dlopen()</a>
+- <a class="reference external" href="../../../ref/libqi/group__qios.html#ga522709b7b926ec2e993048ea2592ebb9">qi::os::dlclose()</a>
+- <a class="reference external" href="../../../ref/libqi/group__qios.html#gab61394d3985dabc5a99c1f99bb9f648c">qi::os::dlsym()</a></td>
+</tr>
+</tbody>
+</table>
+<p><tt class="docutils literal"><span class="pre">ALSharedClass</span></tt> was just a tiny library to help handling <tt class="docutils literal"><span class="pre">dlopen</span></tt> and <tt class="docutils literal"><span class="pre">dlsym</span></tt> in an
+cross-platform way, and this is now done by cross-platform functions.</p>
+<p><em>new</em>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">libPath</span> <span class="o">=</span> <span class="p">....;</span>
+<span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">;</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">dlopen</span><span class="p">(</span><span class="n">libPath</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">handle</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Could not load: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">libPath</span>
+            <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span>
+            <span class="o">&lt;&lt;</span> <span class="s">&quot;Error was: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">dlerror</span><span class="p">()</span>
+            <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// We are going to find the symbol for a function with</span>
+<span class="c1">// no parameters returning an int, named _register_plugin</span>
+<span class="k">typedef</span> <span class="kt">int</span> <span class="n">register_plugin_t</span><span class="p">();</span>
+<span class="n">register_plugin_t</span><span class="o">*</span>  <span class="n">register_plugin</span> <span class="o">=</span> <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">dlsym</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="s">&quot;register_plugin&quot;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">register_plugin</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Could not find symbol &#39;register_plugin&#39; in &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">libPath</span>
+            <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+            <span class="o">&lt;&lt;</span> <span class="s">&quot;Error was: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">dlerror</span><span class="p">()</span>
+            <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Do something with register_plugin...</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the argument of <tt class="docutils literal"><span class="pre">qi::os::dlopen</span></tt> is <strong>the full path</strong> of the library
+(including the &#8216;lib&#8217; prefix on unix, and the &#8216;.so&#8217;, &#8216;.dll&#8217; or &#8216;.dylib&#8217; prefix)
+See <tt class="docutils literal"><span class="pre">qi::path::findLib()</span></tt> for a cross-platform way of finding a library</p>
+</div>
+</div>
+<div class="section" id="renamed-classes">
+<h3>Renamed classes<a class="headerlink" href="#renamed-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Old name</th>
+<th class="head">New name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ALVisionImage</td>
+<td><a class="reference external" href="../../../ref/libalvision/classAL_1_1ALImage.html">AL::ALImage</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="opennao.html" title="OpenNAO Changes">OpenNAO Changes</a>
+     |
+    <a href="../index.html" title="Release notes - 1.12" accesskey="U">Release notes - 1.12</a>
+   |
+    <a href="python.html" title="Python SDK changes">Python SDK changes</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">What&#8217;s new</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.5/whatsnew.html">Release note - 1.14.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.5/whatsnew.html#known-issues">Known issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html">ChangeLog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.3/index.html">Release notes - 1.14.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.2/index.html">Release notes - 1.14.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.1/index.html">Release notes - 1.14.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14/index.html">Release notes - 1.14</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Release notes - 1.12</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../whatsnew_1.12.5.html">What&#8217;s new - 1.12.5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../whatsnew_1.12.3.html">What&#8217;s new - 1.12.3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../whatsnew.html">What&#8217;s newn 1.12</a></li>
+<li class="toctree-l3"><a class="reference internal" href="naoqi.html">NAOqi Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="audio.html">ALAudio Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vision.html">ALVision Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="almotion.html">ALMotion Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="opennao.html">OpenNAO Changes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">C++ Changes</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="python.html">Python SDK changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmake.html">CMake Changes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">C++ Changes</a><ul>
+<li><a class="reference internal" href="#deprecated-libraries">Deprecated libraries</a><ul>
+<li><a class="reference internal" href="#c-headers">C++ Headers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#subdirectories">Subdirectories</a></li>
+<li><a class="reference internal" href="#alerror">ALError</a></li>
+<li><a class="reference internal" href="#missing-headers">Missing headers</a></li>
+<li><a class="reference internal" href="#cross-platforms-issues">Cross-platforms issues</a><ul>
+<li><a class="reference internal" href="#typedefs-and-macros">Typedefs and macros</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+<li><a class="reference internal" href="#removed-attributes">Removed attributes</a></li>
+<li><a class="reference internal" href="#deprecated-methods">Deprecated methods</a></li>
+<li><a class="reference internal" href="#moved-methods">Moved methods</a></li>
+<li><a class="reference internal" href="#removed-classes">Removed classes</a></li>
+<li><a class="reference internal" href="#renamed-classes">Renamed classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="opennao.html" title="OpenNAO Changes">previous</a>
+     |
+    <a href="../index.html" title="Release notes - 1.12" accesskey="U">up</a>
+   |
+    <a href="python.html" title="Python SDK changes">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

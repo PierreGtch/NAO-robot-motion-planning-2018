@@ -1,0 +1,428 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALVideoRecorder API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="ALVideoRecorder" href="alvideorecorder.html" />
+    <link rel="next" title="ALVideoRecorder Tutorial" href="alvideorecorder-tuto.html" />
+    <link rel="prev" title="ALVideoRecorder" href="alvideorecorder.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="alvideorecorder.html" title="ALVideoRecorder">previous</a>
+     |
+    <a href="alvideorecorder.html" title="ALVideoRecorder" accesskey="U">up</a>
+   |
+    <a href="alvideorecorder-tuto.html" title="ALVideoRecorder Tutorial">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-vision-alvideorecorder-api">
+            
+  <div class="section" id="alvideorecorder-api">
+<span id="id1"></span><h1>ALVideoRecorder API<a class="headerlink" href="#alvideorecorder-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-vision"><em>NAOqi Vision</em></a> - <a class="reference internal" href="alvideorecorder.html#alvideorecorder"><em>Overview</em></a> | API | <a class="reference internal" href="alvideorecorder-tuto.html#alvideorecorder-tuto"><em>Tutorial</em></a></p>
+<hr class="docutils" />
+<p>Namespace : <strong>AL</strong></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alproxies/alvideorecorderproxy.h&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<p>As any module, this module inherits methods from <a class="reference internal" href="../core/almodule-api.html#almodule-api"><em>ALModule API</em></a>.
+It also has the following specific methods:</p>
+<dl class="class">
+<dt id="ALVideoRecorderProxy">
+<em class="property">class </em><tt class="descname">ALVideoRecorderProxy</tt><a class="headerlink" href="#ALVideoRecorderProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALVideoRecorderProxy::isRecording" title="ALVideoRecorderProxy::isRecording"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::isRecording()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::getColorSpace" title="ALVideoRecorderProxy::getColorSpace"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::getColorSpace()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::getFrameRate" title="ALVideoRecorderProxy::getFrameRate"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::getFrameRate()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::getResolution" title="ALVideoRecorderProxy::getResolution"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::getResolution()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::getVideoFormat" title="ALVideoRecorderProxy::getVideoFormat"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::getVideoFormat()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::setColorSpace__iCR" title="ALVideoRecorderProxy::setColorSpace"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::setColorSpace()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::setFrameRate__iCR" title="ALVideoRecorderProxy::setFrameRate"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::setFrameRate()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::setResolution__iCR" title="ALVideoRecorderProxy::setResolution"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::setResolution()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::setVideoFormat__ssCR" title="ALVideoRecorderProxy::setVideoFormat"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::setVideoFormat()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::startRecording__ssCR.ssCR" title="ALVideoRecorderProxy::startRecording"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::startRecording()</span></tt></a></li>
+<li><a class="reference internal" href="#ALVideoRecorderProxy::stopRecording" title="ALVideoRecorderProxy::stopRecording"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::stopRecording()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ALVideoRecorderProxy::isRecording">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">isRecording</tt><big>(</big><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::isRecording" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li>True if the robot is currently recording a video.</li>
+<li>False otherwise.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALVideoRecorderProxy::getColorSpace">
+<a class="reference internal" href="../stdtypes.html#i" title="int">int</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">getColorSpace</tt><big>(</big><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::getColorSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current color space.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALVideoRecorderProxy::getFrameRate">
+<a class="reference internal" href="../stdtypes.html#i" title="int">int</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">getFrameRate</tt><big>(</big><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::getFrameRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current video framerate.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALVideoRecorderProxy::getResolution">
+<a class="reference internal" href="../stdtypes.html#i" title="int">int</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">getResolution</tt><big>(</big><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::getResolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current frame resolution.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALVideoRecorderProxy::getVideoFormat">
+<a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">getVideoFormat</tt><big>(</big><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::getVideoFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current video format used to encode video. See <a class="reference internal" href="#ALVideoRecorderProxy::setVideoFormat__ssCR" title="ALVideoRecorderProxy::setVideoFormat"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::setVideoFormat()</span></tt></a>
+for the list of possible return values.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALVideoRecorderProxy::setColorSpace__iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">setColorSpace</tt><big>(</big><a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>colorSpace</em><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::setColorSpace__iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the color space used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>colorSpace</strong> &#8211; New color space. See <a class="reference internal" href="alvideodevice-api.html#ALVideoDeviceProxy::setColorSpace__ssCR.iCR" title="ALVideoDeviceProxy::setColorSpace"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::setColorSpace()</span></tt></a>
+for the list of available color spaces.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALVideoRecorderProxy::setFrameRate__iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">setFrameRate</tt><big>(</big><a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>frameRate</em><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::setFrameRate__iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the number of frames per second (FPS).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>frameRate</strong> &#8211; New frame rate.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">MJPG format requires a frame rate greater than 2 FPS.</p>
+</div>
+<dl class="function">
+<dt id="ALVideoRecorderProxy::setResolution__iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">setResolution</tt><big>(</big><a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>resolution</em><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::setResolution__iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the frame resolution. It can be either VGA, QVGA or QQVGA.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resolution</strong> &#8211; New resolution { 0 = kQQVGA, 1 = kQVGA, 2 = kVGA }.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALVideoRecorderProxy::setVideoFormat__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">setVideoFormat</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>videoFormat</em><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::setVideoFormat__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the codec name used to encode the video.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>videoFormat</strong> &#8211; <ul>
+<li>&#8220;ARV&#8221; (raw YUV422 format)</li>
+<li>&#8220;IYUV&#8221; (raw avi)</li>
+<li>&#8220;MJPG&#8221; (compressed avi)</li>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="alvideorecorderproxy-startrecording1"></span><dl class="function">
+<dt id="ALVideoRecorderProxy::startRecording__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">startRecording</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>folderPath</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>fileName</em><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::startRecording__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are two overloads of this function:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#alvideorecorderproxy-startrecording1"><em>ALVideoRecorderProxy::startRecording</em></a></li>
+<li><a class="reference internal" href="#alvideorecorderproxy-startrecording2"><em>ALVideoRecorderProxy::startRecording</em></a> with extra <em>overwrite</em> argument.</li>
+</ul>
+<p>Starts recording a video with the current parameters until
+<a class="reference internal" href="#ALVideoRecorderProxy::stopRecording" title="ALVideoRecorderProxy::stopRecording"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::stopRecording()</span></tt></a> is called. If the destination
+file already exists, it will be overwritten.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>folderPath</strong> &#8211; Path were the video file will be save.</li>
+<li><strong>fileName</strong> &#8211; Name used to save the video. The file extension will be
+automatically added: &#8221;.arv&#8221; if videoFormat is &#8220;ARV&#8221;, &#8221;.avi&#8221; otherwise.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only one record at a time can be made.</p>
+</div>
+<span class="target" id="alvideorecorderproxy-startrecording2"></span><dl class="function">
+<dt id="ALVideoRecorderProxy::startRecording__ssCR.ssCR.bCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">startRecording</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>folderPath</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>fileName</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>overwrite</em><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::startRecording__ssCR.ssCR.bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts recording a video with the current parameters until
+<a class="reference internal" href="#ALVideoRecorderProxy::stopRecording" title="ALVideoRecorderProxy::stopRecording"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::stopRecording()</span></tt></a> is called.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>folderPath</strong> &#8211; Path were the video file will be save.</li>
+<li><strong>fileName</strong> &#8211; Name used to save the video. The file extension will be
+automatically added: &#8221;.arv&#8221; if videoFormat is &#8220;ARV&#8221;, &#8221;.avi&#8221; otherwise.</li>
+<li><strong>overwrite</strong> &#8211; If you set this value to False and the destination file
+already exists, the method will return and throw an
+exception. No data will be saved on disk and the existing
+file will be preserved.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only one record at a time can be made.</p>
+</div>
+<dl class="function">
+<dt id="ALVideoRecorderProxy::stopRecording">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALVideoRecorderProxy::</tt><tt class="descname">stopRecording</tt><big>(</big><big>)</big><a class="headerlink" href="#ALVideoRecorderProxy::stopRecording" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops a video record that was launched with <a class="reference internal" href="#ALVideoRecorderProxy::startRecording__ssCR.ssCR" title="ALVideoRecorderProxy::startRecording"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoRecorderProxy::startRecording()</span></tt></a>.
+The function returns the number of frames that were recorded, as well as the
+video absolute path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Array of two elements [numRecordedFrames, recordAbsolutePath].</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a blocking method that can take several seconds to complete depending
+on the image resolution, the framerate, the video length and the chosen video
+format. MJPG format gives better performance than other formats.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="alvideorecorder.html" title="ALVideoRecorder">ALVideoRecorder</a>
+     |
+    <a href="alvideorecorder.html" title="ALVideoRecorder" accesskey="U">ALVideoRecorder</a>
+   |
+    <a href="alvideorecorder-tuto.html" title="ALVideoRecorder Tutorial">ALVideoRecorder Tutorial</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Vision</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albacklightingdetection.html">ALBacklightingDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aldarknessdetection.html">ALDarknessDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alfacedetection.html">ALFaceDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allandmarkdetection.html">ALLandMarkDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almovementdetection.html">ALMovementDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alphotocapture.html">ALPhotoCapture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alredballdetection.html">ALRedBallDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvideodevice.html">ALVideoDevice</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="alvideorecorder.html">ALVideoRecorder</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALVideoRecorder API</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="alvideorecorder-tuto.html">ALVideoRecorder Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="alvisionrecognition.html">ALVisionRecognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvisualcompass.html">ALVisualCompass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvisiontoolbox.html">ALVisionToolbox</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALVideoRecorder API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="alvideorecorder.html" title="ALVideoRecorder">previous</a>
+     |
+    <a href="alvideorecorder.html" title="ALVideoRecorder" accesskey="U">up</a>
+   |
+    <a href="alvideorecorder-tuto.html" title="ALVideoRecorder Tutorial">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

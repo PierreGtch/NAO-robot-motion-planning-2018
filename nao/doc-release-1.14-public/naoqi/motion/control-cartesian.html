@@ -1,0 +1,780 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Cartesian control &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Motion" href="index.html" />
+    <link rel="next" title="Cartesian control API" href="control-cartesian-api.html" />
+    <link rel="prev" title="Locomotion control Tutorial: The Robot Position" href="control-walk-tuto2.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="control-walk-tuto2.html" title="Locomotion control Tutorial: The Robot Position">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="control-cartesian-api.html" title="Cartesian control API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-control-cartesian">
+            
+  <div class="section" id="cartesian-control">
+<span id="control-cartesian"></span><h1>Cartesian control<a class="headerlink" href="#cartesian-control" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-motion"><em>NAOqi Motion</em></a> - Overview | <a class="reference internal" href="control-cartesian-api.html#control-cartesian-api"><em>API</em></a> | <a class="reference internal" href="control-cartesian-tuto.html#control-cartesian-tuto"><em>Tutorial</em></a></p>
+<hr class="docutils" />
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p>These APIs are dedicated to control directly the <a class="reference internal" href="#motion-cartesian-effectors"><em>Effectors</em></a> of NAO
+in a Cartesian space using an inverse kinematics solver.</p>
+<p>Each effector can be controlled individually, or in parallel with other.</p>
+<dl class="docutils">
+<dt>There are two kinds of inverse kinematics(IK) solver in <strong>ALMotion</strong> module:</dt>
+<dd><ul class="first last simple">
+<li>a classical IK solver which uses only the joints of the effector chain to reach a target.</li>
+<li>a generalized IK solver (also called <a class="reference internal" href="control-wholebody.html#control-wholebody"><em>Whole Body control</em></a>) which uses all the robot joints
+to reach a target.</li>
+</ul>
+</dd>
+<dt>There are two ways of controlling an effector:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>animation methods (time fixed, blocking function):</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="control-cartesian-api.html#ALMotionProxy::positionInterpolation__ssCR.iCR.AL::ALValueCR.iCR.AL::ALValueCR.bCR" title="ALMotionProxy::positionInterpolation"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::positionInterpolation()</span></tt></a></li>
+<li><a class="reference internal" href="control-cartesian-api.html#ALMotionProxy::positionInterpolations__std::vector:ss:CR.iCR.AL::ALValueCR.AL::ALValueCR.AL::ALValueCR.bCR" title="ALMotionProxy::positionInterpolations"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::positionInterpolations()</span></tt></a></li>
+<li><a class="reference internal" href="control-cartesian-api.html#ALMotionProxy::transformInterpolation__ssCR.iCR.AL::ALValueCR.iCR.AL::ALValueCR.bCR" title="ALMotionProxy::transformInterpolation"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::transformInterpolation()</span></tt></a></li>
+<li><a class="reference internal" href="control-cartesian-api.html#ALMotionProxy::transformInterpolations__std::vector:ss:CR.iCR.AL::ALValueCR.AL::ALValueCR.AL::ALValueCR.bCR" title="ALMotionProxy::transformInterpolations"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::transformInterpolations()</span></tt></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>reactive methods (could be changed every <strong>ALMotion</strong> cycle, non blocking function):</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="control-cartesian-api.html#ALMotionProxy::setPosition__ssCR.iCR.std::vector:float:CR.floatCR.iCR" title="ALMotionProxy::setPosition"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setPosition()</span></tt></a></li>
+<li><a class="reference internal" href="control-cartesian-api.html#ALMotionProxy::changePosition__ssCR.iCR.std::vector:float:CR.floatCR.iCR" title="ALMotionProxy::changePosition"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::changePosition()</span></tt></a></li>
+<li><a class="reference internal" href="control-cartesian-api.html#ALMotionProxy::setTransform__ssCR.iCR.std::vector:float:CR.floatCR.iCR" title="ALMotionProxy::setTransform"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setTransform()</span></tt></a></li>
+<li><a class="reference internal" href="control-cartesian-api.html#ALMotionProxy::changeTransform__ssCR.iCR.std::vector:float:CR.floatCR.iCR" title="ALMotionProxy::changeTransform"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::changeTransform()</span></tt></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>There are also some whole Body user friendly function (balance control, safe Cartesian command
+and so on).</p>
+<p>The details of these functions are in <a class="reference internal" href="control-wholebody.html#control-wholebody"><em>Whole Body control</em></a> section.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>The geometric model of NAO gives the effector positions (<img class="math" src="../../_images/math/d77059c5724efe077bf26e4a48e192d801b25198.png" alt="X = [P_x, P_y, P_z, P_{wx},
+P_{wy}, P_{wz}]"/>) relative to an absolute space in function of all the joint positions
+(<img class="math" src="../../_images/math/a230cc847d8eff95637915fe9507aa51c575c1a3.png" alt="q = [q_1,...,q_n]"/>).</p>
+<div class="math">
+<p><img src="../../_images/math/b6d094297a71230df7de84d4c77887528c6d320f.png" alt="X = f(q)"/></p>
+</div><p>The direct cinematic model is the derivative of the above equation with respect to time.</p>
+<div class="math">
+<p><img src="../../_images/math/3f76fd5e5ff1c2fbca0598ca9457efb76b016a84.png" alt="\dot{X} &amp;= \frac{\delta}{\delta t} f(q)\dot{q} \\
+        &amp;= J(q) \dot{q}"/></p>
+</div><p>where <img class="math" src="../../_images/math/9c73e0c375d3269b177f14dc93e6a35923004ba6.png" alt="J(q)"/> is also called the Jacobian matrix.</p>
+<p>In our case, we want to control an effector and deduce the joint position. So, we look at
+the inverse kinematic model:</p>
+<div class="math">
+<p><img src="../../_images/math/16fd6698fd5519c1c998c3652a85e33edeb91099.png" alt="\dot{q} = J^{-1}\dot{X}"/></p>
+</div><p>In many cases, <img class="math" src="../../_images/math/abb5588023cfa1ac14643e9778699f03eecc57a3.png" alt="J"/> is not inversible directly (matrix not square), in our case we use the
+Moore-Penrose pseudoinverse to solve mathematically this problem.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The classical IK solver due to robot <a class="reference internal" href="../../glossary.html#term-singularity"><em class="xref std std-term">singularity</em></a> configuration could create huge joint
+velocity and NAO could lose balance and fall.</p>
+<p class="last">For this reason, all Cartesian motions should be tested in a simulator before being
+tried on the robot.</p>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Essential information to deal with Cartesian control:</p>
+<div class="section" id="position-and-orientation">
+<h3>Position and orientation<a class="headerlink" href="#position-and-orientation" title="Permalink to this headline">¶</a></h3>
+<p>Position and orientation of a part of the robot are controlled using two different systems:</p>
+<ul class="simple">
+<li><strong>Position6D</strong> and</li>
+<li><strong>Transform</strong>.</li>
+</ul>
+<p>Definitions and calculation rules are available in the <strong>ALMath</strong> library:
+<a class="reference external" href="../../ref/libalmath/overview.html">libalmath Overview</a>.</p>
+</div>
+<div class="section" id="effectors">
+<span id="motion-cartesian-effectors"></span><h3>Effectors<a class="headerlink" href="#effectors" title="Permalink to this headline">¶</a></h3>
+<p>An effector is a predefined 3D point in NAO and it&#8217;s generally the end of a chain.
+We choose these points because with a biped robot, we want for example:</p>
+<ul class="simple">
+<li>control the hand in order to catch an object or</li>
+<li>control the foot to kick in a ball.</li>
+</ul>
+<p>Cartesian methods accept commands for the five chains plus &#8220;Torso&#8221;. The
+position of these control points is shown below. These effectors names are identical to the
+chain name except for &#8220;Torso&#8221;.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="35%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Effector name</th>
+<th class="head">Position</th>
+<th class="head">End transform</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&#8220;Head&#8221;</td>
+<td>At the neck joint</td>
+<td>Position3D(0.0, 0.0, 0.0)</td>
+</tr>
+<tr class="row-odd"><td>&#8220;LArm&#8221;</td>
+<td>Inside the hand</td>
+<td>Position3D(HandOffsetX, 0.0, -HandOffsetZ)</td>
+</tr>
+<tr class="row-even"><td>&#8220;LLeg&#8221;</td>
+<td>Below the ankle</td>
+<td>Position3D(0.0, 0.0, -FootHeight)</td>
+</tr>
+<tr class="row-odd"><td>&#8220;RLeg&#8221;</td>
+<td>Below the ankle</td>
+<td>Position3D(0.0, 0.0, -FootHeight)</td>
+</tr>
+<tr class="row-even"><td>&#8220;RArm&#8221;</td>
+<td>Inside the hand</td>
+<td>Position3D(HandOffsetX, 0.0, -HandOffsetZ)</td>
+</tr>
+<tr class="row-odd"><td>&#8220;Torso&#8221;</td>
+<td>A reference point in the torso</td>
+<td>Position3D(0.0, 0.0, 0.0)</td>
+</tr>
+</tbody>
+</table>
+<img alt="../../_images/motion_effectors.jpg" src="../../_images/motion_effectors.jpg" style="width: 352px; height: 302px;" />
+<p>All the points are defined in relation of the torso position and depend of your <a class="reference internal" href="../../family/body_type.html#nao-family-nao-version"><em>NAO Version</em></a>,
+you could access to the position of effectors by following the link below:</p>
+<ul class="simple">
+<li><strong>NAO V4</strong>: <a class="reference internal" href="../../family/robots/links_robot.html#robot-links"><em>Links</em></a></li>
+<li><strong>NAO V3.3</strong>: <a class="reference internal" href="../../family/robots/links_robot_v33.html#robot-links-v33"><em>Links - V 3.3</em></a></li>
+<li><strong>NAO V3.2</strong>: <a class="reference internal" href="../../family/robots/links_robot_v32.html#robot-links-v32"><em>Links - V 3.2</em></a></li>
+</ul>
+</div>
+<div class="section" id="spaces">
+<span id="motion-effectors-space"></span><h3>Spaces<a class="headerlink" href="#spaces" title="Permalink to this headline">¶</a></h3>
+<p>When creating a command for NAO, much attention needs to be placed on
+the space used to define the command, as a mistake in space could
+lead to disastrous results.</p>
+<ul class="simple">
+<li><strong>FRAME_TORSO</strong>: this is attached to NAO&#8217;s torso reference, so moves
+with NAO as he walks and changes orientation as he leans. This space
+is useful when you have very local tasks, that make sense in the
+orientation of the torso frame.</li>
+<li><strong>FRAME_WORLD</strong>: this is a fixed origin that is never altered. It is left
+behind when NAO walks, and will be different in z rotation after NAO has
+turned. This space is useful for calculations which require an external,
+absolute frame of reference.</li>
+<li><strong>FRAME_ROBOT</strong>: this is average of the two feet positions projected around a
+vertical z axis. This space is useful, because the x axis is always
+forwards, so provides a natural ego-centric reference.</li>
+</ul>
+<p>When executing a task, the space is determined when the task begins,
+and remains constant throughout the rest of the interpolation. i.e. the
+interpolation, once defined, will not change as the reference changes
+due to the legs moving or the torso orientation changing.</p>
+</div>
+<div class="section" id="axis-masks">
+<span id="motion-axis-masks"></span><h3>Axis Masks<a class="headerlink" href="#axis-masks" title="Permalink to this headline">¶</a></h3>
+<p>When controlling NAO&#8217;s arms, he does not have enough degrees of freedom
+to be able to realize a task that has six constraints.</p>
+<p>Using an Axis Mask, you can define which axis you wish to control. The
+axis mask is passed as a single parameter (an int) which can be calculated
+using the definitions below:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#define AXIS_MASK_X 1</span>
+<span class="cp">#define AXIS_MASK_Y 2</span>
+<span class="cp">#define AXIS_MASK_Z 4</span>
+<span class="cp">#define AXIS_MASK_WX 8</span>
+<span class="cp">#define AXIS_MASK_WY 16</span>
+<span class="cp">#define AXIS_MASK_WZ 32</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">These definitions are available in the <strong>ALMath</strong> library.
+For further details, see: <a class="reference external" href="../../ref/libalmath/index.html">libalmath API reference</a>.</div>
+<div class="line">For instance in python, if you wish to control just the position, you would do the
+calculation:</div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">almath</span>
+
+<span class="c">#An Axis Mask for Position only: 7</span>
+<span class="n">axisMask</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">AXIS_MASK_X</span> <span class="o">+</span> <span class="n">almath</span><span class="o">.</span><span class="n">AXIS_MASK_Y</span> <span class="o">+</span> <span class="n">almath</span><span class="o">.</span><span class="n">AXIS_MASK_Z</span>
+</pre></div>
+</div>
+<p>The axis mask is executed in the same space used to define your task.
+It has the effect of liberating the constraint on each axis which is not
+part of the mask. Note carefully that a mask in space <strong>FRAME_WORLD</strong> is likely
+to be very different to one in space <strong>FRAME_TORSO</strong>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>For the Torso, LLeg and RLeg effectors, the axes which are not part of
+the mask will have a fixed position. i.e. they will not move while performing the task.</p>
+<p class="last">For the Head, LArm and RArm effectors, the axes which are not part of
+the mask are not constrained. i.e. free to move in order to perform the task.</p>
+</div>
+</div>
+<div class="section" id="se3-interpolation">
+<span id="motion-se3-interpolation"></span><h3>SE3 Interpolation<a class="headerlink" href="#se3-interpolation" title="Permalink to this headline">¶</a></h3>
+<p>SE3 Interpolation is used for all interpolations that are defined in Cartesian Space.
+It provides a spline-like interpolation which allows for initial speeds and
+points of passage to be taken into account, ensuring smooth trajectories that
+respect speed constraints.</p>
+<img alt="../../_images/motion_interpolation_se3.png" src="../../_images/motion_interpolation_se3.png" style="width: 400px; height: 230px;" />
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If the desired motion is unfeasible, the robot can lose balance and fall.
+All Cartesian motions should be tested in a simulator before being tried on the robot.</p>
+</div>
+</div>
+</div>
+<div class="section" id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="case-1-arm-trajectory">
+<h3>Case 1: Arm trajectory<a class="headerlink" href="#case-1-arm-trajectory" title="Permalink to this headline">¶</a></h3>
+<p>This example show a simple path composed of two control points, the
+target and the current position. It uses relative coordinates, so
+the current position is all zeros.</p>
+<p><a class="reference download internal" href="../../_downloads/motion_cartesianArm1.py"><tt class="xref download docutils literal"><span class="pre">motion_cartesianArm1.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39;Cartesian control: Arm trajectory example&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">motion</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+  <span class="c">#We use the &quot;Body&quot; name to signify the collection of all joints</span>
+  <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+  <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+  <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+  <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Example showing a path of two positions</span>
+<span class="sd">    Warning: Needs a PoseInit before executing</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c"># Init proxies.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in Stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">effector</span>   <span class="o">=</span> <span class="s">&quot;LArm&quot;</span>
+    <span class="n">space</span>      <span class="o">=</span> <span class="n">motion</span><span class="o">.</span><span class="n">FRAME_ROBOT</span>
+    <span class="n">axisMask</span>   <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">AXIS_MASK_VEL</span>    <span class="c"># just control position</span>
+    <span class="n">isAbsolute</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="c"># Since we are in relative, the current position is zero</span>
+    <span class="n">currentPos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+
+    <span class="c"># Define the changes relative to the current position</span>
+    <span class="n">dx</span>         <span class="o">=</span>  <span class="mf">0.03</span>      <span class="c"># translation axis X (meters)</span>
+    <span class="n">dy</span>         <span class="o">=</span>  <span class="mf">0.03</span>      <span class="c"># translation axis Y (meters)</span>
+    <span class="n">dz</span>         <span class="o">=</span>  <span class="mf">0.00</span>      <span class="c"># translation axis Z (meters)</span>
+    <span class="n">dwx</span>        <span class="o">=</span>  <span class="mf">0.00</span>      <span class="c"># rotation axis X (radians)</span>
+    <span class="n">dwy</span>        <span class="o">=</span>  <span class="mf">0.00</span>      <span class="c"># rotation axis Y (radians)</span>
+    <span class="n">dwz</span>        <span class="o">=</span>  <span class="mf">0.00</span>      <span class="c"># rotation axis Z (radians)</span>
+    <span class="n">targetPos</span>  <span class="o">=</span> <span class="p">[</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dz</span><span class="p">,</span> <span class="n">dwx</span><span class="p">,</span> <span class="n">dwy</span><span class="p">,</span> <span class="n">dwz</span><span class="p">]</span>
+
+    <span class="c"># Go to the target and back again</span>
+    <span class="n">path</span>       <span class="o">=</span> <span class="p">[</span><span class="n">targetPos</span><span class="p">,</span> <span class="n">currentPos</span><span class="p">]</span>
+    <span class="n">times</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]</span> <span class="c"># seconds</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">positionInterpolation</span><span class="p">(</span><span class="n">effector</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span>
+                                      <span class="n">axisMask</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_cartesianArm1.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="case-2-torso-and-foot-trajectories">
+<h3>Case 2: Torso and Foot trajectories<a class="headerlink" href="#case-2-torso-and-foot-trajectories" title="Permalink to this headline">¶</a></h3>
+<p>This example shows how to do simultaneous trajectories of the Torso
+and the legs. The non-controlled right leg, will behave as if it received
+a zero relative command.</p>
+<ul class="simple">
+<li>Lower the Torso and move to a point above the Right Leg</li>
+<li>Move and turn the Left Foot outwards, with an upright intermediate position.</li>
+</ul>
+<p><a class="reference download internal" href="../../_downloads/motion_cartesianFoot.py"><tt class="xref download docutils literal"><span class="pre">motion_cartesianFoot.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39;Cartesian control: Torso and Foot trajectories&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">motion</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Example of a cartesian foot trajectory</span>
+<span class="sd">    Warning: Needs a PoseInit before executing</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in Stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">space</span>      <span class="o">=</span> <span class="n">motion</span><span class="o">.</span><span class="n">FRAME_ROBOT</span>
+    <span class="n">axisMask</span>   <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">AXIS_MASK_ALL</span>   <span class="c"># full control</span>
+    <span class="n">isAbsolute</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="c"># Lower the Torso and move to the side</span>
+    <span class="n">effector</span>   <span class="o">=</span> <span class="s">&quot;Torso&quot;</span>
+    <span class="n">path</span>       <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.07</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="n">time</span>       <span class="o">=</span> <span class="mf">2.0</span>                    <span class="c"># seconds</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">positionInterpolation</span><span class="p">(</span><span class="n">effector</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span>
+                                <span class="n">axisMask</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+
+    <span class="c"># LLeg motion</span>
+    <span class="n">effector</span>   <span class="o">=</span> <span class="s">&quot;LLeg&quot;</span>
+    <span class="n">path</span>       <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.06</span><span class="p">,</span>  <span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]</span>
+    <span class="n">times</span>      <span class="o">=</span> <span class="mf">2.0</span>                    <span class="c"># seconds</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">positionInterpolation</span><span class="p">(</span><span class="n">effector</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span>
+                                      <span class="n">axisMask</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_cartesianFoot.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="case-3-multiple-effector-trajectories">
+<h3>Case 3: Multiple Effector Trajectories<a class="headerlink" href="#case-3-multiple-effector-trajectories" title="Permalink to this headline">¶</a></h3>
+<p>The goal of this example is to simultaneously control three effectors:
+the Torso, the Left Arm and the Right Arm.</p>
+<ul class="simple">
+<li>Torso motion: non-blocking method;</li>
+<li>Right Arm motion: blocking method during the first half of torso motion;</li>
+<li>Left Arm motion: blocking method during the last half of the torso motion.</li>
+</ul>
+<p><a class="reference download internal" href="../../_downloads/motion_cartesianTorsoArm1.py"><tt class="xref download docutils literal"><span class="pre">motion_cartesianTorsoArm1.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39;Cartesian control: Multiple Effector Trajectories&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">motion</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Simultaneously control three effectors:</span>
+<span class="sd">    the Torso, the Left Arm and the Right Arm</span>
+<span class="sd">    Warning: Needs a PoseInit before executing</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c"># Init proxies.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in Stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="c"># Send Robot to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">space</span>      <span class="o">=</span> <span class="n">motion</span><span class="o">.</span><span class="n">FRAME_ROBOT</span>
+    <span class="n">coef</span>       <span class="o">=</span> <span class="mf">0.5</span>                   <span class="c"># motion speed</span>
+    <span class="n">times</span>      <span class="o">=</span> <span class="p">[</span><span class="n">coef</span><span class="p">,</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">coef</span><span class="p">,</span> <span class="mf">3.0</span><span class="o">*</span><span class="n">coef</span><span class="p">,</span> <span class="mf">4.0</span><span class="o">*</span><span class="n">coef</span><span class="p">]</span>
+    <span class="n">isAbsolute</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="c"># Relative movement between current and desired positions</span>
+    <span class="n">dy</span>         <span class="o">=</span> <span class="o">+</span><span class="mf">0.06</span>                 <span class="c"># translation axis Y (meters)</span>
+    <span class="n">dz</span>         <span class="o">=</span> <span class="o">-</span><span class="mf">0.03</span>                 <span class="c"># translation axis Z (meters)</span>
+    <span class="n">dwx</span>        <span class="o">=</span> <span class="o">+</span><span class="mf">0.30</span>                 <span class="c"># rotation axis X (radians)</span>
+
+    <span class="c"># Motion of Torso with post process</span>
+    <span class="n">effector</span>   <span class="o">=</span> <span class="s">&quot;Torso&quot;</span>
+    <span class="n">path</span>       <span class="o">=</span> <span class="p">[</span>
+      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">dy</span><span class="p">,</span>  <span class="n">dz</span><span class="p">,</span> <span class="o">-</span><span class="n">dwx</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="c"># point 1</span>
+      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="c"># point 2</span>
+      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">+</span><span class="n">dy</span><span class="p">,</span>  <span class="n">dz</span><span class="p">,</span> <span class="o">+</span><span class="n">dwx</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="c"># point 3</span>
+      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span> <span class="c"># point 4</span>
+    <span class="n">axisMask</span>   <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">AXIS_MASK_ALL</span>  <span class="c"># control all the effector axes</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">positionInterpolation</span><span class="p">(</span><span class="n">effector</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span>
+                                           <span class="n">axisMask</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+
+    <span class="c"># Motion of Arms with block process</span>
+    <span class="n">axisMask</span>   <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">AXIS_MASK_VEL</span>  <span class="c"># control just the position</span>
+    <span class="n">times</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="o">*</span><span class="n">coef</span><span class="p">,</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">coef</span><span class="p">]</span>  <span class="c"># seconds</span>
+
+    <span class="n">dy</span>         <span class="o">=</span> <span class="o">+</span><span class="mf">0.03</span>                 <span class="c"># translation axis Y (meters)</span>
+    <span class="c"># Motion of Right Arm during the first half of the Torso motion</span>
+    <span class="n">effector</span>   <span class="o">=</span> <span class="s">&quot;RArm&quot;</span>
+    <span class="n">path</span>       <span class="o">=</span> <span class="p">[</span>
+      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">dy</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>  <span class="c"># point 1</span>
+      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span>  <span class="c"># point 2</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">positionInterpolation</span><span class="p">(</span><span class="n">effector</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span>
+                                      <span class="n">axisMask</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+
+    <span class="c"># Motion of Left Arm during the last half of the Torso motion</span>
+    <span class="n">effector</span>   <span class="o">=</span> <span class="s">&quot;LArm&quot;</span>
+    <span class="n">path</span>       <span class="o">=</span> <span class="p">[</span>
+      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="n">dy</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>  <span class="c"># point 1</span>
+      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span>  <span class="c"># point 2</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">positionInterpolation</span><span class="p">(</span><span class="n">effector</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span>
+                                      <span class="n">axisMask</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_cartesianTorsoArm1.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="case-4-apply-rotation">
+<h3>Case 4: Apply rotation<a class="headerlink" href="#case-4-apply-rotation" title="Permalink to this headline">¶</a></h3>
+<p>The goal of this example is to apply 15 degrees rotation around axis y to the Left Arm.
+In this case, it is difficult to compute the desired target as a position6D,
+from current <a class="reference internal" href="../../glossary.html#term-position6d"><em class="xref std std-term">position6D</em></a> of <strong>LArm</strong> and rotation of 15 degrees around the Y axis.
+We cannot add 15 degrees to the wy component.
+In this general case, <a class="reference internal" href="../../glossary.html#term-transform"><em class="xref std std-term">Transform</em></a> is much more simple to use.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_advancedcreaterotation.py"><tt class="xref download docutils literal"><span class="pre">almotion_advancedcreaterotation.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">motion</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Get transform of Left Arm in Torso space</span>
+    <span class="n">chainName</span> <span class="o">=</span> <span class="s">&quot;LArm&quot;</span>
+    <span class="n">space</span>     <span class="o">=</span> <span class="n">motion</span><span class="o">.</span><span class="n">FRAME_TORSO</span>
+    <span class="n">useSensor</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">tf</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getTransform</span><span class="p">(</span><span class="n">chainName</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">useSensor</span><span class="p">))</span>
+
+    <span class="c"># Compute desired transform: rotation of -20 degrees around the Z axis</span>
+    <span class="n">tfEnd</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Transform</span><span class="o">.</span><span class="n">fromRotZ</span><span class="p">(</span><span class="o">-</span><span class="mf">20.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">)</span><span class="o">*</span><span class="n">tf</span>
+    <span class="n">tfEnd</span><span class="o">.</span><span class="n">r1_c4</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">r1_c4</span>
+    <span class="n">tfEnd</span><span class="o">.</span><span class="n">r2_c4</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">r2_c4</span>
+    <span class="n">tfEnd</span><span class="o">.</span><span class="n">r3_c4</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">r3_c4</span>
+
+    <span class="c"># Set the desired target</span>
+    <span class="n">axisMask</span> <span class="o">=</span> <span class="mi">63</span> <span class="c"># rotation</span>
+    <span class="n">fractionMaxSpeed</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tfEnd</span><span class="o">.</span><span class="n">toVector</span><span class="p">()]</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setTransform</span><span class="p">(</span><span class="n">chainName</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">fractionMaxSpeed</span><span class="p">,</span> <span class="n">axisMask</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_advancedcreaterotation.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="control-walk-tuto2.html" title="Locomotion control Tutorial: The Robot Position">Locomotion control Tutorial: The Robot Position</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">NAOqi Motion</a>
+   |
+    <a href="control-cartesian-api.html" title="Cartesian control API">Cartesian control API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Motion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-stiffness.html">Stiffness control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-joint.html">Joint control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-walk.html">Locomotion control</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Cartesian control</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="control-cartesian-api.html">Cartesian control API</a></li>
+<li class="toctree-l5"><a class="reference internal" href="control-cartesian-tuto.html">Cartesian control Tutorial: The Hula-Hoop motion</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-collision-avoidance.html">Self-collision avoidance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-motion-task.html">Motion task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Cartesian control</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a><ul>
+<li><a class="reference internal" href="#position-and-orientation">Position and orientation</a></li>
+<li><a class="reference internal" href="#effectors">Effectors</a></li>
+<li><a class="reference internal" href="#spaces">Spaces</a></li>
+<li><a class="reference internal" href="#axis-masks">Axis Masks</a></li>
+<li><a class="reference internal" href="#se3-interpolation">SE3 Interpolation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-cases">Use Cases</a><ul>
+<li><a class="reference internal" href="#case-1-arm-trajectory">Case 1: Arm trajectory</a></li>
+<li><a class="reference internal" href="#case-2-torso-and-foot-trajectories">Case 2: Torso and Foot trajectories</a></li>
+<li><a class="reference internal" href="#case-3-multiple-effector-trajectories">Case 3: Multiple Effector Trajectories</a></li>
+<li><a class="reference internal" href="#case-4-apply-rotation">Case 4: Apply rotation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="control-walk-tuto2.html" title="Locomotion control Tutorial: The Robot Position">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="control-cartesian-api.html" title="Cartesian control API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

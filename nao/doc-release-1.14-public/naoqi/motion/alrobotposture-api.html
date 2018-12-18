@@ -1,0 +1,345 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALRobotPosture API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="ALRobotPosture" href="alrobotposture.html" />
+    <link rel="next" title="NAOqi Audio" href="../audio/index.html" />
+    <link rel="prev" title="ALRobotPosture" href="alrobotposture.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="alrobotposture.html" title="ALRobotPosture">previous</a>
+     |
+    <a href="alrobotposture.html" title="ALRobotPosture" accesskey="U">up</a>
+   |
+    <a href="../audio/index.html" title="NAOqi Audio">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-alrobotposture-api">
+            
+  <div class="section" id="alrobotposture-api">
+<span id="id1"></span><h1>ALRobotPosture API<a class="headerlink" href="#alrobotposture-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="alrobotposture.html#alrobotposture"><em>Overview</em></a> | API</p>
+<hr class="docutils" />
+<p>Namespace : <strong>AL</strong></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alproxies/alrobotpostureproxy.h&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<p>As any module, this module inherits methods from <a class="reference internal" href="../core/almodule-api.html#almodule-api"><em>ALModule API</em></a>.
+It also has the following specific methods:</p>
+<dl class="class">
+<dt id="ALRobotPostureProxy">
+<em class="property">class </em><tt class="descname">ALRobotPostureProxy</tt><a class="headerlink" href="#ALRobotPostureProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALRobotPosture::getPostureList" title="ALRobotPosture::getPostureList"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALRobotPosture::getPostureList()</span></tt></a></li>
+<li><a class="reference internal" href="#ALRobotPosture::goToPosture__ssC.floatC" title="ALRobotPosture::goToPosture"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALRobotPosture::goToPosture()</span></tt></a></li>
+<li><a class="reference internal" href="#ALRobotPosture::applyPosture__ssCR.floatCR" title="ALRobotPosture::applyPosture"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALRobotPosture::applyPosture()</span></tt></a></li>
+<li><a class="reference internal" href="#ALRobotPosture::stopMove" title="ALRobotPosture::stopMove"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALRobotPosture::stopMove()</span></tt></a></li>
+<li><a class="reference internal" href="#ALRobotPosture::getPostureFamily" title="ALRobotPosture::getPostureFamily"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALRobotPosture::getPostureFamily()</span></tt></a></li>
+<li><a class="reference internal" href="#ALRobotPosture::getPostureFamilyList" title="ALRobotPosture::getPostureFamilyList"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALRobotPosture::getPostureFamilyList()</span></tt></a></li>
+<li><a class="reference internal" href="#ALRobotPosture::setMaxTryNumber__iCR" title="ALRobotPosture::setMaxTryNumber"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALRobotPosture::setMaxTryNumber()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ALRobotPosture::getPostureList">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALRobotPosture::</tt><tt class="descname">getPostureList</tt><big>(</big><big>)</big><a class="headerlink" href="#ALRobotPosture::getPostureList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector with all predefined postures.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A vector with all predefined postures.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALRobotPosture::goToPosture__ssC.floatC">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALRobotPosture::</tt><tt class="descname">goToPosture</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string</a> <em>postureName</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float</a> <em>speed</em><big>)</big><a class="headerlink" href="#ALRobotPosture::goToPosture__ssC.floatC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes the robot go to the predefined posture asked in parameter. It is possible to modify
+the speed of the move. The move is &#8220;intelligent&#8221;: it will start from beginning posture of the robot, and choose
+all the steps to reach the asked posture.</p>
+<p>This is a blocking call. Use a post if you want to make it non-blocking.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>postureName</strong> &#8211; Name of the predefined posture to be reached. See: <a class="reference internal" href="alrobotposture.html#term-predefined-postures"><em class="xref std std-term">Predefined postures</em></a>.</li>
+<li><strong>speed</strong> &#8211; Relative speed between 0.0 and 1.0.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns if the predefined posture was reached.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALRobotPosture::applyPosture__ssCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALRobotPosture::</tt><tt class="descname">applyPosture</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>postureName</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>speed</em><big>)</big><a class="headerlink" href="#ALRobotPosture::applyPosture__ssCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set all the joints of the robot in the configuration of the asked predefined posture.</p>
+<p>Use applyPosture for animation purposes when manipulating the robot. Consider it has a shortcut, in case you
+want to reach quickly a posture. The robot will need user&#8217;s help to reach the posture.</p>
+<p>The effect is immediate and there is no intelligence in it so be careful
+when using set posture. For example if the robot is sitting and you ask for
+setPosture(&#8220;StandInit&#8221;, 1.0) it can be dangerous for the robot, it will fall
+if you do not help it to stand up.</p>
+<p>If you want the robot to stand up alone, use <a class="reference internal" href="#ALRobotPosture::goToPosture__ssC.floatC" title="ALRobotPosture::goToPosture"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALRobotPosture::goToPosture()</span></tt></a>.</p>
+<p>This is a blocking call. Please use a post if you want to make it non-blocking.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>postureName</strong> &#8211; Name of the predefined posture to be reached. See: <a class="reference internal" href="alrobotposture.html#term-predefined-postures"><em class="xref std std-term">Predefined postures</em></a>.</li>
+<li><strong>speed</strong> &#8211; Relative speed between 0.0 and 1.0.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns if the predefined posture was reached.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALRobotPosture::stopMove">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALRobotPosture::</tt><tt class="descname">stopMove</tt><big>(</big><big>)</big><a class="headerlink" href="#ALRobotPosture::stopMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the current posture interpolation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALRobotPosture::getPostureFamily">
+<a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a> <tt class="descclassname">ALRobotPosture::</tt><tt class="descname">getPostureFamily</tt><big>(</big><big>)</big><a class="headerlink" href="#ALRobotPosture::getPostureFamily" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Posture family. For further details, see: <a class="reference internal" href="alrobotposture.html#term-posture-family"><em class="xref std std-term">Posture family</em></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the name of the current posture family.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALRobotPosture::getPostureFamilyList">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALRobotPosture::</tt><tt class="descname">getPostureFamilyList</tt><big>(</big><big>)</big><a class="headerlink" href="#ALRobotPosture::getPostureFamilyList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector with all predefined postures families.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A vector with all predefined postures families.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALRobotPosture::setMaxTryNumber__iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALRobotPosture::</tt><tt class="descname">setMaxTryNumber</tt><big>(</big><a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>maxTryNumber</em><big>)</big><a class="headerlink" href="#ALRobotPosture::setMaxTryNumber__iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the maximum number of tries performed by <a class="reference internal" href="#ALRobotPosture::goToPosture__ssC.floatC" title="ALRobotPosture::goToPosture"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALRobotPosture::goToPosture()</span></tt></a>
+before returning a fail.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>maxTryNumber</strong> &#8211; number of tries, default value: 3.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="alrobotposture.html" title="ALRobotPosture">ALRobotPosture</a>
+     |
+    <a href="alrobotposture.html" title="ALRobotPosture" accesskey="U">ALRobotPosture</a>
+   |
+    <a href="../audio/index.html" title="NAOqi Audio">NAOqi Audio</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Motion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-stiffness.html">Stiffness control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-joint.html">Joint control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-walk.html">Locomotion control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-cartesian.html">Cartesian control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-collision-avoidance.html">Self-collision avoidance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-motion-task.html">Motion task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALRobotPosture API</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALRobotPosture API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="alrobotposture.html" title="ALRobotPosture">previous</a>
+     |
+    <a href="alrobotposture.html" title="ALRobotPosture" accesskey="U">up</a>
+   |
+    <a href="../audio/index.html" title="NAOqi Audio">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

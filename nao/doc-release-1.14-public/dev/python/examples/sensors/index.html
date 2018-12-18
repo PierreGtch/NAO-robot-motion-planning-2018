@@ -1,0 +1,280 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Sensors &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="Python Examples" href="../../examples.html" />
+    <link rel="next" title="Vision" href="../vision/index.html" />
+    <link rel="prev" title="ALMath" href="../almath/index.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../almath/index.html" title="ALMath">previous</a>
+     |
+    <a href="../../examples.html" title="Python Examples" accesskey="U">up</a>
+   |
+    <a href="../vision/index.html" title="Vision">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-python-examples-sensors-index">
+            
+  <div class="section" id="sensors">
+<span id="python-example-sensors"></span><h1>Sensors<a class="headerlink" href="#sensors" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<p>This section shows how to get sensors values from <a class="reference internal" href="../../../../naoqi/core/almemory.html#almemory"><em>ALMemory</em></a> in Python.</p>
+<p>To execute them, modify the robot&#8217;s IP adress inside the example file.</p>
+<div class="section" id="fsr-values">
+<h2>FSR values<a class="headerlink" href="#fsr-values" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference download internal" href="../../../../_downloads/sensors_getFsrValues.py"><tt class="xref download docutils literal"><span class="pre">sensors_getFsrValues.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="n">IP</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span> <span class="c"># set your Ip address here</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+<span class="c"># ====================</span>
+<span class="c"># Create proxy to ALMemory</span>
+<span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">,</span> <span class="n">IP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+
+<span class="c"># Get The Left Foot Force Sensor Values</span>
+<span class="n">LFsrFL</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/FrontLeft/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">LFsrFR</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/FrontRight/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">LFsrBL</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/RearLeft/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">LFsrBR</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/RearRight/Sensor/Value&quot;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span> <span class="s">&quot;Left FSR [Kg] : </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s">&quot;</span> <span class="o">%</span>  <span class="p">(</span><span class="n">LFsrFL</span><span class="p">,</span> <span class="n">LFsrFR</span><span class="p">,</span> <span class="n">LFsrBL</span><span class="p">,</span> <span class="n">LFsrBR</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="c"># Get The Right Foot Force Sensor Values</span>
+<span class="n">RFsrFL</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/FrontLeft/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">RFsrFR</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/FrontRight/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">RFsrBL</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/RearLeft/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">RFsrBR</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/RearRight/Sensor/Value&quot;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span> <span class="s">&quot;Right FSR [Kg] : </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s">&quot;</span> <span class="o">%</span>  <span class="p">(</span><span class="n">RFsrFL</span><span class="p">,</span> <span class="n">RFsrFR</span><span class="p">,</span> <span class="n">RFsrBL</span><span class="p">,</span> <span class="n">RFsrBR</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inertial-sensor-values">
+<h2>Inertial Sensor values<a class="headerlink" href="#inertial-sensor-values" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference download internal" href="../../../../_downloads/sensors_getInertialValues.py"><tt class="xref download docutils literal"><span class="pre">sensors_getIntertialValues.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="n">IP</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span> <span class="c"># set your Ip address here</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+<span class="c"># ====================</span>
+<span class="c"># Create proxy to ALMemory</span>
+<span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">,</span> <span class="n">IP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+
+<span class="c"># Get the Gyrometers Values</span>
+<span class="n">GyrX</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/GyrX/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">GyrY</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/GyrY/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="s">&quot;Gyrometers value X: </span><span class="si">%.3f</span><span class="s">, Y: </span><span class="si">%.3f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">GyrX</span><span class="p">,</span> <span class="n">GyrY</span><span class="p">))</span>
+
+<span class="c"># Get the Accelerometers Values</span>
+<span class="n">AccX</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AccX/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">AccY</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AccY/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">AccZ</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AccZ/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="s">&quot;Accelerometers value X: </span><span class="si">%.3f</span><span class="s">, Y: </span><span class="si">%.3f</span><span class="s">, Z: </span><span class="si">%.3f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">AccX</span><span class="p">,</span> <span class="n">AccY</span><span class="p">,</span><span class="n">AccZ</span><span class="p">))</span>
+
+<span class="c"># Get the Compute Torso Angle in radian</span>
+<span class="n">TorsoAngleX</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AngleX/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">TorsoAngleY</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/InertialSensor/AngleY/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="s">&quot;Torso Angles [radian] X: </span><span class="si">%.3f</span><span class="s">, Y: </span><span class="si">%.3f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">TorsoAngleX</span><span class="p">,</span> <span class="n">TorsoAngleY</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sonar">
+<h2>Sonar<a class="headerlink" href="#sonar" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference download internal" href="../../../../_downloads/sensors_sonar.py"><tt class="xref download docutils literal"><span class="pre">sensors_sonar.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="c"># Before running this command please check your PYTHONPATH is set correctly to the folder of your pynaoqi sdk.</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span> 
+
+<span class="c"># Set the IP address of your NAO.</span>
+<span class="n">ip</span> <span class="o">=</span> <span class="s">&quot;10.0.252.97&quot;</span>
+
+<span class="c"># Connect to ALSonar module.</span>
+<span class="n">sonarProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALSonar&quot;</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+
+<span class="c"># Subscribe to sonars, this will launch sonars (at hardware level) and start data acquisition.</span>
+<span class="n">sonarProxy</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;myApplication&quot;</span><span class="p">)</span>
+
+<span class="c">#Now you can retrieve sonar data from ALMemory.</span>
+<span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+
+<span class="c"># Get sonar left first echo (distance in meters to the first obstacle).</span>
+<span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/US/Left/Sensor/Value&quot;</span><span class="p">)</span>
+
+<span class="c"># Same thing for right.</span>
+<span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/US/Right/Sensor/Value&quot;</span><span class="p">)</span>
+
+<span class="c"># Please read Sonar ALMemory keys section if you want to know the other values you can get.</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../almath/index.html" title="ALMath">ALMath</a>
+     |
+    <a href="../../examples.html" title="Python Examples" accesskey="U">Python Examples</a>
+   |
+    <a href="../vision/index.html" title="Vision">Vision</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../cpp/index.html">Cpp</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html">Python</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../install_guide.html">Python SDK Install Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tutorials.html">Python tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../examples.html">Python Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../nonascii/index.html">Reading non-ASCII text</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../motion/index.html">Motion</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../almath/index.html">ALMath</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">Sensors</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/index.html">Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../tips-and-tricks.html">Python SDK tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Sensors</a><ul>
+<li><a class="reference internal" href="#fsr-values">FSR values</a></li>
+<li><a class="reference internal" href="#inertial-sensor-values">Inertial Sensor values</a></li>
+<li><a class="reference internal" href="#sonar">Sonar</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../almath/index.html" title="ALMath">previous</a>
+     |
+    <a href="../../examples.html" title="Python Examples" accesskey="U">up</a>
+   |
+    <a href="../vision/index.html" title="Vision">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

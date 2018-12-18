@@ -1,0 +1,12 @@
+En l'allumant Nao indique son adresse IP :
+192.168.1.3
+
+Se connecter avec Firefox
+Login/mdp : nao/nao
+
+On accède ainsi au paramètre
+Version : 1.14.5 (cette version donne la version de chorégraphie qu'on doit utiliser !)
+
+Tiens, on doit pouvoir cnofigurer le WIFI. (adresse MAC Nao 00:0c:43:41:7a:de)
+
+169.254.226.148

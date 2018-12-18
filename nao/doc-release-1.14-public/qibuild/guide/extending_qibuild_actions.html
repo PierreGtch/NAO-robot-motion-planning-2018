@@ -1,0 +1,226 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Extending qiBuild actions &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../index.html" />
+    <link rel="up" title="qiBuild Programming guide" href="index.html" />
+    <link rel="next" title="qiBuild tips and tricks" href="tips_and_tricks.html" />
+    <link rel="prev" title="How to write a library" href="how_to_write_a_library.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../search.html">Search</a>
+         |
+        <a title="Index" href="../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="how_to_write_a_library.html" title="How to write a library">previous</a>
+     |
+    <a href="index.html" title="qiBuild Programming guide" accesskey="U">up</a>
+   |
+    <a href="tips_and_tricks.html" title="qiBuild tips and tricks">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="guide-extending_qibuild_actions">
+            
+  <div class="section" id="extending-qibuild-actions">
+<span id="id1"></span><h1>Extending qiBuild actions<a class="headerlink" href="#extending-qibuild-actions" title="Permalink to this headline">¶</a></h1>
+<p>Writing a new qibuild action is quite simple.</p>
+<p>When you type:</p>
+<div class="highlight-python"><pre>qibuild spam</pre>
+</div>
+<p>the qibuild script will look for a module named spam in the
+qibuild.actions package.</p>
+<p>The only requirements for the spam module is to contain two functions:</p>
+<ul class="simple">
+<li>configure_parser(parser)</li>
+<li>do(args)</li>
+</ul>
+<p>The configure_parser function takes a <tt class="docutils literal"><span class="pre">argparse.ArgumentParser</span></tt> object and
+modifies it.</p>
+<p>You can modify the parser passed as argument to add specific arguments
+to you action.</p>
+<p>The do function takes the result of the command line parsing. It is a
+<tt class="docutils literal"><span class="pre">argparse.Namespace</span></tt> object.</p>
+<p>Quick example of a generic action::</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;Add some eggs !&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">qibuild</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">configure_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Configure parser for this action &quot;&quot;&quot;</span>
+    <span class="n">qibuild</span><span class="o">.</span><span class="n">parsers</span><span class="o">.</span><span class="n">default_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--num-eggs&quot;</span><span class="p">,</span>
+      <span class="n">help</span><span class="o">=</span><span class="s">&quot;Number of eggs to add&quot;</span><span class="p">,</span>
+      <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
+      <span class="n">num_eggs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Main entry point&quot;&quot;&quot;</span>
+  <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;adding </span><span class="si">%i</span><span class="s"> eggs&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">num_eggs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The call to <tt class="docutils literal"><span class="pre">qibuild.parsers.default_parser</span></tt> is mandatory:
+It handles the logging configuration, and all the debug options.</p>
+<p>There are a bunch of other functions available to configure the parsers in
+the <tt class="docutils literal"><span class="pre">qibuild.parsers</span></tt> package, depending on what you need to do, and, yes,
+they all call <tt class="docutils literal"><span class="pre">qibuild.parsers.default_parser</span></tt> for you :)</p>
+<p>Quick note : often you&#8217;ll want an action with two words in it, for instance
+<tt class="docutils literal"><span class="pre">foo-bar</span></tt>.</p>
+<p>Although simply writing a file called <tt class="docutils literal"><span class="pre">foo-bar.py</span></tt> would work, please
+create a module called <tt class="docutils literal"><span class="pre">foo_bar.py</span></tt>. Note that <tt class="docutils literal"><span class="pre">import</span> <span class="pre">foo-bar</span></tt> will not
+work, Python will read it as <tt class="docutils literal"><span class="pre">import</span> <span class="pre">foo</span> <span class="pre">minus</span> <span class="pre">bar</span></tt> ...</p>
+<p>Note that the command line parsing done by <tt class="docutils literal"><span class="pre">qibuild</span></tt> will replace <tt class="docutils literal"><span class="pre">-</span></tt> by
+<tt class="docutils literal"><span class="pre">_</span></tt> anyway.</p>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="how_to_write_a_library.html" title="How to write a library">How to write a library</a>
+     |
+    <a href="index.html" title="qiBuild Programming guide" accesskey="U">qiBuild Programming guide</a>
+   |
+    <a href="tips_and_tricks.html" title="qiBuild tips and tricks">qiBuild tips and tricks</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">qiBuild Programming guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview/index.html">qiBuild overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmake/index.html">Using qiBuild CMake API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="porting_to_qibuild.html">Porting a CMake project to qiBuild</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_toolchains.html">Using toolchains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_configs.html">Mananing build configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_write_a_library.html">How to write a library</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Extending qiBuild actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tips_and_tricks.html">qiBuild tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="how_to_write_a_library.html" title="How to write a library">previous</a>
+     |
+    <a href="index.html" title="qiBuild Programming guide" accesskey="U">up</a>
+   |
+    <a href="tips_and_tricks.html" title="qiBuild tips and tricks">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,282 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Control the LEDs &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../../index.html" />
+    <link rel="up" title="C++ Examples" href="../../../examples.html" />
+    <link rel="next" title="Fast getting and setting joint angles" href="../fastgetsetdcm/fastgetsetexample.html" />
+    <link rel="prev" title="Principle" href="../bumper/principle.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../bumper/principle.html" title="Principle">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../fastgetsetdcm/fastgetsetexample.html" title="Fast getting and setting joint angles">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-cpp-examples-sensors-leds-leds">
+            
+  <div class="section" id="control-the-leds">
+<span id="cpp-tutos-leds"></span><h1>Control the LEDs<a class="headerlink" href="#control-the-leds" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<p>The aim of this example is to show how to control NAO&#8217;s LEDs using a proxy to ALLeds module. This example will make a colored animation on all of NAO&#8217;s LEDs.</p>
+<p>The whole example is available here: <a class="reference download internal" href="../../../../../_downloads/leds.zip"><tt class="xref download docutils literal"><span class="pre">leds.zip</span></tt></a></p>
+<div class="section" id="source-file">
+<h2>Source file:<a class="headerlink" href="#source-file" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference download internal" href="../../../../../_downloads/ledsexample.cpp"><tt class="xref download docutils literal"><span class="pre">ledsexample.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm">* Copyright (c) 2011 Aldebaran Robotics. All Rights Reserved</span>
+<span class="cm">*</span>
+<span class="cm">* \file ledsexample.cpp</span>
+<span class="cm">* \brief Play with NAO&#39;s leds.</span>
+<span class="cm">*</span>
+<span class="cm">* A simple example showing how to use NAO&#39;s leds using ALLedsProxy.</span>
+<span class="cm">* This example launches a colorful animation on NAO&#39;s leds.</span>
+<span class="cm">* We use here a specialized proxy to the ALLeds module.</span>
+<span class="cm">*/</span>
+
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alerror/alerror.h&gt;</span>
+<span class="cp">#include &lt;alproxies/alledsproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Wrong number of arguments!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: movehead NAO_IP&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="cm">/** Create a ALLedsProxy to call the methods to deal with NAO&#39;s leds.</span>
+<span class="cm">    * Arguments for the constructor are:</span>
+<span class="cm">    * - IP adress of the robot</span>
+<span class="cm">    * - port on which NAOqi is listening, by default 9559</span>
+<span class="cm">    */</span>
+    <span class="n">AL</span><span class="o">::</span><span class="n">ALLedsProxy</span> <span class="n">leds</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">9559</span><span class="p">);</span>
+
+    <span class="cm">/** Set the duration of the animation. */</span>
+    <span class="kt">float</span> <span class="n">duration</span> <span class="o">=</span> <span class="mf">3.0f</span><span class="p">;</span>
+    <span class="cm">/** Play a green / yellow / red animation on all of NAO&#39;s leds. */</span>
+    <span class="n">leds</span><span class="p">.</span><span class="n">rasta</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALError</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Caught exception: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cmakelists-txt">
+<h2>CMakeLists.txt:<a class="headerlink" href="#cmakelists-txt" title="Permalink to this headline">¶</a></h2>
+<p>The corresponding CMakeLists.txt file is the following:</p>
+<p><a class="reference download internal" href="../../../../../_downloads/CMakeLists11.txt"><tt class="xref download docutils literal"><span class="pre">CMakeLists.txt</span></tt></a></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="c">##</span>
+<span class="c"># Copyright (c) 2011 Aldebaran Robotics. All Rights Reserved.</span>
+
+<span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.6.4</span> <span class="s">FATAL_ERROR</span><span class="p">)</span>
+<span class="c"># Give a name to the project.</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">ledsexample</span><span class="p">)</span>
+<span class="c"># This include enable you to use qibuild CMake framework</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">qibuild</span><span class="p">)</span>
+
+<span class="c"># Create an executable named ledsexample,</span>
+<span class="c"># with the source file : ledsexample.cpp</span>
+<span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">ledsexample</span> <span class="s">ledsexample.cpp</span><span class="p">)</span>
+
+<span class="c"># Tell CMake that movehead depends on ALCOMMON.</span>
+<span class="c"># This will set the libraries to link movehead with,</span>
+<span class="c"># the include paths, and so on</span>
+<span class="nb">qi_use_lib</span><span class="p">(</span><span class="s">ledsexample</span> <span class="s">ALCOMMON</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../bumper/principle.html" title="Principle">Principle</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">C++ Examples</a>
+   |
+    <a href="../fastgetsetdcm/fastgetsetexample.html" title="Fast getting and setting joint angles">Fast getting and setting joint angles</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../index.html">Cpp</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../install_guide.html">C++ SDK Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tutorials.html">C++ Tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../examples.html">C++ Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../../core/events/events.html">Creating events</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/sayhelloworld/sayhelloworld.html">Say Hello World</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/index.html">Creating a simple remote module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/example.html">Example: HelloWorld module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/custommain/custom_main.html">Creating a custom main</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../motion/movehead/movehead.html">Moving NAO&#8217;s head</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../bumper/index.html">Reacting to an event: bumper</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../bumper/example.html">Example code: Bumper module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../bumper/principle.html">Principle</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">Control the LEDs</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../fastgetsetdcm/fastgetsetexample.html">Fast getting and setting joint angles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audiovideocapture/audiovideocapture.html">Capturing audio and video</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/opencv.html">Using OpenCV</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/optimizedimage/optimizedimage.html">Optimized access to images</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/img2arv/img2arv.html">img2arv example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/arv2avi/arv2avi.html">arv2avi example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/getimage/getimage.html">Getting an image</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/genericvideomodule/genericvideomodule.html">Generic video module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/onfacedetection/onfacedetection.html">Reacting to a vision event: face detected</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/alvisualcompass/alvisualcompass.html">Using ALVisualCompass</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundplayback/soundplayback.html">Sound playback</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/speechbasedreaction/speechbasedreaction.html">Speech based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundbasedreaction/soundbasedreaction.html">Sound based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundbasedreaction/onloudnoise.html">Reacting to an audio event: loud noise</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundprocessing/soundprocessing.html">Sound processing</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tips-and-tricks.html">C++ Tips and tricks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../tools/gdb-on-nao.html">Debugging C/C++ on the robot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../python/index.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Control the LEDs</a><ul>
+<li><a class="reference internal" href="#source-file">Source file:</a></li>
+<li><a class="reference internal" href="#cmakelists-txt">CMakeLists.txt:</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../bumper/principle.html" title="Principle">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../fastgetsetdcm/fastgetsetexample.html" title="Fast getting and setting joint angles">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

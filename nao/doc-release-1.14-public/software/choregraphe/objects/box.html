@@ -1,0 +1,404 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Box &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="Mastering the main objects" href="../main_objects.html" />
+    <link rel="next" title="Box - Inputs/outputs" href="box_input_output.html" />
+    <link rel="prev" title="Behavior" href="behavior.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="behavior.html" title="Behavior">previous</a>
+     |
+    <a href="../main_objects.html" title="Mastering the main objects" accesskey="U">up</a>
+   |
+    <a href="box_input_output.html" title="Box - Inputs/outputs">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="software-choregraphe-objects-box">
+            
+  <div class="section" id="choregraphe-reference-box">
+<span id="box"></span><span id="id1"></span><h1>Box<a class="headerlink" href="#choregraphe-reference-box" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-a-box">
+<h2>What is a box<a class="headerlink" href="#what-is-a-box" title="Permalink to this headline">¶</a></h2>
+<img alt="../../../_images/box.png" src="../../../_images/box.png" style="width: 127px; height: 127px;" />
+<p>A box is a fundamental object in Choregraphe as everything you manipulate with this software rests on boxes.</p>
+<p>A box can be a <strong>simple elementary action</strong> (Say box for example) as well as a <strong>very complex application</strong> (room exploration for example).
+However it is the <strong>basic element</strong> to create <a class="reference internal" href="behavior.html#choregraphe-reference-behavior"><em>behaviors</em></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can have a <strong>description</strong> and some tips about a box in the lower part of the box library panel when you select the box in the <a class="reference internal" href="../panels/box_libraries_panel.html#choregraphe-overview-box-libary-panel"><em>Box libraries panel</em></a> or in a tooltip displayed by passing above the box in the <a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-overview-flow-diagram-panel"><em>Flow diagram Panel</em></a>.</p>
+</div>
+<div class="section" id="inputs-outputs">
+<h3>Inputs/outputs<a class="headerlink" href="#inputs-outputs" title="Permalink to this headline">¶</a></h3>
+<p>In order to <strong>communicate</strong> with other boxes and to be <strong>started</strong> or <strong>stopped</strong>, a box has:</p>
+<ul class="simple">
+<li><a class="reference internal" href="box_input_output.html#choregraphe-reference-box-input"><em>inputs</em></a> (on the left side) and</li>
+<li><a class="reference internal" href="box_input_output.html#choregraphe-reference-box-output"><em>outputs</em></a> (on the right).</li>
+</ul>
+<p>The inputs and outputs of boxes are connected through <strong>links</strong> on an event based communication logic.</p>
+</div>
+<div class="section" id="types-of-boxes">
+<h3>3 types of boxes<a class="headerlink" href="#types-of-boxes" title="Permalink to this headline">¶</a></h3>
+<p>There are three different <strong>types of box</strong>:</p>
+<ul class="simple">
+<li><a class="reference internal" href="script_box.html#choregraphe-reference-box-type-script"><em>Script box</em></a> which includes a <a class="reference internal" href="script_box.html#choregraphe-reference-box-script"><em>script</em></a>.</li>
+<li><a class="reference internal" href="flow_diagram_box.html#choregraphe-reference-box-type-flow-diagram"><em>Flow diagram box</em></a> which includes a
+<a class="reference internal" href="script_box.html#choregraphe-reference-box-script"><em>script</em></a> and a <a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-reference-box-flow-diagram"><em>flow diagram</em></a>.</li>
+<li><a class="reference internal" href="timeline_box.html#choregraphe-reference-box-type-timeline"><em>Timeline box</em></a> which includes a
+<a class="reference internal" href="script_box.html#choregraphe-reference-box-script"><em>script</em></a> and a <a class="reference internal" href="../panels/timeline_panel.html#choregraphe-reference-box-timeline"><em>Timeline</em></a>.</li>
+</ul>
+</div>
+<div class="section" id="optional-components">
+<h3>Optional components<a class="headerlink" href="#optional-components" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Component</th>
+<th class="head">Usage</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="box_optional_components.html#choregraphe-reference-box-parameter"><em>Parameters</em></a></td>
+<td><p class="first">If you want to change or create some settings about the action made by a box,
+it may be useful to have a look at its parameters using the <img alt="parameter-button" class="img-inline" src="../../../_images/parameter_button.png" /> <strong>parameter</strong> button.</p>
+<p class="last">For example, the <tt class="docutils literal"><span class="pre">Say</span></tt> box has a voice shape parameter which changes
+the voice used by NAO to say the text.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="box_optional_components.html#choregraphe-reference-attached-files"><em>Attached file</em></a></td>
+<td>A box may need some additional files (a music for a dance for example),
+in order to package the box with its needed files, you can
+attach them to the box.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="box_optional_components.html#choregraphe-reference-box-resource"><em>Resources</em></a></td>
+<td><p class="first">A box may also need to ensure the availability of resources and manage
+conflicts with other boxes which could use the same resources.</p>
+<p class="last">For example a box to walk and a box to dance both use NAO&#8217;s legs.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="box_optional_components.html#choregraphe-reference-box-plugin"><em>Plugin</em></a></td>
+<td>A box can have a plugin which basically enables you to make
+actions directly on the frontage of the box.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="how-to-create-a-box">
+<span id="choregraphe-create-box"></span><h2>How to create a box<a class="headerlink" href="#how-to-create-a-box" title="Permalink to this headline">¶</a></h2>
+<p>To create a box:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Right click on your diagram wherever you want to create the box.</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click on <strong>Add a new Box</strong> in the context menu.</p>
+<p>The <strong>Create a new box</strong> menu is displayed.</p>
+<img alt="../../../_images/chore_create_new_box.jpg" class="last" src="../../../_images/chore_create_new_box.jpg" style="width: 317px; height: 600px;" />
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>Define a <strong>Name</strong> and a <strong>Tooltip</strong> for your box.</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><strong>Optional</strong>: set the picture to recognize it among other boxes in your
+diagram.</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first"><strong>Optional</strong>: set parameters, inputs and outputs that can be manipulated
+by the box.</p>
+<p class="last">For further details about parameters, see <a class="reference internal" href="box_optional_components.html#choregraphe-howto-add-remove-box-in-out-param"><em>How to add/remove inputs,
+outputs, parameters in a box</em></a> section.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td>Select a <strong>Type</strong>.</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="7">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click on <strong>Ok</strong>.</p>
+<p class="last">The created box is displayed on the diagram.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="box-edition-widget">
+<span id="choregraphe-detailed-interface-box-edition"></span><h2>Box Edition widget<a class="headerlink" href="#box-edition-widget" title="Permalink to this headline">¶</a></h2>
+<p>When you <strong>edit</strong> or <strong>create</strong> a <a class="reference internal" href="#choregraphe-reference-box"><em>box</em></a>, the following widget is displayed:</p>
+<img alt="../../../_images/chore_edit_box.png" src="../../../_images/chore_edit_box.png" style="width: 310px; height: 600px;" />
+<div class="section" id="general-description">
+<h3>General description<a class="headerlink" href="#general-description" title="Permalink to this headline">¶</a></h3>
+<p>Here you can specify:</p>
+<ul>
+<li><p class="first">the <strong>name</strong> of your box.</p>
+</li>
+<li><p class="first">the brief <strong>description</strong> of what it does in the field <strong>Tooltip</strong>.</p>
+<p>This description appears:</p>
+<ul class="simple">
+<li>in the <strong>lower part of the box library panel</strong> when you select the box in the box library or</li>
+<li>in a tooltip displayed by <strong>passing above the box</strong> in the flow diagram.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="image">
+<h3>Image<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h3>
+<p>Here you can specify:</p>
+<ul>
+<li><p class="first">an <strong>image</strong> by clicking on <strong>Edit</strong> and selecting one or several image(s) for your box.</p>
+<p>The image is displayed on the front of your box in the flow diagram.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can choose several images to have a complete graphical description of what it does.
+But you should know that only the first image is displayed beside the box name in a box library.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="inputs-outputs-parameters">
+<h3>Inputs/Outputs/Parameters<a class="headerlink" href="#inputs-outputs-parameters" title="Permalink to this headline">¶</a></h3>
+<p>Here you can <strong>add</strong>, <strong>edit</strong> or <strong>remove</strong> <a class="reference internal" href="box_input_output.html#choregraphe-reference-box-input"><em>inputs</em></a>,
+<a class="reference internal" href="box_input_output.html#choregraphe-reference-box-output"><em>outputs</em></a> and <a class="reference internal" href="box_optional_components.html#choregraphe-reference-box-parameter"><em>parameters</em></a> to the box:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">The button ...</th>
+<th class="head">Allows you to ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="../../../_images/del.png" class="first last" src="../../../_images/del.png" />
+</td>
+<td><strong>Remove</strong> the selected input, output or parameter.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/edit1.png" class="first last" src="../../../_images/edit1.png" />
+</td>
+<td><strong>Edit</strong> the selected input, output or parameter through the <a class="reference internal" href="box_input_output.html#choregraphe-detailed-interface-ioparam-edition-widget"><em>input, output or parameter edition widget</em></a>.</td>
+</tr>
+<tr class="row-even"><td><img alt="../../../_images/add.png" class="first last" src="../../../_images/add.png" />
+</td>
+<td><strong>Add</strong> a new input, output or parameter through the <a class="reference internal" href="box_input_output.html#choregraphe-detailed-interface-ioparam-edition-widget"><em>input, output or parameter edition widget</em></a>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="type">
+<h3>Type<a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h3>
+<p>Here you can specify the <strong>type</strong> of your box:
+<a class="reference internal" href="script_box.html#choregraphe-reference-box-type-script"><em>Script</em></a>, <a class="reference internal" href="timeline_box.html#choregraphe-reference-box-type-timeline"><em>Timeline</em></a> or <a class="reference internal" href="flow_diagram_box.html#choregraphe-reference-box-type-flow-diagram"><em>Flow diagram</em></a>.</p>
+</div>
+<div class="section" id="advanced-plugin">
+<h3>Advanced/plugin<a class="headerlink" href="#advanced-plugin" title="Permalink to this headline">¶</a></h3>
+<p>On the top right of the widget, a tab named <strong>Advanced</strong> enables you to access to <strong>advanced options</strong> of the box.
+You can there choose a <a class="reference internal" href="box_optional_components.html#choregraphe-reference-box-plugin"><em>plugin</em></a> for your box.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="behavior.html" title="Behavior">Behavior</a>
+     |
+    <a href="../main_objects.html" title="Mastering the main objects" accesskey="U">Mastering the main objects</a>
+   |
+    <a href="box_input_output.html" title="Box - Inputs/outputs">Box - Inputs/outputs</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Software</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Choregraphe User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../starting_discovery.html">Getting started</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../main_objects.html">Mastering the main objects</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="choregraphe_project.html">Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="behavior.html">Behavior</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Box</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="box_input_output.html">Box - Inputs/outputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="box_optional_components.html">Box - Optional components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow_diagram_box.html">Flow diagram box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="script_box.html">Script box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timeline_box.html">Timeline box</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_panels.html">Advanced panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mouvement.html">Mastering movements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../miscel.html">How to ...</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../customizing.html">Customizing Choregraphe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutos/index.html">Choregraphe Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutos/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Box</a><ul>
+<li><a class="reference internal" href="#what-is-a-box">What is a box</a><ul>
+<li><a class="reference internal" href="#inputs-outputs">Inputs/outputs</a></li>
+<li><a class="reference internal" href="#types-of-boxes">3 types of boxes</a></li>
+<li><a class="reference internal" href="#optional-components">Optional components</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-to-create-a-box">How to create a box</a></li>
+<li><a class="reference internal" href="#box-edition-widget">Box Edition widget</a><ul>
+<li><a class="reference internal" href="#general-description">General description</a></li>
+<li><a class="reference internal" href="#image">Image</a></li>
+<li><a class="reference internal" href="#inputs-outputs-parameters">Inputs/Outputs/Parameters</a></li>
+<li><a class="reference internal" href="#type">Type</a></li>
+<li><a class="reference internal" href="#advanced-plugin">Advanced/plugin</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="behavior.html" title="Behavior">previous</a>
+     |
+    <a href="../main_objects.html" title="Mastering the main objects" accesskey="U">up</a>
+   |
+    <a href="box_input_output.html" title="Box - Inputs/outputs">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

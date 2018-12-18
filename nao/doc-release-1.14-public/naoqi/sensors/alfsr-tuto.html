@@ -1,0 +1,267 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALFsr Tutorial &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="ALFsr" href="alfsr.html" />
+    <link rel="next" title="ALInfrared" href="alinfrared.html" />
+    <link rel="prev" title="ALFsr API" href="alfsr-api.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="alfsr-api.html" title="ALFsr API">previous</a>
+     |
+    <a href="alfsr.html" title="ALFsr" accesskey="U">up</a>
+   |
+    <a href="alinfrared.html" title="ALInfrared">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-sensors-alfsr-tuto">
+            
+  <div class="section" id="alfsr-tutorial">
+<span id="alfsr-tuto"></span><h1>ALFsr Tutorial<a class="headerlink" href="#alfsr-tutorial" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-sensors"><em>NAOqi Sensors</em></a> - <a class="reference internal" href="alfsr.html#alfsr"><em>Overview</em></a> | <a class="reference internal" href="alfsr-api.html#alfsr-api"><em>API</em></a> | Tutorial</p>
+<hr class="docutils" />
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="../../family/robots/fsr_robot.html#robot-fsr"><em>Hardware Force Sensitive Resistors (FSRs)</em></a></li>
+</ul>
+</div>
+<div class="section" id="using-the-values-in-almemory">
+<h2>Using the values in ALMemory<a class="headerlink" href="#using-the-values-in-almemory" title="Permalink to this headline">¶</a></h2>
+<p>This Python example shows how to retrieve the values in ALMemory. It gives
+the values of the total weight on both feet until foot contact is lost.</p>
+<p><a class="reference download internal" href="../../_downloads/sensors_fsr.py"><tt class="xref download docutils literal"><span class="pre">sensors_fsr.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">IP</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span> <span class="c"># set your Ip address here</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+<span class="c"># ====================</span>
+<span class="c"># Create proxy to ALMemory</span>
+<span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">,</span> <span class="n">IP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+
+<span class="n">footContact</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">footContact</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;footContact&quot;</span><span class="p">)</span>
+
+
+<span class="k">while</span> <span class="p">(</span><span class="n">footContact</span><span class="p">):</span>
+  <span class="n">footContact</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;footContact&quot;</span><span class="p">)</span>
+  <span class="n">leftFoot</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;leftFootTotalWeight&quot;</span><span class="p">)</span>
+  <span class="n">rightFoot</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;rightFootTotalWeight&quot;</span><span class="p">)</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s">&quot;Total weight on left foot: </span><span class="si">%.2f</span><span class="s"> kg, on right foot: </span><span class="si">%.2f</span><span class="s"> kg&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">leftFoot</span><span class="p">,</span> <span class="n">rightFoot</span><span class="p">))</span>
+  <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;Foot contact lost&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Another possible application is to implement a module with a callback on the
+event &#8220;footContactChanged&#8221; (see <a class="reference internal" href="../../dev/cpp/examples/sensors/bumper/principle.html#cpp-tutos-intermediate-events"><em>Event subscription</em></a> for information
+on how to do so).</p>
+</div>
+<div class="section" id="direct-access">
+<h2>Direct access<a class="headerlink" href="#direct-access" title="Permalink to this headline">¶</a></h2>
+<p>It is also possible to access sensors values directly, such as in the following
+example: <a class="reference download internal" href="../../_downloads/sensors_getFsrValues.py"><tt class="xref download docutils literal"><span class="pre">sensors_getFsrValues.py</span></tt></a>.</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="n">IP</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span> <span class="c"># set your Ip address here</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+<span class="c"># ====================</span>
+<span class="c"># Create proxy to ALMemory</span>
+<span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">,</span> <span class="n">IP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+
+<span class="c"># Get The Left Foot Force Sensor Values</span>
+<span class="n">LFsrFL</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/FrontLeft/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">LFsrFR</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/FrontRight/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">LFsrBL</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/RearLeft/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">LFsrBR</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/LFoot/FSR/RearRight/Sensor/Value&quot;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span> <span class="s">&quot;Left FSR [Kg] : </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s">&quot;</span> <span class="o">%</span>  <span class="p">(</span><span class="n">LFsrFL</span><span class="p">,</span> <span class="n">LFsrFR</span><span class="p">,</span> <span class="n">LFsrBL</span><span class="p">,</span> <span class="n">LFsrBR</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="c"># Get The Right Foot Force Sensor Values</span>
+<span class="n">RFsrFL</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/FrontLeft/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">RFsrFR</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/FrontRight/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">RFsrBL</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/RearLeft/Sensor/Value&quot;</span><span class="p">)</span>
+<span class="n">RFsrBR</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/RFoot/FSR/RearRight/Sensor/Value&quot;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span> <span class="s">&quot;Right FSR [Kg] : </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s"> </span><span class="si">%.2f</span><span class="s">&quot;</span> <span class="o">%</span>  <span class="p">(</span><span class="n">RFsrFL</span><span class="p">,</span> <span class="n">RFsrFR</span><span class="p">,</span> <span class="n">RFsrBL</span><span class="p">,</span> <span class="n">RFsrBR</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="alfsr-api.html" title="ALFsr API">ALFsr API</a>
+     |
+    <a href="alfsr.html" title="ALFsr" accesskey="U">ALFsr</a>
+   |
+    <a href="alinfrared.html" title="ALInfrared">ALInfrared</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Sensors</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albattery.html">ALBattery</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="alfsr.html">ALFsr</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="alfsr-api.html">ALFsr API</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALFsr Tutorial</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="alinfrared.html">ALInfrared</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allaser.html">ALLaser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotpose.html">ALRobotPose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alsensors.html">ALSensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alsonar.html">ALSonar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alleds.html">ALLeds</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALFsr Tutorial</a><ul>
+<li><a class="reference internal" href="#using-the-values-in-almemory">Using the values in ALMemory</a></li>
+<li><a class="reference internal" href="#direct-access">Direct access</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="alfsr-api.html" title="ALFsr API">previous</a>
+     |
+    <a href="alfsr.html" title="ALFsr" accesskey="U">up</a>
+   |
+    <a href="alinfrared.html" title="ALInfrared">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

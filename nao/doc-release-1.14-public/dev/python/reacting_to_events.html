@@ -1,0 +1,335 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Making a Python module - Reacting to events &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Python tutorials" href="tutorials.html" />
+    <link rel="next" title="Logging data - Head angles" href="processing_data.html" />
+    <link rel="prev" title="Parallel Tasks - Making NAO move and speak" href="making_nao_move.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="making_nao_move.html" title="Parallel Tasks - Making NAO move and speak">previous</a>
+     |
+    <a href="tutorials.html" title="Python tutorials" accesskey="U">up</a>
+   |
+    <a href="processing_data.html" title="Logging data - Head angles">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-python-reacting_to_events">
+            
+  <div class="section" id="making-a-python-module-reacting-to-events">
+<span id="python-reacting-to-events"></span><h1>Making a Python module - Reacting to events<a class="headerlink" href="#making-a-python-module-reacting-to-events" title="Permalink to this headline">¶</a></h1>
+<p>Here we want the robot say &#8216;Hello, you&#8217; every time it detects a human face.</p>
+<p>To do this, we need to subscribe to the &#8216;FaceDetected&#8217; event, raised by the
+ALFacedetection module.</p>
+<p>If you read the documentation of <a class="reference internal" href="../../naoqi/core/almemory-api.html#ALMemoryProxy::subscribeToEvent__ssCR.ssCR.ssCR" title="ALMemoryProxy::subscribeToEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::subscribeToEvent()</span></tt></a>, you will see
+you need a module name and the name of a callback.</p>
+<p>So we need to write a NAOqi module in Python.</p>
+<p>To create a module in Python, we also need a broker.</p>
+<p>The example can be found below.</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="../naoqi/index.html#naoqi-overview"><em>NAOqi Framework</em></a></li>
+</ul>
+</div>
+<p><a class="reference download internal" href="../../_downloads/reacting_to_events.py"><tt class="xref download docutils literal"><span class="pre">reacting_to_events.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Say &#39;hello, you&#39; each time a human face is detected</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALBroker</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALModule</span>
+
+<span class="kn">from</span> <span class="nn">optparse</span> <span class="kn">import</span> <span class="n">OptionParser</span>
+
+<span class="n">NAO_IP</span> <span class="o">=</span> <span class="s">&quot;nao.local&quot;</span>
+
+
+<span class="c"># Global variable to store the HumanGreeter module instance</span>
+<span class="n">HumanGreeter</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="bp">None</span>
+
+
+<span class="k">class</span> <span class="nc">HumanGreeterModule</span><span class="p">(</span><span class="n">ALModule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A simple module able to react</span>
+<span class="sd">    to facedetection events</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">ALModule</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="c"># No need for IP and port here because</span>
+        <span class="c"># we have our Python broker connected to NAOqi broker</span>
+
+        <span class="c"># Create a proxy to ALTextToSpeech for later use</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tts</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALTextToSpeech&quot;</span><span class="p">)</span>
+
+        <span class="c"># Subscribe to the FaceDetected event:</span>
+        <span class="k">global</span> <span class="n">memory</span>
+        <span class="n">memory</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">)</span>
+        <span class="n">memory</span><span class="o">.</span><span class="n">subscribeToEvent</span><span class="p">(</span><span class="s">&quot;FaceDetected&quot;</span><span class="p">,</span>
+            <span class="s">&quot;HumanGreeter&quot;</span><span class="p">,</span>
+            <span class="s">&quot;onFaceDetected&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">onFaceDetected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This will be called each time a face is</span>
+<span class="sd">        detected.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Unsubscribe to the event when talking,</span>
+        <span class="c"># to avoid repetitions</span>
+        <span class="n">memory</span><span class="o">.</span><span class="n">unsubscribeToEvent</span><span class="p">(</span><span class="s">&quot;FaceDetected&quot;</span><span class="p">,</span>
+            <span class="s">&quot;HumanGreeter&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tts</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;Hello, you&quot;</span><span class="p">)</span>
+
+        <span class="c"># Subscribe again to the event</span>
+        <span class="n">memory</span><span class="o">.</span><span class="n">subscribeToEvent</span><span class="p">(</span><span class="s">&quot;FaceDetected&quot;</span><span class="p">,</span>
+            <span class="s">&quot;HumanGreeter&quot;</span><span class="p">,</span>
+            <span class="s">&quot;onFaceDetected&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Main entry point</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;--pip&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&quot;Parent broker port. The IP address or your robot&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s">&quot;pip&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;--pport&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&quot;Parent broker port. The port NAOqi is listening to&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s">&quot;pport&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s">&quot;int&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
+        <span class="n">pip</span><span class="o">=</span><span class="n">NAO_IP</span><span class="p">,</span>
+        <span class="n">pport</span><span class="o">=</span><span class="mi">9559</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="n">args_</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">pip</span>   <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">pip</span>
+    <span class="n">pport</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">pport</span>
+
+    <span class="c"># We need this broker to be able to construct</span>
+    <span class="c"># NAOqi modules and subscribe to other modules</span>
+    <span class="c"># The broker must stay alive until the program exists</span>
+    <span class="n">myBroker</span> <span class="o">=</span> <span class="n">ALBroker</span><span class="p">(</span><span class="s">&quot;myBroker&quot;</span><span class="p">,</span>
+       <span class="s">&quot;0.0.0.0&quot;</span><span class="p">,</span>   <span class="c"># listen to anyone</span>
+       <span class="mi">0</span><span class="p">,</span>           <span class="c"># find a free port and use it</span>
+       <span class="n">pip</span><span class="p">,</span>         <span class="c"># parent broker IP</span>
+       <span class="n">pport</span><span class="p">)</span>       <span class="c"># parent broker port</span>
+
+
+    <span class="c"># Warning: HumanGreeter must be a global variable</span>
+    <span class="c"># The name given to the constructor must be the name of the</span>
+    <span class="c"># variable</span>
+    <span class="k">global</span> <span class="n">HumanGreeter</span>
+    <span class="n">HumanGreeter</span> <span class="o">=</span> <span class="n">HumanGreeterModule</span><span class="p">(</span><span class="s">&quot;HumanGreeter&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&quot;Interrupted by user, shutting down&quot;</span>
+        <span class="n">myBroker</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Few notes:</p>
+<ul class="simple">
+<li>Make sure to use a global variable for the module instance.</li>
+<li>Make sure the name you pass to the constructor of ALModule matches
+the name of your variable.</li>
+<li>The method of your class are automatically transform into bound
+methods, <strong>providing that you wrote a doc string</strong> for this method,
+and it <strong>does not start with an underscore</strong>.</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyModule</span><span class="p">:</span>
+
+  <span class="c"># This method will be bound:</span>
+  <span class="k">def</span> <span class="nf">myMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; does this and that &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+  <span class="c"># This will NOT be bound:</span>
+  <span class="k">def</span> <span class="nf">myMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">foo</span><span class="p">:</span>
+      <span class="k">pass</span>
+
+  <span class="c"># This will also NOT be bound</span>
+  <span class="k">def</span> <span class="nf">_myMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Once you have built a ALBroker object, you need to keep the object alive
+for the subscribing to work, hence the <tt class="docutils literal"><span class="pre">while(True)</span></tt> loop.
+You also need the broker object to be alive in order to create proxies
+without specifying an IP or a port.</li>
+<li>The script must be run with <tt class="docutils literal"><span class="pre">--pip</span></tt> and <tt class="docutils literal"><span class="pre">--pport</span></tt> options to work.</li>
+</ul>
+<p>Run the script, and put your face in front of the robot : you should hear
+&#8216;Hello, you&#8217;.</p>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="making_nao_move.html" title="Parallel Tasks - Making NAO move and speak">Parallel Tasks - Making NAO move and speak</a>
+     |
+    <a href="tutorials.html" title="Python tutorials" accesskey="U">Python tutorials</a>
+   |
+    <a href="processing_data.html" title="Logging data - Head angles">Logging data - Head angles</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../cpp/index.html">Cpp</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Python</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="install_guide.html">Python SDK Install Guide</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="tutorials.html">Python tutorials</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="making_nao_speak.html">Using the API - Making NAO speak</a></li>
+<li class="toctree-l5"><a class="reference internal" href="making_nao_move.html">Parallel Tasks - Making NAO move and speak</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">Making a Python module - Reacting to events</a></li>
+<li class="toctree-l5"><a class="reference internal" href="processing_data.html">Logging data - Head angles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="running_python_code_on_the_robot.html">Running Python code on the robot</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples.html">Python Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tips-and-tricks.html">Python SDK tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="making_nao_move.html" title="Parallel Tasks - Making NAO move and speak">previous</a>
+     |
+    <a href="tutorials.html" title="Python tutorials" accesskey="U">up</a>
+   |
+    <a href="processing_data.html" title="Logging data - Head angles">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

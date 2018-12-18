@@ -1,0 +1,488 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qibuild.xml configuration file syntax &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Configuration files syntax" href="index.html" />
+    <link rel="next" title="qiproject.xml syntax" href="qiproject_xml_syntax.html" />
+    <link rel="prev" title="Configuration files syntax" href="index.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="index.html" title="Configuration files syntax">previous</a>
+     |
+    <a href="index.html" title="Configuration files syntax" accesskey="U">up</a>
+   |
+    <a href="qiproject_xml_syntax.html" title="qiproject.xml syntax">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="ref-cfg-qibuild_xml_syntax">
+            
+  <div class="section" id="qibuild-xml-configuration-file-syntax">
+<span id="qibuild-xml-syntax"></span><h1>qibuild.xml configuration file syntax<a class="headerlink" href="#qibuild-xml-configuration-file-syntax" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="general">
+<h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
+<p>There are two configuration files named <tt class="docutils literal"><span class="pre">qibuild.xml</span></tt></p>
+<p>The first one is in <tt class="docutils literal"><span class="pre">.config/qi/qibuild.xml</span></tt>.</p>
+<p>It contains settings that will be shared across every worktree.</p>
+<p>It is called the &#8220;global&#8221; configuration file.</p>
+<p>The other is always found in the <tt class="docutils literal"><span class="pre">.qi</span></tt> directory
+at the root of a <a class="reference internal" href="../../design/python/index.html#term-worktree"><em class="xref std std-term">worktree</em></a></p>
+<p>Note: the presence of the file is not necessary for qibuild
+to find a work tree, only the <tt class="docutils literal"><span class="pre">.qi</span></tt> directory is used.</p>
+<p>When using nested worktrees (not recommended), the first
+<tt class="docutils literal"><span class="pre">.qi/qibuild.xml</span></tt> file found is used.</p>
+</div>
+<div class="section" id="global-configration-file">
+<h2>Global configration file<a class="headerlink" href="#global-configration-file" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="qibuild-global-node">
+<span id="qibuild-xml-global-node"></span><h3>qibuild global node<a class="headerlink" href="#qibuild-global-node" title="Permalink to this headline">¶</a></h3>
+<p>The schema of the global xml file looks like this:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;qibuild</span> <span class="na">version=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;build</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;defaults&gt;</span>
+    <span class="nt">&lt;env</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;cmake</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/defaults&gt;</span>
+  <span class="nt">&lt;config</span> <span class="na">name=</span><span class="s">&quot;config1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;env</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;cmake</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/config&gt;</span>
+
+  <span class="nt">&lt;config</span> <span class="na">name=</span><span class="s">&quot;config2&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;env</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;cmake</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/config&gt;</span>
+
+  <span class="nt">&lt;ide</span> <span class="na">name=</span><span class="s">&quot;ide1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;ide</span> <span class="na">name=</span><span class="s">&quot;ide2&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/qibuild&gt;</span>
+</pre></div>
+</div>
+<p>Note the <tt class="docutils literal"><span class="pre">version</span></tt> attribute of the <tt class="docutils literal"><span class="pre">qibuild</span></tt> node.
+It will be used for backward compatibility in case the format syntax changes.</p>
+<p>It accepts:</p>
+<ul class="simple">
+<li>One or zero <a class="reference internal" href="#qibuild-xml-node-build"><em>build node</em></a></li>
+<li>One or zero <a class="reference internal" href="#qibuild-xml-node-defaults"><em>defaults node</em></a></li>
+<li>Any number of <a class="reference internal" href="#qibuild-xml-node-config"><em>config nodes</em></a></li>
+<li>Any number of <a class="reference internal" href="#qibuild-xml-node-ide"><em>ide nodes</em></a></li>
+<li>Any number of <a class="reference internal" href="#qibuild-xml-node-server"><em>server nodes</em></a></li>
+</ul>
+</div>
+<div class="section" id="build-node">
+<span id="qibuild-xml-node-build"></span><h3>build node<a class="headerlink" href="#build-node" title="Permalink to this headline">¶</a></h3>
+<p>The build node accepts the following attributes:</p>
+<p><strong>incredibuild</strong></p>
+<blockquote>
+<div><p>A boolean for triggering use of incredibuild (Visual Studio only)
+Will use <tt class="docutils literal"><span class="pre">BuildConsole.exe</span></tt> instead of <tt class="docutils literal"><span class="pre">cmake</span> <span class="pre">--build</span></tt> when
+building projects.</p>
+<p>For this to work qibuild must find <tt class="docutils literal"><span class="pre">BuildConsole.exe</span></tt>, for instance
+you can add <tt class="docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\Xoreax\IncrediBuild\</span></tt> to a
+<a class="reference internal" href="#qibuild-xml-node-env"><em>env node</em></a>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="defaults-node">
+<span id="qibuild-xml-node-defaults"></span><h3>defaults node<a class="headerlink" href="#defaults-node" title="Permalink to this headline">¶</a></h3>
+<p>The defaults node accepts two kinds children:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#qibuild-xml-node-env"><em>env node</em></a></li>
+<li><a class="reference internal" href="#qibuild-xml-node-cmake"><em>cmake node</em></a></li>
+</ul>
+<p>It also accepts a &#8216;ide&#8217; attribute, which should match
+the &#8216;name&#8217; attribute of a <a class="reference internal" href="#qibuild-xml-node-ide"><em>ide node</em></a>.</p>
+</div>
+<div class="section" id="env-node">
+<span id="qibuild-xml-node-env"></span><h3>env node<a class="headerlink" href="#env-node" title="Permalink to this headline">¶</a></h3>
+<p>The &#8216;env&#8217; node accepts the following attributes:</p>
+<ul class="simple">
+<li>&#8216;path&#8217; : A list of paths to be prepended to the PATH environment variable</li>
+<li>&#8216;bat_file: A .bat file that will be sourced to get new environment.
+Very useful to use <tt class="docutils literal"><span class="pre">cl.exe</span></tt> from the command line</li>
+<li>&#8216;editor&#8217; : Used by <tt class="docutils literal"><span class="pre">qibuild</span> <span class="pre">config</span> <span class="pre">--edit</span></tt></li>
+</ul>
+</div>
+<div class="section" id="cmake-node">
+<span id="qibuild-xml-node-cmake"></span><h3>cmake node<a class="headerlink" href="#cmake-node" title="Permalink to this headline">¶</a></h3>
+<p>The &#8216;cmake&#8217; node accepts the following attributes:</p>
+<p><strong>generator</strong></p>
+<blockquote>
+<div>The CMake generator to use</div></blockquote>
+</div>
+<div class="section" id="config-node">
+<span id="qibuild-xml-node-config"></span><h3>config node<a class="headerlink" href="#config-node" title="Permalink to this headline">¶</a></h3>
+<p>The config node must contain a &#8216;name&#8217; attribute.</p>
+<p>It accepts the same kinds of children as the &#8216;defaults&#8217; node does:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#qibuild-xml-node-env"><em>env node</em></a></li>
+<li><a class="reference internal" href="#qibuild-xml-node-cmake"><em>cmake node</em></a></li>
+</ul>
+<p>See <a class="reference internal" href="#qibuild-config-merging"><em>Configuration merging</em></a> to see how the configuration
+are merged</p>
+</div>
+<div class="section" id="qibuild-xml-node-ide">
+<span id="ide-node"></span><h3>ide node<a class="headerlink" href="#qibuild-xml-node-ide" title="Permalink to this headline">¶</a></h3>
+<p>The &#8216;ide&#8217; node must contain a &#8216;name&#8217; attribute.</p>
+<p>It accepts the following attributes:</p>
+<p><strong>path</strong></p>
+<blockquote>
+<div>The full path to the IDE. Used by <tt class="docutils literal"><span class="pre">qibuild</span> <span class="pre">open</span></tt> when using
+QtCreator.</div></blockquote>
+</div>
+<div class="section" id="server-node">
+<span id="qibuild-xml-node-server"></span><h3>server node<a class="headerlink" href="#server-node" title="Permalink to this headline">¶</a></h3>
+<p>The &#8216;server&#8217; node must contain a &#8216;name&#8217; attribute.</p>
+<p>It accepts a child named &#8216;access&#8217;.</p>
+<p>The &#8216;access&#8217; child accepts the following attributes:</p>
+<ul>
+<li><p class="first"><strong>username</strong></p>
+</li>
+<li><p class="first"><strong>password</strong></p>
+</li>
+<li><dl class="first docutils">
+<dt><strong>root</strong></dt>
+<dd><p class="first last">When using ftp, this will be the root directory of
+the ftp server.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>For instance to use &#8216;john&#8217; username with password &#8216;p4ssw0rd&#8217;
+on <tt class="docutils literal"><span class="pre">ftp://example.com</span></tt> using root <tt class="docutils literal"><span class="pre">pub</span></tt>, you can use</p>
+<div class="highlight-xml"><div class="highlight"><pre> <span class="nt">&lt;server</span> <span class="na">name=</span><span class="s">&quot;example.com&quot;</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;access</span>
+    <span class="na">username=</span><span class="s">&quot;john&quot;</span>
+    <span class="na">password=</span><span class="s">&quot;p4ssw0rd&quot;</span>
+    <span class="na">root=</span><span class="s">&quot;pub&quot;</span>
+   <span class="nt">/&gt;</span>
+<span class="nt">&lt;/server&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="local-settings">
+<h2>Local Settings<a class="headerlink" href="#local-settings" title="Permalink to this headline">¶</a></h2>
+<p>The schema of the local xml file looks like this:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;qibuild</span> <span class="na">version=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;defaults</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;build</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;manifest</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/qibuild&gt;</span>
+</pre></div>
+</div>
+<p>Note the <tt class="docutils literal"><span class="pre">version</span></tt> attribute of the <tt class="docutils literal"><span class="pre">qibuild</span></tt> node.
+It will be used for backward compatibility in case the format syntax changes.</p>
+<p>The root element accepts:</p>
+<ul class="simple">
+<li>One or zero <a class="reference internal" href="#qibuild-xml-node-local-defaults"><em>local defaults node</em></a></li>
+<li>One or zero <a class="reference internal" href="#qibuild-xml-node-local-build"><em>local build node</em></a></li>
+<li>Any number of <a class="reference internal" href="#qibuild-xml-node-manifest"><em>manifest nodes</em></a></li>
+</ul>
+<div class="section" id="local-defaults-node">
+<span id="qibuild-xml-node-local-defaults"></span><h3>local defaults node<a class="headerlink" href="#local-defaults-node" title="Permalink to this headline">¶</a></h3>
+<p>The local &#8216;defaults&#8217; node accepts the following attributes:</p>
+<p><strong>config</strong></p>
+<blockquote>
+<div>A configuration to use by default in this worktree
+(see <a class="reference internal" href="#qibuild-config-merging"><em>Configuration merging</em></a>)</div></blockquote>
+<p><strong>ide</strong></p>
+<blockquote>
+<div>An IDE to use by default in this worktree. Can override
+the default ide in <a class="reference internal" href="#qibuild-xml-node-defaults"><em>defaults node</em></a>
+(see <a class="reference internal" href="#qibuild-config-merging"><em>Configuration merging</em></a>)</div></blockquote>
+</div>
+<div class="section" id="local-build-node">
+<span id="qibuild-xml-node-local-build"></span><h3>local build node<a class="headerlink" href="#local-build-node" title="Permalink to this headline">¶</a></h3>
+<p>The local &#8216;build&#8217; nodes accepts the following attributes:</p>
+<p><strong>build_dir</strong></p>
+<blockquote>
+<div><p>Instead of creating a different build directory per project,
+(for instance <tt class="docutils literal"><span class="pre">~/src/hello/build-linux</span></tt>), every build
+directory will be created under this directory, for instance
+<tt class="docutils literal"><span class="pre">/path/to/build.directory/build-linux/hello</span></tt></p>
+<p>Mandatory if you are using Eclipse CDT.</p>
+</div></blockquote>
+<p><strong>sdk_dir</strong></p>
+<blockquote>
+<div><p>This is useful when you want all your projects to use the
+same &#8216;sdk&#8217; directory.</p>
+<p>This means that all the results of the compilation will end
+up in the same directory, rather that being spread over
+all the projects.</p>
+</div></blockquote>
+</div>
+<div class="section" id="manifest-node">
+<span id="qibuild-xml-node-manifest"></span><h3>manifest node<a class="headerlink" href="#manifest-node" title="Permalink to this headline">¶</a></h3>
+<p>The &#8216;manifest&#8217; node must have a &#8216;url&#8217; attribute.</p>
+<p>For instance</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;manifest</span>
+   <span class="na">url=</span><span class="s">&quot;http://example.com/feed.xml</span>
+<span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="configuration-merging">
+<span id="qibuild-config-merging"></span><h2>Configuration merging<a class="headerlink" href="#configuration-merging" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-c-option">
+<h3>Using &#8220;-c&#8221; option<a class="headerlink" href="#using-c-option" title="Permalink to this headline">¶</a></h3>
+<p>You may want to have several configurations for the same
+work tree, and for instance have a <tt class="docutils literal"><span class="pre">vs2010</span></tt> and a <tt class="docutils literal"><span class="pre">mingw</span></tt> configuration.</p>
+<p>In this case, the CMake generators will be different, so you
+will need to have something like</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;qibuild</span> <span class="na">version=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;defaults&gt;</span>
+    <span class="nt">&lt;cmake</span> <span class="na">generator=</span><span class="s">&quot;Unix Makefiles&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/defaults&gt;</span>
+
+  <span class="nt">&lt;config</span> <span class="na">name=</span><span class="s">&quot;vs2010&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;cmake</span> <span class="na">generator=</span><span class="s">&quot;Visual Studio 10&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/config&gt;</span>
+
+  <span class="nt">&lt;config</span> <span class="na">name=</span><span class="s">&quot;mingw&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;cmake</span> <span class="na">generator =</span> <span class="s">&quot;MinGW Makefiles&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/config&gt;</span>
+<span class="nt">&lt;/qibuild&gt;</span>
+</pre></div>
+</div>
+<p>Here are the generators that will be used depending on the
+configuration specified by the <tt class="docutils literal"><span class="pre">-c</span></tt> option of qibuild:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild configure
+
+<span class="go">Using cmake generator: Unix Makefiles</span>
+<span class="go">(from &#39;defaults&#39; section)</span>
+
+<span class="gp">$</span> qibuild configure -c vs2010
+
+<span class="go">Using cmake generator: Visual Studio 10</span>
+<span class="go">(from &#39;vs2010&#39; config)</span>
+
+<span class="gp">$</span> qibuild config -c mingw
+
+<span class="go">Using cmake generator: MinGW Makefiles</span>
+<span class="go">(from &#39;mingw&#39; section)</span>
+</pre></div>
+</div>
+<p>A default configuration can be specified in the
+<a class="reference internal" href="#qibuild-xml-node-local-defaults"><em>local defaults node</em></a> if you do not want
+to have to specify <tt class="docutils literal"><span class="pre">-c</span></tt> for this worktree:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;qibuild</span> <span class="na">version=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;defaults</span> <span class="na">config=</span><span class="s">&quot;vs2010&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/qibuild&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="environment-merging">
+<h3>Environment merging<a class="headerlink" href="#environment-merging" title="Permalink to this headline">¶</a></h3>
+<p>You may want to use <tt class="docutils literal"><span class="pre">swig</span></tt> in several projects, so you need to have
+<tt class="docutils literal"><span class="pre">swig.exe</span></tt> in your path, but sometimes you use <tt class="docutils literal"><span class="pre">QtCreator</span></tt> with MinGW,
+so you need to have <tt class="docutils literal"><span class="pre">c:\QtSdk\Desktop\Qt\bin</span></tt> in your PATH too.</p>
+<p>Here is what you could use:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;qibuild</span> <span class="na">version=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;defaults&gt;</span>
+    <span class="nt">&lt;env</span> <span class="na">path=</span><span class="s">&quot;c:\swig\bin&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/defaults&gt;</span>
+
+  <span class="nt">&lt;config</span> <span class="na">name=</span><span class="s">&quot;mingw&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;env</span> <span class="na">path=</span><span class="s">&quot;C:\QtSDK\bin&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/config&gt;</span>
+
+  <span class="nt">&lt;config</span> <span class="na">name=</span><span class="s">&quot;vs2010&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/qibuild&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>When using <tt class="docutils literal"><span class="pre">-c</span> <span class="pre">mingw</span></tt>, <tt class="docutils literal"><span class="pre">%PATH%</span></tt> will look like:
+<tt class="docutils literal"><span class="pre">c:\swig\bin;C:\QtSDK\bin;...</span></tt></li>
+<li>When using <tt class="docutils literal"><span class="pre">-c</span> <span class="pre">vs2010</span></tt>, <tt class="docutils literal"><span class="pre">%PATH%</span></tt> will look like:
+<tt class="docutils literal"><span class="pre">c:\swig\bin;...</span></tt></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="index.html" title="Configuration files syntax">Configuration files syntax</a>
+     |
+    <a href="index.html" title="Configuration files syntax" accesskey="U">Configuration files syntax</a>
+   |
+    <a href="qiproject_xml_syntax.html" title="qiproject.xml syntax">qiproject.xml syntax</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">qiBuild reference documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../man/index.html">qibuild man Pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cmake/api.html">qiBuild CMake API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Configuration files syntax</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">qibuild.xml configuration file syntax</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qiproject_xml_syntax.html">qiproject.xml syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qisrc_manifest_syntax.html">qisrc manifest syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="toolchain_feed_syntax.html">Toolchain feed syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">qiBuild Python documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">qibuild.xml configuration file syntax</a><ul>
+<li><a class="reference internal" href="#general">General</a></li>
+<li><a class="reference internal" href="#global-configration-file">Global configration file</a><ul>
+<li><a class="reference internal" href="#qibuild-global-node">qibuild global node</a></li>
+<li><a class="reference internal" href="#build-node">build node</a></li>
+<li><a class="reference internal" href="#defaults-node">defaults node</a></li>
+<li><a class="reference internal" href="#env-node">env node</a></li>
+<li><a class="reference internal" href="#cmake-node">cmake node</a></li>
+<li><a class="reference internal" href="#config-node">config node</a></li>
+<li><a class="reference internal" href="#qibuild-xml-node-ide">ide node</a></li>
+<li><a class="reference internal" href="#server-node">server node</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#local-settings">Local Settings</a><ul>
+<li><a class="reference internal" href="#local-defaults-node">local defaults node</a></li>
+<li><a class="reference internal" href="#local-build-node">local build node</a></li>
+<li><a class="reference internal" href="#manifest-node">manifest node</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration-merging">Configuration merging</a><ul>
+<li><a class="reference internal" href="#using-c-option">Using &#8220;-c&#8221; option</a></li>
+<li><a class="reference internal" href="#environment-merging">Environment merging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="index.html" title="Configuration files syntax">previous</a>
+     |
+    <a href="index.html" title="Configuration files syntax" accesskey="U">up</a>
+   |
+    <a href="qiproject_xml_syntax.html" title="qiproject.xml syntax">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

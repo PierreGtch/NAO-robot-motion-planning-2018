@@ -1,0 +1,487 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Landmark detection &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="Vision" href="index.html" />
+    <link rel="next" title="Python SDK tips and tricks" href="../../tips-and-tricks.html" />
+    <link rel="prev" title="Vision recognition" href="vision_recognition.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="vision_recognition.html" title="Vision recognition">previous</a>
+     |
+    <a href="index.html" title="Vision" accesskey="U">up</a>
+   |
+    <a href="../../tips-and-tricks.html" title="Python SDK tips and tricks">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-python-examples-vision-landmark">
+            
+  <div class="section" id="landmark-detection">
+<span id="python-example-vision-landmark"></span><h1>Landmark detection<a class="headerlink" href="#landmark-detection" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<p>These examples use <a class="reference internal" href="../../../../naoqi/vision/allandmarkdetection.html#allandmarkdetection"><em>ALLandMarkDetection</em></a>.</p>
+<div class="section" id="detect-landmarks">
+<h2>Detect landmarks<a class="headerlink" href="#detect-landmarks" title="Permalink to this headline">¶</a></h2>
+<p>Detected landmarks and print some information about them.</p>
+<p><a class="reference download internal" href="../../../../_downloads/vision_landMarkDetection.py"><tt class="xref download docutils literal"><span class="pre">vision_landMarkDetection.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="c"># This test demonstrates how to use the ALLandMarkDetection module.</span>
+<span class="c"># Note that you might not have this module depending on your distribution</span>
+<span class="c">#</span>
+<span class="c">#  /!\  Please change the IP address with your robot IP.</span>
+<span class="c">#</span>
+<span class="c"># - We first instantiate a proxy to the ALLandMarkDetection module</span>
+<span class="c">#     Note that this module should be loaded on the robot&#39;s naoqi.</span>
+<span class="c">#     The module output its results in ALMemory in a variable</span>
+<span class="c">#     called &quot;LandmarkDetected&quot;</span>
+
+<span class="c"># - We then read this ALMemory value and check whether we get</span>
+<span class="c">#   interesting things.</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="n">IP</span> <span class="o">=</span> <span class="s">&quot;nao.local&quot;</span>  <span class="c"># Replace here with your NaoQi&#39;s IP address.</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+<span class="c"># Create a proxy to ALLandMarkDetection</span>
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">landMarkProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALLandMarkDetection&quot;</span><span class="p">,</span> <span class="n">IP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;Error when creating landmark detection proxy:&quot;</span>
+  <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+  <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c"># Subscribe to the ALLandMarkDetection proxy</span>
+<span class="c"># This means that the module will write in ALMemory with</span>
+<span class="c"># the given period below</span>
+<span class="n">period</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">landMarkProxy</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;Test_LandMark&quot;</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">)</span>
+
+<span class="c"># ALMemory variable where the ALLandMarkdetection modules</span>
+<span class="c"># outputs its results</span>
+<span class="n">memValue</span> <span class="o">=</span> <span class="s">&quot;LandmarkDetected&quot;</span>
+
+<span class="c"># Create a proxy to ALMemory</span>
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">,</span> <span class="n">IP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;Error when creating memory proxy:&quot;</span>
+  <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+  <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="c"># A simple loop that reads the memValue and checks whether landmarks are detected.</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
+  <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+  <span class="n">val</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="n">memValue</span><span class="p">)</span>
+
+  <span class="k">print</span> <span class="s">&quot;&quot;</span>
+  <span class="k">print</span> <span class="s">&quot;*****&quot;</span>
+  <span class="k">print</span> <span class="s">&quot;&quot;</span>
+
+  <span class="c"># Check whether we got a valid output.</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">val</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">):</span>
+
+    <span class="c"># We detected naomarks !</span>
+    <span class="c"># For each mark, we can read its shape info and ID.</span>
+
+    <span class="c"># First Field = TimeStamp.</span>
+    <span class="n">timeStamp</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c"># Second Field = array of Mark_Info&#39;s.</span>
+    <span class="n">markInfoArray</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+      <span class="c"># Browse the markInfoArray to get info on each detected mark.</span>
+      <span class="k">for</span> <span class="n">markInfo</span> <span class="ow">in</span> <span class="n">markInfoArray</span><span class="p">:</span>
+
+        <span class="c"># First Field = Shape info.</span>
+        <span class="n">markShapeInfo</span> <span class="o">=</span> <span class="n">markInfo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c"># Second Field = Extra info (ie, mark ID).</span>
+        <span class="n">markExtraInfo</span> <span class="o">=</span> <span class="n">markInfo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">print</span> <span class="s">&quot;mark  ID: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">markExtraInfo</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">print</span> <span class="s">&quot;  alpha </span><span class="si">%.3f</span><span class="s"> - beta </span><span class="si">%.3f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">markShapeInfo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">markShapeInfo</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">print</span> <span class="s">&quot;  width </span><span class="si">%.3f</span><span class="s"> - height </span><span class="si">%.3f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">markShapeInfo</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">markShapeInfo</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+      <span class="k">print</span> <span class="s">&quot;Naomarks detected, but it seems getData is invalid. ALValue =&quot;</span>
+      <span class="k">print</span> <span class="n">val</span>
+      <span class="k">print</span> <span class="s">&quot;Error msg </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+  <span class="k">else</span><span class="p">:</span>
+      <span class="k">print</span> <span class="s">&quot;No landmark detected&quot;</span>
+
+
+<span class="c"># Unsubscribe the module.</span>
+<span class="n">landMarkProxy</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span><span class="s">&quot;Test_LandMark&quot;</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">&quot;Test terminated successfully.&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="callback-on-landmark-detection">
+<h2>Callback on landmark detection<a class="headerlink" href="#callback-on-landmark-detection" title="Permalink to this headline">¶</a></h2>
+<p>React to a landmark detection by subscribing to the right event in ALMemory.</p>
+<p><a class="reference download internal" href="../../../../_downloads/vision_onMarkDataChange.py"><tt class="xref download docutils literal"><span class="pre">vision_onMarkDataChange.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="c">##############################################################################</span>
+<span class="c"># Name: vision_onMarkDataChange.py</span>
+<span class="c">#</span>
+<span class="c"># Summary: Test the ALLandMarkDetection module using a callback mechanism.</span>
+<span class="c">#</span>
+<span class="c"># Usage: vision_onMarkDataChange.py [Naoqi IP address, local IP address]</span>
+<span class="c">#        - Naoqi IP: address Naoqi is listening to.</span>
+<span class="c">#        - local IP: address where you launch the script and that Naoqi can</span>
+<span class="c">#          use to call you back.</span>
+<span class="c">#</span>
+<span class="c"># Description:</span>
+<span class="c">#   - Create a Python broker using the provided Naoqi and local addresses.</span>
+<span class="c">#   - Start the LandMarkDetection extractor by subscribing to it.</span>
+<span class="c">#   - Create an ALModule object (markHandler) with its call back function.</span>
+<span class="c">#   - Call ALMemory&#39;s subscribeOnDataChange so that markHandler.onMarkChange()</span>
+<span class="c">#     is called whenever the detection results change.</span>
+<span class="c">#   - Wait for some time. Msg is printed if we detect naomarks.</span>
+<span class="c">#   - Unsubscribe from LandMarkDetection.</span>
+<span class="c">#</span>
+<span class="c">##############################################################################</span>
+
+<span class="c"># Used in debug logs.</span>
+<span class="n">testName</span> <span class="o">=</span> <span class="s">&quot;python: vision_onMarkDataChange: &quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c"># IP and PORT default values.</span>
+<span class="n">LOCAL_IP</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span> <span class="c"># Replace here with your computer IP address.</span>
+<span class="n">LOCAL_PORT</span> <span class="o">=</span> <span class="mi">9999</span>
+<span class="n">IP</span> <span class="o">=</span> <span class="s">&quot;nao.local&quot;</span>  <span class="c"># Replace here with your NaoQi&#39;s IP address.</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+<span class="c"># Read IP address from first argument if any.</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+  <span class="n">IP</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+  <span class="n">LOCAL_IP</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c">########################################################</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span><span class="p">,</span> <span class="n">ALModule</span><span class="p">,</span> <span class="n">ALBroker</span>
+
+
+<span class="c">##############################################################################</span>
+<span class="c"># Definition of our python module.</span>
+<span class="k">class</span> <span class="nc">MarkHandlerModule</span><span class="p">(</span><span class="n">ALModule</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot; The main point here is to declare a module with a call back function</span>
+<span class="sd">      that is called by ALMemory whenever the landmark&#39;s results change. &quot;&quot;&quot;</span>
+
+  <span class="c"># Call back function registered with subscribeOnDataChange that handles</span>
+  <span class="c"># changes in LandMarkDetection results.</span>
+  <span class="k">def</span> <span class="nf">onMarkChange</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataName</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Call back method called when naomark detection updates its results. &quot;&quot;&quot;</span>
+    <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+      <span class="k">print</span> <span class="s">&quot;We detected naomarks !&quot;</span>
+
+<span class="c">##############################################################################</span>
+
+
+<span class="n">testFailed</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c"># Create a python broker on the local machine.</span>
+<span class="n">broker</span> <span class="o">=</span> <span class="n">ALBroker</span><span class="p">(</span><span class="s">&quot;pythonBroker&quot;</span><span class="p">,</span> <span class="n">LOCAL_IP</span><span class="p">,</span> <span class="n">LOCAL_PORT</span><span class="p">,</span> <span class="n">IP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+
+<span class="c"># Creating a proxy to ALLandMarkDetection</span>
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">landMarkProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALLandMarkDetection&quot;</span><span class="p">,</span> <span class="n">IP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;Error when creating ALLandMarkDetection proxy:&quot;</span>
+  <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+  <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="c"># Subscribe to the ALLandMarkDetection module.</span>
+<span class="c"># This means that the module will write its results in memValue with</span>
+<span class="c"># the given period below.</span>
+<span class="n">subscriptionPeriod</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> : Subscribe to the ALLandMarkDetection proxy...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">testName</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">landMarkProxy</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;Test_LandMark&quot;</span><span class="p">,</span>  <span class="n">subscriptionPeriod</span> <span class="p">,</span> <span class="mf">1.0</span> <span class="p">)</span>
+  <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> : Subscribe to the ALLandMarkDetection proxy... OK&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">testName</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> Error :&quot;</span>  <span class="o">%</span> <span class="p">(</span><span class="n">testName</span><span class="p">)</span>
+  <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+  <span class="n">testFailed</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<span class="c"># ALMemory variable where the ALLandMarkdetection module outputs its results.</span>
+<span class="n">memValue</span> <span class="o">=</span> <span class="s">&quot;LandmarkDetected&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">markHandlerName</span> <span class="o">=</span> <span class="s">&quot;markHandler&quot;</span>
+  <span class="c"># Create our module object.</span>
+  <span class="n">markHandler</span> <span class="o">=</span> <span class="n">MarkHandlerModule</span><span class="p">(</span><span class="n">markHandlerName</span><span class="p">)</span>
+
+  <span class="c"># Have module.onMarkChange called back when detection results change.</span>
+  <span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">)</span>
+  <span class="n">memoryProxy</span><span class="o">.</span><span class="n">subscribeToEvent</span><span class="p">(</span><span class="n">memValue</span><span class="p">,</span> <span class="n">markHandlerName</span><span class="p">,</span> <span class="s">&quot;onMarkChange&quot;</span><span class="p">)</span>
+
+  <span class="c"># Let the NaoMark detection run for a little while. You can check the results using</span>
+  <span class="c"># a browser connected on your Nao, then Advanced -&gt; Memory -&gt; type mark in the field</span>
+  <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+
+  <span class="n">memoryProxy</span><span class="o">.</span><span class="n">unsubscribeToEvent</span><span class="p">(</span><span class="n">memValue</span><span class="p">,</span> <span class="n">markHandlerName</span><span class="p">)</span>
+
+  <span class="c"># Shut the Python Broker down</span>
+  <span class="n">broker</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> Error:&quot;</span>  <span class="o">%</span><span class="p">(</span><span class="n">testName</span><span class="p">)</span>
+  <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+  <span class="n">testFailed</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">testFailed</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+  <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> : Failed&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">testName</span><span class="p">)</span>
+  <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> : Success&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">testName</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="landmark-localization">
+<h2>Landmark localization<a class="headerlink" href="#landmark-localization" title="Permalink to this headline">¶</a></h2>
+<p>Localize in robot space the detected landmark using transforms.</p>
+<p><a class="reference download internal" href="../../../../_downloads/vision_localization.py"><tt class="xref download docutils literal"><span class="pre">vision_localization.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+
+<span class="c"># Set here your robto&#39;s ip.</span>
+<span class="n">ip</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+<span class="c"># Set here the size of the landmark in meters.</span>
+<span class="n">landmarkTheoreticalSize</span> <span class="o">=</span> <span class="mf">0.06</span> <span class="c">#in meters</span>
+<span class="c"># Set here the current camera (&quot;CameraTop&quot; or &quot;CameraBottom&quot;).</span>
+<span class="n">currentCamera</span> <span class="o">=</span> <span class="s">&quot;CameraTop&quot;</span>
+
+<span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+<span class="n">landmarkProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALLandMarkDetection&quot;</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+
+<span class="c"># Subscribe to LandmarkDetected event from ALLandMarkDetection proxy.</span>
+<span class="n">landmarkProxy</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;landmarkTest&quot;</span><span class="p">)</span>
+
+<span class="c"># Wait for a mark to be detected.</span>
+<span class="n">markData</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;LandmarkDetected&quot;</span><span class="p">)</span>
+<span class="k">while</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">markData</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="n">markData</span> <span class="o">=</span> <span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;LandmarkDetected&quot;</span><span class="p">)</span>
+
+<span class="c"># Retrieve landmark center position in radians.</span>
+<span class="n">wzCamera</span> <span class="o">=</span> <span class="n">markData</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">wyCamera</span> <span class="o">=</span> <span class="n">markData</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c"># Retrieve landmark angular size in radians.</span>
+<span class="n">angularSize</span> <span class="o">=</span> <span class="n">markData</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="c"># Compute distance to landmark.</span>
+<span class="n">distanceFromCameraToLandmark</span> <span class="o">=</span> <span class="n">landmarkTheoreticalSize</span> <span class="o">/</span> <span class="p">(</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span> <span class="n">angularSize</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+
+<span class="c"># Get current camera position in NAO space.</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getTransform</span><span class="p">(</span><span class="n">currentCamera</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">transformList</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">vectorFloat</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">robotToCamera</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">transformList</span><span class="p">)</span>
+
+<span class="c"># Compute the rotation to point towards the landmark.</span>
+<span class="n">cameraToLandmarkRotationTransform</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Transform_from3DRotation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">wyCamera</span><span class="p">,</span> <span class="n">wzCamera</span><span class="p">)</span>
+
+<span class="c"># Compute the translation to reach the landmark.</span>
+<span class="n">cameraToLandmarkTranslationTransform</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">distanceFromCameraToLandmark</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c"># Combine all transformations to get the landmark position in NAO space.</span>
+<span class="n">robotToLandmark</span> <span class="o">=</span> <span class="n">robotToCamera</span> <span class="o">*</span> <span class="n">cameraToLandmarkRotationTransform</span> <span class="o">*</span><span class="n">cameraToLandmarkTranslationTransform</span>
+
+<span class="k">print</span> <span class="s">&quot;x &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robotToLandmark</span><span class="o">.</span><span class="n">r1_c4</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; (in meters)&quot;</span>
+<span class="k">print</span> <span class="s">&quot;y &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robotToLandmark</span><span class="o">.</span><span class="n">r2_c4</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; (in meters)&quot;</span>
+<span class="k">print</span> <span class="s">&quot;z &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robotToLandmark</span><span class="o">.</span><span class="n">r3_c4</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; (in meters)&quot;</span>
+
+<span class="n">landmarkProxy</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span><span class="s">&quot;landmarkTest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="vision_recognition.html" title="Vision recognition">Vision recognition</a>
+     |
+    <a href="index.html" title="Vision" accesskey="U">Vision</a>
+   |
+    <a href="../../tips-and-tricks.html" title="Python SDK tips and tricks">Python SDK tips and tricks</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../cpp/index.html">Cpp</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html">Python</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../install_guide.html">Python SDK Install Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tutorials.html">Python tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../examples.html">Python Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../nonascii/index.html">Reading non-ASCII text</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../motion/index.html">Motion</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../almath/index.html">ALMath</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/index.html">Sensors</a></li>
+<li class="toctree-l5 current"><a class="reference internal" href="index.html">Vision</a><ul class="current">
+<li class="toctree-l6"><a class="reference internal" href="get_image.html">Retrieving images</a></li>
+<li class="toctree-l6"><a class="reference internal" href="video_record.html">Video recording</a></li>
+<li class="toctree-l6"><a class="reference internal" href="face_detection.html">Face detection and tracking</a></li>
+<li class="toctree-l6"><a class="reference internal" href="vision_recognition.html">Vision recognition</a></li>
+<li class="toctree-l6 current"><a class="current reference internal" href="">Landmark detection</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../tips-and-tricks.html">Python SDK tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Landmark detection</a><ul>
+<li><a class="reference internal" href="#detect-landmarks">Detect landmarks</a></li>
+<li><a class="reference internal" href="#callback-on-landmark-detection">Callback on landmark detection</a></li>
+<li><a class="reference internal" href="#landmark-localization">Landmark localization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="vision_recognition.html" title="Vision recognition">previous</a>
+     |
+    <a href="index.html" title="Vision" accesskey="U">up</a>
+   |
+    <a href="../../tips-and-tricks.html" title="Python SDK tips and tricks">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

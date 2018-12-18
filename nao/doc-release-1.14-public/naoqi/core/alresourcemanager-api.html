@@ -1,0 +1,577 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALResourceManager API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="ALResourceManager" href="alresourcemanager.html" />
+    <link rel="next" title="ALResourceManager Tutorial" href="alresourcemanager-tuto.html" />
+    <link rel="prev" title="ALResourceManager" href="alresourcemanager.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="alresourcemanager.html" title="ALResourceManager">previous</a>
+     |
+    <a href="alresourcemanager.html" title="ALResourceManager" accesskey="U">up</a>
+   |
+    <a href="alresourcemanager-tuto.html" title="ALResourceManager Tutorial">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-core-alresourcemanager-api">
+            
+  <div class="section" id="alresourcemanager-api">
+<span id="id1"></span><h1>ALResourceManager API<a class="headerlink" href="#alresourcemanager-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-core"><em>NAOqi Core</em></a> - <a class="reference internal" href="alresourcemanager.html#alresourcemanager"><em>Overview</em></a> | API | <a class="reference internal" href="alresourcemanager-tuto.html#alresourcemanager-tuto"><em>Tutorial</em></a></p>
+<hr class="docutils" />
+<p>Namespace : <strong>AL</strong></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alproxies/alresourcemanagerproxy.h&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<p>As any module, this module inherits methods from <a class="reference internal" href="almodule-api.html#almodule-api"><em>ALModule API</em></a>.
+It also has the following specific methods:</p>
+<dl class="class">
+<dt id="ALResourceManagerProxy">
+<em class="property">class </em><tt class="descname">ALResourceManagerProxy</tt><a class="headerlink" href="#ALResourceManagerProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALResourceManagerProxy::areResourcesFree__std::vector:ss:CR" title="ALResourceManagerProxy::areResourcesFree"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::areResourcesFree()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::areResourcesOwnedBy__std::vector:ss:CR.ssCR" title="ALResourceManagerProxy::areResourcesOwnedBy"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::areResourcesOwnedBy()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::createResource__ssCR.ssCR" title="ALResourceManagerProxy::createResource"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::createResource()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::deleteResource__ssCR.bCR" title="ALResourceManagerProxy::deleteResource"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::deleteResource()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::enableStateResource__ssCR.bCR" title="ALResourceManagerProxy::enableStateResource"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::enableStateResource()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::isInGroup__ssCR.ssCR" title="ALResourceManagerProxy::isInGroup"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::isInGroup()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::releaseLocalResource__ssCR.boost::shared_ptr:AL::ALOwner:CR" title="ALResourceManagerProxy::releaseLocalResource"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::releaseLocalResource()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::releaseResource__ssCR.ssCR" title="ALResourceManagerProxy::releaseResource"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::releaseResource()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::releaseResources__std::vector:ss:CR.ssCR" title="ALResourceManagerProxy::releaseResources"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::releaseResources()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::waitForLocalResource__ssCR.boost::shared_ptr:AL::ALOwner:CR.ssCR.iCR" title="ALResourceManagerProxy::waitForLocalResource"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::waitForLocalResource()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::waitForLocalResources__std::vector:ss:CR.boost::shared_ptr:AL::ALOwner:CR.ssCR.iCR" title="ALResourceManagerProxy::waitForLocalResources"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::waitForLocalResources()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::waitForLocalResourcesTree__std::vector:ss:CR.boost::shared_ptr:AL::ALHierarchyOwner:CR.ssCR.iCR" title="ALResourceManagerProxy::waitForLocalResourcesTree"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::waitForLocalResourcesTree()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::waitForResource__ssCR.ssCR.ssCR.iCR" title="ALResourceManagerProxy::waitForResource"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::waitForResource()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::declareEvent__ssCR.ssCR" title="ALResourceManagerProxy::declareEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::declareEvent()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::getData__ssCR" title="ALResourceManagerProxy::getData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::getData()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::getDataList__ssCR" title="ALResourceManagerProxy::getDataList"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::getDataList()</span></tt></a></li>
+<li><a class="reference internal" href="#ALResourceManagerProxy::getDataListName" title="ALResourceManagerProxy::getDataListName"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALResourceManagerProxy::getDataListName()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ALResourceManagerProxy::areResourcesFree__std::vector:ss:CR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">areResourcesFree</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>resourceNames</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::areResourcesFree__std::vector:ss:CR" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if resources free</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>resourceNames</strong> &#8211; Resource names</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if all the specified resources are free</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::areResourcesOwnedBy__std::vector:ss:CR.ssCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">areResourcesOwnedBy</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>resourceNameList</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>ownerName</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::areResourcesOwnedBy__std::vector:ss:CR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if all the specified resources are owned by the owner</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>resourceNameList</strong> &#8211; Resource name</li>
+<li><strong>ownerName</strong> &#8211; Owner pointer with hierarchy</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if all the specify resources are owned by the owner</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::createResource__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">createResource</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>resourceName</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>parentResourceName</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::createResource__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a resource</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceName</strong> &#8211; Resource name to create</li>
+<li><strong>parentResourceName</strong> &#8211; Parent resource name or empty string for root resource</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::deleteResource__ssCR.bCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">deleteResource</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>resourceName</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>deleteChildResources</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::deleteResource__ssCR.bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a root resource</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceName</strong> &#8211; Resource name to delete</li>
+<li><strong>deleteChildResources</strong> &#8211; Delete child resources if true</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::enableStateResource__ssCR.bCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">enableStateResource</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>resourceName</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>enabled</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::enableStateResource__ssCR.bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable or disable a state resource</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceName</strong> &#8211; The name of the resource that you wish enable of disable. e.g. Standing</li>
+<li><strong>enabled</strong> &#8211; True to enable, false to disable</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::isInGroup__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">isInGroup</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>resourceGroupName</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>resourceName</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::isInGroup__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if a resource is in another parent resource</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>resourceGroupName</strong> &#8211; Group name. Ex: Arm</li>
+<li><strong>resourceName</strong> &#8211; Resource name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::releaseLocalResource__ssCR.boost::shared_ptr:AL::ALOwner:CR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">releaseLocalResource</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>resourceName</em>, <a class="reference internal" href="../stdtypes.html#boost::shared_ptr:AL::ALOwner:" title="boost::shared_ptr&lt;AL::ALOwner&gt;">const boost::shared_ptr&lt;AL::ALOwner&gt;&amp;</a> <em>ownerName</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::releaseLocalResource__ssCR.boost::shared_ptr:AL::ALOwner:CR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release local resource</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceName</strong> &#8211; Resource name</li>
+<li><strong>ownerName</strong> &#8211; Existing owner name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::releaseResource__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">releaseResource</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>resourceName</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>ownerName</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::releaseResource__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release resource</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceName</strong> &#8211; Resource name</li>
+<li><strong>ownerName</strong> &#8211; Existing owner name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::releaseResources__std::vector:ss:CR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">releaseResources</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>resourceNames</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>ownerName</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::releaseResources__std::vector:ss:CR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release  resources list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceNames</strong> &#8211; Resource names</li>
+<li><strong>ownerName</strong> &#8211; Owner name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::waitForLocalResource__ssCR.boost::shared_ptr:AL::ALOwner:CR.ssCR.iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">waitForLocalResource</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>resourceName</em>, <a class="reference internal" href="../stdtypes.html#boost::shared_ptr:AL::ALOwner:" title="boost::shared_ptr&lt;AL::ALOwner&gt;">const boost::shared_ptr&lt;AL::ALOwner&gt;&amp;</a> <em>ownerPtr</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackName</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>timeoutSeconds</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::waitForLocalResource__ssCR.boost::shared_ptr:AL::ALOwner:CR.ssCR.iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Waits for local resource, using a pointer to the owner</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceName</strong> &#8211; Resource name</li>
+<li><strong>ownerPtr</strong> &#8211; Owner smart pointer. Object that inherit ALOwner</li>
+<li><strong>callbackName</strong> &#8211; The name of the method called when another owner wants the resource</li>
+<li><strong>timeoutSeconds</strong> &#8211; Timeout in seconds</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::waitForLocalResources__std::vector:ss:CR.boost::shared_ptr:AL::ALOwner:CR.ssCR.iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">waitForLocalResources</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>resourceNameList</em>, <a class="reference internal" href="../stdtypes.html#boost::shared_ptr:AL::ALOwner:" title="boost::shared_ptr&lt;AL::ALOwner&gt;">const boost::shared_ptr&lt;AL::ALOwner&gt;&amp;</a> <em>owner</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackName</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>timeoutSeconds</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::waitForLocalResources__std::vector:ss:CR.boost::shared_ptr:AL::ALOwner:CR.ssCR.iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for local resources</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceNameList</strong> &#8211; Resources name</li>
+<li><strong>owner</strong> &#8211; Owner pointer with hierarchy. Object that inherit ALHierarchyOwner and redefine isParent method to give hierarchy information</li>
+<li><strong>callbackName</strong> &#8211; callback name</li>
+<li><strong>timeoutSeconds</strong> &#8211; Timeout in seconds</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::waitForLocalResourcesTree__std::vector:ss:CR.boost::shared_ptr:AL::ALHierarchyOwner:CR.ssCR.iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">waitForLocalResourcesTree</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>resourceName</em>, <a class="reference internal" href="../stdtypes.html#boost::shared_ptr:AL::ALHierarchyOwner:" title="boost::shared_ptr&lt;AL::ALHierarchyOwner&gt;">const boost::shared_ptr&lt;AL::ALHierarchyOwner&gt;&amp;</a> <em>treeOwnerPtr</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackName</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>timeoutSeconds</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::waitForLocalResourcesTree__std::vector:ss:CR.boost::shared_ptr:AL::ALHierarchyOwner:CR.ssCR.iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for resource tree. Parent and children are not in conflict. Local function</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceName</strong> &#8211; Resource name</li>
+<li><strong>treeOwnerPtr</strong> &#8211; Owner pointer with tree hierarchy</li>
+<li><strong>callbackName</strong> &#8211; callback name</li>
+<li><strong>timeoutSeconds</strong> &#8211; Timeout in seconds</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::waitForResource__ssCR.ssCR.ssCR.iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">waitForResource</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>resourceName</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>ownerName</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackName</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>timeoutSeconds</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::waitForResource__ssCR.ssCR.ssCR.iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait resource</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceName</strong> &#8211; Resource name</li>
+<li><strong>ownerName</strong> &#8211; Owner name</li>
+<li><strong>callbackName</strong> &#8211; callback name</li>
+<li><strong>timeoutSeconds</strong> &#8211; Timeout in seconds</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::declareEvent__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">declareEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>eventName</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>extractorName</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::declareEvent__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Declares an event to allow future subscriptions to the event</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> &#8211; The name of the event</li>
+<li><strong>extractorName</strong> &#8211; The name of the extractor capable of creating the event</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::getData__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">getData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::getData__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a key-value pair stored in memory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> &#8211; Name of the value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The data as an ALValue. This can often be cast transparently into the original type.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::getData__ssCR.iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">getData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>deprecatedParameter</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::getData__ssCR.iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a key-value pair stored in memory.</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.12: </span>use the version of this method with no second parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> &#8211; Name of the value</li>
+<li><strong>deprecatedParameter</strong> &#8211; DEPRECATED - This parameter has no effect, but is left for compatibility reason.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The data as an ALValue</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::getDataList__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">getDataList</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>filter</em><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::getDataList__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a list of all key names that contain a given string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filter</strong> &#8211; A string used as the search term</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of all the data key names that contain the given string.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALResourceManagerProxy::getDataListName">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALResourceManagerProxy::</tt><tt class="descname">getDataListName</tt><big>(</big><big>)</big><a class="headerlink" href="#ALResourceManagerProxy::getDataListName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the key names for all the key-value pairs in memory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list containing the keys in memory</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="alresourcemanager.html" title="ALResourceManager">ALResourceManager</a>
+     |
+    <a href="alresourcemanager.html" title="ALResourceManager" accesskey="U">ALResourceManager</a>
+   |
+    <a href="alresourcemanager-tuto.html" title="ALResourceManager Tutorial">ALResourceManager Tutorial</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Core</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albehaviormanager.html">ALBehaviorManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../connectionmanager/index.html">ALConnectionManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almemory.html">ALMemory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almodule.html">ALModule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alpreferences.html">ALPreferences</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="alresourcemanager.html">ALResourceManager</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALResourceManager API</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="alresourcemanager-tuto.html">ALResourceManager Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="allauncher.html">ALLauncher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="albonjour.html">ALBonjour</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allogger.html">ALLogger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="extractors.html">Extractors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALResourceManager API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="alresourcemanager.html" title="ALResourceManager">previous</a>
+     |
+    <a href="alresourcemanager.html" title="ALResourceManager" accesskey="U">up</a>
+   |
+    <a href="alresourcemanager-tuto.html" title="ALResourceManager Tutorial">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,342 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALVisualCompass &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Vision" href="index.html" />
+    <link rel="next" title="ALVisualCompass API" href="alvisualcompass-api.html" />
+    <link rel="prev" title="ALVisionRecognition Tutorial" href="alvisionrecognition-tuto.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="alvisionrecognition-tuto.html" title="ALVisionRecognition Tutorial">previous</a>
+     |
+    <a href="index.html" title="NAOqi Vision" accesskey="U">up</a>
+   |
+    <a href="alvisualcompass-api.html" title="ALVisualCompass API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-vision-alvisualcompass">
+            
+  <div class="section" id="alvisualcompass">
+<span id="id1"></span><h1>ALVisualCompass<a class="headerlink" href="#alvisualcompass" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-vision"><em>NAOqi Vision</em></a> - Overview | <a class="reference internal" href="alvisualcompass-api.html#alvisualcompass-api"><em>API</em></a></p>
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p><strong>ALVisualCompass</strong> is an extractor which gives the current rotation angles of
+the robot compared to a given reference image along the Y and Z axis.</p>
+<p>The module gives the rotation of the FRAME_ROBOT reference, so the whole body of
+the robot and not only its head. This means that if the robot stays standing
+but moves its head, the deviation angles will not change.</p>
+</div>
+<div class="section" id="when-to-use-it">
+<h2>When to use it<a class="headerlink" href="#when-to-use-it" title="Permalink to this headline">¶</a></h2>
+<p><strong>ALVisualCompass</strong> may be used to get the robot&#8217;s rotation around the Z axis
+independently of the measure of the same angle theta by the robot&#8217;s odometry:</p>
+<ul class="simple">
+<li>to make NAO walk straight by setting the reference in front of him and then
+setting the robot&#8217;s walk straight using the compass deviation.</li>
+<li>to know when the robot slips while turning: the visual compass will give the
+actual deviation, while the odometry might be wrong because of NAO&#8217;s feet
+slipping.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>ALVisualCompass</strong> only works on the robot, since it retrieves the images
+from its cameras.</p>
+</div>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>You can find an example on how to use ALVisualCompass <a class="reference internal" href="../../dev/cpp/examples/vision/alvisualcompass/alvisualcompass.html#cpp-examples-alvisualcompass"><em>here</em></a>.</p>
+<div class="section" id="general-principle">
+<h3>General principle<a class="headerlink" href="#general-principle" title="Permalink to this headline">¶</a></h3>
+<p>The module first extracts keypoints from the reference image, and the current
+camera position and stores them.</p>
+<p>When the module is running, it then extracts keypoints from the current image,
+and tries to match them with the ones from the reference image. It then computes
+the global deviation of all keypoints which are in both reference and current
+images, and deduces the rotation between the two. It then takes into account
+the current camera position, and by comparing it to the reference position,
+determines the deviation of the robot.</p>
+<div class="figure">
+<img alt="Keypoint match" src="../../_images/visualcompass_kpmatch.png" />
+<p class="caption">Example of keypoints matching allowing to compute the compass deviation</p>
+</div>
+<p>On this image, the top image is the reference image, and the bottom the current
+one. Each circle represents a keypoint, and the linked keypoints correspond to
+the pairs of matched keypoints. The green pairs are model inliers, which means
+they are used to compute the deviation, the red ones are outliers, so they
+are not taken into account because they are too different from the others.</p>
+<p>This image shows that mismatches can be eliminated as outliers, and that the
+global deviation is easily visible (here, the current image is to the left
+of the first one).</p>
+</div>
+<div class="section" id="keypoints-tracking">
+<h3>Keypoints tracking<a class="headerlink" href="#keypoints-tracking" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="features-of-interest">
+<h4>Features of interest<a class="headerlink" href="#features-of-interest" title="Permalink to this headline">¶</a></h4>
+<p>The keypoints have to be robust to scale changes (since the robot can be moving).
+The keypoints extracted are FAST keypoints (see
+<a class="reference external" href="http://www.edwardrosten.com/work/fast.html">E. Rosten&#8217;s page</a> and
+<a class="reference external" href="http://opencv.itseez.com/modules/features2d/doc/feature_detection_and_description.html#fastOpenCV">OpenCV documentation</a>)
+on three octaves to support several scales.</p>
+</div>
+<div class="section" id="matching">
+<h4>Matching<a class="headerlink" href="#matching" title="Permalink to this headline">¶</a></h4>
+<p>To match the reference keypoints to the current ones, the module uses a
+Flann-based KDTree, for a quicker match. Flann is implemented in
+<a class="reference external" href="http://opencv.itseez.com/modules/flann/doc/flann.html">OpenCV</a>.</p>
+</div>
+</div>
+<div class="section" id="global-deviation">
+<h3>Global deviation<a class="headerlink" href="#global-deviation" title="Permalink to this headline">¶</a></h3>
+<p>Each pair of point will have its own deviation. To compute the one that fits
+best with the matched points while still being robust to outliers (wrong
+matching for example), the module uses a <a class="reference external" href="http://en.wikipedia.org/wiki/RANSAC">RANSAC</a>
+method to get the rotation on Y and Z axis.</p>
+</div>
+</div>
+<div class="section" id="performances-and-limitations">
+<h2>Performances and limitations<a class="headerlink" href="#performances-and-limitations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="reference-visibility">
+<h3>Reference visibility<a class="headerlink" href="#reference-visibility" title="Permalink to this headline">¶</a></h3>
+<p>The algorithm is dependent on the fact that at least part of the reference image
+is visible while the compass is running. If the visual reference is out of the
+robot&#8217;s field of view, the compass will not be able to give any information.</p>
+</div>
+<div class="section" id="quality-indicators">
+<h3>Quality indicators<a class="headerlink" href="#quality-indicators" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Number of matches</strong>: The more points that are matched, the better the deviation
+computation.</li>
+<li><strong>Percentage of inliers</strong>: The percentage of inliers for the model (the
+keypoints that are not absurdly matched) is also important: if it is under
+50%, then the RANSAC computation is not significant.</li>
+</ul>
+<p>Both these values are accessible here: <a class="reference internal" href="alvisualcompass-api.html#ALVisualCompassProxy::getMatchingQuality" title="ALVisualCompassProxy::getMatchingQuality"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVisualCompassProxy::getMatchingQuality()</span></tt></a>.</p>
+</div>
+<div class="section" id="cpu-usage-and-refresh-period">
+<h3>CPU usage and refresh period<a class="headerlink" href="#cpu-usage-and-refresh-period" title="Permalink to this headline">¶</a></h3>
+<p>The keypoint extraction and matching is quite CPU consuming.</p>
+<p>It is recommended to adapt the refresh period to your needs to avoid unnecessary
+computations.</p>
+</div>
+<div class="section" id="image-resolution">
+<h3>Image resolution<a class="headerlink" href="#image-resolution" title="Permalink to this headline">¶</a></h3>
+<p>By default, <strong>ALVisualCompass</strong> uses the lowest resolution possible to save
+computational power (QQVGA or 160x120 resolution). However, it is possible to
+raise the resolution, to improve the precision of the compass
+but at the cost of a slower processing.</p>
+<p>To adjust the image resolution, use <tt class="docutils literal"><span class="pre">ALVisualCompassProxy::setResolution</span></tt>
+inherited from <a class="reference internal" href="../core/alvisionextractor-api.html#ALVisionExtractor::setResolution__iCR" title="ALVisionExtractor::setResolution"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVisionExtractor::setResolution()</span></tt></a>.
+It is possible, but not recommended, to change the image resolution on the fly
+while the extractor is running: in that case, the current image will be scaled
+to match the reference resolution, which will cost some computational power.
+To raise the resolution, first stop the extractor, then set the resolution and
+reset the reference.</p>
+</div>
+<div class="section" id="image-blur">
+<h3>Image blur<a class="headerlink" href="#image-blur" title="Permalink to this headline">¶</a></h3>
+<p>When NAO is walking, the image can be relatively blurred because the head
+is oscillating. To compensate for that, <strong>ALVisualCompass</strong> compares the
+sharpness of the current image to the one of the reference image: if the
+current image is significantly less sharp than the reference, then the image is
+skipped.</p>
+<p>This saves computational power, since images which are too blurry are not
+processed. If you see that the associated events are refreshed less often, this
+means that the images are too blurry: this can be fixed by slowing down the
+walk and / or the head moves.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="alvisionrecognition-tuto.html" title="ALVisionRecognition Tutorial">ALVisionRecognition Tutorial</a>
+     |
+    <a href="index.html" title="NAOqi Vision" accesskey="U">NAOqi Vision</a>
+   |
+    <a href="alvisualcompass-api.html" title="ALVisualCompass API">ALVisualCompass API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Vision</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albacklightingdetection.html">ALBacklightingDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aldarknessdetection.html">ALDarknessDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alfacedetection.html">ALFaceDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allandmarkdetection.html">ALLandMarkDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almovementdetection.html">ALMovementDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alphotocapture.html">ALPhotoCapture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alredballdetection.html">ALRedBallDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvideodevice.html">ALVideoDevice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvideorecorder.html">ALVideoRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvisionrecognition.html">ALVisionRecognition</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">ALVisualCompass</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="alvisualcompass-api.html">ALVisualCompass API</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="alvisiontoolbox.html">ALVisionToolbox</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALVisualCompass</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#when-to-use-it">When to use it</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a><ul>
+<li><a class="reference internal" href="#general-principle">General principle</a></li>
+<li><a class="reference internal" href="#keypoints-tracking">Keypoints tracking</a><ul>
+<li><a class="reference internal" href="#features-of-interest">Features of interest</a></li>
+<li><a class="reference internal" href="#matching">Matching</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#global-deviation">Global deviation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#performances-and-limitations">Performances and limitations</a><ul>
+<li><a class="reference internal" href="#reference-visibility">Reference visibility</a></li>
+<li><a class="reference internal" href="#quality-indicators">Quality indicators</a></li>
+<li><a class="reference internal" href="#cpu-usage-and-refresh-period">CPU usage and refresh period</a></li>
+<li><a class="reference internal" href="#image-resolution">Image resolution</a></li>
+<li><a class="reference internal" href="#image-blur">Image blur</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="alvisionrecognition-tuto.html" title="ALVisionRecognition Tutorial">previous</a>
+     |
+    <a href="index.html" title="NAOqi Vision" accesskey="U">up</a>
+   |
+    <a href="alvisualcompass-api.html" title="ALVisualCompass API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

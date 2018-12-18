@@ -1,0 +1,128 @@
+\form#0:$ pMin \leq pData \leq pMax $
+\form#1:$\begin{array}{ccc} result.x & = & pVel.xd \\ result.y & = & pVel.yd \\ result.z & = & pVel.zd \\ result.wx & = & pVel.wxd \\ result.wy & = & pVel.wyd \\ result.wz & = & pVel.wzd \end{array} $
+\form#2:$\left[\begin{array}{c} result.x \\ result.y \\ result.z \end{array}\right] = \left[\begin{array}{ccc} pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 \\ pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 \\ pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 \end{array}\right] * \left[\begin{array}{c} pPos.x \\ pPos.y \\ pPos.z \end{array}\right] $
+\form#3:$\begin{array}{ccc} pVel.xd & = & pVal*pPos.x \\ pVel.yd & = & pVal*pPos.y \\ pVel.zd & = & pVal*pPos.z \\ pVel.wxd & = & pVal*pPos.wx \\ pVel.wyd & = & pVal*pPos.wy \\ pVel.wzd & = & pVal*pPos.wz \end{array} $
+\form#4:$\left[-\pi+0.001, \pi-0.001\right]$
+\form#5:$\left[-\pi+0.001, \pi-0.001\right] $
+\form#6:$ \left[\begin{array}{c} pVOut.xd \\ pVOut.yd \\ pVOut.zd \\ pVOut.wxd \\ pVOut.wyd \\ pVOut.wzd \\ \end{array}\right] = \left[\begin{array}{cccccc} r_1c_1 & r_1c_2 & r_1c_3 & 0 & 0 & 0 \\ r_2c_1 & r_2c_2 & r_2c_3 & 0 & 0 & 0 \\ r_3c_1 & r_3c_2 & r_3c_3 & 0 & 0 & 0 \\ 0 & 0 & 0 & r_1c_1 & r_1c_2 & r_1c_3 \\ 0 & 0 & 0 & r_2c_1 & r_2c_2 & r_2c_3 \\ 0 & 0 & 0 & r_3c_1 & r_3c_2 & r_3c_3 \\ \end{array}\right] \left[\begin{array}{c} pVIn.xd \\ pVIn.yd \\ pVIn.zd \\ pVIn.wxd \\ pVIn.wyd \\ pVIn.wzd \\ \end{array}\right] $
+\form#7:$ \left[\begin{array}{c} pPOut.x \\ pPOut.y \\ pPOut.z \\ pPOut.wx \\ pPOut.wy \\ pPOut.wz \\ \end{array}\right] = \left[\begin{array}{cccccc} r_1c_1 & r_1c_2 & r_1c_3 & 0 & 0 & 0 \\ r_2c_1 & r_2c_2 & r_2c_3 & 0 & 0 & 0 \\ r_3c_1 & r_3c_2 & r_3c_3 & 0 & 0 & 0 \\ 0 & 0 & 0 & r_1c_1 & r_1c_2 & r_1c_3 \\ 0 & 0 & 0 & r_2c_1 & r_2c_2 & r_2c_3 \\ 0 & 0 & 0 & r_3c_1 & r_3c_2 & r_3c_3 \\ \end{array}\right] \left[\begin{array}{c} pPIn.x \\ pPIn.y \\ pPIn.z \\ pPIn.wx \\ pPIn.wy \\ pPIn.wz \\ \end{array}\right] $
+\form#8:$ \left[\begin{array}{c} pPosOut.x \\ pPosOut.y \\ pPosOut.z \\ \end{array}\right] = \left[\begin{array}{ccc} r_1c_1 & r_1c_2 & r_1c_3\\ r_2c_1 & r_2c_2 & r_2c_3\\ r_3c_1 & r_3c_2 & r_3c_3\\ \end{array}\right] \left[\begin{array}{c} pPosIn.x \\ pPosIn.y \\ pPosIn.z \\ \end{array}\right] $
+\form#9:$ \left[\begin{array}{c} pTOut \\ \end{array}\right] = \left[\begin{array}{c} pT \end{array}\right] \left[\begin{array}{c} pTIn \\ \end{array}\right]^T $
+\form#10:$ \left[\begin{array}{c} pTOut \\ \end{array}\right] = \left[\begin{array}{c} pT \end{array}\right] \left[\begin{array}{c} pTIn \\ \end{array}\right] $
+\form#11:$ \left[\begin{array}{c} pVOut.xd \\ pVOut.yd \\ pVOut.zd \\ pVOut.wxd \\ pVOut.wyd \\ pVOut.wzd \\ \end{array}\right] = \left[\begin{array}{cccccc} r_1c_1 & r_2c_1 & r_3c_1 & 0 & 0 & 0 \\ r_1c_2 & r_2c_2 & r_3c_2 & 0 & 0 & 0 \\ r_1c_3 & r_2c_3 & r_3c_3 & 0 & 0 & 0 \\ 0 & 0 & 0 & r_1c_1 & r_2c_1 & r_3c_1 \\ 0 & 0 & 0 & r_1c_2 & r_2c_2 & r_3c_2 \\ 0 & 0 & 0 & r_1c_3 & r_2c_3 & r_3c_3 \\ \end{array}\right] \left[\begin{array}{c} pVIn.xd \\ pVIn.yd \\ pVIn.zd \\ pVIn.wxd \\ pVIn.wyd \\ pVIn.wzd \\ \end{array}\right] $
+\form#12:$ \left[\begin{array}{c} pPOut.x \\ pPOut.y \\ pPOut.z \\ pPOut.wx \\ pPOut.wy \\ pPOut.wz \\ \end{array}\right] = \left[\begin{array}{cccccc} r_1c_1 & r_2c_1 & r_3c_1 & 0 & 0 & 0 \\ r_1c_2 & r_2c_2 & r_3c_2 & 0 & 0 & 0 \\ r_1c_3 & r_2c_3 & r_3c_3 & 0 & 0 & 0 \\ 0 & 0 & 0 & r_1c_1 & r_2c_1 & r_3c_1 \\ 0 & 0 & 0 & r_1c_2 & r_2c_2 & r_3c_2 \\ 0 & 0 & 0 & r_1c_3 & r_2c_3 & r_3c_3 \\ \end{array}\right] \left[\begin{array}{c} pPIn.x \\ pPIn.y \\ pPIn.z \\ pPIn.wx \\ pPIn.wy \\ pPIn.wz \\ \end{array}\right] $
+\form#13:$ T = \left[\begin{array}{cccc} pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pX \\ pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pY \\ pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pZ \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] $
+\form#14:$ T = \left[\begin{array}{cccc} pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pPos.x \\ pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pPos.y \\ pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pPos.z \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] $
+\form#15:$ \left[\begin{array}{c} Transform \\ \end{array}\right] = \left[\begin{array}{cc} pRotation& *_{3,1}\\ 0_{1,3} & 1\\ \end{array}\right] $
+\form#16:$ \left[\begin{array}{c} Transform \\ \end{array}\right] = \left[\begin{array}{cc} pRotation& 0_{3,1}\\ 0_{1,3} & 1\\ \end{array}\right] $
+\form#17:$ \left[\begin{array}{c} pPos.x \\ pPos.y \\ pPos.z \\ \end{array}\right] = \left[\begin{array}{c} pT.r_1c_4 \\ pT.r_2c_4 \\ pT.r_3c_4 \\ \end{array}\right] $
+\form#18:$ \left[\begin{array}{c} return.x \\ return.y \\ return.z \\ \end{array}\right] = \left[\begin{array}{c} pT.r_1c_4 \\ pT.r_2c_4 \\ pT.r_3c_4 \\ \end{array}\right] $
+\form#19:$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2$
+\form#20:$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2}$
+\form#21:$ \left[\begin{array}{c} x \\ y \\ theta \end{array}\right] = \left[\begin{array}{c} 0.0 \\ 0.0 \\ 0.0 \end{array}\right]$
+\form#22:$ \left[\begin{array}{c} x \\ y \\ theta \end{array}\right] = \left[\begin{array}{c} pInit \\ pInit \\ pInit \end{array}\right]$
+\form#23:$ \left[\begin{array}{c} x \\ y \\ theta \end{array}\right] = \left[\begin{array}{c} pX \\ pY \\ pTheta \end{array}\right]$
+\form#24:$ \left[\begin{array}{c} x \\ y \\ theta \end{array}\right] = \left[\begin{array}{c} pFloats[0] \\ pFloats[1] \\ pFloats[2] \end{array}\right]$
+\form#25:$(pPos1,pPos2)$
+\form#26:$\sqrt{(pPos.x)^2+(pPos.y)^2}$
+\form#27:$pRes = \frac{pPos}{norm(pPos)}$
+\form#28:$pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)$
+\form#29:$ \left[\begin{array}{c} x \\ y \end{array}\right] = \left[\begin{array}{c} 0.0 \\ 0.0 \end{array}\right]$
+\form#30:$ \left[\begin{array}{c} x \\ y \end{array}\right] = \left[\begin{array}{c} pInit \\ pInit \end{array}\right]$
+\form#31:$ \left[\begin{array}{c} x \\ y \end{array}\right] = \left[\begin{array}{c} pX \\ pY \end{array}\right]$
+\form#32:$ \left[\begin{array}{c} x \\ y \end{array}\right] = \left[\begin{array}{c} pFloats[0] \\ pFloats[1] \end{array}\right]$
+\form#33:$\sqrt{pPos.x^2+pPos.y^2}$
+\form#34:$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2$
+\form#35:$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2}$
+\form#36:$\sqrt{pPos.x^2+pPos.y^2+pPos.z^2}$
+\form#37:$pRes = (pPos1.x*pPos2.x + pPos1.y*pPos2.y + pPos1.z*pPos2.z)$
+\form#38:$pRes.x = pPos1.y*pPos2.z - pPos1.z*pPos2.y$
+\form#39:$pRes.y = pPos1.z*pPos2.x - pPos1.x*pPos2.z$
+\form#40:$pRes.z = pPos1.x*pPos2.y - pPos1.y*pPos2.x$
+\form#41:$ \left[\begin{array}{c} x \\ y \\ z \end{array}\right] = \left[\begin{array}{c} 0.0 \\ 0.0 \\ 0.0 \end{array}\right]$
+\form#42:$ \left[\begin{array}{c} x \\ y \\ z \end{array}\right] = \left[\begin{array}{c} pInit \\ pInit \\ pInit \end{array}\right]$
+\form#43:$ \left[\begin{array}{c} x \\ y \\ z \end{array}\right] = \left[\begin{array}{c} pX \\ pY \\ pZ \end{array}\right]$
+\form#44:$ \left[\begin{array}{c} x \\ y \\ z \end{array}\right] = \left[\begin{array}{c} pFloats[0] \\ pFloats[1] \\ pFloats[2] \end{array}\right]$
+\form#45:$result = \frac{pPos}{norm(pPos)}$
+\form#46:$result = (pPos1.x*pPos2.x + pPos1.y*pPos2.y + pPos1.z*pPos2.z)$
+\form#47:$\sqrt{pPos.x^2 + pPos.y^2 + pPos.z^2 + pPos.wx^2 + pPos.wy^2 + pPos.wz^2}$
+\form#48:$pRes = \frac{pPos}{norm(pPos)} $
+\form#49:$ \left[\begin{array}{c} x \\ y \\ z \\ wx \\ wy \\ wz \end{array}\right] = \left[\begin{array}{c} 0.0 \\ 0.0 \\ 0.0 \\ 0.0 \\ 0.0 \\ 0.0 \end{array}\right]$
+\form#50:$ \left[\begin{array}{c} x \\ y \\ z \\ wx \\ wy \\ wz \end{array}\right] = \left[\begin{array}{c} pInit \\ pInit \\ pInit \\ pInit \\ pInit \\ pInit \end{array}\right]$
+\form#51:$ \left[\begin{array}{c} x \\ y \\ z \\ wx \\ wy \\ wz \end{array}\right] = \left[\begin{array}{c} pX \\ pY \\ pZ \\ pWx \\ pWy \\ pWz \end{array}\right]$
+\form#52:$ \left[\begin{array}{c} x \\ y \\ z \\ wx \\ wy \\ wz \end{array}\right] = \left[\begin{array}{c} pFloats[0] \\ pFloats[1] \\ pFloats[2] \\ pFloats[3] \\ pFloats[4] \\ pFloats[5] \end{array}\right]$
+\form#53:$ \left[\begin{array}{c} q \\ dq \end{array}\right] = \left[\begin{array}{c} pq \\ pdq \end{array}\right]$
+\form#54:$\sqrt{pQua.w^2+pQua.x^2+pQua.y^2+pQua.z^2}$
+\form#55:$pRes = \frac{pQua}{norm(pQua)}$
+\form#56:$ \left[\begin{array}{c} w \\ x \\ y \\ z \end{array}\right] = \left[\begin{array}{c} 0.0 \\ 0.0 \\ 0.0 \\ 0.0 \end{array}\right]$
+\form#57:$ \left[\begin{array}{c} w \\ x \\ y \\ z \end{array}\right] = \left[\begin{array}{c} pW \\ pX \\ pY \\ pZ \end{array}\right]$
+\form#58:$ \left[\begin{array}{c} w \\ x \\ y \\ z \end{array}\right] = \left[\begin{array}{c} pFloats[0] \\ pFloats[1] \\ pFloats[2] \\ pFloats[3] \end{array}\right]$
+\form#59:$result = \frac{pQua}{norm(pQua)}$
+\form#60:$ \left[\begin{array}{ccc} r_1c_1 & r_1c_2 & r_1c_3 \\ r_2c_1 & r_2c_2 & r_2c_3 \\ r_3c_1 & r_3c_2 & r_3c_3 \end{array}\right]$
+\form#61:$pRot.r_1c_1*pRot.r_2c_2*pRot.r_3c_3 + pRot.r_1c_2*pRot.r_2c_3*pRot.r_3c_1 + pRot.r_1c_3*pRot.r_2c_1*pRot.r_3c_2 - pRot.r_1c_1*pRot.r_2c_3*pRot.r_3c_2 - pRot.r_1c_2*pRot.r_2c_1*pRot.r_3c_3 - pRot.r_1c_3*pRot.r_2c_2*pRot.r_3c_1$
+\form#62:$ pRot = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 \\ 0.0 & cos(pRotX) & -sin(pRotX) \\ 0.0 & sin(pRotX) & cos(pRotX) \end{array}\right]$
+\form#63:$ pT = \left[\begin{array}{cccc} cos(pRotY) & 0.0 & sin(pRotY) \\ 0.0 & 1.0 & 0.0 \\ -sin(pRotY) & 0.0 & cos(pRotY) \end{array}\right]$
+\form#64:$ pT = \left[\begin{array}{cccc} cos(pRotZ) & -sin(pRotZ) & 0.0 \\ sin(pRotZ) & cos(pRotZ) & 0.0 \\ 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#65:$ \left[\begin{array}{ccc} r_1c_1 & r_1c_2 & r_1c_3 \\ r_2c_1 & r_2c_2 & r_2c_3 \\ r_3c_1 & r_3c_2 & r_3c_3 \end{array}\right] = \left[\begin{array}{ccc} 1.0 & 0.0 & 0.0 \\ 0.0 & 1.0 & 0.0 \\ 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#66:$ \left[\begin{array}{cccc} r_1c_1 & r_1c_2 & r_1c_3 \\ r_2c_1 & r_2c_2 & r_2c_3 \\ r_3c_1 & r_3c_2 & r_3c_3 \end{array}\right] = \left[\begin{array}{cccc} pFloats[0] & pFloats[1] & pFloats[2] \\ pFloats[3] & pFloats[4] & pFloats[5] \\ pFloats[6] & pFloats[7] & pFloats[8] \end{array}\right]$
+\form#67:$ \left[\begin{array}{cccc} r_1c_1 & r_1c_2 & r_1c_3 \\ r_2c_1 & r_2c_2 & r_2c_3 \\ r_3c_1 & r_3c_2 & r_3c_3 \end{array}\right] = \left[\begin{array}{cccc} pFloats[0] & pFloats[1] & pFloats[2] \\ pFloats[4] & pFloats[5] & pFloats[6] \\ pFloats[8] & pFloats[9] & pFloats[10] \end{array}\right]$
+\form#68:$ \begin{array}{cccc} [r_1c_1, & r_1c_2, & r_1c_3, \\ r_2c_1, & r_2c_2, & r_2c_3, \\ r_3c_1, & r_3c_2, & r_3c_3] \end{array}$
+\form#69:$\sqrt{pRot.wx^2 + pRot.wy^2 + pRot.wz^2}$
+\form#70:$ \left[\begin{array}{c} wx \\ wy \\ wz \end{array}\right] = \left[\begin{array}{c} 0.0 \\ 0.0 \\ 0.0 \end{array}\right]$
+\form#71:$ \left[\begin{array}{c} wx \\ wy \\ wz \end{array}\right] = \left[\begin{array}{c} pInit \\ pInit \\ pInit \end{array}\right]$
+\form#72:$ \left[\begin{array}{c} wx \\ wy \\ wz \end{array}\right] = \left[\begin{array}{c} pWx \\ pWy \\ pWz \end{array}\right]$
+\form#73:$ \left[\begin{array}{c} wx \\ wy \\ wz \end{array}\right] = \left[\begin{array}{c} pFloats[0] \\ pFloats[1] \\ pFloats[2] \end{array}\right]$
+\form#74:$\sqrt{pT.r_1c_4^2+pT.r_2c_4^2+pT.r_3c_4^2}$
+\form#75:$ \begin{array}{cccc} [r_1c_1, & r_1c_2, & r_1c_3, & r_1c_4, \\ r_2c_1, & r_2c_2, & r_2c_3, & r_2c_4, \\ r_3c_1, & r_3c_2, & r_3c_3, & r_3c_4, \\ 0.0, & 0.0, & 0.0, & 1.0] \end{array}$
+\form#76:$pT.r_1c_1*pT.r_2c_2*pT.r_3c_3 + pT.r_1c_2*pT.r_2c_3*pT.r_3c_1 + pT.r_1c_3*pT.r_2c_1 * pT.r_3c_2 - pT.r_1c_1*pT.r_2c_3*pT.r_3c_2 - pT.r_1c_2*pT.r_2c_1*pT.r_3c_3 - pT.r_1c_3*pT.r_2c_2*pT.r_3c_1$
+\form#77:$pT[0]*pT[5]*pT[10] + pT[1]*pT[6]*pT[8] + pT[2]*pT[4]*pT[9] - pT[0]*pT[6]*pT[9] - pT[1]*pT[4]*pT[10] - pT[2]*pT[5]*pT[8]$
+\form#78:$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]$
+\form#79:$ pTOut = \left[\begin{array}{cc} R^t & (-R^t*r) \\ 0_{31} & 1 \end{array}\right]$
+\form#80:$ pTOut = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & 0.0 \\ 0.0 & cos(pRotX) & -sin(pRotX) & 0.0 \\ 0.0 & sin(pRotX) & cos(pRotX) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#81:$ pTOut = \left[\begin{array}{cccc} cos(pRotY) & 0.0 & sin(pRotY) & 0.0 \\ 0.0 & 1.0 & 0.0 & 0.0 \\ -sin(pRotY) & 0.0 & cos(pRotY) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#82:$ pTOut = \left[\begin{array}{cccc} cos(pRotZ) & -sin(pRotZ) & 0.0 & 0.0 \\ sin(pRotZ) & cos(pRotZ) & 0.0 & 0.0 \\ 0.0 & 0.0 & 1.0 & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#83:$ pTOut = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & pX \\ 0.0 & 1.0 & 0.0 & pY \\ 0.0 & 0.0 & 1.0 & pZ \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#84:$(pT1.r_1c_4-pT2.r_1c_4)^2 +(pT1.r_2c_4-pT2.r_2c_4)^2+(pT1.r_3c_4-pT2.r_3c_4)^2$
+\form#85:$\sqrt{(pT1.r_1c_4-pT2.r_1c_4)^2+(pT1.r_2c_4-pT2.r_2c_4)^2+(pT1.r_3c_4-pT2.r_3c_4)^2}$
+\form#86:$ \left[\begin{array}{cccc} r_1c_1 & r_1c_2 & r_1c_3 & r_1c_4 \\ r_2c_1 & r_2c_2 & r_2c_3 & r_2c_4 \\ r_3c_1 & r_3c_2 & r_3c_3 & r_3c_4 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & 0.0 \\ 0.0 & 1.0 & 0.0 & 0.0 \\ 0.0 & 0.0 & 1.0 & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#87:$ \left[\begin{array}{cccc} r_1c_1 & r_1c_2 & r_1c_3 & r_1c_4 \\ r_2c_1 & r_2c_2 & r_2c_3 & r_2c_4 \\ r_3c_1 & r_3c_2 & r_3c_3 & r_3c_4 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] = \left[\begin{array}{cccc} pFloats[00] & pFloats[01] & pFloats[02] & pFloats[03] \\ pFloats[04] & pFloats[05] & pFloats[06] & pFloats[07] \\ pFloats[08] & pFloats[09] & pFloats[10] & pFloats[11] \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#88:$ \left[\begin{array}{cccc} r_1c_1 & r_1c_2 & r_1c_3 & r_1c_4 \\ r_2c_1 & r_2c_2 & r_2c_3 & r_2c_4 \\ r_3c_1 & r_3c_2 & r_3c_3 & r_3c_4 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & pPosX \\ 0.0 & 1.0 & 0.0 & pPosY \\ 0.0 & 0.0 & 1.0 & pPosZ \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#89:$R^t * R = I$
+\form#90:$pT.r_1c_1*pT.r_2c_2*pT.r_3c_3 + pT.r_1c_2*pT.r_2c_3*pT.r_3c_1 + pT.r_1c_3*pT.r_2c_1*pT.r_3c_2 - pT.r_1c_1*pT.r_2c_3*pT.r_3c_2 - pT.r_1c_2*pT.r_2c_1*pT.r_3c_3 - pT.r_1c_3*pT.r_2c_2*pT.r_3c_1$
+\form#91:$ pT = \left[\begin{array}{cc}R & r \\ 0_{31} & 1 \end{array}\right]$
+\form#92:$ pT = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & 0.0 \\ 0.0 & cos(pRotX) & -sin(pRotX) & 0.0 \\ 0.0 & sin(pRotX) & cos(pRotX) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#93:$ pT = \left[\begin{array}{cccc} cos(pRotY) & 0.0 & sin(pRotY) & 0.0 \\ 0.0 & 1.0 & 0.0 & 0.0 \\ -sin(pRotY) & 0.0 & cos(pRotY) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#94:$ pT = \left[\begin{array}{cccc} cos(pRotZ) & -sin(pRotZ) & 0.0 & 0.0 \\ sin(pRotZ) & cos(pRotZ) & 0.0 & 0.0 \\ 0.0 & 0.0 & 1.0 & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#95:$ pT = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & pX \\ 0.0 & 1.0 & 0.0 & pY \\ 0.0 & 0.0 & 1.0 & pZ \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]$
+\form#96:$(pT1.r_1c_4-pT2.r_1c_4)^2+(pT1.r_2c_4-pT2.r_2c_4)^2+(pT1.r_3c_4-pT2.r_3c_4)^2$
+\form#97:$\sqrt{pVel.xd^2 + pVel.yd^2 + pVel.zd^2}$
+\form#98:$ pRes = \frac{pVel}{norm(pVel)} $
+\form#99:$ \left[\begin{array}{c} xd \\ yd \\ zd \end{array}\right] = \left[\begin{array}{c} 0.0 \\ 0.0 \\ 0.0 \end{array}\right]$
+\form#100:$ \left[\begin{array}{c} xd \\ yd \\ zd \end{array}\right] = \left[\begin{array}{c} pInit \\ pInit \\ pInit \end{array}\right]$
+\form#101:$ \left[\begin{array}{c} xd \\ yd \\ zd \end{array}\right] = \left[\begin{array}{c} pXd \\ pYd \\ pZd \end{array}\right]$
+\form#102:$ \left[\begin{array}{c} xd \\ yd \\ zd \end{array}\right] = \left[\begin{array}{c} pFloats[0] \\ pFloats[1] \\ pFloats[2] \end{array}\right]$
+\form#103:$ result = \frac{pVel}{norm(pVel)} $
+\form#104:$\sqrt{pVel.xd^2 + pVel.yd^2 + pVel.zd^2 + pVel.wxd^2 + pVel.wyd^2 + pVel.wzd^2}$
+\form#105:$pRes = \frac{pVel}{norm(pVel)} $
+\form#106:$ \left[\begin{array}{c} xd \\ yd \\ zd \\ wxd \\ wyd \\ wzd \end{array}\right] = \left[\begin{array}{c} 0.0 \\ 0.0 \\ 0.0 \\ 0.0 \\ 0.0 \\ 0.0 \end{array}\right]$
+\form#107:$ \left[\begin{array}{c} xd \\ yd \\ zd \\ wxd \\ wyd \\ wzd \end{array}\right] = \left[\begin{array}{c} pInit \\ pInit \\ pInit \\ pInit \\ pInit \\ pInit \end{array}\right]$
+\form#108:$ \left[\begin{array}{c} xd \\ yd \\ zd \\ wxd \\ wyd \\ wzd \end{array}\right] = \left[\begin{array}{c} pXd \\ pYd \\ pZd \\ pWxd \\ pWyd \\ pWzd \end{array}\right]$
+\form#109:$ \left[\begin{array}{c} xd \\ yd \\ zd \\ wxd \\ wyd \\ wzd \end{array}\right] = \left[\begin{array}{c} pFloats[0] \\ pFloats[1] \\ pFloats[2] \\ pFloats[3] \\ pFloats[4] \\ pFloats[5] \end{array}\right]$
+\form#110:$\sqrt{xd^2 + yd^2 + zd^2 + wxd^2 + wyd^2 + wzd^2}$
+\form#111:$ R = \left[\begin{array}{ccc} r_1c_1 & r_1c_2 & r_1c_3 \\ r_2c_1 & r_2c_2 & r_2c_3 \\ r_3c_1 & r_3c_2 & r_3c_3 \\ \end{array}\right]$
+\form#112:$ \left\{\begin{array}{c} R^t = R^{-1} \\ det(R) = 1 \end{array}\right.$
+\form#113:$ R_x(\theta) = \left[\begin{array}{ccc} 1 & 0 & 0 \\ 0 & cos(\theta) & -sin(\theta) \\ 0 & sin(\theta) & cos(\theta) \\ \end{array}\right]$
+\form#114:$ R_y(\theta) = \left[\begin{array}{ccc} cos(\theta) & 0 & sin(\theta) \\ 0 & 1 & 0 \\ -sin(\theta) & 0 & cos(\theta) \\ \end{array}\right]$
+\form#115:$ R_z(\theta) = \left[\begin{array}{ccc} cos(\theta) & -sin(\theta) & 0 \\ sin(\theta) & cos(\theta) & 0 \\ 0 & 0 & 1 \end{array}\right]$
+\form#116:$ H = \left[\begin{array}{cc} R & r \\ 0_{1,3} & 1 \end{array}\right]$
+\form#117:$\left[r_x r_y r_z\right]^t $
+\form#118:$ H_{ab} = \left[\begin{array}{cc} R_{ab} & r_{ab} \\ 0_{1,3} & 1 \end{array}\right]$
+\form#119:$ H_{ba} = H_{ab}^{-1} = \left[\begin{array}{cc} R_{ab}^t & -R_{ab}^t r_{ab} \\ 0_{1,3} & 1 \end{array}\right]$
+\form#120:$Rot_z(w_z) . Rot_y(w_y) . Rot_x(w_x)$
+\form#121:$ Position6D = \left[\begin{array}{c} x \\ y \\ z \\ z \\ w_x \\ w_y \\ w_z \end{array}\right]$
+\form#122:$(x, y, z)$
+\form#123:$(w_x, w_y, w_z)$
+\form#124:$ Position6D = \left[\begin{array}{c} x \\ y \\ z \\ w_x \\ w_y \\ w_z \end{array}\right]$
+\form#125:$ \left\{\begin{array}{l} R = R_z(w_z) R_y(w_y) R_x(w_x) \\ r = \left[\begin{array}{ccc}x & y & z \end{array}\right]^t \end{array}\right.$
+\form#126:$ Position6D = \left[\begin{array}{c} +1.0 \\ -0.5 \\ -0.4 \\ 0.1745 \\ 0.0 \\ 0.0 \end{array}\right]$
+\form#127:$ Transform = \left[\begin{array}{cccc} 1 & 0 & 0 & +1.0 \\ 0 & 0.9848 & -0.1736 & -0.5 \\ 0 & 0.1736 & 0.9848 & +0.4 \\ 0 & 0 & 0 & 1 \end{array}\right]$

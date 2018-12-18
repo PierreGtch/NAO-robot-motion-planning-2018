@@ -1,0 +1,438 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Links - V 3.2 &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Links" href="links_robot.html" />
+    <link rel="next" title="Joints" href="joints_robot.html" />
+    <link rel="prev" title="Links - V 3.3" href="links_robot_v33.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="links_robot_v33.html" title="Links - V 3.3">previous</a>
+     |
+    <a href="links_robot.html" title="Links" accesskey="U">up</a>
+   |
+    <a href="joints_robot.html" title="Joints">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="family-robots-links_robot_v32">
+            
+  <div class="section" id="links-v-3-2">
+<span id="robot-links-v32"></span><h1>Links - V 3.2<a class="headerlink" href="#links-v-3-2" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p><a class="reference internal" href="links_robot.html#robot-links"><em>V 4.0</em></a> | <a class="reference internal" href="links_robot_v33.html#robot-links-v33"><em>V 3.3</em></a> | <strong>V 3.2</strong></p>
+<p class="last"><a class="reference internal" href="../nao_h25/links_h25.html#h25-links"><em>H25 - Links</em></a> | <a class="reference internal" href="../nao_h21/links_h21.html#h21-links"><em>H21 - Links</em></a> | <a class="reference internal" href="../nao_t14/links_t14.html#t14-links"><em>T14 - Links</em></a> | <a class="reference internal" href="../nao_t2/links_t2.html#t2-links"><em>T2 - Links</em></a></p>
+</div>
+<hr class="docutils" />
+<div class="section" id="length-overview">
+<h2>Length overview<a class="headerlink" href="#length-overview" title="Permalink to this headline">¶</a></h2>
+<img alt="../../_images/hardware_lengthfront.png" src="../../_images/hardware_lengthfront.png" style="width: 600px; height: 568px;" />
+<img alt="../../_images/hardware_lengthup.png" src="../../_images/hardware_lengthup.png" style="width: 456px; height: 354px;" />
+</div>
+<div class="section" id="link-definition">
+<h2>Link definition<a class="headerlink" href="#link-definition" title="Permalink to this headline">¶</a></h2>
+<p>Links are defined using:</p>
+<ul class="simple">
+<li>Joint names (see <strong>Joints</strong> and <strong>Masses</strong> section to visualize them) and,</li>
+<li>a point called <strong>Torso</strong>, located at - 126.50 Z (mm) from <strong>HeadYaw</strong>.</li>
+</ul>
+<p><strong>Axis definition</strong></p>
+<p>The <strong>X</strong> axis is positive toward NAO&#8217;s front, the <strong>Y</strong> from right to left and the <strong>Z</strong> is vertical.</p>
+<img alt="../../_images/torso_xyz_axis.png" src="../../_images/torso_xyz_axis.png" style="width: 226px; height: 330px;" />
+</div>
+<div class="section" id="head">
+<h2>Head<a class="headerlink" href="#head" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="27%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From ...</th>
+<th class="head">To ...</th>
+<th class="head">X (mm)</th>
+<th class="head">Y (mm)</th>
+<th class="head">Z (mm)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Torso</td>
+<td>HeadYaw</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>126.50</td>
+</tr>
+<tr class="row-odd"><td>HeadYaw</td>
+<td>HeadPitch</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">Main length (mm)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>NeckOffsetZ</td>
+<td>126.50</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="arms">
+<h2>Arms<a class="headerlink" href="#arms" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="25%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From ...</th>
+<th class="head">To  ...</th>
+<th class="head">X (mm)</th>
+<th class="head">Y (mm)</th>
+<th class="head">Z (mm)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Torso</td>
+<td>LShoulderPitch</td>
+<td>0.00</td>
+<td>98.00</td>
+<td>100.00</td>
+</tr>
+<tr class="row-odd"><td>LShoulderPitch</td>
+<td>LShoulderRoll</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="row-even"><td>LShoulderRoll</td>
+<td>LElbowYaw</td>
+<td>90.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="row-odd"><td>LElbowYaw</td>
+<td>LElbowRoll</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="row-even"><td>LElbowRoll</td>
+<td>LWristYaw</td>
+<td>50.55</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">Main length (mm)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ShoulderOffsetY</td>
+<td>98.00</td>
+</tr>
+<tr class="row-odd"><td>UpperArmLength</td>
+<td>90.00</td>
+</tr>
+<tr class="row-even"><td>LowerArmLength</td>
+<td>50.55</td>
+</tr>
+<tr class="row-odd"><td>ShoulderOffsetZ</td>
+<td>100.00</td>
+</tr>
+<tr class="row-even"><td>HandOffsetX</td>
+<td>58.00</td>
+</tr>
+<tr class="row-odd"><td>HandOffsetZ</td>
+<td>15.90</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="legs">
+<h2>Legs<a class="headerlink" href="#legs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="25%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From ...</th>
+<th class="head">To  ...</th>
+<th class="head">X (mm)</th>
+<th class="head">Y (mm)</th>
+<th class="head">Z (mm)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Torso</td>
+<td>LHipYawPitch</td>
+<td>0.00</td>
+<td>50.00</td>
+<td>-85.00</td>
+</tr>
+<tr class="row-odd"><td>LHipYawPitch</td>
+<td>LHipRoll</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="row-even"><td>LHipRoll</td>
+<td>LHipPitch</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr class="row-odd"><td>LHipPitch</td>
+<td>LKneePitch</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>-100.00</td>
+</tr>
+<tr class="row-even"><td>LKneePitch</td>
+<td>LAnklePitch</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>-102.90</td>
+</tr>
+<tr class="row-odd"><td>LAnklePitch</td>
+<td>LAnkleRoll</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">Main length (mm)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>HipOffsetZ</td>
+<td>85.00</td>
+</tr>
+<tr class="row-odd"><td>HipOffsetY</td>
+<td>50.00</td>
+</tr>
+<tr class="row-even"><td>ThighLength</td>
+<td>100.00</td>
+</tr>
+<tr class="row-odd"><td>TibiaLength</td>
+<td>102.90</td>
+</tr>
+<tr class="row-even"><td>FootHeight</td>
+<td>45.11</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="links_robot_v33.html" title="Links - V 3.3">Links - V 3.3</a>
+     |
+    <a href="links_robot.html" title="Links" accesskey="U">Links</a>
+   |
+    <a href="joints_robot.html" title="Joints">Joints</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../nao/index.html">NAO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/configuring.html">Configuring NAO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/taking-care.html">Taking care of <strong>NAO</strong></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Hardware</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../body_type.html">Robot version and Body Type</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index_robots.html">NAO Technical overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dimensions_robot.html">Dimensions</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="links_robot.html">Links</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="links_robot_v33.html">Links - V 3.3</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">Links - V 3.2</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="joints_robot.html">Joints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="masses_robot.html">Masses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="motors_robot.html">Motors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="motherboard_robot.html">Motherboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="battery_robot.html">Battery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="loudspeaker_robot.html">Loudspeakers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="microphone_robot.html">Microphones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="video_robot.html">Video camera</a></li>
+<li class="toctree-l4"><a class="reference internal" href="infrared_robot.html">Infra-Red</a></li>
+<li class="toctree-l4"><a class="reference internal" href="leds_robot.html">LEDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fsr_robot.html">FSRs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="inertial_robot.html">Inertial unit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sonar_robot.html">Sonars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mre_robot.html">Joint position sensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="contact-sensors_robot.html">Contact and tactile sensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="languages.html">Available languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="laser.html">Laser head v.3.2</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_h25/index_h25.html">NAO H25</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_t14/index_t14.html">NAO T14</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_h21/index_h21.html">NAO H21</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_t2/index_t2.html">NAO T2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Links - V 3.2</a><ul>
+<li><a class="reference internal" href="#length-overview">Length overview</a></li>
+<li><a class="reference internal" href="#link-definition">Link definition</a></li>
+<li><a class="reference internal" href="#head">Head</a></li>
+<li><a class="reference internal" href="#arms">Arms</a></li>
+<li><a class="reference internal" href="#legs">Legs</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="links_robot_v33.html" title="Links - V 3.3">previous</a>
+     |
+    <a href="links_robot.html" title="Links" accesskey="U">up</a>
+   |
+    <a href="joints_robot.html" title="Joints">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

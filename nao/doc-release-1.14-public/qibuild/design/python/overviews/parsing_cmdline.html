@@ -1,0 +1,231 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Parsing command line arguments &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="qiBuild Python framework design" href="../index.html" />
+    <link rel="next" title="Handling build configurations" href="handling_build_configurations.html" />
+    <link rel="prev" title="qiBuild Python framework design" href="../index.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../index.html" title="qiBuild Python framework design">previous</a>
+     |
+    <a href="../index.html" title="qiBuild Python framework design" accesskey="U">up</a>
+   |
+    <a href="handling_build_configurations.html" title="Handling build configurations">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="design-python-overviews-parsing_cmdline">
+            
+  <div class="section" id="parsing-command-line-arguments">
+<span id="parsing-cmdline"></span><h1>Parsing command line arguments<a class="headerlink" href="#parsing-command-line-arguments" title="Permalink to this headline">¶</a></h1>
+<p>Before reading this section, please make sure you have read the
+<a class="reference internal" href="../../../guide/extending_qibuild_actions.html#extending-qibuild-actions"><em>Extending qiBuild actions</em></a> tutorial.</p>
+<p>Briefly, you should create a file named <tt class="docutils literal"><span class="pre">spam.py</span></tt> looking like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;Add some eggs !&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">qibuild</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">configure_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Configure parser for this action &quot;&quot;&quot;</span>
+    <span class="n">qibuild</span><span class="o">.</span><span class="n">parsers</span><span class="o">.</span><span class="n">default_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--num-eggs&quot;</span><span class="p">,</span>
+      <span class="n">help</span><span class="o">=</span><span class="s">&quot;Number of eggs to add&quot;</span><span class="p">,</span>
+      <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
+      <span class="n">num_eggs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Main entry point&quot;&quot;&quot;</span>
+  <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;adding </span><span class="si">%i</span><span class="s"> eggs&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">num_eggs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now lets have a look of what happens when you type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild spam --num-eggs<span class="o">=</span>42
+</pre></div>
+</div>
+<p>You first go through qibuild script, in <tt class="docutils literal"><span class="pre">bin/qibuild</span></tt></p>
+<p>You will see it uses :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">modules</span> <span class="o">=</span> <span class="n">qibuild</span><span class="o">.</span><span class="n">cmdparse</span><span class="o">.</span><span class="n">action_modules_from_package</span><span class="p">(</span><span class="s">&quot;qibuild.actions&quot;</span><span class="p">)</span>
+<span class="n">qibuild</span><span class="o">.</span><span class="n">cmdparse</span><span class="o">.</span><span class="n">root_command_main</span><span class="p">(</span><span class="s">&quot;qibuild&quot;</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">modules</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first line will look for every Python module in the <tt class="docutils literal"><span class="pre">qibuild.actions</span></tt> package
+that contains a <tt class="docutils literal"><span class="pre">do()</span></tt> and a <tt class="docutils literal"><span class="pre">configure_args</span></tt> methods.</p>
+<p>The second line will do the main parsing.</p>
+<p>Note that the last argument is simply a list of modules.</p>
+<p>So if you ever wanted to add an action outside <tt class="docutils literal"><span class="pre">qibuild.actions</span></tt> package, you could do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">spam</span>
+<span class="n">qibuild</span><span class="o">.</span><span class="n">cmdparse</span><span class="o">.</span><span class="n">root_command_main</span><span class="p">(</span><span class="s">&quot;qibuild&quot;</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">modules</span> <span class="o">+</span> <span class="p">[</span><span class="n">spam</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>So what does the <tt class="docutils literal"><span class="pre">root_command_main</span></tt> do?</p>
+<p>You can see it taks a <tt class="docutils literal"><span class="pre">parser</span></tt> object as arument.</p>
+<p>You should call this function with an <tt class="docutils literal"><span class="pre">argparse.ArgumentParser</span></tt>
+object.</p>
+<p>The parser will then be updated.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">qibuild</span><span class="o">.</span><span class="n">cmdparse</span><span class="o">.</span><span class="n">root_command_main</span><span class="p">(</span><span class="s">&quot;qibuild&quot;</span><span class="p">,</span> <span class="n">parser</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Basically, we will call:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s">&quot;action&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">&quot;actions&quot;</span><span class="p">)</span>
+<span class="n">action_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s">&quot;spam&quot;</span><span class="p">)</span>
+<span class="n">spam</span><span class="o">.</span><span class="n">configure_parser</span><span class="p">(</span><span class="n">action_parser</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>for each module in the list.</p>
+<p>Note how we format the help looking using <tt class="docutils literal"><span class="pre">module.__doc__</span></tt></p>
+<p>This means that <tt class="docutils literal"><span class="pre">spam.py</span></tt> contains everything to handle the parsing:</p>
+<ul class="simple">
+<li>The documentation of the action is simply the docstring of the module</li>
+<li>Specific arguments are added using the <tt class="docutils literal"><span class="pre">configure_parser</span></tt> function of the module</li>
+</ul>
+<p>Thus, everything is put in one place, and the <tt class="docutils literal"><span class="pre">--help</span></tt> output is alwasy correct.</p>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../index.html" title="qiBuild Python framework design">qiBuild Python framework design</a>
+     |
+    <a href="../index.html" title="qiBuild Python framework design" accesskey="U">qiBuild Python framework design</a>
+   |
+    <a href="handling_build_configurations.html" title="Handling build configurations">Handling build configurations</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../index.html" title="qiBuild Python framework design">previous</a>
+     |
+    <a href="../index.html" title="qiBuild Python framework design" accesskey="U">up</a>
+   |
+    <a href="handling_build_configurations.html" title="Handling build configurations">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

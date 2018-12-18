@@ -1,0 +1,773 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Motion task API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Motion task" href="tools-motion-task.html" />
+    <link rel="next" title="ALMotionRecorder" href="almotionrecorder.html" />
+    <link rel="prev" title="Motion task" href="tools-motion-task.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="tools-motion-task.html" title="Motion task">previous</a>
+     |
+    <a href="tools-motion-task.html" title="Motion task" accesskey="U">up</a>
+   |
+    <a href="almotionrecorder.html" title="ALMotionRecorder">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-tools-motion-task-api">
+            
+  <div class="section" id="motion-task-api">
+<span id="tools-motion-task-api"></span><h1>Motion task API<a class="headerlink" href="#motion-task-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-motion"><em>NAOqi Motion</em></a> - <a class="reference internal" href="tools-motion-task.html#tools-motion-task"><em>Overview</em></a> | API</p>
+<hr class="docutils" />
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ALMotionProxy">
+<em class="property">class </em><tt class="descname">ALMotionProxy</tt><a class="headerlink" href="#ALMotionProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALMotionProxy::getTaskList" title="ALMotionProxy::getTaskList"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getTaskList()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::areResourcesAvailable__std::vector:ss:CR" title="ALMotionProxy::areResourcesAvailable"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::areResourcesAvailable()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::killTask__iCR" title="ALMotionProxy::killTask"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::killTask()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::killTasksUsingResources__std::vector:ss:CR" title="ALMotionProxy::killTasksUsingResources"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::killTasksUsingResources()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::killWalk" title="ALMotionProxy::killWalk"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::killWalk()</span></tt></a>  (deprecated, use killMove instead)</li>
+<li><a class="reference internal" href="#ALMotionProxy::killMove" title="ALMotionProxy::killMove"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::killMove()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::killAll" title="ALMotionProxy::killAll"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::killAll()</span></tt></a></li>
+</ul>
+<dl class="function">
+<dt id="ALMotionProxy::getTaskList">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">getTaskList</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::getTaskList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an ALValue structure describing the tasks in the Task List</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An ALValue containing an ALValue for each task. The inner ALValue
+contains: Name, MotionID</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_gettasklist.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_gettasklist.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;qi/os.hpp&gt;</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_gettasklist robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to get the current task list</span>
+  <span class="c1">// We will create a task first, so that we see a result</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">names</span>      <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">angleLists</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">timeList</span>   <span class="o">=</span> <span class="mf">3.0f</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">isAbsolute</span>        <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">post</span><span class="p">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">timeList</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">);</span>
+  <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">msleep</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Tasklist: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">motion</span><span class="p">.</span><span class="n">getTaskList</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">sleep</span><span class="p">(</span><span class="mf">3.0f</span><span class="p">);</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_gettasklist.py"><tt class="xref download docutils literal"><span class="pre">almotion_gettasklist.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to get the current task list</span>
+    <span class="c"># We will create a task first, so that we see a result</span>
+    <span class="n">names</span>      <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span>
+    <span class="n">angleLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">timeList</span>   <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">isAbsolute</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">timeList</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&#39;Tasklist: &#39;</span><span class="p">,</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getTaskList</span><span class="p">()</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_advancedcreaterotation.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::areResourcesAvailable__std::vector:ss:CR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">areResourcesAvailable</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>resourceNames</em><big>)</big><a class="headerlink" href="#ALMotionProxy::areResourcesAvailable__std::vector:ss:CR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if all the desired resources are available. Only motion API&#8217;s&#8216;
+blocking call takes resources.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>resourceNames</strong> &#8211; A vector of resource names such as joints. Use
+<tt class="docutils literal"><span class="pre">getBodyNames(&quot;Body&quot;)</span></tt> to get the list of
+the available joints for your robot.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the resources are available</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_areresourcesavailable.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_areresourcesavailable.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+<span class="cp">#include &lt;qi/os.hpp&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_areresourcesavailable robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Setting head stiffness on.</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to use areResourcesAvailable</span>
+  <span class="c1">// We will create a task first, so that we see a result</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">names</span> <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">angleLists</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">timeList</span>   <span class="o">=</span> <span class="mf">3.0f</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">isAbsolute</span>        <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">post</span><span class="p">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">timeList</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">);</span>
+  <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">msleep</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Are resources &quot;</span><span class="o">&lt;&lt;</span> <span class="n">names</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; available?&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">motion</span><span class="p">.</span><span class="n">areResourcesAvailable</span><span class="p">(</span><span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span><span class="o">::</span><span class="n">array</span><span class="p">(</span><span class="n">names</span><span class="p">))</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">sleep</span><span class="p">(</span><span class="mf">3.0f</span><span class="p">);</span>
+
+  <span class="c1">// Setting head stiffness off.</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_areresourcesavailable.py"><tt class="xref download docutils literal"><span class="pre">almotion_areresourcesavailable.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to use areResourcesAvailable</span>
+    <span class="c"># We will create a task first, so that we see a result</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Are &quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&quot; resources available? &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">areResourcesAvailable</span><span class="p">([</span><span class="n">name</span><span class="p">]))</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_areresourcesavailable.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::killTask__iCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">killTask</tt><big>(</big><a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>motionTaskID</em><big>)</big><a class="headerlink" href="#ALMotionProxy::killTask__iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kills a motion task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>motionTaskID</strong> &#8211; TaskID of the motion task you want to kill.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Return true if the specified motionTaskId has been killed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_killtask.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_killtask.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;qi/os.hpp&gt;</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_killtask robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">names</span>      <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">angleLists</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">timeLists</span>  <span class="o">=</span> <span class="mf">10.0f</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">isAbsolute</span>        <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">post</span><span class="p">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">timeLists</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">);</span>
+  <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">msleep</span><span class="p">(</span><span class="mi">3000</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Killing task...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">TaskList</span> <span class="o">=</span> <span class="n">motion</span><span class="p">.</span><span class="n">getTaskList</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">uiMotion</span> <span class="o">=</span> <span class="n">TaskList</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">killTask</span><span class="p">(</span><span class="n">uiMotion</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Task killed.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="n">motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_killtask.py"><tt class="xref download docutils literal"><span class="pre">almotion_killtask.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># This function is useful to kill motion Task</span>
+    <span class="c"># To see the current motionTask please use getTaskList() function</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="s">&#39;HeadYaw&#39;</span><span class="p">,</span> <span class="mi">90</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">taskList</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getTaskList</span><span class="p">()</span>
+    <span class="n">uiMotion</span> <span class="o">=</span> <span class="n">taskList</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">killTask</span><span class="p">(</span><span class="n">uiMotion</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_killtask.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::killTasksUsingResources__std::vector:ss:CR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">killTasksUsingResources</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>resourceNames</em><big>)</big><a class="headerlink" href="#ALMotionProxy::killTasksUsingResources__std::vector:ss:CR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kills all tasks that use any of the resources given. Only motion API&#8217;s&#8216;
+blocking call takes resources and can be killed. Use
+<tt class="docutils literal"><span class="pre">getBodyNames(&quot;Body&quot;)</span></tt> to get the list of the available joints for your
+robot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>resourceNames</strong> &#8211; A vector of resource joint names</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_killtasksusingresources.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_killtasksusingresources.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;qi/os.hpp&gt;</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_killtasksusingresources robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to killTasksUsingResources</span>
+  <span class="c1">// We will create a task first, so that we see a result</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">names</span>      <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">angleLists</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">timeList</span>   <span class="o">=</span> <span class="mf">3.0f</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">isAbsolute</span>        <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">post</span><span class="p">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">timeList</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">);</span>
+  <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">msleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Killing task...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">killTasksUsingResources</span><span class="p">(</span><span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span><span class="o">::</span><span class="n">array</span><span class="p">(</span><span class="n">names</span><span class="p">));</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Task killed.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="n">motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_killtasksusingresources.py"><tt class="xref download docutils literal"><span class="pre">almotion_killtasksusingresources.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to killTasksUsingResources</span>
+    <span class="c"># We will create a task first, so that we see a result</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">killTasksUsingResources</span><span class="p">([</span><span class="n">name</span><span class="p">])</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_killtasksusingresources.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::killWalk">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">killWalk</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::killWalk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emergency Stop on Walk task: This method will end the walk task brutally,
+without attempting to return to a balanced state. If NAO has one foot in
+the air, he could easily fall.</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::killMove" title="ALMotionProxy::killMove"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::killMove()</span></tt></a> instead.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::killMove">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">killMove</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::killMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emergency Stop on Move task: This method will end the move task brutally,
+without attempting to return to a balanced state. If NAO has one foot in
+the air, he could easily fall.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_killmove.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_killmove.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_killmove robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to use Emergency Stop on Move task.</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">killMove</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Killed move.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_killmove.py"><tt class="xref download docutils literal"><span class="pre">almotion_killmove.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+
+    <span class="c"># End the walk suddenly (around 20ms)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">killMove</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_killmove.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::killAll">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">killAll</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::killAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kills all tasks.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_killall.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_killall.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_killall robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to kill all the tasks.</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">killAll</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;All tasks killed.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_killall.py"><tt class="xref download docutils literal"><span class="pre">almotion_killall.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to kill all the tasks.</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">killAll</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&quot;All tasks killed.&quot;</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_advancedcreaterotation.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="tools-motion-task.html" title="Motion task">Motion task</a>
+     |
+    <a href="tools-motion-task.html" title="Motion task" accesskey="U">Motion task</a>
+   |
+    <a href="almotionrecorder.html" title="ALMotionRecorder">ALMotionRecorder</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Motion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-stiffness.html">Stiffness control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-joint.html">Joint control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-walk.html">Locomotion control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-cartesian.html">Cartesian control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-collision-avoidance.html">Self-collision avoidance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="tools-motion-task.html">Motion task</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">Motion task API</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Motion task API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="tools-motion-task.html" title="Motion task">previous</a>
+     |
+    <a href="tools-motion-task.html" title="Motion task" accesskey="U">up</a>
+   |
+    <a href="almotionrecorder.html" title="ALMotionRecorder">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,376 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Developing a project for NAO using third-party software &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="OpenNAO in a virtual machine" href="vm-intro.html" />
+    <link rel="next" title="SDKs" href="../sdk.html" />
+    <link rel="prev" title="Using the OpenNAO in a virtual machine" href="vm-building-thirdparty.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="vm-building-thirdparty.html" title="Using the OpenNAO in a virtual machine">previous</a>
+     |
+    <a href="vm-intro.html" title="OpenNAO in a virtual machine" accesskey="U">up</a>
+   |
+    <a href="../sdk.html" title="SDKs">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-tools-developing-using-thirdparty">
+            
+  <div class="section" id="developing-a-project-for-nao-using-third-party-software">
+<span id="developing-project-using-3rd-party"></span><h1>Developing a project for NAO using third-party software<a class="headerlink" href="#developing-a-project-for-nao-using-third-party-software" title="Permalink to this headline">¶</a></h1>
+<p>Here is a quick tutorial to explain how you can develop your project using some
+third-party software not provided by the OpenNAO system.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This section deals with cross-compilation which is currently only available
+on Linux.</p>
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Assuming you are developing a project called <em>bar</em> depending on <em>libupnp</em>.</p>
+<p>Before being able to run the final application on the robot, there are some
+steps to successfully build then deploy this application. Briefly they are:</p>
+<ol class="arabic simple">
+<li>Build the third-party dependencies in the OpenNAO virtual machine;</li>
+<li>Convert the binary package built in the OpenNAO virtual machine into a
+qiBuild package;</li>
+<li>Add the qiBuild package to the cross-toolchain;</li>
+<li>Build the application;</li>
+<li>Deploy the application on the robot.</li>
+</ol>
+<p>Hereafter is the step-by-step tutorial.</p>
+<div class="section" id="building-the-third-party-software">
+<h3>Building the third-party software<a class="headerlink" href="#building-the-third-party-software" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action (in the virtual machine)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Search for the missing dependency:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">emerge -s libupnp</span>
+</pre></div>
+</div>
+<p class="last">Luckily, <tt class="docutils literal"><span class="pre">libupnp</span></tt> is provided by <tt class="docutils literal"><span class="pre">portage</span></tt>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Install the missing dependency:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">su</span>
+<span class="go">emerge libupnp</span>
+<span class="go">exit</span>
+</pre></div>
+</div>
+<p>After the installation of a package in the virtual machine, the binary
+packages are locally stored in <tt class="docutils literal"><span class="pre">/home/nao/opennao-distro/packages</span></tt>.</p>
+<p>The following command will show you all built packages:</p>
+<div class="last highlight-console"><div class="highlight"><pre><span class="go">tree ``/home/nao/opennao-distro/packages``</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Checking the content of the newly installed package:</p>
+<div class="last highlight-console"><div class="highlight"><pre><span class="go">equery files libupnp</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>For further details about <tt class="docutils literal"><span class="pre">emerge</span></tt> usage, see <a class="reference internal" href="vm-building-thirdparty.html#vm-usage-emerge"><em>emerge usage</em></a>.</p>
+<p>From here, you can retrieve the binary package on the host system (i.e. outside
+the OpenNAO virtual machine):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action (from the host system)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Retrieve the binary package on the host system:</p>
+<div class="last highlight-console"><div class="highlight"><pre><span class="go">scp -r -P 2222 nao@localhost:/home/nao/opennao-distro/packages/net-libs/ .</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>For further details about exchanging data between the host system and the
+OpenNAO virtual machine, see <a class="reference internal" href="vm-setup.html#vm-exchanging-file"><em>Exchanging data between the host and the OpenNAO virtual machine</em></a>.</p>
+</div>
+<div class="section" id="importing-gentoo-binary-packages-into-a-cross-toolchain">
+<h3>Importing Gentoo binary packages into a cross-toolchain<a class="headerlink" href="#importing-gentoo-binary-packages-into-a-cross-toolchain" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This section deals with cross-compilation which is currently only available
+on Linux.</p>
+</div>
+<p>Once the binary package is on the host system, import it into a cross-toolchain
+running:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">qitoolchain import-package -c cross-atom libupnp /path/to/libupnp-1.6.6.tar.bz2</span>
+</pre></div>
+</div>
+<p>This will look for any CMake module provided by the package itself or by
+<em>qiBuild</em>. If none is found, then it will open an automatically generated CMake
+module in a text-editor. Here you can remove some unnecessary <tt class="docutils literal"><span class="pre">flib</span></tt> lines
+(e.g. test librairies, etc). After that, save it and the package is
+automatically added to the cross-toolchain.</p>
+<p>To check out all packages added to the cross-toolchain:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">qitoolchain info cross-atom</span>
+</pre></div>
+</div>
+<p>For further information about writing a CMake module, see
+<a class="reference external" href="../../qibuild/guide/cmake/writing_a_config_cmake.html">Writing a custom -config.cmake module file</a>.</p>
+<p>For further details about <tt class="docutils literal"><span class="pre">qitoolchain</span></tt>, refer to the
+<a class="reference external" href="../../qibuild/ref/man/qitoolchain.html">qitoolchain man page</a>.</p>
+</div>
+<div class="section" id="building-an-application-linking-against-third-party-software">
+<h3>Building an application linking against third-party software<a class="headerlink" href="#building-an-application-linking-against-third-party-software" title="Permalink to this headline">¶</a></h3>
+<p>Once the third-party software package has been added to the cross-toolchain, it
+is possible to build the whole project you are working on, then deploying it on
+the robot.</p>
+<p>Say you write an executable called <em>bar</em> which belongs to the project <em>bar</em> and
+depends on <em>libupnp</em>.</p>
+<p>Here&#8217;s what the <em>CMakeLists</em> should look like:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.8</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">bar</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">qibuild</span><span class="p">)</span>
+
+<span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">bar</span> <span class="s">bar.cpp</span><span class="p">)</span>
+<span class="nb">qi_use_lib</span><span class="p">(</span><span class="s">bar</span> <span class="s">UPNP</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, you should be able to use:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">qibuild configure -c cross-atom</span>
+<span class="go">qibuild make -c cross-atom</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deploying-the-application">
+<h3>Deploying the application<a class="headerlink" href="#deploying-the-application" title="Permalink to this headline">¶</a></h3>
+<p>The last step is to use <em>qibuild</em> to generate a standalone package,
+check out <a class="reference external" href="../../qibuild/ref/man/qibuild.html">qibuild man page</a>.</p>
+<p>First, edit the <em>qiproject.xml</em> to look like (see
+<a class="reference external" href="../../qibuild/ref/cfg/qiproject_xml_syntax.html">qiproject.xml reference page</a>):</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">&quot;bar&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;depends</span> <span class="na">buildtime=</span><span class="s">&quot;true&quot;</span> <span class="na">runtime=</span><span class="s">&quot;true&quot;</span> <span class="na">names=</span><span class="s">&quot;libupnp&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+<p>This will tell qibuild that the <em>bar</em> project needs the <em>libupnp</em> library
+both for compilation (buildtime), and for execution (runtime).</p>
+<p>Then, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">qibuild package --include-deps --runtime --release -c cross-atom bar</span>
+</pre></div>
+</div>
+<p>This will configure and build the <em>bar</em> project, then
+install the <em>runtime</em> components from both the <em>bar</em> project and the <em>libupnp</em>
+package, in a temporary directory, and then generate a nice <em>.tar.gz</em> out of the
+temporary install directory.</p>
+<p>The package is relocatable, which means once it is extracted on the robot, the
+<em>bar</em> executable will always be able to find the <em>libupnp</em> library.</p>
+<p>This means that you can put the package in <em>/home/nao</em> on the robot, without
+having to become root or risking changing the system libraries.</p>
+<p>The last thing to do here is sending the package on the robot:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">scp bar.tar.gz nao@nao.local:.</span>
+</pre></div>
+</div>
+<p>Extract the package on the robot:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">ssh nao@nao.local</span>
+<span class="go">tar xaf bar.tar.gz</span>
+</pre></div>
+</div>
+<p>And run the <em>bar</em> executable on the robot:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">ssh nao@nao.local</span>
+<span class="go">./bar/bin/bar</span>
+</pre></div>
+</div>
+<p>Enjoy ;-)</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="vm-building-thirdparty.html" title="Using the OpenNAO in a virtual machine">Using the OpenNAO in a virtual machine</a>
+     |
+    <a href="vm-intro.html" title="OpenNAO in a virtual machine" accesskey="U">OpenNAO in a virtual machine</a>
+   |
+    <a href="../sdk.html" title="SDKs">SDKs</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Working with NAO</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="naoqi.html">NAOqi on the robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="naoqi-man.html">NAOqi man page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="opennao.html">OpenNAO - NAO OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="investigate-on-nao.html">Debugging and investigating on the robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="robot-simulation.html">Robot simulations</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="vm-intro.html">OpenNAO in a virtual machine</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="vm-setup.html">Setting up the OpenNAO virtual machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vm-building-thirdparty.html">Using the OpenNAO in a virtual machine</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Developing a project for NAO using third-party software</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sdk.html">SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Developing a project for NAO using third-party software</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#building-the-third-party-software">Building the third-party software</a></li>
+<li><a class="reference internal" href="#importing-gentoo-binary-packages-into-a-cross-toolchain">Importing Gentoo binary packages into a cross-toolchain</a></li>
+<li><a class="reference internal" href="#building-an-application-linking-against-third-party-software">Building an application linking against third-party software</a></li>
+<li><a class="reference internal" href="#deploying-the-application">Deploying the application</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="vm-building-thirdparty.html" title="Using the OpenNAO in a virtual machine">previous</a>
+     |
+    <a href="vm-intro.html" title="OpenNAO in a virtual machine" accesskey="U">up</a>
+   |
+    <a href="../sdk.html" title="SDKs">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

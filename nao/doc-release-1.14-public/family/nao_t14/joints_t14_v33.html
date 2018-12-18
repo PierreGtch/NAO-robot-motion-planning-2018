@@ -1,0 +1,493 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>T14 - Joints - V 3.3 &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="T14 - Joints" href="joints_t14.html" />
+    <link rel="next" title="T14 - Joints - V 3.2" href="joints_t14_v32.html" />
+    <link rel="prev" title="T14 - Joints" href="joints_t14.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="joints_t14.html" title="T14 - Joints">previous</a>
+     |
+    <a href="joints_t14.html" title="T14 - Joints" accesskey="U">up</a>
+   |
+    <a href="joints_t14_v32.html" title="T14 - Joints - V 3.2">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="family-nao_t14-joints_t14_v33">
+            
+  <div class="section" id="t14-joints-v-3-3">
+<span id="t14-joints-v33"></span><h1>T14 - Joints - V 3.3<a class="headerlink" href="#t14-joints-v-3-3" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p><a class="reference internal" href="joints_t14.html#t14-joints"><em>V 4.0</em></a> | <strong>V 3.3</strong> |  <a class="reference internal" href="joints_t14_v32.html#t14-joints-v32"><em>V 3.2</em></a></p>
+<p class="last"><a class="reference internal" href="index_t14.html#nao-t14"><em>NAO T14</em></a> | <a class="reference internal" href="../robots/joints_robot.html#robot-joints"><em>Joints</em></a></p>
+</div>
+<hr class="docutils" />
+<div class="section" id="head-joints">
+<h2>Head joints<a class="headerlink" href="#head-joints" title="Permalink to this headline">¶</a></h2>
+<img alt="../../_images/hardware_headjoint_3.3.png" src="../../_images/hardware_headjoint_3.3.png" style="width: 523px; height: 343px;" />
+<p><strong>Motion range</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="38%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Joint name</th>
+<th class="head">Motion</th>
+<th class="head">Range <em>(degrees)</em></th>
+<th class="head">Range <em>(radians)</em></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>HeadYaw</td>
+<td>Head joint twist (Z)</td>
+<td>-119.5 to 119.5</td>
+<td>-2.0857 to 2.0857</td>
+</tr>
+<tr class="row-odd"><td>HeadPitch</td>
+<td>Head joint front and back (Y)</td>
+<td>-38.5 to 29.5</td>
+<td>-0.6720 to 0.5149</td>
+</tr>
+</tbody>
+</table>
+<p>Access value by using <a class="reference internal" href="../../naoqi/core/almemory.html#almemory"><em>ALMemory</em></a> key name</p>
+<p>Command(radians):</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+<p>Sensor(radians):</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+<p><strong>Anti collision limitation</strong></p>
+<p>Due to potential shell collision at the head level, the <strong>Pitch</strong> motion range
+is limited according to the <strong>Yaw</strong> value.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="18%" />
+<col width="18%" />
+<col width="1%" />
+<col width="18%" />
+<col width="18%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">HeadYaw</th>
+<th class="head">HeadPitch Min</th>
+<th class="head">HeadPitch Max</th>
+<th class="head" rowspan="2">&nbsp;</th>
+<th class="head">HeadYaw</th>
+<th class="head">HeadPitch Min</th>
+<th class="head">HeadPitch Max</th>
+</tr>
+<tr class="row-even"><th class="head" colspan="3"><em>(degrees)</em></th>
+<th class="head" colspan="3"><em>(radians)</em></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>-119.52</td>
+<td>-25.73</td>
+<td>18.91</td>
+<td rowspan="13">&nbsp;</td>
+<td>-2.086017</td>
+<td>-0.449073</td>
+<td>0.330041</td>
+</tr>
+<tr class="row-even"><td>-87.49</td>
+<td>-18.91</td>
+<td>11.46</td>
+<td>-1.526988</td>
+<td>-0.330041</td>
+<td>0.200015</td>
+</tr>
+<tr class="row-odd"><td>-62.45</td>
+<td>-24.64</td>
+<td>17.19</td>
+<td>-1.089958</td>
+<td>-0.430049</td>
+<td>0.300022</td>
+</tr>
+<tr class="row-even"><td>-51.74</td>
+<td>-27.50</td>
+<td>18.91</td>
+<td>-0.903033</td>
+<td>-0.479965</td>
+<td>0.330041</td>
+</tr>
+<tr class="row-odd"><td>-43.32</td>
+<td>-31.40</td>
+<td>21.20</td>
+<td>-0.756077</td>
+<td>-0.548033</td>
+<td>0.370010</td>
+</tr>
+<tr class="row-even"><td>-27.85</td>
+<td>-38.50</td>
+<td>24.18</td>
+<td>-0.486074</td>
+<td>-0.671951</td>
+<td>0.422021</td>
+</tr>
+<tr class="row-odd"><td>0.0</td>
+<td>-38.50</td>
+<td>29.51</td>
+<td>0.000000</td>
+<td>-0.671951</td>
+<td>0.515047</td>
+</tr>
+<tr class="row-even"><td>27.85</td>
+<td>-38.50</td>
+<td>24.18</td>
+<td>0.486074</td>
+<td>-0.671951</td>
+<td>0.422021</td>
+</tr>
+<tr class="row-odd"><td>43.32</td>
+<td>-31.40</td>
+<td>21.20</td>
+<td>0.756077</td>
+<td>-0.548033</td>
+<td>0.370010</td>
+</tr>
+<tr class="row-even"><td>51.74</td>
+<td>-27.50</td>
+<td>18.91</td>
+<td>0.903033</td>
+<td>-0.479965</td>
+<td>0.330041</td>
+</tr>
+<tr class="row-odd"><td>62.45</td>
+<td>-24.64</td>
+<td>17.19</td>
+<td>1.089958</td>
+<td>-0.430049</td>
+<td>0.300022</td>
+</tr>
+<tr class="row-even"><td>87.49</td>
+<td>-18.91</td>
+<td>11.46</td>
+<td>1.526988</td>
+<td>-0.330041</td>
+<td>0.200015</td>
+</tr>
+<tr class="row-odd"><td>119.52</td>
+<td>-25.73</td>
+<td>18.91</td>
+<td>2.086017</td>
+<td>-0.449073</td>
+<td>0.330041</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="left-arm-joints">
+<h2>Left Arm joints<a class="headerlink" href="#left-arm-joints" title="Permalink to this headline">¶</a></h2>
+<img alt="../../_images/hardware_larmjoint_3.3.png" src="../../_images/hardware_larmjoint_3.3.png" style="width: 556px; height: 800px;" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="43%" />
+<col width="18%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Joint name</th>
+<th class="head">Motion</th>
+<th class="head">Range (degrees)</th>
+<th class="head">Range (radians)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LShoulderPitch</td>
+<td>Left shoulder joint front and back (Y)</td>
+<td>-119.5 to 119.5</td>
+<td>-2.0857 to 2.0857</td>
+</tr>
+<tr class="row-odd"><td>LShoulderRoll</td>
+<td>Left shoulder joint right and left (Z)</td>
+<td>-18 to 76</td>
+<td>-0.3142 to 1.3265</td>
+</tr>
+<tr class="row-even"><td>LElbowYaw</td>
+<td>Left shoulder joint twist (X)</td>
+<td>-119.5 to 119.5</td>
+<td>-2.0857 to 2.0857</td>
+</tr>
+<tr class="row-odd"><td>LElbowRoll</td>
+<td>Left elbow joint (Z)</td>
+<td>-88.5 to -2</td>
+<td>-1.5446 to -0.0349</td>
+</tr>
+<tr class="row-even"><td>LWristYaw</td>
+<td>Left wrist joint (X)</td>
+<td>-104.5 to 104.5</td>
+<td>-1.8238 to 1.8238</td>
+</tr>
+<tr class="row-odd"><td>LHand</td>
+<td>Left hand</td>
+<td>Open and Close</td>
+<td>Open and Close</td>
+</tr>
+</tbody>
+</table>
+<p>Access value by using <a class="reference internal" href="../../naoqi/core/almemory.html#almemory"><em>ALMemory</em></a> key name</p>
+<p>Command(radians):</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LWristYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+<p>Sensor(radians):</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LWristYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="right-arm-joints">
+<h2>Right Arm joints<a class="headerlink" href="#right-arm-joints" title="Permalink to this headline">¶</a></h2>
+<img alt="../../_images/hardware_rarmjoint_3.3.png" src="../../_images/hardware_rarmjoint_3.3.png" style="width: 500px; height: 700px;" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="44%" />
+<col width="18%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Joint name</th>
+<th class="head">Motion</th>
+<th class="head">Range (degrees)</th>
+<th class="head">Range (radians)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RShoulderPitch</td>
+<td>Right shoulder joint front and back (Y)</td>
+<td>-119.5 to 119.5</td>
+<td>-2.0857 to 2.0857</td>
+</tr>
+<tr class="row-odd"><td>RShoulderRoll</td>
+<td>Right shoulder joint right and left (Z)</td>
+<td>-76 to 18</td>
+<td>-1.3265 to 0.3142</td>
+</tr>
+<tr class="row-even"><td>RElbowYaw</td>
+<td>Right shoulder joint twist (X)</td>
+<td>-119.5 to 119.5</td>
+<td>-2.0857 to 2.0857</td>
+</tr>
+<tr class="row-odd"><td>RElbowRoll</td>
+<td>Right elbow joint (Z)</td>
+<td>2 to 88.5</td>
+<td>0.0349 to 1.5446</td>
+</tr>
+<tr class="row-even"><td>RWristYaw</td>
+<td>Right wrist joint (X)</td>
+<td>-104.5 to 104.5</td>
+<td>-1.8238 to 1.8238</td>
+</tr>
+<tr class="row-odd"><td>RHand</td>
+<td>Right hand</td>
+<td>Open and Close</td>
+<td>Open and Close</td>
+</tr>
+</tbody>
+</table>
+<p>Access value by using <a class="reference internal" href="../../naoqi/core/almemory.html#almemory"><em>ALMemory</em></a> key name</p>
+<p>Command(radians):</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RWristYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+<p>Sensor(radians):</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RWristYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="joints_t14.html" title="T14 - Joints">T14 - Joints</a>
+     |
+    <a href="joints_t14.html" title="T14 - Joints" accesskey="U">T14 - Joints</a>
+   |
+    <a href="joints_t14_v32.html" title="T14 - Joints - V 3.2">T14 - Joints - V 3.2</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../nao/index.html">NAO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/configuring.html">Configuring NAO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/taking-care.html">Taking care of <strong>NAO</strong></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Hardware</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../body_type.html">Robot version and Body Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../robots/index_robots.html">NAO Technical overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_h25/index_h25.html">NAO H25</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index_t14.html">NAO T14</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dimensions_t14.html">T14 - Dimensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="links_t14.html">T14 - Links</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="joints_t14.html">T14 - Joints</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">T14 - Joints - V 3.3</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="joints_t14_v32.html">T14 - Joints - V 3.2</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="masses_t14.html">T14 - Masses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="motors_t14.html">T14 - Motors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="leds_t14.html">T14 - LEDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mre_t14.html">T14 - Joint position sensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="contact-sensors_t14.html">T14 - Contact and tactile sensors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_h21/index_h21.html">NAO H21</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_t2/index_t2.html">NAO T2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">T14 - Joints - V 3.3</a><ul>
+<li><a class="reference internal" href="#head-joints">Head joints</a></li>
+<li><a class="reference internal" href="#left-arm-joints">Left Arm joints</a></li>
+<li><a class="reference internal" href="#right-arm-joints">Right Arm joints</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="joints_t14.html" title="T14 - Joints">previous</a>
+     |
+    <a href="joints_t14.html" title="T14 - Joints" accesskey="U">up</a>
+   |
+    <a href="joints_t14_v32.html" title="T14 - Joints - V 3.2">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

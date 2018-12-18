@@ -1,0 +1,494 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="qiBuild CMake API" href="../api.html" />
+    <link rel="next" title="Using submodules" href="submodule.html" />
+    <link rel="prev" title="Staging targets" href="stage.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="stage.html" title="Staging targets">previous</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="submodule.html" title="Using submodules">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="ref-cmake-api-install">
+            
+  <div class="section" id="installing">
+<h1>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h1>
+<p>See general documentation here <a class="reference internal" href="../../../guide/cmake/install.html#cmake-install"><em>Using qi_install functions</em></a></p>
+<div class="section" id="qi-install">
+<h2>qi_install<a class="headerlink" href="#qi-install" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_install">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[IF</span> <span class="s">&lt;if&gt;]</span>
+    <span class="s">[KEEP_RELATIVE_PATHS]</span>
+    <span class="s">[RECURSE]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_install" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; A list of files : directories and globs on files are accepted.</li>
+<li><strong>SUBFOLDER</strong> &#8211; An optional subfolder in which to put the files.</li>
+<li><strong>IF</strong> &#8211; Condition that should be verified for the install rules to be active (for example IF WITH_ZEROMQ)</li>
+<li><strong>KEEP_RELATIVE_PATHS</strong> &#8211; Wether relative path should be preserved during installation.</li>
+<li><strong>RECURSE</strong> &#8211; Wether glob should be recursive.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Generic install function.
+See general documentation here <a class="reference internal" href="../../../guide/cmake/install.html#cmake-install"><em>Using qi_install functions</em></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-install-header">
+<h2>qi_install_header<a class="headerlink" href="#qi-install-header" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_install_header">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install_header</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[IF</span> <span class="s">&lt;if&gt;]</span>
+    <span class="s">[RECURSE]</span>
+    <span class="s">[KEEP_RELATIVE_PATHS]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_install_header" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; A list of files : directories and globs on files are accepted.</li>
+<li><strong>SUBFOLDER</strong> &#8211; An optional subfolder in which to put the files.</li>
+<li><strong>IF</strong> &#8211; Condition that should be verified for the install rules to be active (for example IF WITH_ZEROMQ)</li>
+<li><strong>RECURSE</strong> &#8211; Wether glob should be recursive</li>
+<li><strong>KEEP_RELATIVE_PATHS</strong> &#8211; If true, relative paths will be preserved during installation. (False by default because this is NOT the standard CMake behavior)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Install application headers.
+The destination will be <strong>&lt;prefix&gt;/include/</strong></p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-install-data">
+<h2>qi_install_data<a class="headerlink" href="#qi-install-data" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_install_data">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install_data</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[IF</span> <span class="s">&lt;if&gt;]</span>
+    <span class="s">[RECURSE]</span>
+    <span class="s">[KEEP_RELATIVE_PATHS]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_install_data" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; A list of files : directories and globs on files are accepted.</li>
+<li><strong>SUBFOLDER</strong> &#8211; An optional subfolder in which to put the files.</li>
+<li><strong>IF</strong> &#8211; Condition that should be verified for the install rules to be active (for example IF WITH_ZEROMQ)</li>
+<li><strong>RECURSE</strong> &#8211; Wether glob should be recursive.</li>
+<li><strong>KEEP_RELATIVE_PATHS</strong> &#8211; If true, relative paths will be preserved during installation. (False by default because this is NOT the standard CMake behavior)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Install application data.
+The destination will be: <strong>&lt;prefix&gt;/share/</strong></p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-install-doc">
+<h2>qi_install_doc<a class="headerlink" href="#qi-install-doc" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_install_doc">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install_doc</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[IF</span> <span class="s">&lt;if&gt;]</span>
+    <span class="s">[RECURSE]</span>
+    <span class="s">[KEEP_RELATIVE_PATHS]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_install_doc" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; A list of files : directories and globs on files are accepted.</li>
+<li><strong>SUBFOLDER</strong> &#8211; An optional subfolder in which to put the files.</li>
+<li><strong>IF</strong> &#8211; Condition that should be verified for the install rules to be active for example (IF WITH_ZEROMQ)</li>
+<li><strong>RECURSE</strong> &#8211; Wether glob should be recursive</li>
+<li><strong>KEEP_RELATIVE_PATHS</strong> &#8211; If true, relative paths will be preserved during installation. (False by default because this is NOT the standard CMake behavior)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Install application doc.
+The destination will be: <strong>&lt;prefix&gt;/share/doc/</strong></p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-install-conf">
+<h2>qi_install_conf<a class="headerlink" href="#qi-install-conf" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_install_conf">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install_conf</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[IF</span> <span class="s">&lt;if&gt;]</span>
+    <span class="s">[RECURSE]</span>
+    <span class="s">[KEEP_RELATIVE_PATHS]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_install_conf" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; A list of files : directories and globs on files are accepted.</li>
+<li><strong>SUBFOLDER</strong> &#8211; An optional subfolder in which to put the files.</li>
+<li><strong>IF</strong> &#8211; Condition that should be verified for the install rules to be active for example (IF WITH_ZEROMQ)</li>
+<li><strong>RECURSE</strong> &#8211; Wether glob should be recursive</li>
+<li><strong>KEEP_RELATIVE_PATHS</strong> &#8211; If true, relative paths will be preserved during installation. (False by default because this is NOT the standard CMake behavior)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Install application configuration files.
+The destination will be: <strong>&lt;prefix&gt;/etc/</strong></p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-install-cmake">
+<h2>qi_install_cmake<a class="headerlink" href="#qi-install-cmake" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_install_cmake">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install_cmake</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[IF</span> <span class="s">&lt;if&gt;]</span>
+    <span class="s">[RECURSE]</span>
+    <span class="s">[KEEP_RELATIVE_PATHS]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_install_cmake" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; A list of files : directories and globs on files are accepted.</li>
+<li><strong>SUBFOLDER</strong> &#8211; An optional subfolder in which to put the files.</li>
+<li><strong>IF</strong> &#8211; Condition that should be verified for the install rules to be active for example (IF WITH_ZEROMQ)</li>
+<li><strong>RECURSE</strong> &#8211; Wether glob should be recursive</li>
+<li><strong>KEEP_RELATIVE_PATHS</strong> &#8211; If true, relative paths will be preserved during installation. (False by default because this is NOT the standard CMake behavior)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Install CMake module files.
+The destination will be: <strong>&lt;prefix&gt;/share/cmake/</strong></p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-install-target">
+<h2>qi_install_target<a class="headerlink" href="#qi-install-target" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_install_target">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install_target</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[IF</span> <span class="s">&lt;if&gt;]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_install_target" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; A list of targets to install</li>
+<li><strong>SUBFOLDER</strong> &#8211; An optional subfolder in which to put the files.</li>
+<li><strong>IF</strong> &#8211; Condition that should be verified for the install rules to be active for example (IF WITH_ZEROMQ)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>install a target, that could be a program or a library.
+The destination will be: <strong>&lt;prefix&gt;/lib</strong> or <strong>&lt;prefix&gt;/bin</strong>,
+depending on the target and the platform:</p>
+<ul class="simple">
+<li>Windows: <tt class="docutils literal"><span class="pre">*.dll</span></tt>  and <tt class="docutils literal"><span class="pre">*.exe</span></tt> in <tt class="docutils literal"><span class="pre">bin</span></tt>, <tt class="docutils literal"><span class="pre">*.lib</span></tt> in <tt class="docutils literal"><span class="pre">lib</span></tt></li>
+<li>Mac:     <tt class="docutils literal"><span class="pre">.dylib</span></tt> and <tt class="docutils literal"><span class="pre">.a</span></tt> in <tt class="docutils literal"><span class="pre">lib</span></tt>, executables in <tt class="docutils literal"><span class="pre">bin</span></tt></li>
+<li>Linux :  <tt class="docutils literal"><span class="pre">.so</span></tt>    and <tt class="docutils literal"><span class="pre">.a</span></tt> in <tt class="docutils literal"><span class="pre">lib</span></tt>, executables in <tt class="docutils literal"><span class="pre">bin</span></tt></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-install-program">
+<h2>qi_install_program<a class="headerlink" href="#qi-install-program" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_install_program">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install_program</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[IF</span> <span class="s">&lt;if&gt;]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_install_program" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; A list of programs to install</li>
+<li><strong>SUBFOLDER</strong> &#8211; An optional subfolder in which to put the files.</li>
+<li><strong>IF</strong> &#8211; Condition that should be verified for the install rules to be active for example (IF WITH_ZEROMQ)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>install program (mostly script or user provided program). Do not use this function
+to install a library or a program built by your project, prefer using <a class="reference internal" href="#qi_install_target" title="qi_install_target"><tt class="xref cmake cmake-function docutils literal"><span class="pre">qi_install_target</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-install-library">
+<h2>qi_install_library<a class="headerlink" href="#qi-install-library" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_install_library">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install_library</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[IF</span> <span class="s">&lt;if&gt;]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_install_library" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; A list of libraries to install</li>
+<li><strong>SUBFOLDER</strong> &#8211; An optional subfolder in which to put the files.</li>
+<li><strong>IF</strong> &#8211; Condition that should be verified for the install rules to be active for example (IF WITH_ZEROMQ)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>install external library. Do not use this function
+to install a library or a program built by your project,
+prefer using <a class="reference internal" href="#qi_install_target" title="qi_install_target"><tt class="xref cmake cmake-function docutils literal"><span class="pre">qi_install_target</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="stage.html" title="Staging targets">Staging targets</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">qiBuild CMake API</a>
+   |
+    <a href="submodule.html" title="Using submodules">Using submodules</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">qiBuild reference documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../man/index.html">qibuild man Pages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html">qiBuild CMake API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../cmake_api_syntax.html">CMake API syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="target.html">Functions to create targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stage.html">Staging targets</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Installing</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="submodule.html">Using submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="option.html">Using options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="find.html">Functions to find libaries and include directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html">Handling compile flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="swig/python.html">Python wrapper for swig</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cfg/index.html">Configuration files syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">qiBuild Python documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Installing</a><ul>
+<li><a class="reference internal" href="#qi-install">qi_install</a></li>
+<li><a class="reference internal" href="#qi-install-header">qi_install_header</a></li>
+<li><a class="reference internal" href="#qi-install-data">qi_install_data</a></li>
+<li><a class="reference internal" href="#qi-install-doc">qi_install_doc</a></li>
+<li><a class="reference internal" href="#qi-install-conf">qi_install_conf</a></li>
+<li><a class="reference internal" href="#qi-install-cmake">qi_install_cmake</a></li>
+<li><a class="reference internal" href="#qi-install-target">qi_install_target</a></li>
+<li><a class="reference internal" href="#qi-install-program">qi_install_program</a></li>
+<li><a class="reference internal" href="#qi-install-library">qi_install_library</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="stage.html" title="Staging targets">previous</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="submodule.html" title="Using submodules">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

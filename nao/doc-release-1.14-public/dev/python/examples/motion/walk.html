@@ -1,0 +1,824 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Move and Walk &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="Motion" href="index.html" />
+    <link rel="next" title="Footsteps control" href="footsteps.html" />
+    <link rel="prev" title="Stiffness" href="stiffness.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="stiffness.html" title="Stiffness">previous</a>
+     |
+    <a href="index.html" title="Motion" accesskey="U">up</a>
+   |
+    <a href="footsteps.html" title="Footsteps control">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-python-examples-motion-walk">
+            
+  <div class="section" id="move-and-walk">
+<span id="python-example-motion-walk"></span><h1>Move and Walk<a class="headerlink" href="#move-and-walk" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<p>This section contains several python example on walk, both for standard walk and
+for customized walk.</p>
+<div class="section" id="simple-walk">
+<h2>Simple walk<a class="headerlink" href="#simple-walk" title="Permalink to this headline">¶</a></h2>
+<p>These examples show how to use Aldebaran normal walk.</p>
+<div class="section" id="walk">
+<h3>Walk<a class="headerlink" href="#walk" title="Permalink to this headline">¶</a></h3>
+<p>Make NAO walk backwards, forwards, and turn.</p>
+<p><a class="reference download internal" href="../../../../_downloads/motion_walk.py"><tt class="xref download docutils literal"><span class="pre">motion_walk.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39;Walk: Small example to make Nao walk&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">motion</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="c"># Init proxies.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in Stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c">#####################</span>
+    <span class="c">## Enable arms control by Walk algorithm</span>
+    <span class="c">#####################</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkArmsEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="c">#~ motionProxy.setWalkArmsEnabled(False, False)</span>
+
+    <span class="c">#####################</span>
+    <span class="c">## FOOT CONTACT PROTECTION</span>
+    <span class="c">#####################</span>
+    <span class="c">#~ motionProxy.setMotionConfig([[&quot;ENABLE_FOOT_CONTACT_PROTECTION&quot;, False]])</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setMotionConfig</span><span class="p">([[</span><span class="s">&quot;ENABLE_FOOT_CONTACT_PROTECTION&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">]])</span>
+
+    <span class="c">#TARGET VELOCITY</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>  <span class="c">#backward</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Frequency</span> <span class="o">=</span><span class="mf">0.0</span> <span class="c"># low speed</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+
+    <span class="c">#TARGET VELOCITY</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Frequency</span> <span class="o">=</span><span class="mf">1.0</span> <span class="c"># max speed</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+
+    <span class="c">#TARGET VELOCITY</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">Frequency</span> <span class="o">=</span><span class="mf">1.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="c">#####################</span>
+    <span class="c">## Arms User Motion</span>
+    <span class="c">#####################</span>
+    <span class="c"># Arms motion from user have always the priority than walk arms motion</span>
+    <span class="n">JointNames</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;LShoulderPitch&quot;</span><span class="p">,</span> <span class="s">&quot;LShoulderRoll&quot;</span><span class="p">,</span> <span class="s">&quot;LElbowYaw&quot;</span><span class="p">,</span> <span class="s">&quot;LElbowRoll&quot;</span><span class="p">]</span>
+    <span class="n">Arm1</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">40</span><span class="p">,</span>  <span class="mi">25</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">]</span>
+    <span class="n">Arm1</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span> <span class="o">*</span> <span class="n">motion</span><span class="o">.</span><span class="n">TO_RAD</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Arm1</span><span class="p">]</span>
+
+    <span class="n">Arm2</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">40</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">80</span><span class="p">]</span>
+    <span class="n">Arm2</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span> <span class="o">*</span> <span class="n">motion</span><span class="o">.</span><span class="n">TO_RAD</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Arm2</span><span class="p">]</span>
+
+    <span class="n">pFractionMaxSpeed</span> <span class="o">=</span> <span class="mf">0.6</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">angleInterpolationWithSpeed</span><span class="p">(</span><span class="n">JointNames</span><span class="p">,</span> <span class="n">Arm1</span><span class="p">,</span> <span class="n">pFractionMaxSpeed</span><span class="p">)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">angleInterpolationWithSpeed</span><span class="p">(</span><span class="n">JointNames</span><span class="p">,</span> <span class="n">Arm2</span><span class="p">,</span> <span class="n">pFractionMaxSpeed</span><span class="p">)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">angleInterpolationWithSpeed</span><span class="p">(</span><span class="n">JointNames</span><span class="p">,</span> <span class="n">Arm1</span><span class="p">,</span> <span class="n">pFractionMaxSpeed</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="c">#####################</span>
+    <span class="c">## End Walk</span>
+    <span class="c">#####################</span>
+    <span class="c">#TARGET VELOCITY</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_walk.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="move-to">
+<h3>Move to<a class="headerlink" href="#move-to" title="Permalink to this headline">¶</a></h3>
+<p>Make NAO walk to an objective.</p>
+<p><a class="reference download internal" href="../../../../_downloads/motion_moveTo.py"><tt class="xref download docutils literal"><span class="pre">motion_moveTo.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39;Move To: Small example to make Nao Move To an Objective&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">almath</span> <span class="kn">as</span> <span class="nn">m</span> <span class="c"># python&#39;s wrapping of almath</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+
+    <span class="c"># Set NAO in stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="c">#####################</span>
+    <span class="c">## Enable arms control by move algorithm</span>
+    <span class="c">#####################</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkArmsEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="c">#~ motionProxy.setWalkArmsEnabled(False, False)</span>
+
+    <span class="c">#####################</span>
+    <span class="c">## FOOT CONTACT PROTECTION</span>
+    <span class="c">#####################</span>
+    <span class="c">#~ motionProxy.setMotionConfig([[&quot;ENABLE_FOOT_CONTACT_PROTECTION&quot;,False]])</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setMotionConfig</span><span class="p">([[</span><span class="s">&quot;ENABLE_FOOT_CONTACT_PROTECTION&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">]])</span>
+
+    <span class="c">#####################</span>
+    <span class="c">## get robot position before move</span>
+    <span class="c">#####################</span>
+    <span class="n">initRobotPosition</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotPosition</span><span class="p">(</span><span class="bp">False</span><span class="p">))</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">2.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">)</span>
+    <span class="c"># wait is useful because with post moveTo is not blocking function</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">waitUntilMoveIsFinished</span><span class="p">()</span>
+
+    <span class="c">#####################</span>
+    <span class="c">## get robot position after move</span>
+    <span class="c">#####################</span>
+    <span class="n">endRobotPosition</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotPosition</span><span class="p">(</span><span class="bp">False</span><span class="p">))</span>
+
+    <span class="c">#####################</span>
+    <span class="c">## compute and print the robot motion</span>
+    <span class="c">#####################</span>
+    <span class="n">robotMove</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">pose2DInverse</span><span class="p">(</span><span class="n">initRobotPosition</span><span class="p">)</span><span class="o">*</span><span class="n">endRobotPosition</span>
+    <span class="k">print</span> <span class="s">&quot;Robot Move :&quot;</span><span class="p">,</span> <span class="n">robotMove</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_moveTo.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="walk-faster">
+<h3>Walk faster<a class="headerlink" href="#walk-faster" title="Permalink to this headline">¶</a></h3>
+<p>Make NAO walk with greater step length.</p>
+<p><a class="reference download internal" href="../../../../_downloads/motion_walkFaster.py"><tt class="xref download docutils literal"><span class="pre">motion_walkFaster.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39; Walk: Small example to make Nao walk &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;       Faster (Step of 6cm)          &#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="c"># Init proxies.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in Stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Initialize the walk process.</span>
+    <span class="c"># Check the robot pose and take a right posture.</span>
+    <span class="c"># This is blocking called.</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveInit</span><span class="p">()</span>
+
+    <span class="c"># TARGET VELOCITY</span>
+    <span class="n">X</span>         <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">Y</span>         <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Theta</span>     <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Frequency</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="c"># Default walk (MaxStepX = 0.04 m)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;walk Speed X :&quot;</span><span class="p">,</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotVelocity</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span><span class="s">&quot; m/s&quot;</span>
+
+    <span class="c"># Speed walk  (MaxStepX = 0.06 m)</span>
+    <span class="c"># Could be faster: see walk documentation</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">,</span> <span class="p">[[</span><span class="s">&quot;MaxStepX&quot;</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">]])</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;walk Speed X :&quot;</span><span class="p">,</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotVelocity</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span><span class="s">&quot; m/s&quot;</span>
+
+    <span class="c"># stop walk on the next double support</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">stopMove</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_walkFaster.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="customized-walk">
+<h2>Customized walk<a class="headerlink" href="#customized-walk" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="walk-customization">
+<h3>Walk customization<a class="headerlink" href="#walk-customization" title="Permalink to this headline">¶</a></h3>
+<p>Make NAO do a custom walk: NAO is limping and then walking correctly, just like Keyser Sose in <em>The Usual Suspects</em>.</p>
+<p><a class="reference download internal" href="../../../../_downloads/motion_walkCustomization.py"><tt class="xref download docutils literal"><span class="pre">motion_walkCustomization.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39; Walk: Small example to make Nao walk &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;       with gait customization        &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;       NAO is Keyser Soze             &#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">):</span>
+    <span class="c"># Init proxies.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in Stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># TARGET VELOCITY</span>
+    <span class="n">X</span>         <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">Y</span>         <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Theta</span>     <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Frequency</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="c"># Defined a limp walk</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">,</span>
+        <span class="p">[</span> <span class="c"># LEFT FOOT</span>
+        <span class="p">[</span><span class="s">&quot;StepHeight&quot;</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>
+        <span class="p">[</span><span class="s">&quot;TorsoWy&quot;</span><span class="p">,</span> <span class="mf">5.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">]</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="c"># RIGHT FOOT</span>
+        <span class="p">[</span><span class="s">&quot;StepHeight&quot;</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span>
+        <span class="p">[</span><span class="s">&quot;MaxStepX&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">],</span>
+        <span class="p">[</span><span class="s">&quot;MaxStepFrequency&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="s">&quot;TorsoWx&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">],</span>
+        <span class="p">[</span><span class="s">&quot;TorsoWy&quot;</span><span class="p">,</span> <span class="mf">5.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span><span class="p">]</span> <span class="p">]</span> <span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+
+    <span class="c"># stop walk in the next double support</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">stopMove</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_walkCustomization.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="walk-to-customization">
+<h3>Walk to customization<a class="headerlink" href="#walk-to-customization" title="Permalink to this headline">¶</a></h3>
+<p>Make NAO walk to an objective with custom feet gait config.</p>
+<p><a class="reference download internal" href="../../../../_downloads/motion_moveToCustomization.py"><tt class="xref download docutils literal"><span class="pre">motion_moveToCustomization.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39;Move To: Small example to make Nao Move To an Objective &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;         With customization &#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="n">x</span>     <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">y</span>     <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c"># This example show customization for the both foot</span>
+    <span class="c"># with all the possible gait parameters</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span>
+        <span class="p">[</span> <span class="p">[</span><span class="s">&quot;MaxStepX&quot;</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>         <span class="c"># step of 2 cm in front</span>
+          <span class="p">[</span><span class="s">&quot;MaxStepY&quot;</span><span class="p">,</span> <span class="mf">0.16</span><span class="p">],</span>         <span class="c"># default value</span>
+          <span class="p">[</span><span class="s">&quot;MaxStepTheta&quot;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span>      <span class="c"># default value</span>
+          <span class="p">[</span><span class="s">&quot;MaxStepFrequency&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>  <span class="c"># low frequency</span>
+          <span class="p">[</span><span class="s">&quot;StepHeight&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">],</span>       <span class="c"># step height of 1 cm</span>
+          <span class="p">[</span><span class="s">&quot;TorsoWx&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>           <span class="c"># default value</span>
+          <span class="p">[</span><span class="s">&quot;TorsoWy&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span> <span class="p">])</span>         <span class="c"># torso bend 0.1 rad in front</span>
+
+    <span class="c"># This example show customization for the both foot</span>
+    <span class="c"># with just one gait parameter, in this case, the other</span>
+    <span class="c"># parameters are set to the default value</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="p">[</span> <span class="p">[</span><span class="s">&quot;StepHeight&quot;</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">]</span> <span class="p">])</span> <span class="c"># step height of 4 cm</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_moveToCustomization.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dubins-curve">
+<h3>Dubins curve<a class="headerlink" href="#dubins-curve" title="Permalink to this headline">¶</a></h3>
+<p>Make NAO walk along a dubins curve.</p>
+<p><a class="reference download internal" href="../../../../_downloads/motion_moveToDubinsCurve.py"><tt class="xref download docutils literal"><span class="pre">motion_moveToDubinsCurve.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39;Walk To: Small example to make Nao Walk follow&#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;         a Dubins Curve &#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">almath</span> <span class="kn">as</span> <span class="nn">m</span> <span class="c">#python&#39;s wrapping of almath</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="c"># first we defined the goal</span>
+    <span class="n">goal</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="c"># We get the dubins solution (control points) by</span>
+    <span class="c"># calling an almath function</span>
+
+    <span class="n">circleRadius</span> <span class="o">=</span> <span class="mf">0.04</span>
+    <span class="c"># Warning : the circle use by dubins curve</span>
+    <span class="c">#           have to be 4*CircleRadius &lt; norm(goal)</span>
+    <span class="n">dubinsSolutionAbsolute</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">getDubinsSolutions</span><span class="p">(</span><span class="n">goal</span><span class="p">,</span> <span class="n">circleRadius</span><span class="p">)</span>
+
+    <span class="c"># moveTo With control Points use relative commands but</span>
+    <span class="c"># getDubinsSolution return absolute position</span>
+    <span class="c"># So, we compute dubinsSolution in relative way</span>
+    <span class="n">dubinsSolutionRelative</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dubinsSolutionRelative</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dubinsSolutionAbsolute</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dubinsSolutionAbsolute</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">dubinsSolutionRelative</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">dubinsSolutionAbsolute</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span>
+                <span class="n">dubinsSolutionAbsolute</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c"># create a vector of moveTo with dubins Control Points</span>
+    <span class="n">moveToTargets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dubinsSolutionRelative</span><span class="p">)):</span>
+        <span class="n">moveToTargets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">dubinsSolutionRelative</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+             <span class="n">dubinsSolutionRelative</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+             <span class="n">dubinsSolutionRelative</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">theta</span><span class="p">]</span> <span class="p">)</span>
+
+    <span class="c"># Initialized the Move process and be sure the robot is ready to move</span>
+    <span class="c"># without this call, the first getRobotPosition() will not refer to the position</span>
+    <span class="c"># of the robot before the move process</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveInit</span><span class="p">()</span>
+
+    <span class="c"># get robot position before move</span>
+    <span class="n">robotPositionBeforeCommand</span>  <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotPosition</span><span class="p">(</span><span class="bp">False</span><span class="p">))</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span> <span class="n">moveToTargets</span> <span class="p">)</span>
+
+    <span class="c"># With MoveTo control Points, it&#39;s also possible to customize the gait parameters</span>
+    <span class="c"># motionProxy.moveTo(moveToTargets,</span>
+    <span class="c">#                    [[&quot;StepHeight&quot;, 0.001],</span>
+    <span class="c">#                     [&quot;MaxStepX&quot;, 0.06],</span>
+    <span class="c">#                     [&quot;MaxStepFrequency&quot;, 1.0]])</span>
+
+    <span class="c"># get robot position after move</span>
+    <span class="n">robotPositionAfterCommand</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotPosition</span><span class="p">(</span><span class="bp">False</span><span class="p">))</span>
+
+    <span class="c"># compute and print the robot motion</span>
+    <span class="n">robotMoveCommand</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">pose2DInverse</span><span class="p">(</span><span class="n">robotPositionBeforeCommand</span><span class="p">)</span><span class="o">*</span><span class="n">robotPositionAfterCommand</span>
+    <span class="k">print</span> <span class="s">&quot;The Robot Move Command: &quot;</span><span class="p">,</span> <span class="n">robotMoveCommand</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_moveToDubinsCurve.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="move-head-while-walking">
+<h3>Move head while walking<a class="headerlink" href="#move-head-while-walking" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../_downloads/motion_walkWithJerkyHead.py"><tt class="xref download docutils literal"><span class="pre">motion_walkWithJerkyHead.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39; Walk: Small example to make Nao walk &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;       with jerky head                &#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">StiffnessOn</span><span class="p">(</span><span class="n">proxy</span><span class="p">):</span>
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="c"># Init proxies.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Set NAO in Stiffness On</span>
+    <span class="n">StiffnessOn</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">)</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Initialize the walk process.</span>
+    <span class="c"># Check the robot pose and take a right posture.</span>
+    <span class="c"># This is blocking called.</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveInit</span><span class="p">()</span>
+
+    <span class="n">testTime</span> <span class="o">=</span> <span class="mi">10</span> <span class="c"># seconds</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">t</span><span class="o">&lt;</span><span class="n">testTime</span><span class="p">):</span>
+
+        <span class="c"># WALK</span>
+        <span class="n">X</span>         <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">Y</span>         <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+        <span class="n">Theta</span>     <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+        <span class="n">Frequency</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">Frequency</span><span class="p">)</span>
+
+        <span class="c"># JERKY HEAD</span>
+        <span class="n">motionProxy</span><span class="o">.</span><span class="n">setAngles</span><span class="p">(</span><span class="s">&quot;HeadYaw&quot;</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="mf">0.6</span><span class="p">)</span>
+        <span class="n">motionProxy</span><span class="o">.</span><span class="n">setAngles</span><span class="p">(</span><span class="s">&quot;HeadPitch&quot;</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="mf">0.6</span><span class="p">)</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="n">dt</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="c"># stop walk on the next double support</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">stopMove</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_walkWithJerkyHead.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="stiffness.html" title="Stiffness">Stiffness</a>
+     |
+    <a href="index.html" title="Motion" accesskey="U">Motion</a>
+   |
+    <a href="footsteps.html" title="Footsteps control">Footsteps control</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../cpp/index.html">Cpp</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html">Python</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../install_guide.html">Python SDK Install Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tutorials.html">Python tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../examples.html">Python Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../nonascii/index.html">Reading non-ASCII text</a></li>
+<li class="toctree-l5 current"><a class="reference internal" href="index.html">Motion</a><ul class="current">
+<li class="toctree-l6"><a class="reference internal" href="poses.html">Poses</a></li>
+<li class="toctree-l6"><a class="reference internal" href="stiffness.html">Stiffness</a></li>
+<li class="toctree-l6 current"><a class="current reference internal" href="">Move and Walk</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="footsteps.html">Footsteps control</a></li>
+<li class="toctree-l6"><a class="reference internal" href="cartesian.html">Cartesian commands</a></li>
+<li class="toctree-l6"><a class="reference internal" href="whole_body.html">Whole body motion</a></li>
+<li class="toctree-l6"><a class="reference internal" href="collision_detection.html">Collision detection</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../almath/index.html">ALMath</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/index.html">Sensors</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/index.html">Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../tips-and-tricks.html">Python SDK tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Move and Walk</a><ul>
+<li><a class="reference internal" href="#simple-walk">Simple walk</a><ul>
+<li><a class="reference internal" href="#walk">Walk</a></li>
+<li><a class="reference internal" href="#move-to">Move to</a></li>
+<li><a class="reference internal" href="#walk-faster">Walk faster</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#customized-walk">Customized walk</a><ul>
+<li><a class="reference internal" href="#walk-customization">Walk customization</a></li>
+<li><a class="reference internal" href="#walk-to-customization">Walk to customization</a></li>
+<li><a class="reference internal" href="#dubins-curve">Dubins curve</a></li>
+<li><a class="reference internal" href="#move-head-while-walking">Move head while walking</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="stiffness.html" title="Stiffness">previous</a>
+     |
+    <a href="index.html" title="Motion" accesskey="U">up</a>
+   |
+    <a href="footsteps.html" title="Footsteps control">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

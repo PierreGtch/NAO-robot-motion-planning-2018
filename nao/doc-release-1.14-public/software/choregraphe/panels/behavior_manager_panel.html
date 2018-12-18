@@ -1,0 +1,347 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Behavior manager panel &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="Advanced panels" href="../advanced_panels.html" />
+    <link rel="next" title="Resource viewer panel" href="resource_viewer_panel.html" />
+    <link rel="prev" title="Script editor panel" href="scritp_editor_panel.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="scritp_editor_panel.html" title="Script editor panel">previous</a>
+     |
+    <a href="../advanced_panels.html" title="Advanced panels" accesskey="U">up</a>
+   |
+    <a href="resource_viewer_panel.html" title="Resource viewer panel">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="software-choregraphe-panels-behavior_manager_panel">
+            
+  <div class="section" id="behavior-manager-panel">
+<span id="choregraphe-overview-behavior-manager-panel"></span><h1>Behavior manager panel<a class="headerlink" href="#behavior-manager-panel" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-the-behavior-manager-panel">
+<h2>What is the Behavior manager panel<a class="headerlink" href="#what-is-the-behavior-manager-panel" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>Behavior manager</strong> panel enables you to install, uninstall, play and stop
+<a class="reference internal" href="../objects/behavior.html#choregraphe-reference-behavior"><em>behaviors</em></a> on the robot you are connected to.</p>
+<img alt="../../../_images/behavior_manager.png" src="../../../_images/behavior_manager.png" style="width: 324px; height: 215px;" />
+<p>The table below describes the main parts of the <strong>Behavior manager panel</strong>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="17%" />
+<col width="78%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Part</th>
+<th class="head">Name</th>
+<th class="head">Allows you to ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>A</strong></td>
+<td><strong>Toolbar</strong></td>
+<td>Manage the list of the Behaviors installed on the robot.</td>
+</tr>
+<tr class="row-odd"><td><strong>B</strong></td>
+<td><strong>Behaviors</strong></td>
+<td><p class="first">Know which behaviors are currently installed on the robot.</p>
+<p class="last">The <tt class="docutils literal"><span class="pre">.currentChoregrapheBehavior</span></tt> is the current Behavior, temporarly
+installed and immediately executed when you click the <img alt="play-button" class="img-inline" src="../../../_images/beginning_play_button.png" />
+<strong>Play</strong> button.</p>
+</td>
+</tr>
+<tr class="row-even"><td><strong>C</strong></td>
+<td><strong>Execution</strong></td>
+<td>Control the execution of each installed Behavior.</td>
+</tr>
+<tr class="row-odd"><td><strong>D</strong></td>
+<td><strong>Default</strong></td>
+<td>Select the behaviors to play automatically at NAO startup.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="behavior-manager-panel-functionalities">
+<span id="choregraphe-detailed-interface-behavior-manager-panel"></span><h2>Behavior manager panel functionalities<a class="headerlink" href="#behavior-manager-panel-functionalities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="toolbar">
+<h3>Toolbar<a class="headerlink" href="#toolbar" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Button</th>
+<th class="head">Click on this button to ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="../../../_images/behavior_manager_open.png" class="first last" src="../../../_images/behavior_manager_open.png" />
+</td>
+<td><strong>Open</strong> the behavior selected in the list of installed behaviors in Choregraphe.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/behavior_manager_add_current.png" class="first last" src="../../../_images/behavior_manager_add_current.png" />
+</td>
+<td><strong>Install</strong> the current opened behavior on your robot.</td>
+</tr>
+<tr class="row-even"><td><img alt="../../../_images/behavior_manager_delete.png" class="first last" src="../../../_images/behavior_manager_delete.png" />
+</td>
+<td><strong>Uninstall</strong> the behavior selected in the list of installed behaviors.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/behavior_manager_stop_all.png" class="first last" src="../../../_images/behavior_manager_stop_all.png" />
+</td>
+<td><strong>Stop all behaviors</strong> that are currently running on the robot.
+It is useful if you have executed a behavior at startup for example and you do not have control over it.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="shortcuts">
+<h3>Shortcuts<a class="headerlink" href="#shortcuts" title="Permalink to this headline">¶</a></h3>
+<p>To install a <strong>Behavior</strong> directly from your computer:</p>
+<p>Drag and drop a CRG file or the directory of a behavior into the
+<strong>Behavior manager</strong> panel.</p>
+</div>
+<div class="section" id="execution-status">
+<h3>Execution status<a class="headerlink" href="#execution-status" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="45%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Button</th>
+<th class="head">Means that the behavior is ...</th>
+<th class="head">Click on this button to ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="../../../_images/behavior_manager_play_one.png" class="first last" src="../../../_images/behavior_manager_play_one.png" />
+</td>
+<td>not running</td>
+<td><strong>Play</strong> the behavior</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/behavior_manager_loading.png" class="first last" src="../../../_images/behavior_manager_loading.png" />
+</td>
+<td>loading</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><img alt="../../../_images/behavior_manager_stop_one.png" class="first last" src="../../../_images/behavior_manager_stop_one.png" />
+</td>
+<td>running</td>
+<td><strong>Stop</strong> the behavior</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/behavior_manager_unloading.png" class="first last" src="../../../_images/behavior_manager_unloading.png" />
+</td>
+<td>unloading</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="setting-default-behaviors">
+<h3>Setting default behaviors<a class="headerlink" href="#setting-default-behaviors" title="Permalink to this headline">¶</a></h3>
+<p>A default behavior is a behavior which is automatically played at NAO startup.</p>
+<p>The checkbox column enables you to set a behavior as default.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Button</th>
+<th class="head">Function</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="../../../_images/behavior_manager_default_not_checked.png" class="first last" src="../../../_images/behavior_manager_default_not_checked.png" />
+</td>
+<td>Not checked: the behavior is not set as default.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../../_images/behavior_manager_default_checked.png" class="first last" src="../../../_images/behavior_manager_default_checked.png" />
+</td>
+<td>Checked: the behavior is set as default.
+It will then be automatically executed at NAO startup.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can also name a behavior <strong>.default</strong> to set it automatically as default behavior.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You can play and set as default several behaviors simultaneously.
+But the behaviors needs to be compatible.
+For example a behavior making NAO sit down and another making him walk are not compatible.
+Please set the <a class="reference internal" href="../objects/box_optional_components.html#choregraphe-reference-box-resource"><em>resources</em></a> of your boxes to avoid conflicts between simultaneous behaviors (see <a class="reference internal" href="../objects/box_optional_components.html#choregraphe-howto-set-resources-for-box"><em>How to set resources of a box</em></a>).</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="scritp_editor_panel.html" title="Script editor panel">Script editor panel</a>
+     |
+    <a href="../advanced_panels.html" title="Advanced panels" accesskey="U">Advanced panels</a>
+   |
+    <a href="resource_viewer_panel.html" title="Resource viewer panel">Resource viewer panel</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Software</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Choregraphe User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../starting_discovery.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../main_objects.html">Mastering the main objects</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../advanced_panels.html">Advanced panels</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pose_library_panel.html">Pose library panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="video_monitor_panel.html">Video monitor panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dialog_panel.html">Dialog panel - Experimental</a></li>
+<li class="toctree-l3"><a class="reference internal" href="project_content_panel.html">Project content panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scritp_editor_panel.html">Script editor panel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Behavior manager panel</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="resource_viewer_panel.html">Resource viewer panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="memory_watcher_panel.html">Memory watcher panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debug_window.html">Debug window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="undo_stack_panel.html">Undo stack panel</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mouvement.html">Mastering movements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../miscel.html">How to ...</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../customizing.html">Customizing Choregraphe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutos/index.html">Choregraphe Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutos/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Behavior manager panel</a><ul>
+<li><a class="reference internal" href="#what-is-the-behavior-manager-panel">What is the Behavior manager panel</a></li>
+<li><a class="reference internal" href="#behavior-manager-panel-functionalities">Behavior manager panel functionalities</a><ul>
+<li><a class="reference internal" href="#toolbar">Toolbar</a></li>
+<li><a class="reference internal" href="#shortcuts">Shortcuts</a></li>
+<li><a class="reference internal" href="#execution-status">Execution status</a></li>
+<li><a class="reference internal" href="#setting-default-behaviors">Setting default behaviors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="scritp_editor_panel.html" title="Script editor panel">previous</a>
+     |
+    <a href="../advanced_panels.html" title="Advanced panels" accesskey="U">up</a>
+   |
+    <a href="resource_viewer_panel.html" title="Resource viewer panel">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

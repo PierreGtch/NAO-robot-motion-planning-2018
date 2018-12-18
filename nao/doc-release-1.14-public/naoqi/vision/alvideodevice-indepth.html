@@ -1,0 +1,566 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALVideoDevice - Advanced &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="ALVideoDevice" href="alvideodevice.html" />
+    <link rel="next" title="ALVideoRecorder" href="alvideorecorder.html" />
+    <link rel="prev" title="ALVideoDevice Tutorial" href="alvideodevice-tuto.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="alvideodevice-tuto.html" title="ALVideoDevice Tutorial">previous</a>
+     |
+    <a href="alvideodevice.html" title="ALVideoDevice" accesskey="U">up</a>
+   |
+    <a href="alvideorecorder.html" title="ALVideoRecorder">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-vision-alvideodevice-indepth">
+            
+  <div class="section" id="alvideodevice-advanced">
+<span id="api-advanced"></span><h1>ALVideoDevice - Advanced<a class="headerlink" href="#alvideodevice-advanced" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-vision"><em>NAOqi Vision</em></a> - <a class="reference internal" href="alvideodevice.html#alvideodevice"><em>Overview</em></a> | <a class="reference internal" href="alvideodevice-api.html#alvideodevice-api"><em>API</em></a> |
+<a class="reference internal" href="alvideodevice-tuto.html#alvideodevice-tuto"><em>Tutorials</em></a> | ALVideoDevice - Advanced</p>
+<hr class="docutils" />
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="../../family/robots/video_robot.html#robot-video"><em>Video camera Hardware</em></a></li>
+</ul>
+</div>
+<div class="section" id="details-on-alvideodevice">
+<span id="alvideodevice-detailsonalvideodevice"></span><h2>Details on ALVideoDevice<a class="headerlink" href="#details-on-alvideodevice" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="architecture-overview">
+<h3>Architecture overview<a class="headerlink" href="#architecture-overview" title="Permalink to this headline">¶</a></h3>
+<p>This architecture is especially designed for NAO&#8217;s camera. Other video sources
+are using this architecture by emulating parts such as the driver in stream mode
+and its circular buffers management.</p>
+<img alt="../../_images/arch_diagram_vision_system.png" src="../../_images/arch_diagram_vision_system.png" style="width: 408px; height: 304px;" />
+<p>A Vision Module (V.M.) needs to work on a specific image format to perform its
+processing. So it subscribes to ALVideoDevice that will apply transformations on
+the stream to the required format (resolution and colorspace). If this format is
+the native one of the video source, a direct raw access can be asked (as an advanced feature, it implies some constraints).</p>
+</div>
+<div class="section" id="how-to-change-the-video-source">
+<span id="alvideodevice-howtochangethevideosource"></span><h3>How to change the video source<a class="headerlink" href="#how-to-change-the-video-source" title="Permalink to this headline">¶</a></h3>
+<p>The video source used by ALVideoDevice is defined in the VideoInput.xml preference file.
+Right now, 3 different kinds of video sources are available:</p>
+<ul class="simple">
+<li>NaoCam: NAO&#8217;s camera (only available on NAO)</li>
+<li>SimulatorCam: what NAO sees in the simulator (only available on desktop)</li>
+<li>FileCam (beta version): replays grabbed sequences from any video device (available on NAO and desktop)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To switch between cameras, use <a class="reference internal" href="alvideodevice-api.html#ALVideoDeviceProxy::setParam__iCR.iCR" title="ALVideoDeviceProxy::setParam"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::setParam()</span></tt></a> with kCameraSelectID
+parameter (or kCameraFastSwitchID advanced parameter if available).</p>
+</div>
+</div>
+<div class="section" id="what-does-alvideodevice-do">
+<h3>What does ALVideoDevice do<a class="headerlink" href="#what-does-alvideodevice-do" title="Permalink to this headline">¶</a></h3>
+<p>ALVideoDevice manages the video source. If the video source is NAO&#8217;s camera for
+instance, it will:</p>
+<ul class="simple">
+<li>Open the camera device, communicating through I2C bus.</li>
+<li>Launch V4L2 driver in streaming mode (the V4L2 driver will create a circular
+buffer of n elements to grab the video stream).</li>
+<li>Receive subscriptions from Vision Modules by creating for each one an ALImage
+to encapsulate raw data buffer from the V4L2 driver and an ALImage to store
+converted data.</li>
+<li>Choose which image to provide to a V.M. when it asks for one, depending on whether
+another V.M. has requested the same kind of image recently or not.</li>
+<li>Manage all modifications asked to the video device (e.g. new gain settings),
+or by a V.M. on its parameters (e.g. a new color space) and manage the impacts
+these modifications can have on the video device and/or driver (e.g. when
+changing from QVGA to VGA).</li>
+<li>Suppress corresponding unused ALImages when a V.M. unsubscribes, and check
+the new optimal settings for the video device and driver for the remaining
+modules.</li>
+<li>Stop the driver and close the video device when asked to if no more V.M.
+are subscribed.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Except there is no I2C communications and V4L2 driver for SimulatorCam and
+FileCam video devices, both devices are running in a similar way than NaoCam
+with ALVideoDevice (a circular buffer has been implemented to simulate the one
+of V4L2 driver and SimulatorCam video flow is converted into YUV422 for keeping
+an abstraction layer with the active video device).</p>
+</div>
+</div>
+</div>
+<div class="section" id="how-alvideodevice-manages-vision-module-needs">
+<span id="alvideodevice-howalvideodevicemanagesvisionmoduleneeds"></span><h2>How ALVideoDevice manages Vision Module needs<a class="headerlink" href="#how-alvideodevice-manages-vision-module-needs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vision-module-subscribing-to-alvideodevice">
+<h3>Vision Module subscribing to ALVideoDevice<a class="headerlink" href="#vision-module-subscribing-to-alvideodevice" title="Permalink to this headline">¶</a></h3>
+<p>The V.M. sends a request via the broker to subscribe to ALVideoDevice with the
+following parameters:</p>
+<ul class="simple">
+<li><strong>name (Id)</strong>: If there is no other module already subscribed with this name, the
+name will be used as identifier. Otherwise, name will be extended with some
+additional characters (e.g. &#8220;_3&#8221; for the third instance).</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only 8 instances of this module are allowed to avoid programming mistakes from
+the user that would lead to a performance loss. You can unsubscribe all instances
+by calling <a class="reference internal" href="alvideodevice-api.html#ALVideoDeviceProxy::unsubscribe__ssCR" title="ALVideoDeviceProxy::unsubscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::unsubscribe()</span></tt></a>.</p>
+</div>
+<ul class="simple">
+<li><strong>resolution (size)</strong>:<ul>
+<li>4VGA  (1280* 960 )</li>
+<li>VGA   (640 * 480 )</li>
+<li>QVGA  (320 * 240)</li>
+<li>QQVGA (160 * 120)</li>
+</ul>
+</li>
+<li><strong>color space</strong> (main ones):<ul>
+<li>YUV422 (native format of the camera)</li>
+<li>YUV (24 bits)</li>
+<li>Y (8 bits)</li>
+<li>RGB (24 bits)</li>
+<li>BGR (24 bits)</li>
+<li>HSY (24 bits, see the appendix at the end of this document for further details)</li>
+</ul>
+</li>
+<li><strong>frames per second (fps)</strong>: The OV7670 VGA camera can only run at 30fps,
+the MT9M114 HD camera will be able to run faster with some special modes in a near future.</li>
+</ul>
+<p>At this stage, ALVideoDevice can look in the database to know what to provide to
+every V.M. sending a request.</p>
+<p>In the figure below, you can see that three different VMs have subscribed to
+ALVideoDevice (shown in the blue section). For an explanation on how ALVideoDevice
+works internally, let&#8217;s consider that the two first VMs are asking for the same
+image format. Suppose further that the third VM needs the same image format as
+the one provided natively by the video source device.</p>
+<img alt="../../_images/core_video02.png" src="../../_images/core_video02.png" style="width: 600px; height: 361px;" />
+<p>In the ALVideoDevice thread section (green part), you can see the ALVision image
+containers that have been created to manage future requests from the Vision Modules.
+The first set of containers to the left will just receive a pointer access to driver buffers.
+It is just an encapsulation to our image format without any memory allocation in
+order to set different attributes (width, height, resolution, color space, lockers, etc.)
+to buffers containing only raw data.
+The second set of containers to the right have their own memory allocated because
+they will receive transformed images with the resolution and color space requested by VMs.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Actually all the buffers from the right set allocate the maximum amount of
+memory that resolution and color space combinations allow. So changing resolution
+or color space will not need any memory reallocation, which is time consuming,
+but just parameters modification.</p>
+</div>
+</div>
+<div class="section" id="setting-and-asking-parameters">
+<h3>Setting and asking parameters<a class="headerlink" href="#setting-and-asking-parameters" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>setResolution</strong>, <strong>setColorSpace</strong>, <strong>setFrameRate</strong>: at any moment, each V.M. can have
+its resolution or color space set to a new value that will replace the one used
+when registering. ALVideoDevice will automatically check if new settings are
+necessary for the video source, and will apply them if necessary.</li>
+<li><strong>setParam</strong>: in the same way, new settings can be requested to the video source
+device, as enabling/disabling auto gain or white balance for NaoCam.</li>
+<li><strong>getGVMResolution</strong>, <strong>getGVMColorSpace</strong>, <strong>getGVMFrameRate</strong>: return corresponding
+parameters for a Vision Module (formerly called Generic Vision Module, thus
+the name...).</li>
+<li><strong>getVIMResolution</strong>, <strong>getVIMColorSpace</strong>, <strong>getVIMFrameRate</strong>: useful to know in which
+mode the video source device is running (as it works in the most suitable mode
+to answer the needs of every V.M.). Formerly ALVideoDevice was called Video
+Input Module, thus the name...</li>
+<li><strong>getParam</strong>: returns the value of a particular video source&#8217;s parameter</li>
+</ul>
+</div>
+<div class="section" id="asking-for-an-image">
+<h3>Asking for an image<a class="headerlink" href="#asking-for-an-image" title="Permalink to this headline">¶</a></h3>
+<p>A Vision Module can request images in two ways:</p>
+<ul class="simple">
+<li>standard access that allows image conversion and</li>
+<li>direct raw access for accessing the driver&#8217;s image buffers directly.</li>
+</ul>
+<p>Both ways can be used in local or remote mode.</p>
+<div class="section" id="standard-access">
+<h4>Standard access<a class="headerlink" href="#standard-access" title="Permalink to this headline">¶</a></h4>
+<p>We recommend this mode. When using getImageLocal() function, the image is provided
+by ALVideoDevice with the format needed by the VM.</p>
+<ol class="arabic simple">
+<li>In the figure below, a VM requests an image in local mode to ALVideoDevice.</li>
+<li>Suppose that this request is the first one, or that no request of the same
+kind was done recently. ALVideoDevice is going to ask the driver for the
+most recent buffer filled by the video source.</li>
+<li>Unlike &#8220;read&#8221; mode of the V4L2 driver, &#8220;streaming&#8221; mode doesn&#8217;t require a
+copy of data from kernel space into user space, but just a remapping
+(action on pointers, not on data). So the driver is going to provide access
+to its latest updated raw image buffer by dequeuing it from the circular buffer,
+accessible via a ALVision buffer as shown to the left part of the diagram
+for ALVideoDevice thread . In this example, the driver will therefore work
+temporarily with 4 buffers instead of 5 initially.</li>
+<li>ALVideoDevice is going to transform the up-to-date raw image buffer to the
+format required by the VM that asked for an image. This image will be stored
+in the first obsolete and available buffer (not locked for writing) of the
+corresponding format. This appears in the right part of the VIM thread section
+on the diagram below. Once the conversion is done, the raw image buffer will
+be requeued automatically in the driver&#8217;s circular buffer.</li>
+<li>As the request from the VM is local, it will access to this converted ALVision
+buffer through a pointer. This ALVision buffer will be locked for writing as
+long as this VM (and all others that might get an access to it) doesn&#8217;t release it.</li>
+</ol>
+<img alt="../../_images/core_video03.png" src="../../_images/core_video03.png" style="width: 600px; height: 364px;" />
+<p>Now suppose that another Vision Module wanting the same kind of image sends a request to ALVideoDevice.</p>
+<ol class="arabic simple">
+<li>Let&#8217;s say the request will be done in remote mode via getImageRemote(),
+to illustrate how remote calls differ. Local mode would have been equivalent,
+except for the way to access the buffer at the final stage.</li>
+<li>Here again ALVideoDevice will ask to the driver which is the latest updated
+buffer and will compare its timestamp with the one of the more recent ALVision
+with the requested format.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Buffers are timestamped at the driver level when we start acquiring a new
+frame, so their accuracy is higher than a millisecond.</p>
+</div>
+<ol class="arabic simple" start="3">
+<li>If there is no newer raw image buffer, then ALVideoDevice will provide the
+same ALVision buffer as used by the first VM. This way, we avoid redundant
+conversions by mutualizing processes.</li>
+<li>As the request was done in remote mode, the ALImage buffer will be converted
+into an ALValue and sent via &#8220;soap&#8221; to the remote VM. As the remote VM receives
+a copy of the image via &#8220;soap&#8221;, it doesn&#8217;t need any access to the ALImage
+buffer anymore. Therefore, the remote VM can release its hold on this buffer.
+This is done automatically at the end of the getImageRemote() function.
+Local VMs need to release the ALImage buffer explicitly when they&#8217;re done
+using it. So each getImageLocal() call should be paired with a releaseImage()
+when the local VM task is done (not doing so blocks the VM from obtaining
+new images with next calls to getImage).</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Calling releaseImage() from a remote VM as we do for a local one is not
+mandatory but is a good habit to ease switching the running mode of your module
+from remote to local and doesn&#8217;t take processing time as it just do nothing
+when it follows a getImageRemote.</p>
+</div>
+<p>Once a buffer has been released, this one is available again for writing but can
+still be accessed for reading if needed.</p>
+<img alt="../../_images/core_video04.png" src="../../_images/core_video04.png" style="width: 600px; height: 356px;" />
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">It&#8217;s obvious that VMs are not supposed to modify the incoming image in order
+to let other VMs to obtain correct data. Therefore, it is strongly recommended
+to use an outcoming image if the result of your VM process is an image.</p>
+</div>
+</div>
+<div class="section" id="direct-raw-access">
+<h4>Direct raw access<a class="headerlink" href="#direct-raw-access" title="Permalink to this headline">¶</a></h4>
+<p>In this mode, the user has a direct access to raw image buffers from the driver.
+This means that the VM process must be done in order to work on the native video
+source format. In this case, instead of copying data from the unmapped driver
+buffer to an ALImage buffer with the correct format (arrow 4) and then providing
+a pointer (arrow 5), the VM process will get a direct access through a pointer to
+the driver&#8217;s latest updated buffer (arrow 4bis). It&#8217;s faster and consumes less
+processing power.</p>
+<img alt="../../_images/core_video05.png" src="../../_images/core_video05.png" style="width: 600px; height: 363px;" />
+<p>But there are restrictions for using this mode:</p>
+<ul class="simple">
+<li>In such a mode, a VM keeps the unmapped driver&#8217;s raw buffer as long as necessary,
+and so the driver&#8217;s circular buffer continues working with less raw buffers.
+If there are as many VMs as the number of driver&#8217;s raw buffers that keep a raw
+buffer unmapped for more than the needed time for the camera to write an image,
+then at some point no buffer will be available to write the video source&#8217;s last
+frame. The device will then have to wait for the first released raw buffer to
+write an image again.</li>
+<li>This is why we recommend to ensure that there are always less VMs needing raw
+buffers for more than ~25ms before calling the releaseDirectRawImage function
+than the number of raw buffers themselves. Actually, the driver usually sets
+4 buffers on NAO, and NAO&#8217;s camera provide a new frame every 33ms, but you need
+a safety margin for the time spent into ALVideoDevice management and in other
+thread processes.</li>
+<li>Another point you have to be aware of when using this mode is that doing any
+action requesting modifications in the way camera is running (e.g. resolution,
+switch between camera) will cause troubles if any driver&#8217;s raw buffer is still
+accessed.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Like for the remote standard access mode, remote direct raw access mode releases
+automatically raw buffers as soon as the ALValue conversion is done.</p>
+</div>
+<dl class="docutils">
+<dt>As you will have probably noticed, the standard access mode uses the direct raw</dt>
+<dd>access mode internally.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="recording-and-replaying-arv-video-files">
+<span id="alvideodevice-recordandreplayarvvideofiles"></span><h2>Recording and replaying .arv video files<a class="headerlink" href="#recording-and-replaying-arv-video-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="presentation">
+<h3>Presentation<a class="headerlink" href="#presentation" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s introduce our Aldebaran Robotics Video format (.arv), light and integrated
+into ALVideoDevice for grabbing transparently video streams from any desired VM.</p>
+<ul class="simple">
+<li>In the past, you probably wished to know afterwards why an algorithm in a VM
+didn&#8217;t work on a particular frame, or you wanted to grab a sequence for offline
+processing. Now, it&#8217;s possible.</li>
+<li>Let&#8217;s take for example two VMs, face detection and landmark detection, running
+respectively at 2 fps and 5 fps. You can ask at any time to record the images
+processed by face detection by calling the bound method <a class="reference internal" href="alvideodevice-api.html#ALVideoDeviceProxy::recordVideo__ssCR.ssCR.iCR.iCR" title="ALVideoDeviceProxy::recordVideo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::recordVideo()</span></tt></a>.
+Native images from the video source (YUV422 VGA or QVGA for NaoCam) will be
+recorded in an <tt class="docutils literal"><span class="pre">ARV</span></tt> file, and there will be only the frames processed by face
+detection. By calling later the bound method <a class="reference internal" href="alvideodevice-api.html#ALVideoDeviceProxy::stopVideo__ssCR" title="ALVideoDeviceProxy::stopVideo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALVideoDeviceProxy::stopVideo()</span></tt></a>
+you can stop the acquisition. Now, while grabbing images passing through face
+detection, you can ask to grab in another file the images processed by landmark
+detection. There is an option you can set to record one every n images processed
+by this GVM, so for instance you can set it to 5 in order to get a 1 fps frame
+rate for the file. In addition, you can ask for a maximum number of frames that,
+once reached, will stop the video automatically.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Changing some inner parameters of the video device, like the resolution or color space, will automatically close the file.</p>
+</div>
+<ul class="simple">
+<li>Now, with several replay modes based on timestamped data, you can work offline
+on your vision algorithms and so compare the improvements on reproducible inputs.</li>
+<li>In order to replay <tt class="docutils literal"><span class="pre">ARV</span></tt> files, activate FileCam in VideoInput.xml preference
+file and set which file you want to replay with setVideo bound method.<ul>
+<li>You can provide an interval of images you want to display and choose to loop.</li>
+<li>In addition, you can either use mode 1 to replay the file at the frame rate
+used for acquisition (exactly like if we were using the original video device,
+like NaoCam for instance), or using mode 0 at a desired frame rate (e.g. 0.2 fps)
+or frame per frame (set 0 fps) with nextImage and previousImage bound methods
+(available through GUI buttons in Monitor) to go to next and preceding images
+(note that for keeping NaoCam&#8217;s driver emulation, timestamps will continue to
+increase when using FileCam).</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a beta version, code is not protected from bad manipulations like,
+for instance, not setting a correct file path or forgetting to call setVideo
+before subscribing a VM. Replay modes 2 and 3 are not implemented yet.</p>
+</div>
+</div>
+<div class="section" id="tutorial">
+<h3>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="alvideodevice-tuto.html#alvideodevice-tuto-record-arv"><em>Recording an .arv video file (beta)</em></a></p>
+<p><a class="reference internal" href="alvideodevice-tuto.html#alvideodevice-tuto-replay-arv"><em>Replaying an .arv video file (beta)</em></a></p>
+</div>
+</div>
+<div class="section" id="appendix">
+<span id="alvideodevice-appendix"></span><h2>Appendix<a class="headerlink" href="#appendix" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-is-the-hsy-color-space">
+<h3>What is the HSY color space<a class="headerlink" href="#what-is-the-hsy-color-space" title="Permalink to this headline">¶</a></h3>
+<p>Inspired by the HSV and HSL color spaces and optimized for speed on embedded systems.</p>
+<img alt="../../_images/180px-HSV_cone.png" src="../../_images/180px-HSV_cone.png" />
+<ul class="simple">
+<li>In HSY colorspace, Hue is not coded from 0 to 359 (9 bits) but from 0 to 255
+to represent the 360°.  Thus every unit represent 1.406° and hue can be stored
+on 8 bits instead of 16 bits.</li>
+<li>The HSV Saturation component is faster to compute than the HSL one, so let&#8217;s use it.</li>
+<li>Finally, both Value and Lightness are not satisfying compared to a true
+luminance (they don&#8217;t use all three RGB components for their computation), so
+let&#8217;s use Y component since it is native from the camera.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="alvideodevice-tuto.html" title="ALVideoDevice Tutorial">ALVideoDevice Tutorial</a>
+     |
+    <a href="alvideodevice.html" title="ALVideoDevice" accesskey="U">ALVideoDevice</a>
+   |
+    <a href="alvideorecorder.html" title="ALVideoRecorder">ALVideoRecorder</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Vision</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albacklightingdetection.html">ALBacklightingDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aldarknessdetection.html">ALDarknessDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alfacedetection.html">ALFaceDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allandmarkdetection.html">ALLandMarkDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almovementdetection.html">ALMovementDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alphotocapture.html">ALPhotoCapture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alredballdetection.html">ALRedBallDetection</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="alvideodevice.html">ALVideoDevice</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="alvideodevice-api.html">ALVideoDevice API</a></li>
+<li class="toctree-l5"><a class="reference internal" href="alvideodevice-api.html#method-list">Method list</a></li>
+<li class="toctree-l5"><a class="reference internal" href="alvideodevice-tuto.html">ALVideoDevice Tutorial</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALVideoDevice - Advanced</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="alvideorecorder.html">ALVideoRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvisionrecognition.html">ALVisionRecognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvisualcompass.html">ALVisualCompass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvisiontoolbox.html">ALVisionToolbox</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALVideoDevice - Advanced</a><ul>
+<li><a class="reference internal" href="#details-on-alvideodevice">Details on ALVideoDevice</a><ul>
+<li><a class="reference internal" href="#architecture-overview">Architecture overview</a></li>
+<li><a class="reference internal" href="#how-to-change-the-video-source">How to change the video source</a></li>
+<li><a class="reference internal" href="#what-does-alvideodevice-do">What does ALVideoDevice do</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-alvideodevice-manages-vision-module-needs">How ALVideoDevice manages Vision Module needs</a><ul>
+<li><a class="reference internal" href="#vision-module-subscribing-to-alvideodevice">Vision Module subscribing to ALVideoDevice</a></li>
+<li><a class="reference internal" href="#setting-and-asking-parameters">Setting and asking parameters</a></li>
+<li><a class="reference internal" href="#asking-for-an-image">Asking for an image</a><ul>
+<li><a class="reference internal" href="#standard-access">Standard access</a></li>
+<li><a class="reference internal" href="#direct-raw-access">Direct raw access</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#recording-and-replaying-arv-video-files">Recording and replaying .arv video files</a><ul>
+<li><a class="reference internal" href="#presentation">Presentation</a></li>
+<li><a class="reference internal" href="#tutorial">Tutorial</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#appendix">Appendix</a><ul>
+<li><a class="reference internal" href="#what-is-the-hsy-color-space">What is the HSY color space</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="alvideodevice-tuto.html" title="ALVideoDevice Tutorial">previous</a>
+     |
+    <a href="alvideodevice.html" title="ALVideoDevice" accesskey="U">up</a>
+   |
+    <a href="alvideorecorder.html" title="ALVideoRecorder">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

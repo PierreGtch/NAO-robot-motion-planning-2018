@@ -1,0 +1,561 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Resources manager &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="Choregraphe Tutorials" href="index.html" />
+    <link rel="next" title="Enrich NAO’s behavior list" href="behavior_manager.html" />
+    <link rel="prev" title="Attached files" href="attached_files.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="attached_files.html" title="Attached files">previous</a>
+     |
+    <a href="index.html" title="Choregraphe Tutorials" accesskey="U">up</a>
+   |
+    <a href="behavior_manager.html" title="Enrich NAO&amp;#8217;s behavior list">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="software-choregraphe-tutos-resource_manager">
+            
+  <div class="section" id="resources-manager">
+<span id="choregraphe-tuto-resources-manager"></span><h1>Resources manager<a class="headerlink" href="#resources-manager" title="Permalink to this headline">¶</a></h1>
+<p>The Resources manager is an efficient tool to manage resources between behaviors.</p>
+<p>For example, if two Behaviors using the <strong>Audio player</strong> resource are executed at
+the same time, you will want them to obey to a certain priority rule such as
+&#8220;if the first behvior is using the resource,
+the second has to wait the end of the first behavior&#8221;.</p>
+<p>In this tutorial will see how to manage this kind of situation over several examples.</p>
+<div class="section" id="without-resource-management">
+<h2>Without resource management<a class="headerlink" href="#without-resource-management" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s create the Behavior on which we will be working all along the tutorial:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="80%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Drag and drop two <strong>Audio</strong> &gt; <strong>Sound</strong> &gt; <strong>Play sound</strong> box onto your
+root diagram.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Drag and drop a <strong>Flow Control</strong> &gt; <strong>Time</strong> &gt; <strong>Wait</strong> box onto your root
+diagram
+and set the timeout parameter to 4 seconds by clicking on the <strong>Parameter</strong>
+<img alt="parameter-button" class="img-inline" src="../../../_images/parameter_button.png" /> button.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>Link the input of the first <strong>Play Sound</strong> box to the beginning of the
+root diagram.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Link the input of the second <strong>Play Sound</strong> box to the output of the
+<strong>Wait</strong> box and link the input of the <strong>Wait</strong> box to the beginning
+of the root diagram.</p>
+<p>Your diagram should look like that:</p>
+<img alt="../../../_images/resource_manager_tuto_base.png" src="../../../_images/resource_manager_tuto_base.png" style="width: 395px; height: 433px;" />
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <strong>Wait</strong> box is here to delay the second <strong>Play Sound</strong> box in order
+to start its execution when the first <strong>Play Sound</strong> box has taken
+the audio player resource.</p>
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">For both <strong>Play Sound</strong> boxes, set the music file.</p>
+<div class="last admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Choose 2 long enough and different musics, in order to be able to detect
+wich box is executed.</p>
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Start the behavior using the <img alt="play-button" class="img-inline" src="../../../_images/beginning_play_button.png" /> <strong>Play</strong> button.</p>
+<p>Without using the <strong>Resources manager</strong>, NAO plays both music together.</p>
+<p class="last">Let&#8217;s see how we can fix this problem, using the <strong>Resource</strong> manager.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="lock-the-resource">
+<h2>Lock the resource<a class="headerlink" href="#lock-the-resource" title="Permalink to this headline">¶</a></h2>
+<p>In this part of the tutorial we will see the effect of taking resources in both <strong>Play Sound</strong> box.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="73%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">For both <strong>Play Sound</strong> boxes:</p>
+<ol class="arabic simple">
+<li>Right click the box, and choose <strong>Set Resources</strong> in the contextual menu.</li>
+<li>In the resources list select the <strong>Audio</strong> &gt; <strong>Speakers</strong> &gt; <strong>Audio player</strong>
+resources.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you want to select several resources you can continiously press the
+<strong>Ctrl</strong> key and select other resources.</p>
+</div>
+<ol class="last arabic simple" start="3">
+<li>Click the <strong>Ok</strong> button.</li>
+</ol>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Start the behavior using the <img alt="play-button" class="img-inline" src="../../../_images/beginning_play_button.png" /> <strong>Play</strong> button.</p>
+<p class="last">The first <strong>Play Sound</strong> box is executed and the second is not because the
+first one has locked the resource.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../../_downloads/tutorial_resource_manager_lock.crg"><tt class="xref download docutils literal"><span class="pre">tutorial_attached_file.crg</span></tt></a></p>
+</div>
+<div class="section" id="stop-on-demand">
+<h2>Stop on demand<a class="headerlink" href="#stop-on-demand" title="Permalink to this headline">¶</a></h2>
+<p>In this part will see how we can stop a box that has already locked the resource.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="81%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>On the first <strong>Play Sound</strong> box, go to the <strong>Resource editor</strong> as we did before.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Change <strong>Lock</strong> to <strong>Stop on demand</strong>.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>On the second <strong>Play Sound</strong> box, go to the <strong>Resource editor</strong>.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td>Change the timeout(s) into <strong>Wait n seconds...</strong>.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td>Set the number of second to 1.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Start the behavior using the <img alt="play-button" class="img-inline" src="../../../_images/beginning_play_button.png" /> <strong>Play</strong> button.</p>
+<p class="last">The first <strong>Play Sound</strong> box is executed and stopped by the execution of the
+second <strong>Play Sound</strong> box after one second.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../../_downloads/tutorial_resource_manager_stop_on_demand.crg"><tt class="xref download docutils literal"><span class="pre">tutorial_resource_manager_stop_on_demand.crg</span></tt></a></p>
+</div>
+<div class="section" id="callback-on-demand">
+<h2>Callback on demand<a class="headerlink" href="#callback-on-demand" title="Permalink to this headline">¶</a></h2>
+<p>With the <strong>Resource manager</strong>, when a resource is locked by a behavior,
+it is possible to call a method when another behavior tries to take the resource too.
+In this section will see how it works.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="74%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>On the first <strong>Play Sound</strong> box, go to the <strong>Resource editor</strong> as we did before.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Change <strong>Stop on demand</strong> to <strong>Callback on demand</strong>.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>Click the <strong>Ok</strong> button.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Right click the same box and choose <strong>Edit box script</strong> in the contextual
+menu to open the <strong>Script editor</strong>.</p>
+<p class="last">You can see that the structure of the code was automatically generated.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Add an <strong>onResource</strong> method to the script and make NAO says something using
+the <strong>ALTextToSpeech</strong> module.</p>
+<p>The code of the box should look like that:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">GeneratedClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">GeneratedClass</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">onLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bIsRunning</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tts</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&#39;ALTextToSpeech&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">onUnload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bIsRunning</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bIsRunning</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">onResource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tts</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;Someone wants to take my resource &quot;</span> <span class="o">+</span> <span class="n">resource</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">bIsRunning</span> <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">onUnload</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">onStopped</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="last">The method <strong>onResource</strong> will be called when another behavior will want to
+take the resource.</p>
+</td>
+<td><a class="reference internal" href="../../../naoqi/audio/altexttospeech.html#altexttospeech"><em>ALTextToSpeech</em></a></td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Start the behavior using the <img alt="play-button" class="img-inline" src="../../../_images/beginning_play_button.png" /> <strong>Play</strong> button.</p>
+<p>The first behavior is executed and when the second behavior tries to lock the
+resource, the first one call the <strong>onResource()</strong> method.</p>
+<p class="last">You can hear your robot talking.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../../_downloads/tutorial_resource_manager_callback_on_demand.crg"><tt class="xref download docutils literal"><span class="pre">tutorial_resource_manager_callback_on_demand.crg</span></tt></a></p>
+</div>
+<div class="section" id="pause-on-demand">
+<h2>Pause on demand<a class="headerlink" href="#pause-on-demand" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>pause on demand</strong> option can be apply only on <strong>Timeline</strong> box.</p>
+<p>In this section, will see how to pause an animation because another behavior
+wants to take a resource already taken by the animation.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="80%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Drag and drop the <strong>Motion</strong> &gt; <strong>Animation</strong> &gt; <strong>Hello</strong> box onto your diagram.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Right click on it and choose <strong>Edit resources</strong> in the contextual menu.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>In the resources list select the <strong>Audio</strong> &gt; <strong>Speakers</strong> &gt; <strong>Audio player</strong>
+resource, this should deselect all the resources already selected.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td>Change <strong>Lock</strong> to <strong>Pause on demand</strong>.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Replace the first <strong>Play sound</strong> box by the <strong>Hello</strong> box.</p>
+<p>Your diagram should look like that:</p>
+<img alt="../../../_images/resource_manager_tuto_pause_on_demand.png" class="last" src="../../../_images/resource_manager_tuto_pause_on_demand.png" style="width: 366px; height: 438px;" />
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Start the behavior using the <img alt="play-button" class="img-inline" src="../../../_images/beginning_play_button.png" /> <strong>Play</strong> button.</p>
+<p class="last">The animation is started, paused when the <strong>Play sound</strong> box is executed,
+and restarted when the resource is released.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../../_downloads/tutorial_resource_manager_pause_on_demand.crg"><tt class="xref download docutils literal"><span class="pre">tutorial_resource_manager_pause_on_demand.crg</span></tt></a></p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="attached_files.html" title="Attached files">Attached files</a>
+     |
+    <a href="index.html" title="Choregraphe Tutorials" accesskey="U">Choregraphe Tutorials</a>
+   |
+    <a href="behavior_manager.html" title="Enrich NAO&amp;#8217;s behavior list">Enrich NAO&#8217;s behavior list</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Software</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Choregraphe User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../starting_discovery.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../main_objects.html">Mastering the main objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_panels.html">Advanced panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mouvement.html">Mastering movements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../miscel.html">How to ...</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../customizing.html">Customizing Choregraphe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging.html">Debugging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Choregraphe Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="basic.html">Playing music</a></li>
+<li class="toctree-l3"><a class="reference internal" href="movements.html">Movements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="speech_recognition.html">Testing the speech recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boxes.html">Boxes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="attached_files.html">Attached files</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Resources manager</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="behavior_manager.html">Enrich NAO&#8217;s behavior list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trackers.html">Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recognize_objects.html">Recognizing objects</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Resources manager</a><ul>
+<li><a class="reference internal" href="#without-resource-management">Without resource management</a></li>
+<li><a class="reference internal" href="#lock-the-resource">Lock the resource</a></li>
+<li><a class="reference internal" href="#stop-on-demand">Stop on demand</a></li>
+<li><a class="reference internal" href="#callback-on-demand">Callback on demand</a></li>
+<li><a class="reference internal" href="#pause-on-demand">Pause on demand</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="attached_files.html" title="Attached files">previous</a>
+     |
+    <a href="index.html" title="Choregraphe Tutorials" accesskey="U">up</a>
+   |
+    <a href="behavior_manager.html" title="Enrich NAO&amp;#8217;s behavior list">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

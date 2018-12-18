@@ -1,0 +1,211 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qiBuild documentation &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="#" />
+    <link rel="next" title="Getting Started" href="getting_started.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="">
+    <div id="hd">
+      <h1><a href="#">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="#">Home</a>
+        
+         |
+        <a title="Search" href="search.html">Search</a>
+         |
+        <a title="Index" href="genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    <a title="qiBuild 1.14.5 documentation" href="#" accesskey="U">up</a>
+   |
+    <a href="getting_started.html" title="Getting Started">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="index">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="qibuild-documentation">
+<span id="id1"></span><h1>qiBuild documentation<a class="headerlink" href="#qibuild-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>qiBuild aims to make compilation of your sources easy. It manages dependencies
+between projects and supports cross-compilation.</p>
+<p>By default qiBuild uses libraries provided by your system, but you can also use
+qiToolchain to manage sets of pre-compiled packages (called toolchains) if you
+want. Cross-compilation is then just a matter of using a specific toolchain.</p>
+<p>qiBuild is truly cross-platform: it is tested on Linux, Mac and Windows. Being
+based on the well-known CMake build system, it allows you to use your existing
+tools such as gcc, Make, or Visual Studio.</p>
+<p>The qiBuild framework tries hard to stand out of your way: it remains close to
+standards, and will play nice with other build systems.</p>
+<p>qiBuild is composed of two parts:</p>
+<ul class="simple">
+<li>the qiBuild CMake framework, that simplifies authoring CMakeLists.txt.</li>
+<li>the qibuild/qitoolchain command line tools, that helps build projects while
+taking dependencies into account and generate re-distributable binary
+packages</li>
+</ul>
+</div>
+<div class="section" id="getting-started-with-qibuild">
+<h2>Getting started with qiBuild<a class="headerlink" href="#getting-started-with-qibuild" title="Permalink to this headline">¶</a></h2>
+<p>First, please follow the tutorial in the <a class="reference internal" href="getting_started.html#qibuild-getting-started"><em>Getting Started</em></a> section.</p>
+<p>You can now read the <a class="reference internal" href="qibuild_in_five_minutes.html#qibuild-in-five-minutes"><em>qiBuild in five minutes</em></a> section if you want to dig
+in right now.</p>
+</div>
+<div class="section" id="qibuild-programming-guide">
+<h2>qiBuild programming guide<a class="headerlink" href="#qibuild-programming-guide" title="Permalink to this headline">¶</a></h2>
+<p>Please follow the <a class="reference internal" href="guide/index.html#qibuild-guide"><em>qiBuild Programming guide</em></a> for a more progressive, comprehensive course.</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="ref/cmake/api.html#qibuild-cmake-api"><em>qiBuild CMake API</em></a></li>
+<li><a class="reference internal" href="ref/python/index.html#qibuild-python-doc"><em>qiBuild Python documentation</em></a></li>
+</ul>
+<div class="section" id="man-pages">
+<h3>Man pages<a class="headerlink" href="#man-pages" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="ref/man/qibuild.html#qibuild-man-page"><em>qibuild</em></a></li>
+<li><a class="reference internal" href="ref/man/qisrc.html#qisrc-man-page"><em>qisrc</em></a></li>
+<li><a class="reference internal" href="ref/man/qitoolchain.html#qitoolchain-man-page"><em>qitoolchain</em></a></li>
+</ul>
+</div>
+<div class="section" id="configuration-syntax">
+<h3>Configuration syntax<a class="headerlink" href="#configuration-syntax" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="ref/cfg/qibuild_xml_syntax.html#qibuild-xml-syntax"><em>qibuild.xml configuration file syntax</em></a></li>
+<li><a class="reference internal" href="ref/cfg/qiproject_xml_syntax.html#qiproject-xml-syntax"><em>qiproject.xml syntax</em></a></li>
+<li><a class="reference internal" href="ref/cfg/toolchain_feed_syntax.html#toolchain-feed-syntax"><em>Toolchain feed syntax</em></a></li>
+<li><a class="reference internal" href="ref/cfg/qisrc_manifest_syntax.html#qisrc-manifest-syntax"><em>qisrc manifest syntax</em></a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="contributing-to-qibuild">
+<h2>Contributing to qiBuild<a class="headerlink" href="#contributing-to-qibuild" title="Permalink to this headline">¶</a></h2>
+<p>qiBuild development process take place on github:
+<a class="reference external" href="https://github.com/aldebaran/qibuild">https://github.com/aldebaran/qibuild</a></p>
+<p>Please open an issue on github for every qibuild bug you may
+find, but make sure to read this first:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+</div>
+<p>Please fork the project on github and make a merge request
+if you want to contribute.</p>
+<p>Please also read this first:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+</div>
+<p>qibuild uses the &#8216;Test Driven Development&#8217; technique.</p>
+<p>It is advised you write tests <strong>before</strong> adding new code.</p>
+<p>You can read more about it here:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+</div>
+<p>In any case, you must make sure to check your code is correct
+before sending a merge request:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+</div>
+<p>Please also make sure to submit documentation
+updates concerning your changes.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="qibuild-design">
+<h2>qiBuild design<a class="headerlink" href="#qibuild-design" title="Permalink to this headline">¶</a></h2>
+<p>Read this if you want to learn more about qiBuild design:</p>
+<p><a class="reference internal" href="design/index.html#qibuild-design"><em>qiBuild design</em></a></p>
+</div>
+<div class="section" id="qibuild-and-other-build-frameworks">
+<h2>qiBuild and other build frameworks<a class="headerlink" href="#qibuild-and-other-build-frameworks" title="Permalink to this headline">¶</a></h2>
+<p>Read this if you are already using a build framework.</p>
+<ul class="simple">
+<li><a class="reference internal" href="other_build_frameworks.html#qibuild-compared-to-other-build-frameworks"><em>qiBuild compared to other build frameworks</em></a></li>
+</ul>
+</div>
+<div class="section" id="release-notes">
+<h2>Release notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="relnotes.html#qibuild-relnotes"><em>qiBuild release notes</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    <a title="qiBuild 1.14.5 documentation" href="#" accesskey="U">up</a>
+   |
+    <a href="getting_started.html" title="Getting Started">Getting Started</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    <a title="qiBuild 1.14.5 documentation" href="#" accesskey="U">up</a>
+   |
+    <a href="getting_started.html" title="Getting Started">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

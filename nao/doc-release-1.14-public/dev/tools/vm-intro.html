@@ -1,0 +1,236 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>OpenNAO in a virtual machine &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Working with NAO" href="index.html" />
+    <link rel="next" title="Setting up the OpenNAO virtual machine" href="vm-setup.html" />
+    <link rel="prev" title="Robot simulations" href="robot-simulation.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="robot-simulation.html" title="Robot simulations">previous</a>
+     |
+    <a href="index.html" title="Working with NAO" accesskey="U">up</a>
+   |
+    <a href="vm-setup.html" title="Setting up the OpenNAO virtual machine">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-tools-vm-intro">
+            
+  <div class="section" id="opennao-in-a-virtual-machine">
+<span id="vm"></span><h1>OpenNAO in a virtual machine<a class="headerlink" href="#opennao-in-a-virtual-machine" title="Permalink to this headline">¶</a></h1>
+<p>Aldebaran Robotics now provides an OpenNAO OS virtual machine under the open
+standard <strong>OVF/OVA</strong>.</p>
+<div class="section" id="what-the-opennao-os-virtual-machine-contains">
+<h2>What the OpenNAO OS virtual machine contains<a class="headerlink" href="#what-the-opennao-os-virtual-machine-contains" title="Permalink to this headline">¶</a></h2>
+<p>The OpenNAO OS virtual machine provides a virtualized NAO environment.</p>
+<p>Thus, there is <strong>no</strong> graphical frontend, just a console.</p>
+<p>It mainly targets developers and aims at fitting their needs.</p>
+<p>It contains:</p>
+<ul class="simple">
+<li>Developer tools:<ul>
+<li>gcc compiler suite;</li>
+<li>CMake and qiBuild;</li>
+<li>Autotools;</li>
+<li><em>emerge</em> and <em>portage</em> package tree (make easier building third-party
+libraries for NAO).</li>
+</ul>
+</li>
+<li>Aldebaran material:<ul>
+<li>libqi/libnaoqi;</li>
+<li>NAOqi (without any hardware support nor proprietary third-party software);</li>
+</ul>
+</li>
+<li>Miscellaneous:<ul>
+<li>man pages.</li>
+</ul>
+</li>
+</ul>
+<p>By default, binaries are built for i486 targets, so they are compliant with
+both Atom and Geode targets (i.e. <em>NAO V4</em> and <em>NAO V3.x</em>).
+For further details, see <a class="reference internal" href="vm-building-thirdparty.html#vm-optimize-builds"><em>Optimizing builds for Atom or Geode targets</em></a> section.</p>
+</div>
+<div class="section" id="supported-virtual-machine-software">
+<h2>Supported virtual machine software<a class="headerlink" href="#supported-virtual-machine-software" title="Permalink to this headline">¶</a></h2>
+<p>All virtual machine software supporting OVF/OVA exchange format should be able
+to run the OpenNAO virtual machine.</p>
+<ul class="simple">
+<li>Supported virtual machine software:<ul>
+<li>VirtualBox</li>
+</ul>
+</li>
+<li><strong>Unsupported</strong> virtual machine software:<ul>
+<li>Parallels (on Mac OS)</li>
+<li>VMware (without OVF-tools)</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This documentation has been done using VirtualBox.</p>
+</div>
+<p>To go further, see:</p>
+<ul class="simple">
+<li><a class="reference internal" href="vm-setup.html#vm-setup"><em>Setting up the OpenNAO virtual machine</em></a></li>
+<li><a class="reference internal" href="vm-building-thirdparty.html#vm-usage"><em>Using emerge in the OpenNAO virtual machine to build third-party software</em></a></li>
+<li><a class="reference internal" href="developing-using-thirdparty.html#developing-project-using-3rd-party"><em>Developping projects using third-party software</em></a></li>
+</ul>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="robot-simulation.html" title="Robot simulations">Robot simulations</a>
+     |
+    <a href="index.html" title="Working with NAO" accesskey="U">Working with NAO</a>
+   |
+    <a href="vm-setup.html" title="Setting up the OpenNAO virtual machine">Setting up the OpenNAO virtual machine</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Working with NAO</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="naoqi.html">NAOqi on the robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="naoqi-man.html">NAOqi man page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="opennao.html">OpenNAO - NAO OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="investigate-on-nao.html">Debugging and investigating on the robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="robot-simulation.html">Robot simulations</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">OpenNAO in a virtual machine</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="vm-setup.html">Setting up the OpenNAO virtual machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vm-building-thirdparty.html">Using the OpenNAO in a virtual machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="developing-using-thirdparty.html">Developing a project for NAO using third-party software</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sdk.html">SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">OpenNAO in a virtual machine</a><ul>
+<li><a class="reference internal" href="#what-the-opennao-os-virtual-machine-contains">What the OpenNAO OS virtual machine contains</a></li>
+<li><a class="reference internal" href="#supported-virtual-machine-software">Supported virtual machine software</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="robot-simulation.html" title="Robot simulations">previous</a>
+     |
+    <a href="index.html" title="Working with NAO" accesskey="U">up</a>
+   |
+    <a href="vm-setup.html" title="Setting up the OpenNAO virtual machine">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

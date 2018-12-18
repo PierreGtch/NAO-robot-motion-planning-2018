@@ -1,0 +1,1139 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>DCM Tutorial &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="DCM" href="dcm.html" />
+    <link rel="next" title="Introduction" href="dcm/introduction.html" />
+    <link rel="prev" title="DCM API" href="dcm-api.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="dcm-api.html" title="DCM API">previous</a>
+     |
+    <a href="dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="dcm/introduction.html" title="Introduction">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-sensors-dcm-tuto">
+            
+  <div class="section" id="dcm-tutorial">
+<span id="dcm-tuto"></span><h1>DCM Tutorial<a class="headerlink" href="#dcm-tutorial" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="dcm.html#dcm"><em>Overview</em></a> | <a class="reference internal" href="dcm-api.html#dcm-api"><em>API</em></a>  | Tutorial</p>
+<hr class="docutils" />
+<div class="section" id="python-example">
+<h2>Python example<a class="headerlink" href="#python-example" title="Permalink to this headline">¶</a></h2>
+<p>This is a very small example of a &#8220;set&#8221; method to ask for a new
+value (1.0) in 10s ( dcm.getTime(10000) ) for the value of the subDevice
+red LED on the chest (ChestBoard.Led.Red.Actuator/Value).</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">t</span> <span class="p">=</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>0<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="o">\</span><span class="p">[</span>&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;  <span class="p">,</span> &quot;<span class="n">Merge</span>&quot;<span class="p">,</span> <span class="o">\</span><span class="p">[[</span>0<span class="p">.</span>0<span class="p">,</span> <span class="n">t</span> <span class="p">]</span> <span class="p">]])</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="o">\</span><span class="p">[</span>&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot; <span class="p">,</span> &quot;<span class="n">Merge</span>&quot;<span class="p">,</span> <span class="o">\</span><span class="p">[[</span>0<span class="p">.</span>0<span class="p">,</span> <span class="n">t</span> <span class="p">]</span> <span class="p">]])</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="o">\</span><span class="p">[</span>&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span> &quot;<span class="n">Merge</span>&quot;<span class="p">,</span> <span class="o">\</span><span class="p">[[</span>0<span class="p">.</span>0<span class="p">,</span> <span class="n">t</span> <span class="p">]</span> <span class="p">]])</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="o">\</span><span class="p">[</span>&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;  <span class="p">,</span> &quot;<span class="n">Merge</span>&quot;<span class="p">,</span> <span class="o">\</span><span class="p">[[</span>1<span class="p">.</span>0<span class="p">,</span> <span class="n">t</span> <span class="o">+</span> 3000<span class="p">]]</span> <span class="p">])</span>
+</pre></div>
+</div>
+<p>This request will switch off all chest&#8217;s LEDs and increase value of the red LED from 0.0 to 1.0, in the next 3s.</p>
+</div>
+<div class="section" id="c-example">
+<h2>C++ example<a class="headerlink" href="#c-example" title="Permalink to this headline">¶</a></h2>
+<p>This is a very small example of a &#8220;set&#8221; method to ask for a new
+value (1.0) in 10s ( dcm.getTime(10000) ) for the value of the subDevice
+red LED on the chest (ChestBoard.Led.Red.Actuator/Value).</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="n">ALValue</span> <span class="n">commands</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Red/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;Merge&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">1</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">10000</span><span class="p">);</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">set</span><span class="p">(</span><span class="n">commands</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<p>This request, and if the previous order was 0, you&#8217;ll see the
+increase of the value of the LED from 0 to 1.0, in the next 10s.</p>
+</div>
+</div>
+<div class="section" id="dcm-bound-methods">
+<h1>DCM bound methods<a class="headerlink" href="#dcm-bound-methods" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="note">
+<h2>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For all the commands involving actuators, you can either send
+the prefix (&#8220;Device/SubDeviceList/&#8221;) for their name or not.</p>
+</div>
+</div>
+<div class="section" id="gettime">
+<h2>getTime<a class="headerlink" href="#gettime" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All examples here use dcm.getTime() to get all time for
+timed-command request. This is just an example, and there are better
+ways to use it. For example, you can just do one dcm.getTime() at
+startup and after increment the integer value for each ms. Or you can
+use the CPU clock if you have a module running on the robot.</p>
+</div>
+<p>Return the absolute time used for all timed command in the DCM,
+with a number of ms to add or remove to this time.</p>
+<p>This time returned is an integer (signed), with 1 ms precision. Be
+careful: it can roll-over.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="o">/\**</span>
+<span class="o">*</span> <span class="n">Return</span> <span class="n">the</span> <span class="n">DCM</span> <span class="n">time</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="p">@</span><span class="n">param</span> <span class="n">time</span> <span class="n">pParams</span> <span class="n">has</span> <span class="n">the</span> <span class="n">optional</span> <span class="n">time</span> <span class="n">in</span> <span class="n">ms</span> <span class="p">(</span><span class="n">signed</span><span class="p">)</span> <span class="n">to</span> <span class="n">add</span><span class="o">/</span><span class="n">remove</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="p">@</span><span class="k">return</span> <span class="n">An</span> <span class="n">integer</span> <span class="p">(</span><span class="n">could</span> <span class="n">be</span> <span class="n">signed</span><span class="p">)</span> <span class="n">with</span> <span class="n">the</span> <span class="n">DCM</span> <span class="n">time</span>
+<span class="o">*</span>
+<span class="o">\*/</span>
+<span class="n">int</span> <span class="n">DCM</span><span class="p">::</span><span class="n">getTime</span><span class="p">(</span><span class="n">int</span> <span class="n">pTime</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="id1">
+<h3>Python example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">print</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>10000<span class="p">)</span>
+</pre></div>
+</div>
+<p>Returns the absolute time in 10s.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">print</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>0<span class="p">)</span>
+</pre></div>
+</div>
+<p>Returns the current time (more the communication delay).</p>
+</div>
+<div class="section" id="id2">
+<h3>C++ example<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="k">int</span> <span class="k">time</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">10000</span><span class="p">);</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">time</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<p>Returns the absolute time in 10s.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="k">int</span> <span class="k">time</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">0</span><span class="p">);</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">time</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<p>Returns the current time (more the communication delay).</p>
+</div>
+</div>
+<div class="section" id="getprefix">
+<h2>getPrefix<a class="headerlink" href="#getprefix" title="Permalink to this headline">¶</a></h2>
+<p>Returns the ALMemory base name for all devices and
+subDevices.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="o">/\**</span>
+<span class="o">*</span> <span class="p">@</span><span class="k">return</span> <span class="n">Return</span> <span class="n">the</span> <span class="n">ALMemory</span> <span class="n">base</span> <span class="n">name</span> <span class="k">for</span> <span class="n">all</span> <span class="n">device</span><span class="o">/</span><span class="n">sensors</span> <span class="p">(</span>1<span class="n">st</span> <span class="n">string</span> <span class="n">in</span> <span class="n">the</span> <span class="n">array</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">and</span> <span class="n">all</span> <span class="n">devices</span> <span class="p">(</span>2<span class="n">nd</span> <span class="n">string</span> <span class="n">in</span> <span class="n">the</span> <span class="n">array</span><span class="p">)</span>
+<span class="o">\*/</span>
+<span class="n">ALValue</span> <span class="n">DCM</span><span class="p">::</span><span class="n">getPrefix</span><span class="p">(</span><span class="n">void</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By now, the answer is an array with strings
+&#8220;Device/SubDeviceList/&#8221; and &#8220;Device/DeviceList/&#8221;.</p>
+<div class="section" id="python">
+<h3>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">print</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getPrefix</span><span class="p">(</span>0<span class="p">)</span>
+</pre></div>
+</div>
+<p>This program returns:
+[&#8216;Device/SubDeviceList/&#8217;, &#8216;Device/DeviceList/&#8217;]</p>
+</div>
+<div class="section" id="c">
+<h3>C++<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getPrefix</span><span class="p">().</span><span class="n">toString</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="set">
+<h2>Set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>This is the basic command to send one or more order (timed
+command) to an actuator.</p>
+<p>It could also be an alias name instead of an actuator name (see
+below). In this case, every actuator in the alias will be updated with
+the same commands.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="o">/\**</span>
+<span class="o">*</span> <span class="n">Call</span> <span class="n">this</span> <span class="k">function</span> <span class="n">to</span> <span class="n">send</span> <span class="n">a</span> <span class="n">timed</span><span class="o">-</span><span class="n">command</span> <span class="n">list</span> <span class="n">to</span> <span class="n">an</span> <span class="n">actuator</span>
+<span class="o">*</span> <span class="n">Command</span> <span class="n">send</span> <span class="n">from</span> <span class="n">an</span> <span class="n">other</span> <span class="n">module</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="p">@</span><span class="n">param</span> <span class="n">pCommands</span> <span class="n">ALValue</span> <span class="n">with</span> <span class="n">all</span> <span class="n">data</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>0<span class="p">]</span> <span class="n">has</span> <span class="n">the</span> <span class="n">actuator</span> <span class="n">name</span> <span class="p">(</span><span class="n">with</span> <span class="n">or</span> <span class="n">without</span> <span class="n">the</span> <span class="n">base</span> <span class="n">name</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>1<span class="p">]</span> <span class="n">Is</span> <span class="n">the</span> <span class="n">kind</span> <span class="n">of</span> <span class="n">update</span><span class="p">:</span>
+<span class="o">*</span>    &quot;<span class="n">Merge</span>&quot;<span class="p">:</span> <span class="n">Just</span> <span class="n">add</span> <span class="n">new</span> <span class="n">timed</span> <span class="n">command</span><span class="p">.</span>
+<span class="o">*</span>    &quot;<span class="n">ClearAll</span>&quot;<span class="p">:</span> <span class="n">Delete</span> <span class="n">all</span> <span class="n">timed</span> <span class="n">command</span> <span class="n">before</span> <span class="n">adding</span> <span class="n">this</span> <span class="n">one</span><span class="p">.</span>
+<span class="o">*</span>    &quot;<span class="n">ClearAfter</span>&quot;<span class="p">:</span> <span class="n">Delete</span> <span class="n">all</span> <span class="n">commands</span> <span class="n">that</span> <span class="n">are</span> <span class="n">after</span> <span class="n">the</span> <span class="n">time</span> <span class="n">of</span> <span class="n">the</span> 1<span class="n">st</span> <span class="n">one</span> <span class="n">on</span> <span class="n">the</span> <span class="n">list</span> <span class="p">(</span><span class="n">the</span> <span class="n">soonest</span><span class="p">)</span>
+<span class="o">*</span>    &quot;<span class="n">ClearBefore</span>&quot;<span class="p">:</span> <span class="n">Delete</span> <span class="n">all</span> <span class="n">commands</span> <span class="n">that</span> <span class="n">are</span> <span class="n">before</span> <span class="n">the</span> <span class="n">time</span> <span class="n">of</span> <span class="n">the</span> <span class="n">last</span> <span class="n">one</span> <span class="n">on</span> <span class="n">the</span> <span class="n">list</span> <span class="p">(</span><span class="n">the</span> <span class="n">oldest</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>2<span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="n">is</span> <span class="n">a</span> <span class="n">list</span> <span class="n">of</span> <span class="n">x</span> <span class="n">timed</span><span class="o">-</span><span class="n">command</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>2<span class="p">][</span><span class="n">x</span><span class="p">][</span>0<span class="p">]</span> <span class="n">is</span> <span class="n">the</span> <span class="n">float</span> <span class="n">command</span> <span class="p">(</span><span class="n">offset</span> <span class="n">and</span> <span class="n">gain</span> <span class="n">are</span> <span class="n">then</span> <span class="n">used</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>2<span class="p">][</span><span class="n">x</span><span class="p">][</span>1<span class="p">]</span> <span class="n">is</span> <span class="n">the</span> <span class="n">DCM</span> <span class="n">Time</span> <span class="k">for</span> <span class="n">the</span> <span class="n">command</span> <span class="n">to</span> <span class="n">be</span> <span class="n">applied</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>2<span class="p">][</span><span class="n">x</span><span class="p">][</span>2<span class="p">]</span> <span class="n">is</span> <span class="n">the</span> <span class="n">optional</span> <span class="n">importance</span> <span class="n">level</span><span class="p">.</span> <span class="n">Minimum</span> <span class="k">if</span> <span class="n">not</span> <span class="n">specified</span>
+<span class="o">*</span>
+<span class="o">\*/</span>
+<span class="n">void</span> <span class="n">DCM</span><span class="p">::</span><span class="n">set</span><span class="p">(</span><span class="n">ALValue</span><span class="o">&amp;</span> <span class="n">pCommands</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="kind-of-update">
+<h3>Kind of update<a class="headerlink" href="#kind-of-update" title="Permalink to this headline">¶</a></h3>
+<p>As you can see, there are 4 possible kinds of updates:
+&#8220;ClearAll&#8221;, &#8220;Merge&#8221;, &#8220;ClearAfter&#8221; and &#8220;ClearBefore&#8221;.</p>
+<p>These are used to specify to the DCM how new commands will be
+added when timed commands are already in its internal buffer for the
+same actuator (sent by an other module or by the same module).</p>
+<ul>
+<li><p class="first">&#8220;ClearAll&#8221; is the simple one. Formers commands (for this
+actuator) are simply deleted and changed by the new ones. Use
+clearAll with no new commands to delete everything. The last sent
+value will be kept.</p>
+<img alt="../../_images/dcm_command_new.gif" src="../../_images/dcm_command_new.gif" />
+</li>
+<li><p class="first">&#8220;Merge&#8221; is also simple: new commands are just mixed with
+formers ones (Be careful if there is two commands at exactly the
+same time):</p>
+<img alt="../../_images/dcm_command_add.gif" src="../../_images/dcm_command_add.gif" />
+</li>
+<li><p class="first">&#8220;ClearAfter&#8221; means that every former command that is after the
+first new command will be deleted:</p>
+<img alt="../../_images/dcm_command_after.gif" src="../../_images/dcm_command_after.gif" />
+</li>
+<li><p class="first">&#8220;ClearBefore&#8221; means that every former command that is before the last new command will be deleted:</p>
+<img alt="../../_images/dcm_command_before.gif" src="../../_images/dcm_command_before.gif" />
+</li>
+</ul>
+</div>
+<div class="section" id="importance-level">
+<h3>Importance level<a class="headerlink" href="#importance-level" title="Permalink to this headline">¶</a></h3>
+<p>The importance level is not implemented right now. Please set it
+to &#8220;0&#8221; if you use it.</p>
+</div>
+<div class="section" id="example-of-use">
+<h3>Example of use<a class="headerlink" href="#example-of-use" title="Permalink to this headline">¶</a></h3>
+<p>Python:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="o">\</span><span class="p">[</span>&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span> &quot;<span class="n">Merge</span>&quot;<span class="p">,</span> <span class="o">\</span><span class="p">[[</span>1<span class="p">.</span>0<span class="p">,</span><span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>10000<span class="p">)]]</span> <span class="p">])</span>
+</pre></div>
+</div>
+<p>C++</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="n">ALValue</span> <span class="n">commands</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Red/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;Merge&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">1</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">10000</span><span class="p">);</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">set</span><span class="p">(</span><span class="n">commands</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<p>The new value for the red LED in the chest will be 1.0 in 10s.
+The DCM will interpolate with the currently sent value.</p>
+<p>Python:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">set</span><span class="p">([</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ClearAll</span>&quot;<span class="p">,</span>
+<span class="p">[</span>
+<span class="o">\</span><span class="p">[</span>1<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>2000<span class="p">)</span> <span class="p">],</span>
+<span class="o">\</span><span class="p">[</span>0<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>4000<span class="p">)</span> <span class="p">],</span>
+<span class="o">\</span><span class="p">[</span>1<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>6000<span class="p">)</span> <span class="p">],</span>
+<span class="o">\</span><span class="p">[</span>0<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>8000<span class="p">)</span> <span class="p">]</span>
+<span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>C++</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="n">ALValue</span> <span class="n">commands</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Red/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ClearAll&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">4</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">2000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">4000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">6000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">3</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">3</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">3</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">8000</span><span class="p">);</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">set</span><span class="p">(</span><span class="n">commands</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<p>This is a list of 4 commands sent to the green chest LED.</p>
+<p>In 2sec, the LED value will be at 1.0. In 4sec, it will be at 0.
+In 6sec at 1.0 again, and back to 0 in 8sec.</p>
+<p>So you will see a soft increase/decrease of LED twice in
+80s.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All examples here use dcm.getTime() to get all time for
+timed-command request. This is just an example, and there are better
+ways to use it. For example, you can just do one dcm.getTime() at
+startup and after increment the integer value for each ms. Or you
+can use the CPU clock if you have a module running on the
+robot.</p>
+</div>
+<p>Python:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">set</span><span class="p">([</span>
+&quot;<span class="n">US</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ClearAll</span>&quot;<span class="p">,</span>
+<span class="p">[</span>
+<span class="o">\</span><span class="p">[</span>64<span class="p">.</span>0<span class="o">+</span>4<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>0<span class="p">)</span>    <span class="p">],</span>
+<span class="o">\</span><span class="p">[</span>32<span class="p">.</span>0    <span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>3000<span class="p">)</span> <span class="p">]</span>
+<span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>C++</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="n">ALValue</span> <span class="n">commands</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;US/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ClearAll&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">68.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">0</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">32.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">3000</span><span class="p">);</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">set</span><span class="p">(</span><span class="n">commands</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<p>This will make measurement every 100 ms on both side (Left and Right) for 3 seconds.</p>
+<p>For each measure 10 echoes are placed in ALmemory for both side in:</p>
+<p>Device/SubDeviceList/US/Left/Sensor/Value, Device/SubDeviceList/US/Right/Sensor/Value,</p>
+<p>Device/SubDeviceList/US/Left/Sensor/Value1, Device/SubDeviceList/US/Right1/Sensor/Value1,</p>
+<p>Device/SubDeviceList/US/Left/Sensor/Value2, Device/SubDeviceList/US/Right1/Sensor/Value2,...</p>
+</div>
+</div>
+<div class="section" id="create-alias">
+<h2>Create Alias<a class="headerlink" href="#create-alias" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="alias">
+<h3>Alias<a class="headerlink" href="#alias" title="Permalink to this headline">¶</a></h3>
+<p>Aliases are a way to send faster commands to many actuators at
+the same time.</p>
+<p>They are defined dynamically by a &#8220;createAlias&#8221; to the DCM They
+also could be changed.</p>
+<p>Every Alias has a name, and is a list of actuator names.</p>
+<p>Then, with a &#8220;setAlias&#8221; method, you can ask for an update of all
+actuator with different timed command, with only one method, and
+without giving back all actuators names.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Be careful, right now alias changes are not thread
+safe.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Right now, the DCM is not optimized for a huge number of
+alias.</p>
+</div>
+</div>
+<div class="section" id="createalias-method">
+<h3>&#8220;createAlias&#8221; method<a class="headerlink" href="#createalias-method" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-guess"><div class="highlight"><pre><span class="o">/\**</span>
+<span class="o">*</span> <span class="n">Create</span> <span class="n">or</span> <span class="n">change</span> <span class="n">the</span> <span class="n">alias</span>
+<span class="o">*</span> <span class="n">An</span> <span class="n">alias</span> <span class="n">is</span> <span class="n">create</span> <span class="n">to</span> <span class="n">update</span> <span class="n">many</span> <span class="n">actuator</span> <span class="p">(</span><span class="n">as</span> <span class="n">with</span> <span class="n">set</span><span class="p">)</span> <span class="n">at</span> <span class="n">the</span> <span class="n">same</span> <span class="n">time</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="p">@</span><span class="n">param</span> <span class="n">pParams</span> <span class="n">ALValue</span> <span class="n">with</span> <span class="n">all</span> <span class="n">data</span>
+<span class="o">*</span> <span class="n">pParams</span><span class="p">[</span>0<span class="p">]</span> <span class="n">Is</span> <span class="n">the</span> <span class="n">alias</span> <span class="n">name</span> <span class="p">(</span><span class="n">a</span> <span class="n">new</span> <span class="n">one</span> <span class="n">or</span> <span class="n">an</span> <span class="n">already</span> <span class="n">created</span> <span class="n">one</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">Then</span> <span class="n">there</span> <span class="n">is</span> <span class="n">a</span> <span class="n">list</span> <span class="n">of</span> <span class="n">x</span> <span class="n">actuator</span> <span class="n">name</span>
+<span class="o">*</span> <span class="n">pParams</span><span class="p">[</span>1<span class="p">][</span>0<span class="p">]</span> <span class="n">The</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> 1<span class="n">st</span> <span class="n">actuator</span>
+<span class="o">*</span> <span class="n">pParams</span><span class="p">[</span>1<span class="p">][</span>1<span class="p">]</span> <span class="n">The</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> 2<span class="n">nd</span> <span class="n">actuator</span>
+<span class="o">*</span> <span class="n">pParams</span><span class="p">[</span>1<span class="p">][</span>2<span class="p">]...</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="p">@</span><span class="n">result</span> <span class="n">Same</span> <span class="n">as</span> <span class="n">param</span><span class="p">,</span> <span class="n">but</span> <span class="n">with</span> <span class="n">the</span> <span class="n">name</span> <span class="n">removed</span> <span class="k">if</span> <span class="n">the</span> <span class="n">actuator</span> <span class="n">is</span> <span class="n">not</span> <span class="n">found</span>
+<span class="o">*</span>
+<span class="o">\*/</span>
+<span class="n">ALValue</span> <span class="n">DCM</span><span class="p">::</span><span class="n">createAlias</span><span class="p">(</span><span class="n">ALValue</span><span class="o">&amp;</span> <span class="n">pParams</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result is a copy of the input param, but where not found
+actuators names are changed to by &#8220;&#8221;. You can use this return to know
+if one or more actuator names are wrong.</p>
+<p>The most useful method to send commands to alias is the
+&#8220;setAlias&#8221;. But you can also use a &#8220;set&#8221;, with the same commands sent
+to every actuator. See example below.</p>
+</div>
+<div class="section" id="id3">
+<h3>Example of use<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Python:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">createAlias</span><span class="p">([</span>
+&quot;<span class="n">ChestLeds</span>&quot;<span class="p">,</span>
+<span class="p">[</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;
+<span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>C++</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="n">ALValue</span> <span class="n">commands</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestLeds&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Red/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Green/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Blue/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">ALValue</span> <span class="n">result</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">createAlias</span><span class="p">(</span><span class="n">commands</span><span class="p">);</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">result</span><span class="p">.</span><span class="n">toString</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<p>Define a new alias name &#8220;ChestLeds&#8221; with 3 actuator (3 LEDs), in
+this order: red, green, blue.</p>
+<p>Here is a &#8220;set&#8221; example: All LEDs are smoothly set on and set off, 2 times</p>
+<p>Python:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">createAlias</span><span class="p">([</span>
+&quot;<span class="n">ChestLeds</span>&quot;<span class="p">,</span>
+<span class="p">[</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;
+<span class="p">]</span>
+<span class="p">])</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">set</span><span class="p">([</span>
+&quot;<span class="n">ChestLeds</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ClearAll</span>&quot;<span class="p">,</span>
+<span class="p">[</span>
+<span class="o">\</span><span class="p">[</span>1<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>1000<span class="p">)],</span>
+<span class="o">\</span><span class="p">[</span>0<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>2000<span class="p">)],</span>
+<span class="o">\</span><span class="p">[</span>1<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>3000<span class="p">)],</span>
+<span class="o">\</span><span class="p">[</span>0<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>4000<span class="p">)]</span>
+<span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>C++:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="n">ALValue</span> <span class="n">commandsAlias</span><span class="p">;</span>
+<span class="n">ALValue</span> <span class="n">commands</span><span class="p">;</span>
+<span class="n">commandsAlias</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestLeds&quot;</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Red/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Green/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Blue/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">createAlias</span><span class="p">(</span><span class="n">commandsAlias</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestLeds&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ClearAll&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">4</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">1000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">2000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">3000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">3</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">3</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">][</span><span class="mh">3</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">4000</span><span class="p">);</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">set</span><span class="p">(</span><span class="n">commands</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All examples here use dcm.getTime() to get all times for
+timed-command request. This is just an example, and there are better
+ways to use it. For example, you can just do one dcm.getTime() at
+startup and afterwards increment the integer value for each ms. Or
+you can use the CPU clock if you have a module running on the
+robot.</p>
+</div>
+</div>
+</div>
+<div class="section" id="setalias">
+<h2>setAlias<a class="headerlink" href="#setalias" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Overview<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>This is a method to send many different timed commands to many
+actuators.</p>
+<p>There are two ways to do that:</p>
+<ul class="simple">
+<li>Time-mixed: you send a specific time to each actuator
+timed-command</li>
+<li>Time-separate: you send first the list of all time (for
+example for times: 10ms, 20ms, 30ms, 40ms) and then all commands
+for these times (If there is 4 times, always send 4 commands for
+each actuator). This way is a bit more efficient.</li>
+</ul>
+</div>
+<div class="section" id="method">
+<h3>Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-guess"><div class="highlight"><pre><span class="o">/\**</span>
+<span class="o">*</span> <span class="n">Call</span> <span class="n">this</span> <span class="k">function</span> <span class="n">to</span> <span class="n">send</span> <span class="n">timed</span><span class="o">-</span><span class="n">command</span> <span class="n">list</span> <span class="n">to</span> <span class="n">an</span> <span class="n">alias</span>
+<span class="o">*</span> <span class="n">An</span> <span class="n">alias</span> <span class="n">is</span> <span class="n">used</span> <span class="n">to</span> <span class="n">update</span> <span class="n">many</span> <span class="n">actuator</span> <span class="p">(</span><span class="n">as</span> <span class="n">with</span> <span class="n">set</span><span class="p">)</span> <span class="n">at</span> <span class="n">the</span> <span class="n">same</span> <span class="n">time</span><span class="p">,</span>
+<span class="o">*</span> <span class="n">just</span> <span class="n">giving</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">alias</span><span class="p">,</span> <span class="n">and</span> <span class="n">not</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">actuators</span><span class="p">.</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="p">@</span><span class="n">param</span> <span class="n">pCommands</span> <span class="n">ALValue</span> <span class="n">with</span> <span class="n">all</span> <span class="n">data</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>0<span class="p">]</span> <span class="n">Is</span> <span class="n">the</span> <span class="n">Alias</span> <span class="n">name</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>1<span class="p">]</span> <span class="n">Is</span> <span class="n">the</span> <span class="n">kind</span> <span class="n">of</span> <span class="n">update</span><span class="p">:</span>
+<span class="o">*</span>    &quot;<span class="n">Merge</span>&quot;<span class="p">:</span> <span class="n">Just</span> <span class="n">add</span> <span class="n">new</span> <span class="n">timed</span> <span class="n">command</span><span class="p">.</span>
+<span class="o">*</span>    &quot;<span class="n">ClearAll</span>&quot;<span class="p">:</span> <span class="n">Delete</span> <span class="n">all</span> <span class="n">timed</span> <span class="n">command</span> <span class="n">before</span> <span class="n">adding</span> <span class="n">this</span> <span class="n">one</span><span class="p">.</span>
+<span class="o">*</span>    &quot;<span class="n">ClearAfter</span>&quot;<span class="p">:</span> <span class="n">Delete</span> <span class="n">all</span> <span class="n">command</span> <span class="n">that</span> <span class="n">are</span> <span class="n">after</span> <span class="n">the</span> <span class="n">time</span> <span class="n">of</span> <span class="n">the</span> 1<span class="n">st</span> <span class="n">one</span> <span class="n">on</span> <span class="n">the</span> <span class="n">list</span> <span class="p">(</span><span class="n">the</span> <span class="n">soonest</span><span class="p">)</span>
+<span class="o">*</span>    &quot;<span class="n">ClearBefore</span>&quot;<span class="p">:</span> <span class="n">Delete</span> <span class="n">all</span> <span class="n">command</span> <span class="n">that</span> <span class="n">are</span> <span class="n">before</span> <span class="n">the</span> <span class="n">time</span> <span class="n">of</span> <span class="n">the</span> <span class="n">last</span> <span class="n">one</span> <span class="n">on</span> <span class="n">the</span> <span class="n">list</span> <span class="p">(</span><span class="n">the</span> <span class="n">oldest</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>2<span class="p">]</span> <span class="n">Type</span> <span class="n">of</span> <span class="n">command</span><span class="p">:</span> <span class="n">could</span> <span class="n">be</span> &quot;<span class="n">time</span><span class="o">-</span><span class="n">mixed</span>&quot; <span class="n">or</span> &quot;<span class="n">time</span><span class="o">-</span><span class="n">separate</span>&quot;
+<span class="o">*</span>
+<span class="o">*</span> <span class="n">For</span> <span class="n">pParams</span><span class="p">[</span>3<span class="p">]</span> <span class="n">there</span> <span class="n">is</span> 2 <span class="n">options</span><span class="p">:</span>
+<span class="o">*</span> <span class="k">if</span> <span class="n">it</span><span class="o">&#39;</span><span class="n">s</span> &quot;<span class="n">time</span><span class="o">-</span><span class="n">mixed</span>&quot;<span class="p">:</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>3<span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="n">is</span> <span class="n">a</span> <span class="n">list</span> <span class="n">of</span> <span class="n">x</span> <span class="n">actuator</span><span class="p">.</span> <span class="n">Each</span> <span class="n">x</span> <span class="n">is</span> <span class="n">an</span> <span class="n">actuator</span> <span class="n">member</span> <span class="n">of</span> <span class="n">the</span> <span class="n">alias</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>3<span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="n">is</span> <span class="n">a</span> <span class="n">list</span> <span class="n">of</span> <span class="n">y</span> <span class="n">timed</span><span class="o">-</span><span class="n">command</span> <span class="k">for</span> <span class="n">this</span> <span class="n">actuator</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>3<span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">][</span>0<span class="p">]</span> <span class="n">is</span> <span class="n">the</span> <span class="n">float</span> <span class="n">command</span> <span class="p">(</span><span class="n">offset</span> <span class="n">and</span> <span class="n">gain</span> <span class="n">are</span> <span class="n">then</span> <span class="n">used</span><span class="p">)</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>3<span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">][</span>1<span class="p">]</span> <span class="n">is</span> <span class="n">the</span> <span class="n">DCM</span> <span class="n">Time</span> <span class="k">for</span> <span class="n">the</span> <span class="n">command</span> <span class="n">to</span> <span class="n">be</span> <span class="n">applied</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>3<span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">][</span>2<span class="p">]</span> <span class="n">is</span> <span class="n">the</span> <span class="n">optional</span> <span class="n">importance</span> <span class="n">level</span><span class="p">.</span> <span class="n">Minimum</span> <span class="k">if</span> <span class="n">not</span> <span class="n">specified</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="n">For</span> <span class="n">pCommands</span><span class="p">[</span>3<span class="p">]</span> <span class="n">there</span> <span class="n">is</span> 2 <span class="n">options</span><span class="p">:</span>
+<span class="o">*</span> <span class="k">if</span> <span class="n">it</span><span class="o">&#39;</span><span class="n">s</span> &quot;<span class="n">time</span><span class="o">-</span><span class="n">separate</span>&quot;<span class="p">:</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>3<span class="p">]</span> <span class="n">is</span> <span class="n">the</span> <span class="n">importance</span> <span class="n">level</span> <span class="n">of</span> <span class="n">all</span> <span class="n">these</span> <span class="n">commands</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>4<span class="p">]</span> <span class="n">is</span> <span class="n">a</span> <span class="n">list</span> <span class="n">of</span> <span class="n">T</span> <span class="n">time</span><span class="p">.</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>4<span class="p">][</span>0<span class="p">]</span> <span class="n">is</span> <span class="n">the</span> 1<span class="n">st</span> <span class="n">time</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>4<span class="p">][</span>1<span class="p">]</span> <span class="n">is</span> <span class="n">the</span> 2<span class="n">nd</span> <span class="n">time</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>4<span class="p">][</span>2<span class="p">]...</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>4<span class="p">][</span><span class="n">T</span><span class="p">]</span> <span class="n">T</span> <span class="n">time</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>5<span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="n">is</span> <span class="n">a</span> <span class="n">list</span> <span class="n">of</span> <span class="n">x</span> <span class="n">command</span> <span class="n">list</span><span class="p">.</span> <span class="n">Each</span> <span class="n">x</span> <span class="n">is</span> <span class="n">an</span> <span class="n">actuator</span> <span class="n">member</span> <span class="n">of</span> <span class="n">the</span> <span class="n">alias</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>5<span class="p">][</span><span class="n">x</span><span class="p">][</span>0<span class="p">]</span> 1<span class="n">st</span> <span class="n">command</span> <span class="k">for</span> <span class="n">this</span> <span class="n">actuator</span><span class="p">,</span> <span class="n">and</span> <span class="n">at</span> <span class="n">the</span> 1<span class="n">st</span> <span class="n">time</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>5<span class="p">][</span><span class="n">x</span><span class="p">][</span>1<span class="p">]</span> 2<span class="n">nd</span> <span class="n">command</span> <span class="k">for</span> <span class="n">this</span> <span class="n">actuator</span><span class="p">,</span> <span class="n">and</span> <span class="n">at</span> <span class="n">the</span> 2<span class="n">nd</span> <span class="n">time</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>5<span class="p">][</span><span class="n">x</span><span class="p">][</span>2<span class="p">]...</span>
+<span class="o">*</span> <span class="n">pCommands</span><span class="p">[</span>5<span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="n">T</span><span class="p">]</span> <span class="n">T</span> <span class="n">command</span>
+<span class="o">*</span>
+<span class="o">*</span>
+<span class="o">\*/</span>
+<span class="n">void</span> <span class="n">DCM</span><span class="p">::</span><span class="n">setAlias</span><span class="p">(</span><span class="n">ALValue</span><span class="o">&amp;</span> <span class="n">pCommands</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>Example of use<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>With time-mixed</p>
+<p>Python:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">createAlias</span><span class="p">([</span>
+&quot;<span class="n">ChestLeds</span>&quot;<span class="p">,</span>
+<span class="p">[</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;
+<span class="p">]</span>
+<span class="p">])</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">setAlias</span><span class="p">([</span>
+&quot;<span class="n">ChestLeds</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ClearAll</span>&quot;<span class="p">,</span>
+&quot;<span class="n">time</span><span class="o">-</span><span class="n">mixed</span>&quot;<span class="p">,</span>
+<span class="p">[</span>
+<span class="p">[</span>
+<span class="o">\</span><span class="p">[</span>1<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>4000<span class="p">)],</span>
+<span class="o">\</span><span class="p">[</span>0<span class="p">.</span>0<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>6000<span class="p">)]</span>
+<span class="p">],</span>
+<span class="p">[</span>
+<span class="o">\</span><span class="p">[</span>0<span class="p">.</span>25<span class="p">,</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>3000<span class="p">)]</span>
+<span class="p">],</span>
+<span class="p">[</span>
+<span class="o">\</span><span class="p">[</span>0<span class="p">.</span>125<span class="p">,</span><span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>2000<span class="p">)]</span>
+<span class="p">]</span>
+<span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>C++</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="n">ALValue</span> <span class="n">commandsAlias</span><span class="p">;</span>
+<span class="n">ALValue</span> <span class="n">commands</span><span class="p">;</span>
+<span class="n">commandsAlias</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestLeds&quot;</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Red/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Green/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Blue/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">createAlias</span><span class="p">(</span><span class="n">commandsAlias</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">4</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestLeds&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ClearAll&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;time-mixed&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="c1">//ChestBoard/Led/Red/Actuator/Value</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">4000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">6000</span><span class="p">);</span>
+<span class="c1">//ChestBoard/Led/Green/Actuator/Value</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">1</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">3000</span><span class="p">);</span>
+<span class="c1">//ChestBoard/Led/Blue/Actuator/Value</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">1</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.125</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">2000</span><span class="p">);</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">setAlias</span><span class="p">(</span><span class="n">commands</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<p>Send 2 commands for the red LED (value 1.0 in 4s, and value 0.0
+in 6s) and 1 command for the 2 others (value 0.25 in 3s for the
+green, and value 0.125 in 2s for the blue).</p>
+<p>With time-separate:</p>
+<p>Python:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">createAlias</span><span class="p">([</span>
+&quot;<span class="n">ChestLeds</span>&quot;<span class="p">,</span>
+<span class="p">[</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>&quot;
+<span class="p">]</span>
+<span class="p">])</span>
+<span class="n">t</span> <span class="p">=</span> <span class="n">dcm</span><span class="p">.</span><span class="n">getTime</span><span class="p">(</span>0<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">setAlias</span><span class="p">([</span>
+&quot;<span class="n">ChestLeds</span>&quot;<span class="p">,</span>
+&quot;<span class="n">ClearAll</span>&quot;<span class="p">,</span>
+&quot;<span class="n">time</span><span class="o">-</span><span class="n">separate</span>&quot;<span class="p">,</span>
+0<span class="p">,</span>
+<span class="o">\</span><span class="p">[</span><span class="n">t</span><span class="p">,</span><span class="n">t</span><span class="o">+</span>2000<span class="p">,</span> <span class="n">t</span><span class="o">+</span>3000<span class="p">,</span> <span class="n">t</span><span class="o">+</span>4000<span class="p">,</span> <span class="n">t</span><span class="o">+</span>5000<span class="p">,</span><span class="n">t</span><span class="o">+</span>6000<span class="p">],</span>
+<span class="p">[</span>
+<span class="o">\</span><span class="p">[</span>1<span class="p">.</span>0<span class="p">,</span>0<span class="p">.</span>0<span class="p">,</span>1<span class="p">.</span>0<span class="p">,</span>0<span class="p">.</span>0<span class="p">,</span>1<span class="p">.</span>0<span class="p">,</span>0<span class="p">.</span>0<span class="p">],</span>
+<span class="o">\</span><span class="p">[</span>1<span class="p">.</span>0<span class="p">,</span>0<span class="p">.</span>5<span class="p">,</span>1<span class="p">.</span>0<span class="p">,</span>0<span class="p">.</span>25<span class="p">,</span>0<span class="p">.</span>125<span class="p">,</span>0<span class="p">.</span>0<span class="p">],</span>
+<span class="o">\</span><span class="p">[</span>0<span class="p">.</span>0625<span class="p">,</span>0<span class="p">.</span>125<span class="p">,</span>0<span class="p">.</span>25<span class="p">,</span>0<span class="p">.</span>50<span class="p">,</span>0<span class="p">.</span>75<span class="p">,</span>1<span class="p">.</span>0<span class="p">]</span>
+<span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>C++:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c1">// Program running in a module. Do not forget the #include &quot;dcmproxy.h&quot;</span>
+<span class="n">try</span>
+<span class="p">{</span>
+<span class="n">DCMProxy</span><span class="o">*</span> <span class="n">dcm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DCMProxy</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+<span class="n">ALValue</span> <span class="n">commandsAlias</span><span class="p">;</span>
+<span class="n">ALValue</span> <span class="n">commands</span><span class="p">;</span>
+<span class="n">commandsAlias</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">2</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestLeds&quot;</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Red/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Green/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">commandsAlias</span><span class="p">[</span><span class="mh">1</span><span class="p">][</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestBoard/Led/Blue/Actuator/Value&quot;</span><span class="p">);</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">createAlias</span><span class="p">(</span><span class="n">commandsAlias</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">6</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ChestLeds&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;ClearAll&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="k">string</span><span class="p">(</span><span class="s">&quot;time-separate&quot;</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">3</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">4</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">6</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">4</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">10000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">4</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">20000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">4</span><span class="p">][</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">30000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">4</span><span class="p">][</span><span class="mh">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">40000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">4</span><span class="p">][</span><span class="mh">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">50000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">4</span><span class="p">][</span><span class="mh">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">dcm</span><span class="o">-&gt;</span><span class="n">getTime</span><span class="p">(</span><span class="mh">60000</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">3</span><span class="p">);</span>
+<span class="c1">// ChestBoard/Led/Red/Actuator/Value</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">0</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">6</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">4</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">0</span><span class="p">][</span><span class="mh">5</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="c1">// ChestBoard/Led/Green/Actuator/Value</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">1</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">6</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">4</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.125</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">1</span><span class="p">][</span><span class="mh">5</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="c1">// ChestBoard/Led/Blue/Actuator/Value</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">2</span><span class="p">].</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mh">6</span><span class="p">);</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0625</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.125</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.50</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">4</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">;</span>
+<span class="n">commands</span><span class="p">[</span><span class="mh">5</span><span class="p">][</span><span class="mh">2</span><span class="p">][</span><span class="mh">5</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">dcm</span><span class="o">-&gt;</span><span class="n">setAlias</span><span class="p">(</span><span class="n">commands</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="no">AL_CATCH_ERR</span><span class="p">(</span><span class="k">return</span> <span class="n">false</span><span class="p">;);</span>
+</pre></div>
+</div>
+<p>Send 6 commands to every LEDs, in 10s, 20s, 30s, 40s, 50s, and
+60s.</p>
+<p>For the red one, they are 1, 0, 1, 0, 1, 0.</p>
+<p>For the green one, they are 1, 0.5, 1.0, 0.25, 0.125, 0.</p>
+<p>For the blue one, they are 0.0625, 0.125, 0.25, 0.50, 0.75,
+1.0.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All examples here use dcm.getTime() to get all time for
+timed-command request. This is just an example, and there are better
+ways to use it. For example you can just do one dcm.getTime() at
+startup and after increment the integer value for each ms. Or you
+can use the CPU clock if you have a module running on the
+robot</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It&#8217;s possible to send a &#8220;NAN&#8221; float number (&#8220;Not A Number&#8221;) to
+actuator values using C++ (only from the same process). NAN are not
+taking into account. It may be useful to send a NAN command to an
+alias of many joints for just some joints, so that they do not
+move.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For speed improvement in C++, it&#8217;s better not to create the
+AlValue at each request, but to keep it and just change values
+inside if you send to the same alias. Creating and resizing ALValue
+are heavy operation, while change an already allocated value is a
+small one.</p>
+</div>
+</div>
+</div>
+<div class="section" id="preferences">
+<h2>Preferences<a class="headerlink" href="#preferences" title="Permalink to this headline">¶</a></h2>
+<p>Preferences is a method to load/save preferences files, or to add
+a key in them.</p>
+<p>Read the preference chapter below for more details.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Preferences files are not something to change unless it is
+necessary. A bad configuration parameter may damage the robot. Using
+this method, you can add your own configuration parameter, but do not
+change the one already set, unless you are asked to.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do a pause between a calibration change and the preference
+save.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A save in the chest board will result of a stop of USB
+communication for a few seconds. If the robot is standing, it will
+certainly fall!</p>
+</div>
+<div class="section" id="id6">
+<h3>Method<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">* Save or load the pref file or a sub pref file or change one parameter on the pref file</span>
+<span class="cm">*</span>
+<span class="cm">* @param pAction is a string that could be: &quot;Save&quot; &quot;Load&quot; or &quot;Add&quot;</span>
+<span class="cm">*   Save is to save the new configuration value either in a file (Head) or in the chest board (chest)</span>
+<span class="cm">*   Load is to read the configuration file again (Device_Head.xml or Device_Body.xml)</span>
+<span class="cm">*   Add is to add/chage a new key/value in the pref file. It is only in the DCM memory, and a save is needed after.</span>
+<span class="cm">* @param pWhere is the name of the pref/subpref files used. It could be &quot;Body&quot;, &quot;Head&quot;, &quot;Main&quot;, &quot;All&quot;</span>
+<span class="cm">* @param pKeyName is case of a add, this is the key name to add in the specific pref file. &quot;&quot; if this is not add.</span>
+<span class="cm">* @param pKeyValue this is the value to save for the key name.</span>
+<span class="cm">*/</span>
+<span class="kt">int</span> <span class="n">DCM</span><span class="o">::</span><span class="n">preference</span><span class="p">(</span><span class="n">string</span> <span class="n">pAction</span><span class="p">,</span>
+<span class="n">string</span> <span class="n">pWhere</span><span class="p">,</span>
+<span class="n">string</span> <span class="n">pKeyName</span><span class="p">,</span>
+<span class="n">ALValue</span> <span class="n">pKeyValue</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>Example of use<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">naoqi</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;DCM&quot;</span><span class="p">,</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="mi">9559</span><span class="p">)</span>
+<span class="c"># Manual calibration on the mechanical stop</span>
+<span class="n">dcm</span><span class="o">.</span><span class="n">calibration</span><span class="p">(</span> <span class="p">[</span><span class="s">&quot;RHipRoll/Position/Actuator/Value&quot;</span><span class="p">,</span><span class="s">&quot;Manual&quot;</span><span class="p">,</span><span class="s">&quot;InLimit&quot;</span> <span class="p">])</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dcm</span><span class="o">.</span><span class="n">preferences</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span> <span class="s">&quot;Body&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="c"># to save new calibration</span>
+</pre></div>
+</div>
+<p>This script changes a calibration and saves it back in the chest
+board.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This is a very dangerous script! Wrong calibration could
+damage robot articulation.</p>
+</div>
+<p>Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">naoqi</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;DCM&quot;</span><span class="p">,</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="mi">9559</span><span class="p">)</span>
+<span class="n">dcm</span><span class="o">.</span><span class="n">preferences</span><span class="p">(</span><span class="s">&quot;Load&quot;</span><span class="p">,</span> <span class="s">&quot;Body&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="c"># to load a new Device_Body.xml file</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dcm</span><span class="o">.</span><span class="n">preferences</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span> <span class="s">&quot;Body&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="c"># to save new calibration</span>
+</pre></div>
+</div>
+<p>This script may be used to download a new sub pref file in the
+chest board.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This is a very dangerous script! Wrong calibration could damage
+the robot articulation.</p>
+</div>
+</div>
+</div>
+<div class="section" id="special">
+<h2>Special<a class="headerlink" href="#special" title="Permalink to this headline">¶</a></h2>
+<p>Special function that sends some specific orders to the
+DCM.</p>
+<p>This method has only a string as parameter.</p>
+<p>This string could be:</p>
+<ul>
+<li><p class="first">Reset
+&gt; Ask for a reset of the chest board.</p>
+</li>
+<li><p class="first">Chain</p>
+<p>Ask for a new chain process in the chest board.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Function not tested.</p>
+</div>
+</li>
+<li><p class="first">Config</p>
+<p>Ask for a new configuration of all motorBoard.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Function not tested.</p>
+</div>
+</li>
+<li><p class="first">ResetMB</p>
+<p>Turn off all motorboard, wait 3s, turn them on again and wait 15s before doing DCM cycle again.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Turning off motorboard power will make every joint free, and
+so the robot may fall.</p>
+</div>
+</li>
+</ul>
+<div class="section" id="id8">
+<h3>Method<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-guess"><div class="highlight"><pre><span class="o">/\**</span>
+<span class="o">*</span> <span class="n">Special</span> <span class="n">commands</span>
+<span class="o">*</span>
+<span class="o">*</span> <span class="p">@</span><span class="n">param</span> <span class="n">pName</span> <span class="n">one</span> <span class="n">string</span> <span class="n">and</span> <span class="n">could</span> <span class="n">be</span> &quot;<span class="n">Reset</span>&quot;<span class="p">,</span> &quot;<span class="n">Chain</span>&quot;<span class="p">,</span> &quot;<span class="n">ResetMB</span>&quot;<span class="p">,</span> &quot;<span class="n">Config</span>&quot;
+<span class="o">*</span>
+<span class="o">\*/</span>
+<span class="n">void</span> <span class="n">DCM</span><span class="p">::</span><span class="n">special</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">pName</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>Example of use<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>Python:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">import</span> <span class="n">naoqi</span>
+<span class="n">from</span> <span class="n">naoqi</span> <span class="n">import</span> <span class="n">ALProxy</span>
+<span class="n">dcm</span> <span class="p">=</span> <span class="n">ALProxy</span><span class="p">(</span>&quot;<span class="n">DCM</span>&quot;<span class="p">,</span>&quot;127<span class="p">.</span>0<span class="p">.</span>0<span class="p">.</span>1&quot;<span class="p">,</span>9559<span class="p">)</span>
+<span class="n">dcm</span><span class="p">.</span><span class="n">special</span><span class="p">(</span>&quot;<span class="n">ResetMB</span>&quot;<span class="p">)</span>
+</pre></div>
+</div>
+<p>This script resets the motors on the robot.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="dcm-api.html" title="DCM API">DCM API</a>
+     |
+    <a href="dcm.html" title="DCM" accesskey="U">DCM</a>
+   |
+    <a href="dcm/introduction.html" title="Introduction">Introduction</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="dcm.html">DCM</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dcm-api.html">DCM API</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">DCM Tutorial</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#dcm-bound-methods">DCM bound methods</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="dcm/introduction.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm/upper_level_architecture.html">Upper level architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm/low_level_architecture.html">Low level architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm/pref_file_architecture.html">Architecture of the pref file Device.xml / of key/values in ALMemory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm/pref_subpref_files.html">Pref files and sub pref files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm/dcm_architecture.html">DCM architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm/dcm_synchro_methods.html">DCM Synchronization methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">DCM Tutorial</a><ul>
+<li><a class="reference internal" href="#python-example">Python example</a></li>
+<li><a class="reference internal" href="#c-example">C++ example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dcm-bound-methods">DCM bound methods</a><ul>
+<li><a class="reference internal" href="#note">Note</a></li>
+<li><a class="reference internal" href="#gettime">getTime</a><ul>
+<li><a class="reference internal" href="#id1">Python example</a></li>
+<li><a class="reference internal" href="#id2">C++ example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getprefix">getPrefix</a><ul>
+<li><a class="reference internal" href="#python">Python</a></li>
+<li><a class="reference internal" href="#c">C++</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#set">Set</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#kind-of-update">Kind of update</a></li>
+<li><a class="reference internal" href="#importance-level">Importance level</a></li>
+<li><a class="reference internal" href="#example-of-use">Example of use</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-alias">Create Alias</a><ul>
+<li><a class="reference internal" href="#alias">Alias</a></li>
+<li><a class="reference internal" href="#createalias-method">&#8220;createAlias&#8221; method</a></li>
+<li><a class="reference internal" href="#id3">Example of use</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setalias">setAlias</a><ul>
+<li><a class="reference internal" href="#id4">Overview</a></li>
+<li><a class="reference internal" href="#method">Method</a></li>
+<li><a class="reference internal" href="#id5">Example of use</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#preferences">Preferences</a><ul>
+<li><a class="reference internal" href="#id6">Method</a></li>
+<li><a class="reference internal" href="#id7">Example of use</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#special">Special</a><ul>
+<li><a class="reference internal" href="#id8">Method</a></li>
+<li><a class="reference internal" href="#id9">Example of use</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="dcm-api.html" title="DCM API">previous</a>
+     |
+    <a href="dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="dcm/introduction.html" title="Introduction">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

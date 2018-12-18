@@ -1,0 +1,291 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NAOqi on the robot &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Working with NAO" href="index.html" />
+    <link rel="next" title="NAOqi man page" href="naoqi-man.html" />
+    <link rel="prev" title="Working with NAO" href="index.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="index.html" title="Working with NAO">previous</a>
+     |
+    <a href="index.html" title="Working with NAO" accesskey="U">up</a>
+   |
+    <a href="naoqi-man.html" title="NAOqi man page">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-tools-naoqi">
+            
+  <div class="section" id="naoqi-on-the-robot">
+<h1>NAOqi on the robot<a class="headerlink" href="#naoqi-on-the-robot" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-naoqi">
+<span id="naoqi-def"></span><h2>What is NAOqi<a class="headerlink" href="#what-is-naoqi" title="Permalink to this headline">¶</a></h2>
+<p><strong>NAOqi</strong> is the name of the main software that runs on the robot and controls
+it.</p>
+<ul class="simple">
+<li>It runs on the robot, under OpenNAO distribution.</li>
+<li>It can also run on your computer in order to test your code on a
+<a class="reference internal" href="robot-simulation.html#choregraphe-reference-simulated-robot"><em>simulated robot</em></a>.</li>
+</ul>
+</div>
+<div class="section" id="monitoring-naoqi-on-the-robot">
+<span id="monitoring-naoqi"></span><h2>Monitoring NAOqi on the robot<a class="headerlink" href="#monitoring-naoqi-on-the-robot" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="naoqi-automatic-startup">
+<h3>NAOqi automatic startup<a class="headerlink" href="#naoqi-automatic-startup" title="Permalink to this headline">¶</a></h3>
+<p>NAOqi is automatically launched in startup.</p>
+<p>The script <tt class="docutils literal"><span class="pre">/etc/init.d/naoqi</span></tt> manages NAOqi&#8217;s start:</p>
+<ul class="simple">
+<li>light up the eyes</li>
+<li>run NAOqi</li>
+</ul>
+</div>
+<div class="section" id="restarting-and-stopping-naoqi">
+<h3>Restarting and stopping NAOqi<a class="headerlink" href="#restarting-and-stopping-naoqi" title="Permalink to this headline">¶</a></h3>
+<p>To restart NAOqi, execute on the robot:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">nao restart</span>
+</pre></div>
+</div>
+<p>To stop NAOqi, execute on the robot:</p>
+<div class="highlight-python"><pre>.. code-block:: console</pre>
+</div>
+<blockquote>
+<div>nao stop</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Available commands for controlling the execution of NAOqi: <tt class="docutils literal"><span class="pre">nao</span> <span class="pre">stop</span></tt>,
+<tt class="docutils literal"><span class="pre">nao</span> <span class="pre">start</span></tt>, <tt class="docutils literal"><span class="pre">nao</span> <span class="pre">restart</span></tt> and <tt class="docutils literal"><span class="pre">nao</span> <span class="pre">status</span></tt>.</p>
+<p class="last">You can also restart and stop NAOqi from the robot&#8217;s web page.</p>
+</div>
+</div>
+<div class="section" id="loading-a-module-at-startup">
+<h3>Loading a module at startup<a class="headerlink" href="#loading-a-module-at-startup" title="Permalink to this headline">¶</a></h3>
+<p>This section assumes that the module has been successfully cross-compiled and
+copied on the robot.</p>
+<p>If you want to use a module which is not loaded by default in NAOqi, you will
+have to make it load at the beginning of naoqi. To do so, you must modify the
+autoload.ini file.</p>
+<p>The /home/nao/naoqi/preferences/autoload.ini file contains all libraries to
+launch when NAOqi start.</p>
+<ul class="simple">
+<li>[user] contains all user libraries. You MUST put the full path to your library.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">user</span><span class="p">]</span>
+<span class="n">the</span><span class="o">/</span><span class="n">full</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">your</span><span class="o">/</span><span class="n">liblibraryname</span><span class="o">.</span><span class="n">so</span>   <span class="c"># load liblibraryname.so</span>
+</pre></div>
+</div>
+<p>If your custom module requires other librairies, first make sure that they
+are properly cross-compiled and copied to the robot. Then, to allow naoqi
+to find these librairies, you must set LD_LIBRARY_PATH to the path of these
+current librairies (typically /home/nao/naoqi/lib/):</p>
+<div class="highlight-python"><pre>export LD_LIBRARY_PATH=/full/path/to/your/libs</pre>
+</div>
+<p>Then run naoqi as usual.</p>
+</div>
+</div>
+<div class="section" id="logs">
+<h2>Logs<a class="headerlink" href="#logs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="naoqi-logs-from-the-console">
+<h3>NAOqi logs from the console<a class="headerlink" href="#naoqi-logs-from-the-console" title="Permalink to this headline">¶</a></h3>
+<p>By default, if you are logged via ssh on the robot, no NAOqi log shows. There
+are two ways to visualize the logs:</p>
+<ul class="simple">
+<li>by using logview, and</li>
+<li>by launching NAOqi in verbose mode from the console.</li>
+</ul>
+<p><strong>To use logview</strong>:</p>
+<p>Type the command logview on the console, and give it the IP where you want to see
+the logs (127.0.0.1 for example if you are already on the robot).</p>
+<p><strong>To launch naoqi from the console in debug mode</strong>:</p>
+<p>Run the following command line from /home/nao/:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">naoqi</span> <span class="o">-</span><span class="n">d</span>
+</pre></div>
+</div>
+<p>This command line is blocking.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">NAOqi is running on this console: if you interrupt it, you also kill NAOqi, so
+be particularly careful if you do so to prevent the robot from falling abruptly.</p>
+</div>
+<p>The logs will typically start like this:</p>
+<div class="highlight-python"><pre>[INFO ] ..::: starting NAOqi version 1.12 :::..
+[INFO ] Copyright (c) 2011, Aldebaran Robotics
+[INFO ] Starting ALNetwork
+[INFO ] NAOqi is listening on 0.0.0.0:9559
+[INFO ] Loading "/etc/naoqi/autoload.ini"</pre>
+</div>
+<p>Then the list of starting modules will appear. NAOqi startup is complete when
+the following log shows:</p>
+<div class="highlight-python"><pre>[INFO ] NAOqi is ready...</pre>
+</div>
+</div>
+<div class="section" id="naoqi-logs-from-choregraphe">
+<h3>NAOqi logs from Choregraphe<a class="headerlink" href="#naoqi-logs-from-choregraphe" title="Permalink to this headline">¶</a></h3>
+<p>It is also possible to view NAOqi logs from Choregraphe. To do so, check the
+&#8220;view all logs&#8221; box at the bottom left of the log console. From that moment,
+both Choregraphe and NAOqi logs will appear.</p>
+<img alt="Log viewing from Choregraphe" src="../../_images/framework_log_choregraphe.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="index.html" title="Working with NAO">Working with NAO</a>
+     |
+    <a href="index.html" title="Working with NAO" accesskey="U">Working with NAO</a>
+   |
+    <a href="naoqi-man.html" title="NAOqi man page">NAOqi man page</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Working with NAO</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">NAOqi on the robot</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="naoqi-man.html">NAOqi man page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="opennao.html">OpenNAO - NAO OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="investigate-on-nao.html">Debugging and investigating on the robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="robot-simulation.html">Robot simulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vm-intro.html">OpenNAO in a virtual machine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sdk.html">SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">NAOqi on the robot</a><ul>
+<li><a class="reference internal" href="#what-is-naoqi">What is NAOqi</a></li>
+<li><a class="reference internal" href="#monitoring-naoqi-on-the-robot">Monitoring NAOqi on the robot</a><ul>
+<li><a class="reference internal" href="#naoqi-automatic-startup">NAOqi automatic startup</a></li>
+<li><a class="reference internal" href="#restarting-and-stopping-naoqi">Restarting and stopping NAOqi</a></li>
+<li><a class="reference internal" href="#loading-a-module-at-startup">Loading a module at startup</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#logs">Logs</a><ul>
+<li><a class="reference internal" href="#naoqi-logs-from-the-console">NAOqi logs from the console</a></li>
+<li><a class="reference internal" href="#naoqi-logs-from-choregraphe">NAOqi logs from Choregraphe</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="index.html" title="Working with NAO">previous</a>
+     |
+    <a href="index.html" title="Working with NAO" accesskey="U">up</a>
+   |
+    <a href="naoqi-man.html" title="NAOqi man page">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

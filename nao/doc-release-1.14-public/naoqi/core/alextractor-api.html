@@ -1,0 +1,415 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALExtractor API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Extractors" href="extractors.html" />
+    <link rel="next" title="ALModule API" href="almodule-api.html" />
+    <link rel="prev" title="Extractors" href="extractors.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="extractors.html" title="Extractors">previous</a>
+     |
+    <a href="extractors.html" title="Extractors" accesskey="U">up</a>
+   |
+    <a href="almodule-api.html" title="ALModule API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-core-alextractor-api">
+            
+  <div class="section" id="alextractor-api">
+<span id="id1"></span><h1>ALExtractor API<a class="headerlink" href="#alextractor-api" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-core"><em>NAOqi Core</em></a> - <a class="reference internal" href="extractors.html#extractors"><em>Overview</em></a> | <strong>ALExtractor API</strong> | <a class="reference internal" href="alvisionextractor-api.html#alvisionextractor-api"><em>ALVisionExtractor API</em></a></p>
+<hr class="docutils" />
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<p>Any ALExtractor inherits methods from <a class="reference internal" href="almodule-api.html#almodule-api"><em>ALModule API</em></a>.
+It also has the following specific methods:</p>
+<dl class="docutils">
+<dt><strong>Parameters update</strong></dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#ALExtractor::subscribe__ssCR.iCR.floatCR" title="ALExtractor::subscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::subscribe()</span></tt></a></li>
+<li><a class="reference internal" href="#ALExtractor::unsubscribe__ssCR" title="ALExtractor::unsubscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::unsubscribe()</span></tt></a></li>
+<li><a class="reference internal" href="#ALExtractor::updatePeriod__ssCR.iCR" title="ALExtractor::updatePeriod"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::updatePeriod()</span></tt></a></li>
+<li><a class="reference internal" href="#ALExtractor::updatePrecision__ssCR.floatCR" title="ALExtractor::updatePrecision"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::updatePrecision()</span></tt></a></li>
+</ul>
+</dd>
+<dt><strong>Introspection</strong></dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#ALExtractor::getCurrentPeriod" title="ALExtractor::getCurrentPeriod"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::getCurrentPeriod()</span></tt></a></li>
+<li><a class="reference internal" href="#ALExtractor::getCurrentPrecision" title="ALExtractor::getCurrentPrecision"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::getCurrentPrecision()</span></tt></a></li>
+<li><a class="reference internal" href="#ALExtractor::getMyPeriod__ssCR" title="ALExtractor::getMyPeriod"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::getMyPeriod()</span></tt></a></li>
+<li><a class="reference internal" href="#ALExtractor::getMyPrecision__ssCR" title="ALExtractor::getMyPrecision"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::getMyPrecision()</span></tt></a></li>
+<li><a class="reference internal" href="#ALExtractor::getSubscribersInfo" title="ALExtractor::getSubscribersInfo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::getSubscribersInfo()</span></tt></a></li>
+<li><a class="reference internal" href="#ALExtractor::getOutputNames__X" title="ALExtractor::getOutputNames"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::getOutputNames()</span></tt></a></li>
+</ul>
+</dd>
+</dl>
+<span class="target" id="alextractor-subscribe1"></span><dl class="function">
+<dt id="ALExtractor::subscribe__ssCR.iCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">subscribe</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pSubscribedName</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>pPeriod</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>pPrecision</em><big>)</big><a class="headerlink" href="#ALExtractor::subscribe__ssCR.iCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are two overloads of this function:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#alextractor-subscribe1"><em>ALExtractor::subscribe</em></a></li>
+<li><a class="reference internal" href="#alextractor-subscribe2"><em>ALExtractor::subscribe</em></a> with default values.</li>
+</ul>
+<p>Subscribes to the extractor with given period and precision values.
+If not yet started by another subscriber, starts processing data periodically
+and publishes data in ALMemory (either as memory keys or events).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pSubscribedName</strong> &#8211; Name of the subscriber.</li>
+<li><strong>pPeriod</strong> &#8211; Period of the extractor in milliseconds.</li>
+<li><strong>pPrecision</strong> &#8211; Precision of the extractor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="alextractor-subscribe2"></span><dl class="function">
+<dt id="ALExtractor::subscribe__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">subscribe</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pSubscribedName</em><big>)</big><a class="headerlink" href="#ALExtractor::subscribe__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribes to the extractor with default period (30) and precision (1).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pSubscribedName</strong> &#8211; Name of the subscriber.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALExtractor::unsubscribe__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">unsubscribe</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pSubscribedName</em><big>)</big><a class="headerlink" href="#ALExtractor::unsubscribe__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsubscribes a given subscriber from the extractor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pSubscribedName</strong> &#8211; Name of the subscriber.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALExtractor::updatePeriod__ssCR.iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">updatePeriod</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pSubscribedName</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>pPeriod</em><big>)</big><a class="headerlink" href="#ALExtractor::updatePeriod__ssCR.iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the extractor period for a given subscriber if relevant.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pSubscribedName</strong> &#8211; Name of the subscriber.</li>
+<li><strong>pPeriod</strong> &#8211; New period in milliseconds.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALExtractor::updatePrecision__ssCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">updatePrecision</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pSubscribedName</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>pPrecision</em><big>)</big><a class="headerlink" href="#ALExtractor::updatePrecision__ssCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the extractor precision for a given subscriber if relevant.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pSubscribedName</strong> &#8211; Name of the subscriber.</li>
+<li><strong>pPeriod</strong> &#8211; New precision.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALExtractor::getCurrentPeriod">
+<a class="reference internal" href="../stdtypes.html#i" title="int">int</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">getCurrentPeriod</tt><big>(</big><big>)</big><a class="headerlink" href="#ALExtractor::getCurrentPeriod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the current period of the extractor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Smallest period required by all the subscribers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALExtractor::getCurrentPrecision">
+<a class="reference internal" href="../stdtypes.html#float" title="float">float</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">getCurrentPrecision</tt><big>(</big><big>)</big><a class="headerlink" href="#ALExtractor::getCurrentPrecision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the current precision of the extractor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Highest precision required by all the subscribers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALExtractor::getMyPeriod__ssCR">
+<a class="reference internal" href="../stdtypes.html#i" title="int">int</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">getMyPeriod</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pSubscribedName</em><big>)</big><a class="headerlink" href="#ALExtractor::getMyPeriod__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the current period of a given extractor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pSubscribedName</strong> &#8211; Name of the subscriber.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Current period.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALExtractor::getMyPrecision__ssCR">
+<a class="reference internal" href="../stdtypes.html#float" title="float">float</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">getMyPrecision</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pSubscribedName</em><big>)</big><a class="headerlink" href="#ALExtractor::getMyPrecision__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the current precision of a given extractor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pSubscribedName</strong> &#8211; Name of the subscriber.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Current precision.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALExtractor::getSubscribersInfo">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">getSubscribersInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#ALExtractor::getSubscribersInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the list of parameters for all the current subscribers (name, period and precision).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Array of the form [ [name_1, period_1, precision_1], [name_2, period_2, precision_2] ... ].</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALExtractor::getOutputNames__X">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALExtractor::</tt><tt class="descname">getOutputNames</tt><big>(</big><em>void</em><big>)</big><a class="headerlink" href="#ALExtractor::getOutputNames__X" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the list of ALMemory keys modified by the extractor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">vector of names [ memoryKey_1, memoryKey_2 ... ].</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="extractors.html" title="Extractors">Extractors</a>
+     |
+    <a href="extractors.html" title="Extractors" accesskey="U">Extractors</a>
+   |
+    <a href="almodule-api.html" title="ALModule API">ALModule API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Core</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albehaviormanager.html">ALBehaviorManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../connectionmanager/index.html">ALConnectionManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almemory.html">ALMemory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almodule.html">ALModule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alpreferences.html">ALPreferences</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alresourcemanager.html">ALResourceManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allauncher.html">ALLauncher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="albonjour.html">ALBonjour</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allogger.html">ALLogger</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="extractors.html">Extractors</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALExtractor API</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="almodule-api.html">ALModule API</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="alvisionextractor-api.html">ALVisionExtractor API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALExtractor API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="extractors.html" title="Extractors">previous</a>
+     |
+    <a href="extractors.html" title="Extractors" accesskey="U">up</a>
+   |
+    <a href="almodule-api.html" title="ALModule API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

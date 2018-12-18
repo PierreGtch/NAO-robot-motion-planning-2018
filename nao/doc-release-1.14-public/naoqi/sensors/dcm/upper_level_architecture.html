@@ -1,0 +1,509 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Upper level architecture &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="DCM" href="../dcm.html" />
+    <link rel="next" title="Low level architecture" href="low_level_architecture.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="introduction.html" title="Introduction">previous</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="low_level_architecture.html" title="Low level architecture">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-sensors-dcm-upper_level_architecture">
+            
+  <div class="section" id="upper-level-architecture">
+<h1>Upper level architecture<a class="headerlink" href="#upper-level-architecture" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../dcm.html#dcm"><em>Overview</em></a> | <a class="reference internal" href="../dcm-api.html#dcm-api"><em>API</em></a>  | <a class="reference internal" href="../dcm-tuto.html#dcm-tuto"><em>Tutorial</em></a></p>
+</div>
+<hr class="docutils" />
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<img alt="../../../_images/dcm_upper_level.png" src="../../../_images/dcm_upper_level.png" style="width: 500px; height: 355px;" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To be more precise, the <strong>Preferences files</strong> are read by the <strong>DCM</strong>
+module, but they are visible throughout <strong>ALMemory</strong>. See below for more
+details.</p>
+</div>
+<p>When other modules want to access <strong>actuators</strong> and <strong>sensors</strong> of the
+robot, they have two solutions:</p>
+<ul>
+<li><p class="first">For <strong>sensors</strong>, modules need to look into <strong>ALMemory</strong> with the name of the <strong>subDevice</strong> sensor (or use a callback).
+For most sensors, the <strong>DCM</strong> updates automatically sensors values in <strong>ALMemory</strong>,
+and the module just needs to look at the new value. Some sensors
+(UltraSound...) need a request to an actuator to have a value
+updated.</p>
+</li>
+<li><p class="first">For <strong>actuators</strong>, modules need to send an update request to the
+<strong>DCM</strong>, with a timed command (see the <a class="reference internal" href="#dcm-timed-command"><em>Timed command</em></a>
+section).
+It is not allowed for other modules to change any
+<strong>DCM</strong> value in <strong>ALMemory</strong> directly. They need to ask the <strong>DCM</strong> first. Then
+the <strong>DCM</strong> itself changes the actuator value in <strong>ALMemory</strong>, but only when
+it has an acknowledgment from the device that the command is well
+sent, and with the precise value actually sent to the
+actuator.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This last feature is still in development. Right now the
+value is updated directly, even if there is no acknowledgment.
+But you can check the ACK/NACK value to see if the device is
+responding.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The value sent by the <strong>DCM</strong> to the actuator may not be the
+precise value asked: the value is rounded to the actuator
+precision, there is also a linear interpolation, and there could
+be a limitation of the value (min/max due to mechanical stop, or
+other limitations...).</p>
+</div>
+</li>
+</ul>
+<p>The main module that sends actuators order to the <strong>DCM</strong> is <strong>ALMotion</strong>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The <strong>DCM</strong> itself does not have any resource management or priority
+system for modules. That means that every orders will be taken into
+account, even if they are contradictory.</p>
+</div>
+<p>The <strong>DCM</strong> has a separate real time thread that run every 10ms
+(known as the <strong>DCM</strong> &#8220;Cycle&#8221;). It manages every communication / actuator
+computation / sensor return, then goes back to sleep until the next
+cycle.</p>
+</div>
+<div class="section" id="timed-command">
+<span id="dcm-timed-command"></span><h2>Timed command<a class="headerlink" href="#timed-command" title="Permalink to this headline">¶</a></h2>
+<p>A timed command is a target value (one float number) to be sent to a <strong>subDevice</strong>
+actuator together with a time when to apply it. You can send one ore more
+timed command for one or more actuator in the same request.</p>
+<p>The time is an absolute value, based on the system time in ms and stored
+in a 4 bytes integer. You can send a request to the <strong>DCM</strong> to get the
+current time (it&#8217;s also in <strong>ALMemory</strong>), or read it directly if you have a
+module on the robot motherboard.</p>
+<p>The <strong>DCM</strong> stores all timed commands for each actuator, then process them at each
+cycle. Depending on the actuator nature, they are either used as triggers or
+interpolated.</p>
+<p>The actuators suitable to interpolation include the motors (angular joint
+position and hand opening) and the LEDs (light intensity). For these
+actuators, at each cycle, the previous and next timed orders are retrieved
+(given the current time), and their linear interpolation is computed and sent
+to the appropriate device.
+If there is no next (future) timed order, the last one is used instead.</p>
+<p>The following figure illustrates this behaviour. As the timed commands time
+do not exactly match the <strong>DCM</strong> update times, the precise corresponding values
+are never sent nor reached.</p>
+<img alt="../../../_images/dcm_update.gif" src="../../../_images/dcm_update.gif" />
+<p>Currently, the ultra sound actuator is the only one to exhibit a trigger-like
+behaviour, which is implemented in the following way:
+at each cycle, the <strong>DCM</strong> executes timed commands whose time are in the past and
+then deletes them. Commands whose time is in the future have no impact on the
+current command sent to the actuator.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently, there is a limit of 4096 timed commands stored in the
+<strong>DCM</strong> for each actuator.</p>
+</div>
+<p>The main advantages of timed commands are:</p>
+<ul class="simple">
+<li>There is no need for the upper level to know precisely the <strong>DCM</strong>
+update time, because precise command times are automatically used by
+the <strong>DCM</strong> to send a good evolution of the command to actuators. The only
+thing is that you need to send command a bit in the future (more than
+one <strong>DCM</strong> cycle time).</li>
+<li>As the <strong>DCM</strong> knows the future of actuators commands, it can send
+them previously (using its own thread and the <strong>chestboard</strong>) so that
+there is no delay between two commands (from the actuator point of
+view), even if the module itself has a delay (due to high CPU usage for
+instance).</li>
+<li>By default, commands are smooth thanks to interpolation (smooth
+commands are always better for the robot). But you can still send very
+fast commands if you want (it could be dangerous for the robot as far
+as joints are concerned, beware!).</li>
+<li>The linear interpolation is simple but always suitable. For more
+complex interpolations, you can approximate them to a few linear ones.
+Using this, you reduce the number of commands to send to the low
+level.</li>
+<li>You can send a whole choreography to many actuators at the same
+time, and then whatever the communication delay or lags are (even
+using WiFi), actuators commands will be sent correctly. But sending
+command using WiFi or Internet means that you can not react very fast.
+You need to anticipate commands.</li>
+<li>You can synchronize many actuators from different modules, just
+sharing the date.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Sending a huge number of time commands on one request may delay
+the <strong>DCM</strong> cycle.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The better way to use timed command is to send them with at
+least a 10ms delay in the future. With this delay, the <strong>DCM</strong> can compute
+an interpolation in its next cycle, whatever the next cycle time
+is.</p>
+</div>
+</div>
+<div class="section" id="timed-command-interpolation-algorithm">
+<h2>Timed command interpolation algorithm<a class="headerlink" href="#timed-command-interpolation-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>Here is a description of the interpolation algorithm:</p>
+<p>For each actuator, the following data are kept in memory:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">sendCommandInt</span></tt> is the last interpolated command as an integer. This
+is sent to the actuator, and initialized to 0.</li>
+<li><tt class="docutils literal"><span class="pre">sendCommandDouble</span></tt> is the last computed command, but this one in
+double precision, to keep the precision for the next computation.
+<tt class="docutils literal"><span class="pre">sendCommandInt</span></tt> is the nearest integer to <tt class="docutils literal"><span class="pre">lastCommandDouble</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">lastCommandValue</span></tt> is the value of the last timed command, without
+interpolation.</li>
+<li><tt class="docutils literal"><span class="pre">lastCommandTime</span></tt> is the exact time of the last command.</li>
+<li><tt class="docutils literal"><span class="pre">lastCycleTime</span></tt> is the last time when this actuator has run
+through the algorithm.</li>
+</ul>
+<p>At each <strong>DCM</strong> cycle, for each actuator, the following algorithm is run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">continue</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">while</span> <span class="p">(</span><span class="k">continue</span> <span class="ow">is</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">commands</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">empty</span><span class="p">):</span>
+    <span class="c"># get the next comment (they are sorted)</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="n">commands</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;=</span> <span class="n">currentTime</span><span class="p">):</span>
+        <span class="c"># the command is right now or in the future</span>
+        <span class="c"># after this command, we will not process the commands list further</span>
+        <span class="k">continue</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">time</span> <span class="o">=&lt;</span> <span class="n">currentTime</span><span class="p">):</span>
+        <span class="c"># the command is in the past</span>
+        <span class="c"># store the command data for applying it and/or for</span>
+        <span class="c"># future interpolations</span>
+        <span class="n">sendCommandDouble</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">lastCommandValue</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">lastCommandTime</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">time</span>
+        <span class="c"># remove this timed command from the list</span>
+        <span class="n">commands</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># the command is in the future</span>
+        <span class="c"># choose the starting point for the interpolation</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lastCycleTime</span> <span class="o">&lt;</span> <span class="n">lastCommandTime</span><span class="p">):</span>
+            <span class="n">tmpTime</span> <span class="o">=</span> <span class="n">lastCommandTime</span>
+            <span class="n">tmpCommand</span> <span class="o">=</span> <span class="n">lastCommandValue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tmpTime</span> <span class="o">=</span> <span class="n">lastCycleTime</span>
+            <span class="n">tmpCommand</span> <span class="o">=</span> <span class="n">lastCommandDouble</span>
+        <span class="c"># compute the interpolation</span>
+        <span class="n">dT1</span> <span class="o">=</span> <span class="n">currentTime</span> <span class="o">-</span> <span class="n">varLastTime</span>
+        <span class="n">dT2</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="n">varLastTime</span>
+        <span class="n">sendCommandDouble</span> <span class="o">=</span> <span class="p">((</span><span class="n">command</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">tmpCommand</span><span class="p">)</span><span class="o">*</span><span class="n">dT1</span><span class="p">)</span><span class="o">/</span><span class="n">dT2</span> <span class="o">+</span> <span class="n">tmpCommand</span>
+
+<span class="n">sendCommandInt</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">lastCommandDouble</span><span class="p">)</span>
+<span class="n">lastCycleTime</span> <span class="o">=</span> <span class="n">currentTime</span>
+<span class="n">actuator</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">sendCommandInt</span><span class="p">)</span> <span class="c"># send the command to the actuator</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Sending 2 or more timed commands at exactly the same date (in
+ms) with different values will result in unpredictable result.</p>
+</div>
+<div class="section" id="first-example">
+<h3>First example:<a class="headerlink" href="#first-example" title="Permalink to this headline">¶</a></h3>
+<p>We suppose that there is a <strong>DCM</strong> cycle every 10ms.</p>
+<p>The command 1 was sent to (10,10). (first number is time, second is value,
+like degrees for joints).</p>
+<p>At t=30ms (or between 20 and 30) the <strong>DCM</strong> received another
+command at (80,40).</p>
+<img alt="../../../_images/dcm_interpolation1.gif" src="../../../_images/dcm_interpolation1.gif" />
+<p>Here is the computation of the next cycles:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">t (ms)</th>
+<th class="head">dT1 (ms)</th>
+<th class="head">dT2 (ms)</th>
+<th class="head">sendCommandDouble</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>30</td>
+<td>30 - 20 = 10</td>
+<td>80 - 20 = 60</td>
+<td>(40 -10)*10)/60 + 10 = 15</td>
+</tr>
+<tr class="row-odd"><td>40</td>
+<td>40 - 30 = 10</td>
+<td>80 - 30 = 50</td>
+<td>((40 -15)*10)/50 + 15 = 20</td>
+</tr>
+<tr class="row-even"><td>50</td>
+<td>50 - 40 = 10</td>
+<td>80 - 40 = 40</td>
+<td>((40 -20)*10)/40 + 20 = 25</td>
+</tr>
+<tr class="row-odd"><td>60</td>
+<td>60 - 50 = 10</td>
+<td>80 - 50 = 30</td>
+<td>((40 -25)*10)/30 + 25 = 30</td>
+</tr>
+<tr class="row-even"><td>70</td>
+<td>70 - 60 = 10</td>
+<td>80 - 60 = 20</td>
+<td>((40 -30)*10)/20 + 30 = 35</td>
+</tr>
+<tr class="row-odd"><td>80</td>
+<td>80 - 70 = 10</td>
+<td>80 - 70 = 10</td>
+<td>((40 -35)*10)/10 + 35 = 40</td>
+</tr>
+</tbody>
+</table>
+<p>Then the value stays at 40 for the next cycles, until another command is sent.</p>
+</div>
+<div class="section" id="second-example">
+<h3>Second example:<a class="headerlink" href="#second-example" title="Permalink to this headline">¶</a></h3>
+<p>We suppose that there is a <strong>DCM</strong> cycle every 10ms.</p>
+<p>At t=10ms (or between 0 and 10), the <strong>DCM</strong> received 4 commands for
+this actuator: (15, 10) (25, 30) (45,20) and (65, 0).</p>
+<img alt="../../../_images/dcm_interpolation2.gif" src="../../../_images/dcm_interpolation2.gif" />
+<p>Here is the computation of the next cycles:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">t (ms)</th>
+<th class="head">dT1 (ms)</th>
+<th class="head">dT2 (ms)</th>
+<th class="head">sendCommandDouble</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>10</td>
+<td>10 - 0 = 10</td>
+<td>15 - 0 = 15</td>
+<td>((10 -0)*10)/15 + 0 = 6.66</td>
+</tr>
+<tr class="row-odd"><td>20</td>
+<td>20 - 15 = 5</td>
+<td>25 - 15 = 10</td>
+<td>((30 - 10)*5)/10 + 10 = 20</td>
+</tr>
+<tr class="row-even"><td>30</td>
+<td>30 - 25 = 5</td>
+<td>45 - 25 = 20</td>
+<td>((20 - 30)*5)/20 + 30 = 27.5</td>
+</tr>
+<tr class="row-odd"><td>40</td>
+<td>40 - 30 = 10</td>
+<td>45 - 30 = 15</td>
+<td>((20 - 27.5)*10)/15 + 27.5 = 22.5</td>
+</tr>
+<tr class="row-even"><td>50</td>
+<td>50 - 45 = 5</td>
+<td>65 - 45 = 20</td>
+<td>((0 - 20)*5)/20 + 20 = 15</td>
+</tr>
+<tr class="row-odd"><td>60</td>
+<td>60 - 50 = 10</td>
+<td>65 - 50 = 15</td>
+<td>((0 - 15)*10)/15 + 15 = 5</td>
+</tr>
+<tr class="row-even"><td>70 and above</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="introduction.html" title="Introduction">Introduction</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">DCM</a>
+   |
+    <a href="low_level_architecture.html" title="Low level architecture">Low level architecture</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../dcm.html">DCM</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../dcm-api.html">DCM API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../dcm-tuto.html">DCM Tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../dcm-tuto.html#dcm-bound-methods">DCM bound methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Upper level architecture</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="low_level_architecture.html">Low level architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pref_file_architecture.html">Architecture of the pref file Device.xml / of key/values in ALMemory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pref_subpref_files.html">Pref files and sub pref files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm_architecture.html">DCM architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm_synchro_methods.html">DCM Synchronization methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Upper level architecture</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#timed-command">Timed command</a></li>
+<li><a class="reference internal" href="#timed-command-interpolation-algorithm">Timed command interpolation algorithm</a><ul>
+<li><a class="reference internal" href="#first-example">First example:</a></li>
+<li><a class="reference internal" href="#second-example">Second example:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="introduction.html" title="Introduction">previous</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="low_level_architecture.html" title="Low level architecture">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

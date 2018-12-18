@@ -1,0 +1,465 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CMake Changes &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="Release notes - 1.12" href="../index.html" />
+    <link rel="next" title="NAO" href="../../../nao/index.html" />
+    <link rel="prev" title="Python SDK changes" href="python.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="python.html" title="Python SDK changes">previous</a>
+     |
+    <a href="../index.html" title="Release notes - 1.12" accesskey="U">up</a>
+   |
+    <a href="../../../nao/index.html" title="NAO">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="news-1.12-changes-cmake">
+            
+  <div class="section" id="cmake-changes">
+<span id="news-cmake"></span><h1>CMake Changes<a class="headerlink" href="#cmake-changes" title="Permalink to this headline">¶</a></h1>
+<p>We tried hard keep CMake backward compatibility,
+but despite all our efforts, there may be some little glitches.
+Anyway it&#8217;s a good idea to upgrade from the old t001chain/cmake code to the brand new and documented qibuild CMake framework.</p>
+<p>You can find a full tutorial to do that in the <a class="reference internal" href="../../../dev/cpp/tutos/porting_to_1.12.html#cpp-tutos-porting-1-12"><em>Porting code to 1.12</em></a> tutorial</p>
+<p>Below is a list of all the modifications you should do to use the new qiBuild CMake
+framework.</p>
+<div class="section" id="creating-naoqi-modules">
+<h2>creating NAOqi modules<a class="headerlink" href="#creating-naoqi-modules" title="Permalink to this headline">¶</a></h2>
+<p>This concerns the <cite>create_module</cite> and <cite>configure_src_module</cite> functions.</p>
+<p>The code looked like:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">include</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="s">/bootstrap.cmake</span><span class="p">)</span>
+<span class="nb">use</span><span class="p">(</span><span class="s">NAOQI-PLUGINS-TOOLS</span><span class="p">)</span>
+
+<span class="nb">create_module</span><span class="p">(</span><span class="s">foo</span><span class="p">)</span>
+
+<span class="nb">configure_src_module</span><span class="p">(</span><span class="s">foo</span> <span class="s">foomain.cpp</span> <span class="s">foo.cpp</span> <span class="s">foo.h</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This code still works, but there are a few subtle changes:</p>
+<ul class="simple">
+<li>create_module(foo) used to call <cite>project(foo)</cite>. This is not done
+anymore because it confuses calling <cite>cmake &#8211;build</cite>. You must now explicitely
+call <cite>project(foo)</cite></li>
+<li>configure_src_module(foo) creates a library if FOO_IS_REMOTE was ON, else
+an executable. This has not changed, but <cite>configure_src_module</cite> used
+to create a dynamic library by default, and now we create an executable by default
+(which is nicer, because your code is ready to run!)</li>
+</ul>
+<p>You can go back to the old behavior by using:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">create_module</span><span class="p">(</span><span class="s">foo</span> <span class="s">DEFAULT_REMOTE_OFF</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note: most of the time you won&#8217;t need to have your code being able to be both a
+remote process and a local module on the robot depending on a CMake variable.</p>
+<p>In this case, simply use:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">project</span><span class="p">(</span><span class="s">foo</span><span class="p">)</span>
+<span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">foo</span> <span class="s">main.cpp</span> <span class="s">foo.cpp</span> <span class="s">foo.h</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want a remote process, or:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">project</span><span class="p">(</span><span class="s">foo</span><span class="p">)</span>
+<span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">foo</span> <span class="s">main.cpp</span> <span class="s">foo.cpp</span> <span class="s">foo.h</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">if you choose to do this, you will have to clean the main.cpp file
+of your module to get rid of the FOO_IS_REMOTE_ON or FOO_IS_REMOTE_OFF defines.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since those functions were very confusing, we no longer use them in our
+examples.</p>
+</div>
+<div class="section" id="cmake-functions">
+<h3>CMake Functions<a class="headerlink" href="#cmake-functions" title="Permalink to this headline">¶</a></h3>
+<p>The names of the functions have changed too.</p>
+<p>All of them are now prefixed with <tt class="docutils literal"><span class="pre">qi</span></tt>, thus preventing conflicts
+with other functions.</p>
+<p>We also implemented new functions, causing API changes.</p>
+<p>See qibuild documentation for all the details.</p>
+<p>You can set <tt class="docutils literal"><span class="pre">QI_WARN_DEPRECATED</span></tt> to &#8216;ON&#8217; to see the deprecated warning
+messages and fix your code. (it&#8217;s OFF by default)</p>
+</div>
+</div>
+<div class="section" id="install-functions">
+<h2>install_ functions<a class="headerlink" href="#install-functions" title="Permalink to this headline">¶</a></h2>
+<p><em>old</em>:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">install_header</span><span class="p">(</span><span class="s">FOO</span> <span class="s">SUBFOLDER</span> <span class="s">foo</span> <span class="s">foo.h</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_install_header</span><span class="p">(</span><span class="s">foo/foo.h</span> <span class="s">SUBFOLDER</span> <span class="s">foo</span><span class="p">)</span>
+
+<span class="c"># or</span>
+
+<span class="nb">qi_install_header</span><span class="p">(</span><span class="s">foo/foo.h</span> <span class="s">KEEP_RELATIVE_PATHS</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Previously, you had to pass a &#8216;prefix&#8217; parameter has first argument,
+matching the name of a staged target. This is no longer necessary.</p>
+<p>Same thing for:</p>
+<ul class="simple">
+<li>install_data</li>
+<li>install_conf</li>
+<li>install_cmake</li>
+</ul>
+</div>
+<div class="section" id="staging-and-using-libraries">
+<h2>staging and using libraries<a class="headerlink" href="#staging-and-using-libraries" title="Permalink to this headline">¶</a></h2>
+<p>Assumming you have a <tt class="docutils literal"><span class="pre">bar</span></tt> executable depeding on the <tt class="docutils literal"><span class="pre">foo</span></tt>
+library:</p>
+<p><em>old</em>:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">create_lib</span><span class="p">(</span><span class="s">foo</span> <span class="s">foo/foo.cpp</span> <span class="s">foo/foo.h</span><span class="p">)</span>
+<span class="nb">stage_lib</span><span class="p">(</span><span class="s">foo</span> <span class="s">FOO</span><span class="p">)</span>
+
+<span class="nb">create_bin</span><span class="p">(</span><span class="s">bar</span> <span class="s">bar/main.cpp</span><span class="p">)</span>
+<span class="nb">use_lib</span><span class="p">(</span><span class="s">bar</span> <span class="s">FOO</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>new</em>:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">foo</span> <span class="s">foo/foo.cpp</span> <span class="s">foo/foo.h</span><span class="p">)</span>
+<span class="nb">qi_stage_lib</span><span class="p">(</span><span class="s">foo</span><span class="p">)</span>
+
+<span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">bar</span> <span class="s">bar/main.cpp</span><span class="p">)</span>
+<span class="nb">qi_use_lib</span><span class="p">(</span><span class="s">bar</span> <span class="s">foo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Previously, you could had to specify a &#8216;staged name&#8217; as a second argument
+in <cite>stage_lib</cite>, and make sure to use <strong>the same</strong> name in the calls of
+<cite>use_lib</cite></p>
+<p>In qibuild, you can just use the name of the target, which is much simpler :)</p>
+<div class="section" id="renamed-libraries">
+<h3>Renamed libraries<a class="headerlink" href="#renamed-libraries" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Old name</th>
+<th class="head">New name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ALMEMORYFASTACCESS</td>
+<td>ALMEMORY_FAST_ACCESS</td>
+</tr>
+<tr class="row-odd"><td>LIBSHM</td>
+<td>ALSHM</td>
+</tr>
+<tr class="row-even"><td>LIBLAUNCHER</td>
+<td>ALLAUNCHER</td>
+</tr>
+<tr class="row-odd"><td>LIBCORE</td>
+<td>ALCORE</td>
+</tr>
+<tr class="row-even"><td>TOOLS</td>
+<td>ALTOOLS</td>
+</tr>
+<tr class="row-odd"><td>LIBVISION</td>
+<td>ALVISION</td>
+</tr>
+<tr class="row-even"><td>SHMPOOL</td>
+<td>ALSHMPOOL</td>
+</tr>
+<tr class="row-odd"><td>LIBFILE</td>
+<td>ALFILE</td>
+</tr>
+<tr class="row-even"><td>LIBAUDIO</td>
+<td>ALAUDIO</td>
+</tr>
+<tr class="row-odd"><td>LIBBEHAVIORINFO</td>
+<td>ALBEHAVIORINFO</td>
+</tr>
+<tr class="row-even"><td>LIBRESOURCE</td>
+<td>ALRESOURCE</td>
+</tr>
+<tr class="row-odd"><td>LIBTHREAD</td>
+<td>ALTHREAD</td>
+</tr>
+</tbody>
+</table>
+<p>This is just for consistency. We made sure names where not too generic,
+and that any Aldebaran library should start with &#8216;AL&#8217;</p>
+<p>old:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">use_lib</span><span class="p">(</span><span class="s">foo</span> <span class="s">LIBAUDIO</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>new:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">use_lib</span><span class="p">(</span><span class="s">foo</span> <span class="s">ALAUDIO</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="private-libraries">
+<h3>Private libraries<a class="headerlink" href="#private-libraries" title="Permalink to this headline">¶</a></h3>
+<p>We made a clear distinction between private and public libraries. Lots of libraries that where available in previous release wont in new release, they are still available for backward compatibility, but you should update your code to not rely on them. Most of the time you have nothing to do as you should not have been using those libraries.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Library</th>
+<th class="head">Reason</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RTTOOLS</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALLOGREMOTE</td>
+<td>private, no need when using altoolsmain</td>
+</tr>
+<tr class="row-even"><td>ALFILE, LIBFILE</td>
+<td>private, use qi::path and boost::filesystem instead</td>
+</tr>
+<tr class="row-odd"><td>ALLAUNCHER, LIBLAUNCHER</td>
+<td>private, use qi::os::spawn instead</td>
+</tr>
+<tr class="row-even"><td>ALSOAP</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALAUTOMATICTEST</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBONJOURDISCOVERY</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALMOTION</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALMODELUTILS</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALTTS</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALAUDIODEVICES</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALASR</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALAUDIOTOOLBOX</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>SCRIPTWRAPPER</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALPYTHONTOOLS</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBEHAVIOR</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALBEHAVIORINFO</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALBOXLIBRARY</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALPROJECT</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALSERIAL</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALRESOURCE</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>ALSHM, LIBSHM</td>
+<td>private</td>
+</tr>
+<tr class="row-even"><td>ALSHMPOOL, SHMPOOL</td>
+<td>private</td>
+</tr>
+<tr class="row-odd"><td>LIBFACTORY</td>
+<td>private</td>
+</tr>
+</tbody>
+</table>
+<p>Most of the time you only need to use ALCOMMON or ALEXTRACTOR.</p>
+<p>This is an example:</p>
+<p>old:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">create_bin</span><span class="p">(</span><span class="s">foo</span><span class="p">)</span>
+<span class="nb">use_lib</span><span class="p">(</span><span class="s">foo</span> <span class="s">ALTOOLS</span> <span class="s">ALCOMMON</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>new:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">foo</span><span class="p">)</span>
+<span class="nb">qi_use_lib</span><span class="p">(</span><span class="s">foo</span> <span class="s">ALCOMMON</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="python.html" title="Python SDK changes">Python SDK changes</a>
+     |
+    <a href="../index.html" title="Release notes - 1.12" accesskey="U">Release notes - 1.12</a>
+   |
+    <a href="../../../nao/index.html" title="NAO">NAO</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">What&#8217;s new</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.5/whatsnew.html">Release note - 1.14.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.5/whatsnew.html#known-issues">Known issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html">ChangeLog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.3/index.html">Release notes - 1.14.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.2/index.html">Release notes - 1.14.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14.1/index.html">Release notes - 1.14.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../1.14/index.html">Release notes - 1.14</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Release notes - 1.12</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../whatsnew_1.12.5.html">What&#8217;s new - 1.12.5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../whatsnew_1.12.3.html">What&#8217;s new - 1.12.3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../whatsnew.html">What&#8217;s newn 1.12</a></li>
+<li class="toctree-l3"><a class="reference internal" href="naoqi.html">NAOqi Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="audio.html">ALAudio Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vision.html">ALVision Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="almotion.html">ALMotion Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="opennao.html">OpenNAO Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpp.html">C++ Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python.html">Python SDK changes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">CMake Changes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">CMake Changes</a><ul>
+<li><a class="reference internal" href="#creating-naoqi-modules">creating NAOqi modules</a><ul>
+<li><a class="reference internal" href="#cmake-functions">CMake Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#install-functions">install_ functions</a></li>
+<li><a class="reference internal" href="#staging-and-using-libraries">staging and using libraries</a><ul>
+<li><a class="reference internal" href="#renamed-libraries">Renamed libraries</a></li>
+<li><a class="reference internal" href="#private-libraries">Private libraries</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="python.html" title="Python SDK changes">previous</a>
+     |
+    <a href="../index.html" title="Release notes - 1.12" accesskey="U">up</a>
+   |
+    <a href="../../../nao/index.html" title="NAO">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

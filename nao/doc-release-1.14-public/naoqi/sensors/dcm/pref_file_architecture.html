@@ -1,0 +1,2783 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Architecture of the pref file Device.xml / of key/values in ALMemory &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="DCM" href="../dcm.html" />
+    <link rel="next" title="Pref files and sub pref files" href="pref_subpref_files.html" />
+    <link rel="prev" title="Low level architecture" href="low_level_architecture.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="low_level_architecture.html" title="Low level architecture">previous</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="pref_subpref_files.html" title="Pref files and sub pref files">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-sensors-dcm-pref_file_architecture">
+            
+  <div class="section" id="architecture-of-the-pref-file-device-xml-of-key-values-in-almemory">
+<h1>Architecture of the pref file Device.xml / of key/values in ALMemory<a class="headerlink" href="#architecture-of-the-pref-file-device-xml-of-key-values-in-almemory" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../dcm.html#dcm"><em>Overview</em></a> | <a class="reference internal" href="../dcm-api.html#dcm-api"><em>API</em></a>  | <a class="reference internal" href="../dcm-tuto.html#dcm-tuto"><em>Tutorial</em></a></p>
+</div>
+<hr class="docutils" />
+<div class="section" id="basename">
+<h2>BaseName<a class="headerlink" href="#basename" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>baseName</strong> value for all <strong>devices</strong> is: <tt class="docutils literal"><span class="pre">Device/DeviceList/</span></tt></p>
+<p>The <strong>baseName</strong> value for all <strong>subdevices</strong> is: <tt class="docutils literal"><span class="pre">Device/SubDeviceList/</span></tt></p>
+<p>This last one is the most useful. You can also ask them by a
+<a class="reference internal" href="../dcm-api.html#DCMProxy::getPrefix" title="DCMProxy::getPrefix"><tt class="xref cpp cpp-func docutils literal"><span class="pre">DCMProxy::getPrefix()</span></tt></a> request to the <strong>DCM</strong>.</p>
+</div>
+<div class="section" id="default-almemory-keys-for-all-subdevices">
+<h2>Default ALMemory keys for all subDevices<a class="headerlink" href="#default-almemory-keys-for-all-subdevices" title="Permalink to this headline">¶</a></h2>
+<p>(Actuator and sensors have the same)</p>
+<ul>
+<li><p class="first"><strong>Value (float)</strong></p>
+<p>A subDevice always has a main value.
+Sensors has a value that is the return of the sensor, and actuator has a value
+that is the last command sent to the actuator (by the <strong>DCM</strong>).</p>
+<p>For example, a Joint has (at least) 2 subdevices, the actuator (the angle we
+want to reach) and the sensor (the angle where we are, at the sensor precision).
+The value has a last update time (this is automatically done by <strong>ALMemory</strong>).</p>
+<p>Usually, this value is an integer (8 bits, 16 bits, or others, and signed or unsigned)
+sent/received by the electronic boards, and changed to/read as a float by the <strong>DCM</strong> (using
+gain and offset). Actuators are first changed to int values, then the timed-command
+algorithm is applied, and then the last value is set in <strong>ALMemory</strong>. This is why if you ask
+0.4 as a float value to a LED with a timed command, you can have 0.398 as the last sent
+command in <strong>ALMemory</strong>.</p>
+<p>To access the value of a subDevice in <strong>ALMemory</strong>, simply add the baseName to the subDevice
+name and add &#8220;/Value&#8221;. For example:  &#8220;Device/SubDeviceList//HeadPitch/Position/Actuator/Value&#8221;.
+Use &#8220;/Value&#8221; to access this value.</p>
+</li>
+<li><p class="first"><strong>Gain and Offset (float)</strong></p>
+<p>The gain and the offset are applied to the device return/send value.</p>
+<p>When a sensor returns a value (usually an integer), it&#8217;s automaticall
+multiplied by the gain, and the offset is added. When there is a command
+sent to an actuator, the offset is first removed, then it&#8217;s divided by the
+gain. Then, the value is sent to the device (after the timed-command algorithm).</p>
+<p>Use &#8220;/Gain&#8221; and &#8220;/Offset&#8221; keys to access these values.
+In a normal use, you do not need to change these keys.</p>
+</li>
+<li><p class="first"><strong>Ack and Nack (int)</strong>
+Each subDevice has also an &#8220;Ack&#8221; (device answered) and a &#8220;Nack&#8221; (device did not
+answer) value, that are simple counters. This value is an integer increment
+for all ack/nack received.</p>
+<p>Ack is incremented each time there is a successful message sent/received to the
+(sub)Device, and Nack is incremented each time there is a communication error
+(or no return) from the (sub)Device. If there is no communication, there is no
+increase of ACK and NACK.</p>
+<p>Be careful it could return to negative values or 0. Here, the upper level can
+also use the last update time.
+Nack means that the device is probably lost or not present, at least for a
+while (it could be just one communication issue), unless special feature.
+Use &#8220;/Ack&#8221; and &#8220;/Nack&#8221; keys to read these values.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Right now, only Devices has Ack/Nack information, and a ack
+or a nack received for the device is not forwarded to its
+subDevices. So you have to check the Devices Ack/Nack...</p>
+</div>
+</li>
+<li><p class="first"><strong>Error</strong></p>
+<p>Each device/sub-device also has an error list. Each error has a time, a 0-7
+level number, and a string. There is a 30 second time limit for each of these
+values. So only the 30 seconds old errors are kept (if there are any).</p>
+<p>Levels are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Level</p>
+</th>
+<th class="head"><p class="first last">Meaning</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">7</p>
+</td>
+<td><p class="first last">Fatal error, could not be used (as with an Nack)</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">6</p>
+</td>
+<td><p class="first last">Fatal error, but could still be used in a very bad way</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">5</p>
+</td>
+<td><p class="first last">Error with bad effect on the main feature</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">4</p>
+</td>
+<td><p class="first last">Error</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">3</p>
+</td>
+<td><p class="first last">Warning</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">2</p>
+</td>
+<td><p class="first last">Light warning</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">1</p>
+</td>
+<td><p class="first last">Comment</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">0</p>
+</td>
+<td><p class="first last">Everything is ok</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&gt; Use the &#8220;/Error&#8221; key to read this value.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Right now, this is not used. There are only errors for motor
+board devices, and the value is a special 8 bits int (see next
+chapter).</p>
+</div>
+</li>
+<li><p class="first"><strong>Min and Max</strong></p>
+<p>There is also a mandatory Min and Max value.
+Each timed command sent to an actuator is majored/minored by the min and max value.
+For sensors, their meaning depends on the subDevice type. There could have also specific use for some actuators.
+Use &#8220;/Min&#8221; and &#8220;/Max&#8221; keys to read these values.
+These values should not be changed.</p>
+</li>
+<li><p class="first"><strong>Other configurations values</strong>: &#8220;Type&#8221;, &#8220;Device&#8221;, &#8220;SubDeviceNumber&#8221;</p>
+<p>&#8220;Type&#8221; is a string that describes the kind of SubDevice.
+&#8220;Device&#8221; is the string name of the Device that controls this subDevice.
+&#8220;SubDeviceNumber&#8221; is an int, starting at &#8220;1&#8221; that is the subdevice number of this subDevice in this Device.
+These values should not be changed.</p>
+</li>
+</ul>
+<p>These are only mandatory keys. Depending on the type, every
+subDevices could have other &#8220;information&#8221; (such as changed sensor
+values) or &#8220;configuration&#8221; keys.</p>
+<p>They are described in next chapters with the precise meaning of
+all keys.</p>
+</div>
+<div class="section" id="default-value-for-all-devices">
+<h2>Default value for all devices<a class="headerlink" href="#default-value-for-all-devices" title="Permalink to this headline">¶</a></h2>
+<p>Devices, unlike subdevices, do not have a &#8220;Value&#8221; in <strong>ALMemory</strong>, and
+also &#8220;Gain&#8221;, &#8220;Offset&#8221;, &#8220;Min&#8221; and &#8220;Max&#8221;. But they have &#8220;Ack/Nack&#8221; and
+&#8220;error list&#8221;.</p>
+<p>They also have:</p>
+<ul class="simple">
+<li>&#8220;Type&#8221; is a string, that is the kind of Device.</li>
+<li>&#8220;Bus&#8221; is a string, that is the communication bus name where the
+Device is connected.</li>
+<li>&#8220;Address&#8221; is a 0-255 number that is the slave address of the
+device in the bus.</li>
+</ul>
+<p>These values should not be changed.</p>
+<p>It is possible to have other specific information, depending the
+Device type. See precise list in next chapter.</p>
+</div>
+<div class="section" id="specific-almemory-keys-for-each-device-type">
+<h2>Specific ALMemory keys for each device type<a class="headerlink" href="#specific-almemory-keys-for-each-device-type" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="motorboard">
+<h3>MotorBoard<a class="headerlink" href="#motorboard" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is no specific meaning for mandatory keys.</p>
+</div>
+<p>Specific keys:</p>
+<ul>
+<li><p class="first">StructVersion: an integer that is the version of the configuration structure
+for the motor board. This value is returned by the Device</p>
+</li>
+<li><p class="first">BoardId: an integer value used as ID for the electronic board.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This will change in the future</p>
+</div>
+</li>
+<li><p class="first">BoardId2: a second integer value used as ID for the electronic board.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This will change in the future</p>
+</div>
+</li>
+<li><p class="first">BootLoaderVersion: an integer value with the motor board bootloader version.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This will change in the future</p>
+</div>
+</li>
+<li><p class="first">ProgVersion: an integer value with the motor board program version.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This will change in the future</p>
+</div>
+</li>
+<li><p class="first">Bid: a number from 1 to number max of board in the specific bus used in RS485
+broadcast communication. This number is automatically given by the <strong>DCM</strong> at
+startup, and sent to the motor board in the config struct.</p>
+</li>
+<li><p class="first">Error: One byte returns each cycle by the motor board. If there is more than
+one error, the motor board will send a different one every cycle. Be careful
+that motor and MRE numbers are physical numbers and not subdevice numbers.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">MRE means Magnetic Rotary Encoders and are the main sensors
+for joints (there is one on the joint itself, and there could be
+another one that is directly on the motor for more precision in
+some other joints). Most of the MRE errors are directly sent by
+the MRE sensor.</p>
+</div>
+</li>
+<li><p class="first">Error codes for motor board:</p>
+<ul>
+<li><p class="first"><strong>ERROR COM</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="11%" />
+<col width="15%" />
+<col width="11%" />
+<col width="11%" />
+<col width="14%" />
+<col width="12%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value
+(7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only
+after config</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">RS485 protocol</p>
+</td>
+<td><p class="first last">10</p>
+</td>
+<td><p class="first last">READ UNFINISHED</p>
+</td>
+<td><p class="first last">RCRC ERROR</p>
+</td>
+<td><p class="first last">UNFINISHED</p>
+</td>
+<td><p class="first last">READ CRC ERROR</p>
+</td>
+<td><p class="first last">161 to 175</p>
+</td>
+<td><p class="first last">No</p>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Note</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">Bit 3</p>
+</td>
+<td><p class="first last">Start of a read request to this PIC, then ask for another address before the end</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Bit 2</p>
+</td>
+<td><p class="first last">Read CRC (write to this dsPIC point of view) was wrong</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Bit 1</p>
+</td>
+<td><p class="first last">New address found while message was not finished</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Bit 0</p>
+</td>
+<td><p class="first last">Message read by the dsPIC as a CRC error</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_UART_SPI</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="19%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="11%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">Com RS485 / SPI (MRE)</p>
+</td>
+<td><p class="first last">11</p>
+</td>
+<td><p class="first last">OERR</p>
+</td>
+<td><p class="first last">FERR</p>
+</td>
+<td><p class="first last">PERR</p>
+</td>
+<td><p class="first last">SPI_SPIROV</p>
+</td>
+<td><p class="first last">177 to 191</p>
+</td>
+<td><p class="first last">No</p>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Note</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">Bit 3</p>
+</td>
+<td><p class="first last">Overrun Error bit: Received FIFO full (5 bytes)</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Bit 2</p>
+</td>
+<td><p class="first last">Framing Error bit: bad stop bit</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Bit 1</p>
+</td>
+<td><p class="first last">Parity Error bit: bad parity</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Bit 0</p>
+</td>
+<td><p class="first last">SPI Overflow: a byte in the SPI was lost (SPI used for MRE communication)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_MRE_BAD_OCF</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="16%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="9%" />
+<col width="17%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">MRE</p>
+</td>
+<td><p class="first last">9</p>
+</td>
+<td><p class="first last">MRE 4</p>
+</td>
+<td><p class="first last">MRE 3</p>
+</td>
+<td><p class="first last">MRE 2</p>
+</td>
+<td><p class="first last">MRE 1</p>
+</td>
+<td><p class="first last">145 to 159</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">MRE: the offset compensation is not finished.
+Not tested if ERROR_NO_DATA or ERROR_PARITY</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_MRE_BAD_COF</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="16%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="17%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">MRE</p>
+</td>
+<td><p class="first last">5</p>
+</td>
+<td><p class="first last">MRE 4</p>
+</td>
+<td><p class="first last">MRE 3</p>
+</td>
+<td><p class="first last">MRE 2</p>
+</td>
+<td><p class="first last">MRE 1</p>
+</td>
+<td><p class="first last">81 to 95</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">MRE: data invalid due to cordic overflow
+(magnet above XYZ limit). Not tested if
+ERROR_NO_DATA or ERROR_PARITY</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_MRE_WARNING_BAD_LIN</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="16%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="17%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">MRE</p>
+</td>
+<td><p class="first last">6</p>
+</td>
+<td><p class="first last">MRE 4</p>
+</td>
+<td><p class="first last">MRE 3</p>
+</td>
+<td><p class="first last">MRE 2</p>
+</td>
+<td><p class="first last">MRE 1</p>
+</td>
+<td><p class="first last">97 to 111</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">MRE: Linearity alarm: Data could be invalid
+(magnet above XYZ limit). Not tested if
+ERROR_NO_DATA or ERROR_PARITY</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_MRE_WARNING_BAD_MAG</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="16%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="9%" />
+<col width="17%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">MRE</p>
+</td>
+<td><p class="first last">7</p>
+</td>
+<td><p class="first last">MRE 4</p>
+</td>
+<td><p class="first last">MRE 3</p>
+</td>
+<td><p class="first last">MRE 2</p>
+</td>
+<td><p class="first last">MRE 1</p>
+</td>
+<td><p class="first last">113 to 127</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">MRE: magnetic input field invalid (too large
+or too small). Not tested if ERROR_NO_DATA or
+ERROR_PARITY</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_MRE_ERROR_PARITY</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="16%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="9%" />
+<col width="17%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">MRE</p>
+</td>
+<td><p class="first last">8</p>
+</td>
+<td><p class="first last">MRE 4</p>
+</td>
+<td><p class="first last">MRE 3</p>
+</td>
+<td><p class="first last">MRE 2</p>
+</td>
+<td><p class="first last">MRE 1</p>
+</td>
+<td><p class="first last">129 to 143</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">MRE: Parity of the SPI message is false. Not
+tested if ERROR_NO_DATA</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_MRE_ERROR_NO_DATA</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="18%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="19%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">MRE</p>
+</td>
+<td><p class="first last">4</p>
+</td>
+<td><p class="first last">MRE 4</p>
+</td>
+<td><p class="first last">MRE 3</p>
+</td>
+<td><p class="first last">MRE 2</p>
+</td>
+<td><p class="first last">MRE 1</p>
+</td>
+<td><p class="first last">65 to 79</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">MRE: Message is only 0 (no SPI)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_TEMPERATURE</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="16%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="17%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">Temperature</p>
+</td>
+<td><p class="first last">2</p>
+</td>
+<td><p class="first last">Motor 2</p>
+</td>
+<td><p class="first last">Motor 1</p>
+</td>
+<td><p class="first last">33, 34 or 35</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">Motor temperature too high, current limitation
+is decreased</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_CURRENT_NO_MOTOR</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="16%" />
+<col width="11%" />
+<col width="11%" />
+<col width="10%" />
+<col width="17%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">Motor</p>
+</td>
+<td><p class="first last">1</p>
+</td>
+<td><p class="first last">Motor 2 ERROR</p>
+</td>
+<td><p class="first last">Motor 1 ERROR</p>
+</td>
+<td><p class="first last">17, 18 or 19</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">Error sent when there is no current for a
+while on the mother while the PWM is &gt;10%.
+Divide PWM by two, until there is current
+back for a while.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_ASSERV_ERROR_TOO_BIG_MOTOR</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="16%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="17%" />
+<col width="17%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Note</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">Motor control</p>
+</td>
+<td><p class="first last">3</p>
+</td>
+<td><p class="first last">Motor 2</p>
+</td>
+<td><p class="first last">Motor 1</p>
+</td>
+<td><p class="first last">49, 50 or 51</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">Must be 100% hardness</p>
+</td>
+<td><p class="first last">Motor control error
+greater than x deg</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>WARNING_CURRENT_LIMITATION</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="17%" />
+<col width="7%" />
+<col width="7%" />
+<col width="13%" />
+<col width="18%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value (7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">Motor</p>
+</td>
+<td><p class="first last">13</p>
+</td>
+<td><p class="first last">Motor 2</p>
+</td>
+<td><p class="first last">Motor 1</p>
+</td>
+<td><p class="first last">209, 210 or 211</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">Motor current too big, PWM is decreased.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_MOTOR1_NOT_ASSERV_BECAUSE_MRE</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="16%" />
+<col width="16%" />
+<col width="13%" />
+<col width="13%" />
+<col width="8%" />
+<col width="10%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value
+(7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only
+after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">MRE</p>
+</td>
+<td><p class="first last">14</p>
+</td>
+<td><p class="first last">MRE joint OTHER ISSU</p>
+</td>
+<td><p class="first last">MRE motor OTHER ISSUE</p>
+</td>
+<td><p class="first last">MRE joint NO DATA</p>
+</td>
+<td><p class="first last">MRE motor NO DATA</p>
+</td>
+<td><p class="first last">225 to 239</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">Position control
+cut for the motor
+one because of a
+MRE issue</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><strong>ERROR_MOTOR2_NOT_ASSERV_BECAUSE_MRE</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="16%" />
+<col width="16%" />
+<col width="13%" />
+<col width="13%" />
+<col width="8%" />
+<col width="9%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Kind</p>
+</th>
+<th class="head"><p class="first last">1st value
+(7-4 bits)</p>
+</th>
+<th class="head"><p class="first last">Bit 3</p>
+</th>
+<th class="head"><p class="first last">Bit 2</p>
+</th>
+<th class="head"><p class="first last">Bit 1</p>
+</th>
+<th class="head"><p class="first last">Bit 0</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+<th class="head"><p class="first last">Test only
+after config</p>
+</th>
+<th class="head"><p class="first last">Text</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">MRE</p>
+</td>
+<td><p class="first last">15</p>
+</td>
+<td><p class="first last">MRE joint OTHER ISSUE</p>
+</td>
+<td><p class="first last">MRE motor OTHER ISSUE</p>
+</td>
+<td><p class="first last">MRE joint NO DATA</p>
+</td>
+<td><p class="first last">MRE motor NO DATA</p>
+</td>
+<td><p class="first last">241 to 255</p>
+</td>
+<td><p class="first last">Yes</p>
+</td>
+<td><p class="first last">Position control
+cut for the motor
+because of a MRE
+issue</p>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="battery">
+<h3>Battery<a class="headerlink" href="#battery" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">ManufactureDate : Manufacture date (DD-MM-YYYY) (string)</p>
+</li>
+<li><p class="first">Manufacturer (Ausgabe: &#8220;FSM-BMZ&#8221;) (string)</p>
+</li>
+<li><p class="first">Device Name (Ausgabe: &#8220;AR-NAO &#8221;) (string)</p>
+</li>
+<li><p class="first">Firmware Version (Ausgabe: &#8220;V1.01&#8221;) (string)</p>
+</li>
+<li><p class="first">Serial number (int: 2 bytes)</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">None of these values are implemented, except for the new Sanyo battery, where the serial number is now a string like
+&#8220;ALDE000039___PD00100600&#8221;,
+with &#8220;ALDE000039___PD00&#8221; + year (&#8220;10&#8221;) + month (&#8220;06&#8221;) + 2 bytes serial in hexa &#8220;0x00&#8221;.
+The manufacturer is &#8220;SANYO&#8221;.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="chest-board">
+<h3>Chest Board<a class="headerlink" href="#chest-board" title="Permalink to this headline">¶</a></h3>
+<p>There are the mandatory keys, plus:</p>
+<ul>
+<li><p class="first">BodyId: official ID of the robot as a string. This string is stored in the chestBoard, and so linked to the body.</p>
+</li>
+<li><p class="first">BodyNickName: string with the nick name of the robot, usually &#8220;NaoX&#8221;, X is the NAO number. This string is stored in the chestBoard, and so linked to the body.</p>
+</li>
+<li><p class="first">ProgVersion: this is a string with the program version.</p>
+</li>
+<li><p class="first">ChainResult: this is a string describing the chaining of motorBoard result. The chaining process is the way to give address to the motorBoard.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This value is not correct right now.</p>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A Nack increment from the chestBoard usually means that the USB
+connection is lost. This is a very important error.</p>
+</div>
+</div>
+<div class="section" id="other-devices">
+<h3>Other devices<a class="headerlink" href="#other-devices" title="Permalink to this headline">¶</a></h3>
+<p>Other devices only have the mandatory keys.</p>
+</div>
+</div>
+<div class="section" id="description-of-the-mandatory-and-specific-almemory-keys-for-each-subdevice-type">
+<span id="almemory-keys"></span><h2>Description of the mandatory and specific ALMemory keys for each subDevice type<a class="headerlink" href="#description-of-the-mandatory-and-specific-almemory-keys-for-each-subdevice-type" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="leds-actuator">
+<h3>LEDs (actuator)<a class="headerlink" href="#leds-actuator" title="Permalink to this headline">¶</a></h3>
+<p>Value:</p>
+<p>Every LED is a simple actuator that has a float value from 0.0
+(no light) to 1.0 (full light). Each LED has only one color, but there
+could be 3 LEDs (RGB) at the same place to have a full color RGB LED.
+But for the <strong>DCM</strong> point of view it&#8217;s always 3 LEDs.</p>
+<p>In the robot, there is 16 possible blue value for the LEDs in
+the ears. There is 64 possible values for every LEDs near the eyes.
+And 255 possible values for the chest and foot ones.</p>
+<p>The main Value is the last value sent to the LED, using
+timed-command. This value is first converted to the suitable integer
+value (depending on the resolution), sent to the actuator, and then
+converted back to 0.0-1.0 value in <strong>ALMemory</strong>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Unfortunately, having 3 RGB LEDs set to &#8220;1.0&#8221; does not mean
+that you&#8217;ll see a perfect white: one or two LEDs will be brighter
+than others.</p>
+</div>
+<p>List of LEDs value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">ChestBoard</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>0<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>108<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>144<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>180<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>216<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>252<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>288<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>324<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>36<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>72<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>0<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>108<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>144<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>180<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>216<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>252<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>288<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>324<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>36<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Ears</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>72<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>0<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>135<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>180<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>225<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>270<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>315<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>45<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>90<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>0<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>135<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>180<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>225<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>270<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>315<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>45<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>90<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>0<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>135<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>180<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>225<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>270<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>315<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>45<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>90<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>0<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>135<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>180<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>225<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>270<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>315<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>45<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>90<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>0<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>135<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>180<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>225<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>270<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>315<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>45<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>90<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>0<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>135<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>180<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>225<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>270<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>315<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>45<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Face</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>90<span class="n">Deg</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Front</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>0<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Front</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>1<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Front</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>0<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Front</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>1<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Middle</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>0<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Middle</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>0<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Rear</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>0<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Rear</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>1<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Rear</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span>2<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Rear</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>0<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Rear</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>1<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Rear</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span>2<span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Blue</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Green</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">Led</span><span class="o">/</span><span class="n">Red</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="switch-sensor">
+<h3>Switch (sensor)<a class="headerlink" href="#switch-sensor" title="Permalink to this headline">¶</a></h3>
+<p>Value:</p>
+<p>Switches are simple sensors that return a 2 state float value
+0.0 (unpressed) or 1.0 (pressed).</p>
+<p>Beware that the value is read only every 10ms, and very fast
+change may be unseen.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">It&#8217;s better to use a logical &#8220;or&#8221; between the two switches of
+the same foot, and use it as one bumper only.</p>
+</div>
+<p>List of switchs value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">ChestBoard</span><span class="o">/</span><span class="n">Button</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">Bumper</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">Bumper</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">Bumper</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">Bumper</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="joint-position-actuator">
+<h3>Joint (Position/Actuator)<a class="headerlink" href="#joint-position-actuator" title="Permalink to this headline">¶</a></h3>
+<p>This actuator is the subdevice giving the angle (in radian) to
+reach for joints. You need to send a timed command to this actuator,
+and you&#8217;ll see in <strong>ALMemory</strong> the last value sent to the sensor. The
+value is sent to the motor board device as integer in 16 bits
+precision (0-360deg are 0-65535). In <strong>ALMemory</strong> and in timed-command
+everything is in radian only.You can use the hardness value (see
+below) to control the max current sent to the motor.</p>
+<p>There is a special case: when the hardness is &lt;=0, the
+position is automatically set to the Position/Sensor with the same
+subDevice number on the device.</p>
+<p>Here are some information about the control-loop for joint
+position:</p>
+<p>Control-loop in the robot use one or two MRE sensors (Magnetic
+Rotary Encoder, used like potentiometer/optical encoder). These
+sensors are a small chip that detects the angle of rotation with a
+magnet. The magnet and the MRE could be on the motor or on the joint,
+after the gear. The angle is returned as a 12bit integer (0 to 360 deg
+-&gt; 0 to 4095). The value is quite precise (even if a 1° absolute
+error is not something exceptional) and has little errors. NAO
+articulations use 2 kinds of motors. The biggest is for all
+joints in the bottom (Hip and above).</p>
+<p>There are two cases in the robot: you can have either one big
+motor that have 2 MRE, one on the motor and one on the joint
+(this is for the bottom part), or you can have one small motor with
+one MRE, on the joint (this is for the top part of the robot).</p>
+<p>The first solution is more precise and gives more accurate
+position, and very smooth movements even at low speed. On both
+solutions, the control loop is a kind of PID control, with
+modifications. For the 2 MRE version, the control is done with the MRE
+on the motor.</p>
+<p>The MRE joint needs a calibration to know the &#8220;0&#8221; deg position.
+This is done by pushing the joint in the mechanical limit stop and
+send a special request. This calibration value is stored in the chest
+board (see preferences chapter), it&#8217;s a 0-4095 integer that is the 0
+position of the joint for the MRE. When the motor board starts, it has
+no address and no data about motors and MRE. They received everything
+after a configuration process done by the <strong>DCM</strong>.</p>
+<p>There are many error cases where the control loop is disabled
+(or decreased):</p>
+<ul>
+<li><p class="first">If there are more than 50 consecutive errors (not warnings) on
+one of the two sensors (if there is two), the control loop is
+disabled. It starts again if there is no more error. A MRE value
+with an error is forgotten, and the last value is used. You&#8217;ll need
+to wait 50 errors before disabling the control loop.</p>
+</li>
+<li><p class="first">If there is no current detected, and the PWM&gt;10%, the dsPIC
+thinks that the motor is unplugged, and reduces the control
+loop.</p>
+</li>
+<li><p class="first">If there is a temperature issue (see temperature sensor). This
+reduces the max current.</p>
+</li>
+<li><p class="first">There is no calibration (calibration value is 0).</p>
+</li>
+<li><p class="first">If the motorBoard did not receive any order from 500ms, the control loop is automatically stopped.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This is important: if the <strong>DCM</strong> process/thread dies, the
+control loop of each motor will be stopped half a second later,
+and only the electromagnetic break will remain. Your robot will
+fall slowly...</p>
+</div>
+</li>
+<li><p class="first">If the hardness is not set to 100% (see hardness actuator).
+This reduces the max current.</p>
+</li>
+<li><p class="first">If the electric current is too high compared to the limitation
+value (see current sensor).</p>
+</li>
+</ul>
+<p>Others keys are:</p>
+<ul>
+<li><p class="first">ImportanceLevel1...7</p>
+<p>These keys are not used right now.</p>
+</li>
+<li><p class="first">InvertControlDirection</p>
+<p>Boolean. Set it to true if you want the control loop to be inverted for the motor rotation. This configuration value is read at startup by the <strong>DCM</strong> and then sent to the motherboard during the configuration process.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This value must never be changed!</p>
+</div>
+</li>
+<li><p class="first">Kp, Ki, Kp</p>
+<p>These integer values are coefficients for the modified PID. This configuration value is read at startup by the <strong>DCM</strong> and then sent to the motherboard during the configuration process.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not change these configuration values. A high value may
+destroy the joint.</p>
+</div>
+</li>
+<li><p class="first">MotorNumber</p>
+<p>Integer value. 0 means no motor for this subDevice. 1 or 2 are the motor number. This configuration value is read at startup by the <strong>DCM</strong> and then sent to the motherboard during the configuration process.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not change this configuration value.</p>
+</div>
+</li>
+</ul>
+<p>List of position/actuator value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnklePitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnkleRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipYawPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LKneePitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LWristYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnklePitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnkleRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipYawPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RKneePitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RWristYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jointhardness-hardness-actuator">
+<span id="jointhardness"></span><h3>jointHardness (Hardness/Actuator)<a class="headerlink" href="#jointhardness-hardness-actuator" title="Permalink to this headline">¶</a></h3>
+<p>This is a special actuator that defines the hardness (named as
+stiffness in the Motion module) of the joint. The value is from 0.0 to
+1.0, 0 means 0% and 1 means 100% (full power). In the motorboard, this
+percentage is directly applied to the max current. Setting the
+hardness to 0.5 means that the electric current limitation is reduced
+to 50%.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Previous use of the hardness has an effect on the PWM.</p>
+</div>
+<p>The effect is not linear. A hardness set to 0.5 means that there
+is less power left to the motor.</p>
+<p>There is a special case: when the hardness is &lt;=0, the
+position is automatically set to the Position/Sensor with the same
+subDevice number on the device.</p>
+<p>There is another special case: when there is no calibration (
+Position/Sensor/jointZeroPosition is 0, see in jointPosition sensor)
+the hardness cannot be greater than 0.0.</p>
+<p>The hardness is sent to the motor board every <strong>DCM</strong> cycle time, so
+you can decrease/increase the control loop very fast.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Increasing the hardness very fast could result on a very
+strong movement on the robot, depending on the difference between
+the last actuator command and the real position, given by the
+sensor.</p>
+</div>
+<p>The hardness is usually used to smooth the start of the control
+loop when the robot is powered. It&#8217;s also used as a security. For
+example when the <strong>DCM</strong> has a cycle time error for more than 500ms, all
+hardness are set to 0 and then increased back to their former values
+in two seconds. You can also decrease it slowly at the end.</p>
+<p>When the hardness is 0.0 (default value - that includes when the
+motorboard just started) the motor is in short circuit, so there is an
+electromagnetic break. This is a security to avoid the robot falling
+(it&#8217;ll fall anyway, but slower).</p>
+<p>If the hardness is &lt;0, the motor is free (no electromagnetic break), but due to hardware limitation,
+it&#8217;s only possible when the two motors of the same board are &lt;0
+(both are then free). If not, it&#8217;s still electromagnetic break.</p>
+<p>If the current from the battery is over the limit (see below) the hardness of all joints will be
+decreased (slowly) to avoid the battery to shut off.</p>
+<p>List of hardness value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadPitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadYaw</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnklePitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnkleRoll</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowRoll</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowYaw</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipPitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipRoll</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipYawPitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LKneePitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderPitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderRoll</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LWristYaw</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnklePitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnkleRoll</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowRoll</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowYaw</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipPitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipRoll</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipYawPitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RKneePitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderPitch</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderRoll</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RWristYaw</span><span class="o">/</span><span class="n">Hardness</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jointposition-position-sensor">
+<h3>jointPosition (Position/Sensor)<a class="headerlink" href="#jointposition-position-sensor" title="Permalink to this headline">¶</a></h3>
+<p>These sensors return the angle of the joint in radian in the
+&#8220;Value&#8221; key. As seen in Joint (Position/Actuator), there is 1 or 2 MRE
+for each joint. The value returned here is always the MRE on the
+joint. It&#8217;s a 12bits precise value (from 0 to 4095) change in
+rad.Refer to the Joint (Position/Actuator) for more details about the
+use of MRE sensors in control loop.</p>
+<p>The sensor value is always returned, at each <strong>DCM</strong> cycle time. The
+value returned here uses a calibration that is stored in on special
+key (&#8220;jointZeroPosition&#8221;). MRE sensor values are quite precise and
+have very low error.</p>
+<p>Others keys are:</p>
+<ul>
+<li><p class="first">&#8220;GearRatio&#8221;</p>
+<p>This key is a float with the gear ratio between the motor and the joint. The control loop uses it. This configuration value is read at startup by the <strong>DCM</strong> and then sent to the motherboard during the configuration process.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not change this configuration value.</p>
+</div>
+</li>
+<li><p class="first">&#8220;SensorType&#8221;</p>
+<p>This key is the description the kind of sensor. For now it could be only one or two MRE for the joint. This configuration value is read at startup by the <strong>DCM</strong> and then sent to the motherboard during the configuration process.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not change this configuration value.</p>
+</div>
+</li>
+<li><p class="first">&#8220;jointZeroPosition&#8221;</p>
+<p>This key is the calibration value for the MRE on the joint. It&#8217;s an integer from 0 to 4095. A 0 value means that there is no calibration (default state) and so the hardness cannot be set. Usually, the value of this key is at &#8220;0&#8221; in the Device.xml standard file, but another value different from 0 is set by the configuration file in the chest board. This chest board file is of course linked to the body of the robot, and is specific to it. This configuration value is read at startup by the <strong>DCM</strong> and then sent to the motherboard during the configuration process.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not change this configuration value in the chest board
+and/or in the Device.xml.</p>
+</div>
+</li>
+<li><p class="first">&#8220;positionChainMREJoint&#8221;</p>
+<p>This key is a integer 0-4 number that indicates the position of the MRE sensor for the joint in the MRE chain linked to the motorboard. 0 means that there is no
+sensor.This configuration value is read at startup by the <strong>DCM</strong> and then send to the motherboard during the configuration process.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not change this configuration value.</p>
+</div>
+</li>
+<li><p class="first">&#8220;positionChainMREMotor&#8221;</p>
+<p>This key is an integer 0-4 number that indicates the position of the MRE sensor for the motor in the MRE chain linked to the motorboard. 0 means that there is no
+sensor. It&#8217;s the case for all joints up to the robot. This configuration value is read at startup by the <strong>DCM</strong> and then sent to the motherboard during the configuration process.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not change this configuration value.</p>
+</div>
+</li>
+</ul>
+<p>List of Position/Sensor value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnklePitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnkleRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipYawPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LKneePitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LWristYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnklePitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnkleRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipYawPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RKneePitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderPitch</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderRoll</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RWristYaw</span><span class="o">/</span><span class="n">Position</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="current-current-sensor">
+<h3>Current (Current/Sensor)<a class="headerlink" href="#current-current-sensor" title="Permalink to this headline">¶</a></h3>
+<p>There is 2 different Devices that send a current: the MotorBoard
+(updated every 10ms), and the Battery (updated every 20ms). For the
+battery, the value is signed: positive if the robot is charging,
+negative in case of discharge. For motorboard, the value key has the
+electric current in the motor in Ampere.</p>
+<p>Every motorboard has a current sensor for each motor that is a
+very small resistor between the H-Bridge and the 0v.</p>
+<p>The resistor voltage value is read by the micro-controller ADC
+at a precise moment in the PWM. If there is no PWM, there is no
+current seen, even if the motor has current (for example if you move
+the motor by hand).</p>
+<p>Every motorBoard has an electric current limitation: if the
+current reach the &#8220;Max&#8221; value (&#8220;ElectricCurrent/Sensor/Max&#8221;) the PWM
+(return by the control loop) will be decreased a bit until it returns
+under the maximum value, and it&#8217;s increased again after. This is a
+kind of current control loop around the maximum value.</p>
+<p>The aim of this limitation is to protect the motor, the
+electronic board, and the mechanical part of the joint.</p>
+<p>This configuration value is read at startup by the <strong>DCM</strong> and then
+send to the motherboard during the configuration process.</p>
+<p>The battery has also a current limitation: if the current from
+the battery is over the limit (max value) the hardness of all joints
+will be decreased (slowly) by the <strong>DCM</strong> to avoid the battery to shut
+off.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Never increase these configuration values!</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For the new Sanyo battery, the current is updated every 3.5s.</p>
+</div>
+<p>There is no special key for current subDevice type, but the
+&#8220;Max&#8217;&#8221; value is the value used for the current limitation.</p>
+<p>List of current value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Battery</span><span class="o">/</span><span class="n">Current</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadPitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadYaw</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnklePitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnkleRoll</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowRoll</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowYaw</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipPitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipRoll</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipYawPitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LKneePitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderPitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderRoll</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LWristYaw</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnklePitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnkleRoll</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowRoll</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowYaw</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipPitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipRoll</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipYawPitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RKneePitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderPitch</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderRoll</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RWristYaw</span><span class="o">/</span><span class="n">ElectricCurrent</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="temperature">
+<h3>Temperature<a class="headerlink" href="#temperature" title="Permalink to this headline">¶</a></h3>
+<p>There are two different Devices that return a temperature: the
+MotorBoard, and the Battery. For both, the temperature returned in
+&#8220;Value&#8221; is in deg Celsius. The motor temperature is a simulated one,
+using electric current value of the motor. Even when the robot just
+starts, the temperature is quite high (50°C).The simulation starts at
+this value mainly due to the internal temperature value. The motor
+board implements a temperature limitation: as long as the simulated
+temperature reaches 75°C, the current limitation is decreased to stay
+under 85°C.</p>
+<p>List of temperature value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Battery</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadPitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">HeadYaw</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnklePitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LAnkleRoll</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowRoll</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LElbowYaw</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipPitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipRoll</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHipYawPitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LKneePitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderPitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LShoulderRoll</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LWristYaw</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnklePitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RAnkleRoll</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowRoll</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RElbowYaw</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipPitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHipRoll</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RKneePitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderPitch</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RShoulderRoll</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RWristYaw</span><span class="o">/</span><span class="n">Temperature</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="charge-for-the-battery">
+<h3>Charge, for the battery<a class="headerlink" href="#charge-for-the-battery" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Value: relative state of charge in % ( from 0.0 to 1.0, 1.0
+means 100%). This value is directly sent by the battery.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The value on the old BMZ battery is not very precise,
+due to an imprecision on calibration and integration of power.</p>
+</div>
+</li>
+<li><p class="first">Accu Voltage in V after last learning cycle</p>
+<p>Not implemented</p>
+</li>
+<li><p class="first">Remaining Capacity in Ah</p>
+<p>Not implemented</p>
+</li>
+<li><p class="first">&#8220;FullChargeCapacity&#8221; in Ah</p>
+<p>FCC: Implemented</p>
+</li>
+<li><p class="first">Cycle Counts (0-0xffff)</p>
+<p>Not implemented</p>
+</li>
+<li><p class="first">Design Capacity in Ah</p>
+<p>Not implemented</p>
+</li>
+<li><p class="first">Design Voltage in V</p>
+<p>Not implemented</p>
+</li>
+<li><p class="first">Cell Voltage in mV max</p>
+<p>Implemented: the mV value of the maximum voltage of all 6 cells in the battery.</p>
+</li>
+<li><p class="first">Cell Voltage in mV min</p>
+<p>Implemented: the mV value of the minimum voltage of all 6 cells in the battery. The battery has security that stop it if &lt; 2.7V.</p>
+</li>
+<li><p class="first">DelayForDischargeErrorReset (in s)</p>
+<p>Not implemented</p>
+</li>
+<li><p class="first">Count of cycles after last learning cycle</p>
+<p>Not implemented</p>
+</li>
+<li><p class="first">Status of the battery</p>
+<p>Implemented. See below</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On the new Sanyo battery, the min/max value of cell voltage
+are now both an average of the 6 cells values.</p>
+</div>
+<p>Boolean values:</p>
+<p>These boolean value are not implemented. However, the direct
+bits are available through the &#8220;Status&#8221; key, as a 2 byte integer word.
+Use bit mask to found the true/false result for each bits.</p>
+<ul class="simple">
+<li>End off Discharge flag ( = 3.0V/cell) (bit 0)
+Use the Cell Voltage min</li>
+<li>Near End off Discharge flag ( = 3.2V/cell) (bit 1)
+Use the Cell Voltage min</li>
+<li>Charge FET on (bit 2)</li>
+<li>Discharge FET on (bit 3)</li>
+<li>Accu learn flag (bit 4)</li>
+<li>Discharging flag (bit 5)</li>
+<li>full charge flag (bit 6)</li>
+<li>charge flag (bit 7)</li>
+<li>Charge Temperature Alarm (bit 8)</li>
+<li>Over Charge Alarm (bit 9)</li>
+<li>Discharge Alarm (bit 10)</li>
+<li>Charge Over Current Alarm (bit 11)</li>
+<li>Discharge Over Current Alarm &gt;14A (bit 12)
+Means that the battery will cut itself in a few ms</li>
+<li>Discharge Over Current Alarm &gt; 6A (bit 13)
+Means that the battery will cut itself in a few ms</li>
+<li>Discharge Temperature Alarm (bit 14)</li>
+<li>Power-Supply for charging is present (bit 15)</li>
+</ul>
+<p>There is a different status on the new Sanyo battery. It is one byte with:</p>
+<ul class="simple">
+<li>Reserved (bit 0)
+Undefined</li>
+<li>Reserved (bit 1)
+Undefined</li>
+<li>Reserved (bit 2)
+Undefined</li>
+<li>Reserved (bit 3)
+Undefined</li>
+<li>LEARNF (bit 4)
+Learn Flag When set to 1, a charge cycle can be used to learn battery capacity.
+Set to 1 when: ( VOLT falls from above VAE to below VAE ) AND ( CURRENT &gt; IAE )
+Cleared to 0 when: ( CHGTF = 1 ) OR ( CURRENT negative ) OR ( ACR = 0 **) OR ( ACR written or recalled from EEPROM) OR ( SLEEP Entered )</li>
+<li>SEF (bit 5)
+Standby Empty Flag   Set to 1 when: RSRC less than  10%
+Cleared to 0 when: RSRC &gt; 15%</li>
+<li>AEF (bit 6)
+Active Empty Flagset to 1 when: VOLT less than VAE
+Cleared to 0 when: RARC &gt; 5%</li>
+<li>CHGTF (bit 7)
+Charge Termination Flag
+Set to 1 when: ( VOLT &gt; VCHG ) AND (  IAVG between 0 and IMIN )
+continuously for a period between two IAVG register updates
+( 28s to 56s ). Cleared to 0 when: RARC less than 90%</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">RemainingCapacity is updated in the SANYO battery, with values in Ah.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">FullChargeCapacity is nupdated in the SANYO battery, with values in Ah.
+The value is the division of the RemainingCapacity by the charge %.
+It is not updated if the charge is less than 10%.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is a new &#8220;Age&#8221; value for the SANYO battery, with values in %.
+This is an estimation of the age of the battery (depending on cycles).
+Better is 100%.</p>
+</div>
+</div>
+<div class="section" id="us-actuator-value">
+<h3>US/Actuator/Value<a class="headerlink" href="#us-actuator-value" title="Permalink to this headline">¶</a></h3>
+<p>Send a value to this actuator to send a wave. With the value,
+you can choose what is the transmitter (left or right) and what is the
+receiver (left or right) for the US wave.</p>
+<p>Choosing the side of the receiver/transmitter has an influence
+on detection cone, and gives you information about the obstacle
+presence.</p>
+<p>The result is written approximately 10ms after in
+US/Sensor/Value. It&#8217;s in meters. &lt;=0 or &gt;=2.55m means error from
+the sensor or echo not detected.</p>
+<ul class="simple">
+<li>The first bit of this value lets you choose which receiver you
+want to use. 0 for left and 1 for right.</li>
+<li>The second bit lets you choose the transmitter. Again, 0
+meaning left and 1 meaning right.</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="43%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Value</th>
+<th class="head">Transmitter</th>
+<th class="head">Receiver</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0.0</td>
+<td>Left</td>
+<td>Left</td>
+</tr>
+<tr class="row-odd"><td>1.0</td>
+<td>Left</td>
+<td>Right</td>
+</tr>
+<tr class="row-even"><td>2.0</td>
+<td>Right</td>
+<td>Left</td>
+</tr>
+<tr class="row-odd"><td>3.0</td>
+<td>Right</td>
+<td>Right</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since the new firmware (version 2) there are new modes of
+measuring object distances with ultrasounds. You can check the
+firmware version in /Device/USBoard/ProgVersion</p>
+</div>
+<ul class="simple">
+<li>The third bit (value 4) means that two captures will be made
+with only one command, left and right. The results will be available
+in two new subDevices: US/Left/Sensor and US/Right/Sensor. Now, 10
+values are available for each sensor, corresponding to the distance
+of the first 10 echoes detected.</li>
+<li>The fourth bit (value 8) orders the use of two transmitters at
+the same time.</li>
+<li>The seventh bit (value 64) is used to register for a periodic
+capture. It means that you need to send the read request to the <strong>DCM</strong>
+just once, then you simply read the values every 100 ms in
+<strong>ALMemory</strong>. To stop the periodic mode, you can send a new reading
+command without that bit.</li>
+</ul>
+<p>All the bits combinations are not useful, even possible. Here
+are examples:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="31%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Value</th>
+<th class="head">Transmitter</th>
+<th class="head">Receiver</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>4.0</td>
+<td>Right and Left</td>
+<td>Right and Left</td>
+</tr>
+<tr class="row-odd"><td>12.0 (8.0 + 4.0)</td>
+<td>Right and Left</td>
+<td>Right and Left</td>
+</tr>
+<tr class="row-even"><td>68.0 (64.0 + 4.0)</td>
+<td>Right and Left</td>
+<td>Right and Left</td>
+</tr>
+</tbody>
+</table>
+<p>US actuator value key:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Actuator</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="us-sensor-value">
+<h3>US/Sensor/Value<a class="headerlink" href="#us-sensor-value" title="Permalink to this headline">¶</a></h3>
+<p>This is the value returned by the UltraSound Device sensor (one
+of the two sensors in the chest). The value is changed about 10ms
+after sending the wave using the US actuator.</p>
+<p>This request decides which transmitter/receiver is used.</p>
+<p>The result is in meters. If you&#8217;ve got 0 or &gt;=2.55 m, this is
+an error (same if there is a NACK).</p>
+<p>Here is some more information about ultrasonic sensor:</p>
+<p>The maximum distance for detection is approximately 1.20m (for
+the old version), but you&#8217;ll likely detect the ground before.</p>
+<p>Be careful you can detect the robot arms!</p>
+<p>The emission cone depends on the size of the object in front of
+the robot.</p>
+<p>The quality of the detection will depends on the object (or
+obstacle): size, surface, orientation.</p>
+<p>US sensor value key:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="us-right-sensor-value-and-us-left-sensor-value">
+<h3>US/Right/Sensor/Value and US/Left/Sensor/Value<a class="headerlink" href="#us-right-sensor-value-and-us-left-sensor-value" title="Permalink to this headline">¶</a></h3>
+<p>These are the new sensors respectively dedicated to the left or
+right receivers. They are used if the third bit is set in the value
+sent to the actuator (only available for V2 cards).</p>
+<p>The results of the first echo detected on each receiver are in
+Value, the 9 following echoes are from Value1 to Value9.</p>
+<p>A value of 0 means an error, the minimum valid value/distance is
+0,25m. A value of 2,55 means no echo, the maximum detectable distance
+is 2,54m.</p>
+<p>For example, if Value contains 0,40, Value1 1,2 and Value2 2,55,
+the following values (3 to 9) will contain 2,55 too. It probably means
+you have the echo of the ground at 0,40m and another object at 1,2m.
+Left and Right sensors work the same way and allow you to locate
+objects.</p>
+<p>List of us left/right sensor value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value1</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value2</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value3</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value4</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value5</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value6</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value7</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value8</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value9</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value1</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value2</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value3</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value4</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value5</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value6</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value7</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value8</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value9</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gyrometer">
+<span id="dcm-gyrometer"></span><h3>Gyrometer<a class="headerlink" href="#gyrometer" title="Permalink to this headline">¶</a></h3>
+<p>The robot has a two axis gyrometer, in the center of the body.
+There is in fact 3 subDevices as there is also a reference
+value.</p>
+<p>These sensors give the rotation speed around the robot X axis
+and around the robot Y axis.</p>
+<p>When the robot does not move, you&#8217;ve got a &#8220;no rotation&#8221; value,
+that is not 0 and needs a calibration, usually around -2000. The main
+difficulty here is to calibrate this 0.</p>
+<p>Then, the change of the value is around 2.7 increment/°/s.</p>
+<p>You can have more information reading the sensor datasheet:</p>
+<ul class="simple">
+<li><strong>LPR510A</strong> for NAO V3.3 and V4.0</li>
+<li><strong>IDG300Q</strong> for NAO V3+ and V3.2</li>
+</ul>
+<p>The value is then read by a micro-controller ADC (12 bits, from
+a 0-3.3v range), with a few average, and sent back directly (just
+multiplied by -1 in order to be in the good direction).</p>
+<p>List of gyro value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">GyrRef</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">GyrX</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">GyrY</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+<p>New gyro value keys are available since 1.14 version:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">GyroscopeX</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">GyroscopeY</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">GyroscopeZ</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">Theses are direct rotations values in rad.s-1.</div>
+<div class="line">The Z Gyroscope is not available yet.</div>
+</div>
+</div>
+<div class="section" id="accelerometer">
+<span id="dcm-accelerometer"></span><h3>Accelerometer<a class="headerlink" href="#accelerometer" title="Permalink to this headline">¶</a></h3>
+<p>The robot has a digital 8-bits 3 axis accelerometer, in the
+center of the body.</p>
+<p>The 3 values are the return from the 3 axis acceleration sensor,
+with a light filter. 0 value means no acceleration at all for this
+axis. The value of g is about 56.</p>
+<p>You can have more information reading the sensor datasheet:</p>
+<ul class="simple">
+<li><strong>LIS331DLH</strong> for NAO V3.3 and V4.0</li>
+<li><strong>LIS302DL</strong> for NAO V3+ and V3.2</li>
+</ul>
+<p>The value is digital, and directly returned in <strong>ALMemory</strong>
+(with just a *-1 for the Y value).</p>
+<p>List of acc value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">AccX</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">AccY</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">AccZ</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+<p>New accelero value keys are available since 1.14 version:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">AccelerometerX</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">AccelerometerY</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">AccelerometerZ</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+<p>Theses are direct acceleration values in m.s-2 (one g is approximately 9.81 m.s-2).</p>
+</div>
+<div class="section" id="angles">
+<span id="dcm-angles"></span><h3>Angles<a class="headerlink" href="#angles" title="Permalink to this headline">¶</a></h3>
+<p>The inertial board computes 2 inclination angles of the robot
+body with the gyro and accelero data.</p>
+<p>Both angles are in radians.</p>
+<p>List of angles value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">AngleX</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">InertialSensor</span><span class="o">/</span><span class="n">AngleY</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+<p>Since 1.14 version, a new Device/SubDeviceList/InertialSensor/AngleZ/Sensor/Value
+is avaiable, but always as &#8220;0&#8221; until new hardware update.</p>
+</div>
+<div class="section" id="fsr">
+<h3>FSR<a class="headerlink" href="#fsr" title="Permalink to this headline">¶</a></h3>
+<p>FSR stands for Force Sensing Resistor. There are 8 FSR
+subDevices in the robot, 4 in each foot. See hardware documentation
+for precise localization (there are also in the keys /XPosition and
+/YPosition, in m).</p>
+<p>The value returned for each FSR is similar to Kg. If FSR are
+calibrated (see robot configuration keys), the value in kg is about
+20% precision (depending time and real force position). Without
+calibration the error could be more important, and is specific to each
+sensor.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The former raw values could be computed again inverting the
+formula: New value = ((1.0/old raw value) - offset)*gain.</p>
+</div>
+<p>The total weight value is the sum of all 4 FSR of the
+foot.</p>
+<p>List of FSR value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">FrontLeft</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">FrontRight</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">RearLeft</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">RearRight</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">TotalWeight</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">FrontLeft</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">FrontRight</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">RearLeft</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">RearRight</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">TotalWeight</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="centerofpressure">
+<h3>CenterOfPressure<a class="headerlink" href="#centerofpressure" title="Permalink to this headline">¶</a></h3>
+<p>CenterOfPressure values are computed barycenter of FSR (using
+individual weight and position) for each foot. The value returned is
+in m for X and Y, from the foot reference, see the hardware
+documentation.</p>
+<p>Using centerOfPressure and weight from both foot, you can
+compute a barycenter for all weight on the robot.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When the weight on the foot is very low, the center of
+pressure will likely be bad.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If the real center of pressure go outside the 4 FSR
+parallelogram, the value of weight and centre of pressure could
+become bad, due to internal mechanical constraint.</p>
+</div>
+<p>The total weight value is the sum of all 4 FSR of the
+foot.</p>
+<p>List of CenterOfPressure value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">CenterOfPressure</span><span class="o">/</span><span class="n">X</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">CenterOfPressure</span><span class="o">/</span><span class="n">Y</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">CenterOfPressure</span><span class="o">/</span><span class="n">X</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RFoot</span><span class="o">/</span><span class="n">FSR</span><span class="o">/</span><span class="n">CenterOfPressure</span><span class="o">/</span><span class="n">Y</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="touch-switch">
+<h3>Touch switch<a class="headerlink" href="#touch-switch" title="Permalink to this headline">¶</a></h3>
+<p>3 tactile proximity switches are present on the top of the head
+of NAO Academics Edition. They can detect a human finger or hand. The
+LEDs near the sensors are switched on when sensors detect
+something.</p>
+<p>From the 3.3 version of NAO, 3 tactile sensors are also present
+on each hands, on both side and on the upper part.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When the battery charger is plugged in, the tactile sensor may
+be too sensitive during a short period of time.</p>
+</div>
+<p>List of touch value keys:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Touch</span><span class="o">/</span><span class="n">Front</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Touch</span><span class="o">/</span><span class="n">Middle</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">Head</span><span class="o">/</span><span class="n">Touch</span><span class="o">/</span><span class="n">Rear</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">Touch</span><span class="o">/</span><span class="n">Back</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">Touch</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">LHand</span><span class="o">/</span><span class="n">Touch</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">Touch</span><span class="o">/</span><span class="n">Back</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">Touch</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">RHand</span><span class="o">/</span><span class="n">Touch</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="configuration-keys-for-robots">
+<h2>Configuration keys for robots<a class="headerlink" href="#configuration-keys-for-robots" title="Permalink to this headline">¶</a></h2>
+<p>Configurations keys are specific <strong>ALMemory</strong> entries that describe
+the hardware of the robot. Theses keys are stored in two separate
+location:</p>
+<ul class="simple">
+<li>in the Geode board internal flash, and concern the configuration of the head,</li>
+<li>in the chestboard (same place as calibration) and deal with the configuration
+of the body.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is only available for version 3.3 or higher of NAO, and new keys
+will be created while the robot is updated.</p>
+</div>
+<p>Keys for the head:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="18%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Head/BaseVersion</td>
+<td>V3Plus</td>
+<td>&#8220;Base&#8221; configuration of the V3+ head.</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>V3PlusExtendedHead</td>
+<td>Special head with more extension (USB, serial...)
+and specific design. A laser range finder could be included or not.</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>V3.2</td>
+<td>&#8220;Base&#8221; configuration of the V3.2 head</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>V3.3</td>
+<td>&#8220;Base&#8221; configuration of the V3.3 head</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>V4.0</td>
+<td>&#8220;Base&#8221; configuration of the V4.0 head</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="11%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Head/Device/TouchBoard/Version</td>
+<td>0 (or none)</td>
+<td>No capacitive sensor</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>1</td>
+<td>First version of capacitive sensor.
+Same for V3.3 version</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="11%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Head/Device/FaceBoard/Leds/Rotation</td>
+<td>0 (or none)</td>
+<td>Old version (less or equal than 3.2)</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>1</td>
+<td>New version (&gt;=3.2), with rotation of LEDs</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="11%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Head/Device/LaserRangeFinder/Version</td>
+<td>0 (or none)</td>
+<td>No laser range finder</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>1</td>
+<td>URG-04LX laser range finder included
+(only possible with extended head)</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="11%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Head/Device/Camera/Version</td>
+<td>0 (or none)</td>
+<td>Version anterior or equal to 3.2)</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>1</td>
+<td>Version 3.3 with camera up down of 8°
+and camera down up to 8°</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>2</td>
+<td>Version 3.3 with the angles of the 3.2</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>3</td>
+<td>Version 4.0</td>
+</tr>
+</tbody>
+</table>
+<p>Keys for the body:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="7%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/BaseVersion</td>
+<td>V3Plus</td>
+<td>&#8220;Base&#8221; version for the body.</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>V3.2</td>
+<td>&#8220;Base&#8221; version for the body V3.2.</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>V3.3</td>
+<td>&#8220;Base&#8221; version for the body V3.3.
+Extended arms has to be tested with key below.</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>V4.0</td>
+<td>&#8220;Base&#8221; version for the body V4.0</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="12%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Device/Hand/Left/Version</td>
+<td>0 (or none)</td>
+<td>No left hand</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>1</td>
+<td>V3 academics hand version</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>2</td>
+<td>Hand version V3+/V3.2</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>3</td>
+<td>Hand version V3.3 with capacitive sensor.</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>4</td>
+<td>Hand version V4.0 with capacitive sensor.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="12%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Device/Hand/Right/Version</td>
+<td>0 (or none)</td>
+<td>No right hand</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>1</td>
+<td>V3 academics hand version</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>2</td>
+<td>Hand version V3+/V3.2</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>3</td>
+<td>Hand version V3.3 with capacitive sensor.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="12%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Device/FSR/Calibration/Version</td>
+<td>0 (or none)</td>
+<td>No calibration on FSR</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>1</td>
+<td>FSR calibrated (version 1 of the
+calibration process)</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>2</td>
+<td>FSR calibrated (version 2 of the
+calibration process)</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="12%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Device/Joints/Calibration/Version</td>
+<td>2</td>
+<td>Version 2 of the calibration process</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="12%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Device/LeftArm/Version</td>
+<td>1 (or none)</td>
+<td>Left arm normal version</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>-1</td>
+<td>No left arm</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>2</td>
+<td>Extended arms (introduce with 3.3
+version, but also available for some 3.2)</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="11%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Device/RightArm/Version</td>
+<td>1 (or none)</td>
+<td>Right arm normal version</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>-1</td>
+<td>No right arm</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>2
+2</td>
+<td>Extended arms (introduce with 3.3
+version, but also available for some 3.2)</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="11%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Device/Legs/Version</td>
+<td>1 (or none)</td>
+<td>Legs normal version</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>-1</td>
+<td>No legs</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="11%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Device/Foot/Version</td>
+<td>1 (or none)</td>
+<td>Normal feet</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>0</td>
+<td>No feet</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="18%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Version</td>
+<td>For exemple &#8220;3.3.0&#8221;</td>
+<td>Version of the body of the robot</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="17%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/Type</td>
+<td>NAO</td>
+<td>Type of the robot</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="17%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RobotConfig/Body/SoftwareRequirement</td>
+<td>For exemple 1.8.0</td>
+<td>Minimal software version compatible with this hardware</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="low_level_architecture.html" title="Low level architecture">Low level architecture</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">DCM</a>
+   |
+    <a href="pref_subpref_files.html" title="Pref files and sub pref files">Pref files and sub pref files</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../dcm.html">DCM</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../dcm-api.html">DCM API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../dcm-tuto.html">DCM Tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../dcm-tuto.html#dcm-bound-methods">DCM bound methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="upper_level_architecture.html">Upper level architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="low_level_architecture.html">Low level architecture</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Architecture of the pref file Device.xml / of key/values in ALMemory</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pref_subpref_files.html">Pref files and sub pref files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm_architecture.html">DCM architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm_synchro_methods.html">DCM Synchronization methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Architecture of the pref file Device.xml / of key/values in ALMemory</a><ul>
+<li><a class="reference internal" href="#basename">BaseName</a></li>
+<li><a class="reference internal" href="#default-almemory-keys-for-all-subdevices">Default ALMemory keys for all subDevices</a></li>
+<li><a class="reference internal" href="#default-value-for-all-devices">Default value for all devices</a></li>
+<li><a class="reference internal" href="#specific-almemory-keys-for-each-device-type">Specific ALMemory keys for each device type</a><ul>
+<li><a class="reference internal" href="#motorboard">MotorBoard</a></li>
+<li><a class="reference internal" href="#battery">Battery</a></li>
+<li><a class="reference internal" href="#chest-board">Chest Board</a></li>
+<li><a class="reference internal" href="#other-devices">Other devices</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#description-of-the-mandatory-and-specific-almemory-keys-for-each-subdevice-type">Description of the mandatory and specific ALMemory keys for each subDevice type</a><ul>
+<li><a class="reference internal" href="#leds-actuator">LEDs (actuator)</a></li>
+<li><a class="reference internal" href="#switch-sensor">Switch (sensor)</a></li>
+<li><a class="reference internal" href="#joint-position-actuator">Joint (Position/Actuator)</a></li>
+<li><a class="reference internal" href="#jointhardness-hardness-actuator">jointHardness (Hardness/Actuator)</a></li>
+<li><a class="reference internal" href="#jointposition-position-sensor">jointPosition (Position/Sensor)</a></li>
+<li><a class="reference internal" href="#current-current-sensor">Current (Current/Sensor)</a></li>
+<li><a class="reference internal" href="#temperature">Temperature</a></li>
+<li><a class="reference internal" href="#charge-for-the-battery">Charge, for the battery</a></li>
+<li><a class="reference internal" href="#us-actuator-value">US/Actuator/Value</a></li>
+<li><a class="reference internal" href="#us-sensor-value">US/Sensor/Value</a></li>
+<li><a class="reference internal" href="#us-right-sensor-value-and-us-left-sensor-value">US/Right/Sensor/Value and US/Left/Sensor/Value</a></li>
+<li><a class="reference internal" href="#gyrometer">Gyrometer</a></li>
+<li><a class="reference internal" href="#accelerometer">Accelerometer</a></li>
+<li><a class="reference internal" href="#angles">Angles</a></li>
+<li><a class="reference internal" href="#fsr">FSR</a></li>
+<li><a class="reference internal" href="#centerofpressure">CenterOfPressure</a></li>
+<li><a class="reference internal" href="#touch-switch">Touch switch</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration-keys-for-robots">Configuration keys for robots</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="low_level_architecture.html" title="Low level architecture">previous</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="pref_subpref_files.html" title="Pref files and sub pref files">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALFsr &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Sensors" href="index.html" />
+    <link rel="next" title="ALFsr API" href="alfsr-api.html" />
+    <link rel="prev" title="ALBattery API" href="albattery-api.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="albattery-api.html" title="ALBattery API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Sensors" accesskey="U">up</a>
+   |
+    <a href="alfsr-api.html" title="ALFsr API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-sensors-alfsr">
+            
+  <div class="section" id="alfsr">
+<span id="id1"></span><h1>ALFsr<a class="headerlink" href="#alfsr" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-sensors"><em>NAOqi Sensors</em></a> - Overview | <a class="reference internal" href="alfsr-api.html#alfsr-api"><em>API</em></a> | <a class="reference internal" href="alfsr-tuto.html#alfsr-tuto"><em>Tutorials</em></a></p>
+<hr class="docutils" />
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="../../family/robots/fsr_robot.html#robot-fsr"><em>Hardware Force Sensitive Resistors (FSRs)</em></a></li>
+</ul>
+</div>
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p>This module generates the event <a class="reference internal" href="alfsr-api.html#footContactChanged" title="footContactChanged"><tt class="xref naoqi naoqi-event docutils literal"><span class="pre">footContactChanged()</span></tt></a> whenever
+the foot contact changes.</p>
+<ul class="simple">
+<li>If NAO has at least one foot on the ground, the event is raised with the value <tt class="docutils literal"><span class="pre">True</span></tt></li>
+<li>If NAO has no feeet on the ground, the event is raised with the value <tt class="docutils literal"><span class="pre">False</span></tt></li>
+</ul>
+<p>The module also generates other values in <a class="reference internal" href="../core/almemory.html#almemory"><em>ALMemory</em></a>:</p>
+<ul class="simple">
+<li><a class="reference internal" href="alfsr-api.html#footContact" title="footContact"><tt class="xref naoqi naoqi-memkey docutils literal"><span class="pre">footContact</span></tt></a> (1.0f if one foot touched the ground)</li>
+<li><a class="reference internal" href="alfsr-api.html#leftFootContact" title="leftFootContact"><tt class="xref naoqi naoqi-memkey docutils literal"><span class="pre">leftFootContact</span></tt></a> (1.0f if the left foot touched the ground)</li>
+<li><a class="reference internal" href="alfsr-api.html#rightFootContact" title="rightFootContact"><tt class="xref naoqi naoqi-memkey docutils literal"><span class="pre">rightFootContact</span></tt></a> (1.0f if the right foot touched the ground)</li>
+<li><a class="reference internal" href="alfsr-api.html#leftFootTotalWeight" title="leftFootTotalWeight"><tt class="xref naoqi naoqi-memkey docutils literal"><span class="pre">leftFootTotalWeight</span></tt></a> (the total weight on the left foot in Kg)</li>
+<li><a class="reference internal" href="alfsr-api.html#rightFootTotalWeight" title="rightFootTotalWeight"><tt class="xref naoqi naoqi-memkey docutils literal"><span class="pre">rightFootTotalWeight</span></tt></a> (the total weight on the right foot in Kg)</li>
+</ul>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>NAO has four <a class="reference internal" href="../../family/robots/fsr_robot.html#robot-fsr"><em>FSRs</em></a> under each foot.</p>
+<p>The aim of these sensors is to determine whether NAO&#8217;s feet are touching
+the ground or not. This information is used during the walk, where at least
+one foot must maintain contact with the ground while walking, otherwise the
+walk is stopped.</p>
+<p>For more detials, see <a class="reference internal" href="../motion/control-walk.html#motion-kill-walk-when-lifted"><em>Kill the walk task when the robot is lifted</em></a> section.</p>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<p>There are no public methods. The module automatically generates the events and values.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="albattery-api.html" title="ALBattery API">ALBattery API</a>
+     |
+    <a href="index.html" title="NAOqi Sensors" accesskey="U">NAOqi Sensors</a>
+   |
+    <a href="alfsr-api.html" title="ALFsr API">ALFsr API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Sensors</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albattery.html">ALBattery</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">ALFsr</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="alfsr-api.html">ALFsr API</a></li>
+<li class="toctree-l5"><a class="reference internal" href="alfsr-tuto.html">ALFsr Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="alinfrared.html">ALInfrared</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allaser.html">ALLaser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotpose.html">ALRobotPose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alsensors.html">ALSensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alsonar.html">ALSonar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alleds.html">ALLeds</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALFsr</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="albattery-api.html" title="ALBattery API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Sensors" accesskey="U">up</a>
+   |
+    <a href="alfsr-api.html" title="ALFsr API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

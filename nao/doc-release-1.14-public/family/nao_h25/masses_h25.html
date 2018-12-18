@@ -1,0 +1,889 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>H25 - Masses &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAO H25" href="index_h25.html" />
+    <link rel="next" title="H25 - Masses - V 3.3" href="masses_h25_v33.html" />
+    <link rel="prev" title="H25 - Joints - V 3.2" href="joints_h25_v32.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="joints_h25_v32.html" title="H25 - Joints - V 3.2">previous</a>
+     |
+    <a href="index_h25.html" title="NAO H25" accesskey="U">up</a>
+   |
+    <a href="masses_h25_v33.html" title="H25 - Masses - V 3.3">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="family-nao_h25-masses_h25">
+            
+  <div class="section" id="h25-masses">
+<span id="id1"></span><h1>H25 - Masses<a class="headerlink" href="#h25-masses" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p><strong>V 4.0</strong> | <a class="reference internal" href="masses_h25_v33.html#h25-masses-v33"><em>V 3.3</em></a> | <a class="reference internal" href="masses_h25_v32.html#h25-masses-v32"><em>V 3.2</em></a></p>
+<p class="last"><a class="reference internal" href="index_h25.html#nao-h25"><em>NAO H25</em></a> | <a class="reference internal" href="../robots/masses_robot.html#robot-masses"><em>Masses</em></a></p>
+</div>
+<hr class="docutils" />
+<div class="section" id="legend">
+<h2>Legend<a class="headerlink" href="#legend" title="Permalink to this headline">¶</a></h2>
+<p>This page details, for each solid (S) of a robot, the <strong>Mass</strong>, <strong>Center of Mass</strong> and <strong>Inertial matrix</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/c08c8bf5f4122e3f7fb67e5d0daf760e68521438.png" alt="\text{Mass (kg)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/c10f44e2029ff9389e41eed6a5f380c4ba542843.png" alt="\text{CoM(S)} = \left[\begin{array}{c}
+X_G \\ Y_G \\ Z_G
+\end{array} \right]_{(o, R)} \text{(m)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/00ce03166e8c671b404f890782379858e282c886.png" alt="\left[I_o(S)\right]_R = \left[\begin{array}{ccc}
+I_{xx} &amp; I_{xy} &amp; I_{xz} \\
+I_{yx} &amp; I_{yy} &amp; I_{yz} \\
+I_{zx} &amp; I_{zy} &amp; I_{zz}
+\end{array}\right]_R (\text{kg}*\text{m}^2)"/></p>
+</div><p>The <strong>Center of Mass</strong> position and the <strong>Inertial matrix</strong> are described relative to the <strong>local coordinate system</strong> of the current solid (S) (o, R).</p>
+<p>All solids (S) and local coordinate system are described relative to the <strong>zero posture</strong>: standing with straight legs and arms pointing forwards.</p>
+<img alt="../../_images/hardware_inertialunit.png" src="../../_images/hardware_inertialunit.png" style="width: 224px; height: 343px;" />
+</div>
+<div class="section" id="whole-robot">
+<h2>Whole robot<a class="headerlink" href="#whole-robot" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+<p><img src="../../_images/math/0da8c20ada25e3b73706ebe2d0992e85f593d3e8.png" alt="\text{Mass} = 5.182530"/></p>
+</div></div>
+<div class="section" id="torso">
+<h2>Torso<a class="headerlink" href="#torso" title="Permalink to this headline">¶</a></h2>
+<p>(o, R) is located on: <strong>Torso</strong>.</p>
+<img alt="../../_images/hardware_thoraxmass_3.3.png" src="../../_images/hardware_thoraxmass_3.3.png" style="width: 341px; height: 506px;" />
+<div class="math">
+<p><img src="../../_images/math/5fd38d44b8bfab64fd0cd52fdf60c9dc9d74b83c.png" alt="\text{Mass} = 1.04956"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/027f6715e800ff6cf08a4ff0696d9599acedd94d.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.00413 \\
+                  0.00009 \\
+                  0.04342
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/6c96d32639894549b097eda146deb8f3c55aee9b.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00506234058 &amp; +0.00001431158 &amp; +0.00015519082 \\
+                          +0.00001431158 &amp; +0.00488013591 &amp; -0.00002707934 \\
+                          +0.00015519082 &amp; -0.00002707934 &amp; +0.00161030006 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="head">
+<h2>Head<a class="headerlink" href="#head" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="neck">
+<h3>Neck<a class="headerlink" href="#neck" title="Permalink to this headline">¶</a></h3>
+<p>(o, R) is located on the joint: <strong>HeadYaw</strong>.</p>
+<img alt="../../_images/hardware_neckmass_3.3.png" src="../../_images/hardware_neckmass_3.3.png" style="width: 146px; height: 279px;" />
+<div class="math">
+<p><img src="../../_images/math/07d5e698c6f2673fa841b28ca9c7e8a1e29618c2.png" alt="\text{Mass} = 0.06442"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/14280028ca21c76734f9c8f849f2bb1ca0896955.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.00001 \\
+                  0.00014 \\
+                  -0.02742
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/a0b1fedbd279237f53a6b06925260bb363dc378d.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00007499295 &amp; +0.00000000157 &amp; -0.00000001834 \\
+                          +0.00000000157 &amp; +0.00007599995 &amp; -0.00000005295 \\
+                          -0.00000001834 &amp; -0.00000005295 &amp; +0.00000553373 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id2">
+<h3>Head<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>(o, R) is located on the joint: <strong>HeadPitch</strong>.</p>
+<img alt="../../_images/hardware_headmass_3.3.png" src="../../_images/hardware_headmass_3.3.png" style="width: 337px; height: 312px;" />
+<div class="math">
+<p><img src="../../_images/math/1c2dca3b657a77c7184f29112bc0e6d9aba5153b.png" alt="\text{Mass} = 0.60533"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/740e5a537a6af045a9780972eaca0f23c94bca31.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.00112 \\
+                  0.00003 \\
+                  0.05258
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/41d65c66f1b8664e254bc2152d3d2f292456c589.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00263129518 &amp; +0.00000878814 &amp; +0.00004098466 \\
+                          +0.00000878814 &amp; +0.00249112488 &amp; -0.00002995792 \\
+                          +0.00004098466 &amp; -0.00002995792 &amp; +0.00098573565 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="arms">
+<h2>Arms<a class="headerlink" href="#arms" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="shoulders">
+<h3>Shoulders<a class="headerlink" href="#shoulders" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="right">
+<h4>Right<a class="headerlink" href="#right" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RShoulderPitch</strong>.</p>
+<img alt="../../_images/hardware_rshouldermass_3.3.png" src="../../_images/hardware_rshouldermass_3.3.png" style="width: 237px; height: 231px;" />
+<div class="math">
+<p><img src="../../_images/math/fbdad597846be45bc4af1f28e4710d753898489a.png" alt="\text{Mass} = 0.07504"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/3dd270ed3a5bb168db3cf53efc7fc3aa98625859.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.00165 \\
+                  +0.02663 \\
+                  +0.00014
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/4263453b39c4eea3dc264acdbf04116fda2200b5.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00008428430 &amp; +0.00000202802 &amp; +0.00000002338 \\
+                          +0.00000202802 &amp; +0.00001415561 &amp; +0.00000001972 \\
+                          +0.00000002338 &amp; +0.00000001972 &amp; +0.00008641949 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="left">
+<h4>Left<a class="headerlink" href="#left" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LShoulderPitch</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/fbdad597846be45bc4af1f28e4710d753898489a.png" alt="\text{Mass} = 0.07504"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/a7dec484d62709df37ff51f402490137e1de7987.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.00165 \\
+                  -0.02663 \\
+                  0.00014
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/a7f0fc6029a2841bf780da0f6246932cf2726e46.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00008428430 &amp; -0.00000202802 &amp; +0.00000002338 \\
+                          -0.00000202802 &amp; +0.00001415561 &amp; -0.00000001972 \\
+                          +0.00000002338 &amp; -0.00000001972 &amp; +0.00008641949 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="biceps">
+<h3>Biceps<a class="headerlink" href="#biceps" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h4>Right<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RShoulderRoll</strong>.</p>
+<img alt="../../_images/hardware_rbicepmass_3.3.png" src="../../_images/hardware_rbicepmass_3.3.png" style="width: 404px; height: 278px;" />
+<div class="math">
+<p><img src="../../_images/math/7f52d288679b53d68766eebb7fb6d97a9f3b8e59.png" alt="\text{Mass} = 0.15794"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/2d691dbdca36be598e28617850d8ed461239df1b.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.02429 \\
+                  -0.00952 \\
+                  0.00320
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/de580f080fd7c15a24b2bafb656ce087899b04c5.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00011012031 &amp; +0.00007669131 &amp; -0.00002604607 \\
+                          +0.00007669131 &amp; +0.00036757653 &amp; +0.00001209828 \\
+                          -0.00002604607 &amp; +0.00001209828 &amp; +0.00035461772 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id4">
+<h4>Left<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LShoulderRoll</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/2183a9b8746fcadf59a7d9e11c3be19d1fdbfed1.png" alt="\text{Mass} = 0.15777"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/aa983460ab137ea43dd3b85b90a4fdb85ae5c67b.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.02455 \\
+                  0.00563 \\
+                  0.00330
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/d41d6898fcba267872d6506655c03f4f5d895e3f.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00009389993 &amp; -0.00004714452 &amp; -0.00002699471 \\
+                          -0.00004714452 &amp; +0.00037151879 &amp; -0.00000245977 \\
+                          -0.00002699471 &amp; -0.00000245977 &amp; +0.00034190083 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="elbows">
+<h3>Elbows<a class="headerlink" href="#elbows" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h4>Right<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RElbowYaw</strong>.</p>
+<img alt="../../_images/hardware_relbowmass_3.3.png" src="../../_images/hardware_relbowmass_3.3.png" style="width: 242px; height: 171px;" />
+<div class="math">
+<p><img src="../../_images/math/20198f001413245f1f92c6ade85541615498046f.png" alt="\text{Mass} = 0.06483"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/f8f242da6867c2470a132c50314b41df29011daf.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.02744 \\
+                  0.00000 \\
+                  -0.00014
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/01db65e07e6a9ae8d937ae8f99a777f6bffb52e4.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00000559715 &amp; +0.00000000421 &amp; +0.00000004319 \\
+                          +0.00000000421 &amp; +0.00007543312 &amp; -0.00000000184 \\
+                          +0.00000004319 &amp; -0.00000000184 &amp; +0.00007644339 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id6">
+<h4>Left<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LElbowYaw</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/20198f001413245f1f92c6ade85541615498046f.png" alt="\text{Mass} = 0.06483"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/f8f242da6867c2470a132c50314b41df29011daf.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.02744 \\
+                  0.00000 \\
+                  -0.00014
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/01db65e07e6a9ae8d937ae8f99a777f6bffb52e4.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00000559715 &amp; +0.00000000421 &amp; +0.00000004319 \\
+                          +0.00000000421 &amp; +0.00007543312 &amp; -0.00000000184 \\
+                          +0.00000004319 &amp; -0.00000000184 &amp; +0.00007644339 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="motorized-forearms">
+<h3>Motorized ForeArms<a class="headerlink" href="#motorized-forearms" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h4>Right<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RElbowRoll</strong>.</p>
+<img alt="../../_images/hardware_rmotorizedforearmmass_3.3.png" src="../../_images/hardware_rmotorizedforearmmass_3.3.png" style="width: 263px; height: 243px;" />
+<div class="math">
+<p><img src="../../_images/math/48c18e768d98042f6916645f1a3ed979b23012a0.png" alt="\text{Mass} = 0.07778"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/37fab4aa7a1179c74e3b0acbd4d75b399ef0b1ab.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.02552 \\
+                  -0.00281 \\
+                  0.00090
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/87e6d5784bab8527ef0b0652383158e182700b1e.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00002539070 &amp; +0.00000233243 &amp; -0.00000060117 \\
+                          +0.00000233243 &amp; +0.00008922036 &amp; +0.00000002694 \\
+                          -0.00000060117 &amp; +0.00000002694 &amp; +0.00008724843 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id8">
+<h4>Left<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LElbowRoll</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/56a2addb1d7a789712214a434787cd5d5a375028.png" alt="\text{Mass} = 0.07761"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/fb4371e277c6d262d3d311f71a6c12108e37d9b7.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.02556 \\
+                  0.00281 \\
+                  0.00076
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/9afc356e3a0191e2b4752871a2fb3400228d80b8.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00002533220 &amp; -0.00000234271 &amp; +0.00000007459 \\
+                          -0.00000234271 &amp; +0.00008913220 &amp; -0.00000002655 \\
+                          +0.00000007459 &amp; -0.00000002655 &amp; +0.00008728726 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+</div>
+<div class="section" id="hands-motorized">
+<h2>Hands - motorized<a class="headerlink" href="#hands-motorized" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3>Right<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>(o, R) is located on the joint: <strong>RWristYaw</strong>.</p>
+<img alt="../../_images/hardware_rmotorizedhandmass_3.3.png" src="../../_images/hardware_rmotorizedhandmass_3.3.png" style="width: 295px; height: 257px;" />
+<div class="math">
+<p><img src="../../_images/math/2aac14aeed5ec9a6ef2d48189b5b1decbe634ac5.png" alt="\text{Mass} = 0.18533"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/3fa7fd9c7b435ed2814b4107cd04522e44ed0b8f.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.03434 \\
+                  -0.00088 \\
+                  0.00308
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/997c994a9418992930d34306d241f2854991872e.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00007054933 &amp; +0.00000571599 &amp; -0.00002247437 \\
+                          +0.00000571599 &amp; +0.00035606232 &amp; +0.00000317771 \\
+                          -0.00002247437 &amp; +0.00000317771 &amp; +0.00035191933 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id10">
+<h3>Left<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>(o, R) is located on the joint: <strong>LWristYaw</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/2aac14aeed5ec9a6ef2d48189b5b1decbe634ac5.png" alt="\text{Mass} = 0.18533"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/3fa7fd9c7b435ed2814b4107cd04522e44ed0b8f.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.03434 \\
+                  -0.00088 \\
+                  0.00308
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/997c994a9418992930d34306d241f2854991872e.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00007054933 &amp; +0.00000571599 &amp; -0.00002247437 \\
+                          +0.00000571599 &amp; +0.00035606232 &amp; +0.00000317771 \\
+                          -0.00002247437 &amp; +0.00000317771 &amp; +0.00035191933 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="legs">
+<h2>Legs<a class="headerlink" href="#legs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pelvis">
+<h3>Pelvis<a class="headerlink" href="#pelvis" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h4>Right<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RHipYawPitch</strong>.</p>
+<img alt="../../_images/hardware_rpelvismass_3.3.png" src="../../_images/hardware_rpelvismass_3.3.png" style="width: 221px; height: 210px;" />
+<div class="math">
+<p><img src="../../_images/math/4a9943251bc8b59c9b22059c319c050069f2e784.png" alt="\text{Mass} = 0.07118"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/ead1c1eb6604f39890a3dd57a89fdb534e5fda3b.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.00766 \\
+                  0.01200 \\
+                  0.02716
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/2594d82f9abf3c278621343fd34333b77badb5bf.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00008997195 &amp; +0.00000500219 &amp; +0.00001273525 \\
+                          +0.00000500219 &amp; +0.00010552611 &amp; -0.00002770080 \\
+                          +0.00001273525 &amp; -0.00002770080 &amp; +0.00006688724 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id12">
+<h4>Left<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LHipYawPitch</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/799db6b73b1c4efae690f2c6bc9945b862d22047.png" alt="\text{Mass} = 0.06981"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/fe397480f131efb2915cfc28c650d8aa114cbdf6.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.00781 \\
+                  -0.01114 \\
+                  0.02661
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/fea1af87141965667fa638f944cca4c3f3029a9f.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00008150233 &amp; -0.00000499449 &amp; +0.00001274817 \\
+                          -0.00000499449 &amp; +0.00010132555 &amp; +0.00002345474 \\
+                          +0.00001274817 &amp; +0.00002345474 &amp; +0.00006262363 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="hips">
+<h3>Hips<a class="headerlink" href="#hips" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h4>Right<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RHipRoll</strong>.</p>
+<img alt="../../_images/hardware_rhipmass_3.3.png" src="../../_images/hardware_rhipmass_3.3.png" style="width: 228px; height: 215px;" />
+<div class="math">
+<p><img src="../../_images/math/ffef2f7e9530ce4d49c9d1c214bd7840f8c48c9f.png" alt="\text{Mass} = 0.13053"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/c9e1637b2a29dc43b757e39985862f7db3c418a2.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.01549 \\
+                  -0.00029 \\
+                  -0.00516
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/d3f3fb37883f47fb2b71dce38887fbd815f118ed.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00002758654 &amp; -0.00000001919 &amp; -0.00000410822 \\
+                          -0.00000001919 &amp; +0.00009826996 &amp; +0.00000000251 \\
+                          -0.00000410822 &amp; +0.00000000251 &amp; +0.00008810332 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id14">
+<h4>Left<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LHipRoll</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/ffef2f7e9530ce4d49c9d1c214bd7840f8c48c9f.png" alt="\text{Mass} = 0.13053"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/5aabeae2d3ab07dd4a8b989da819850866867fa6.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  -0.01549 \\
+                  0.00029 \\
+                  -0.00515
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/61e09e36b6d10390ee329f516a04b582cf4e1b6b.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00002758354 &amp; -0.00000002233 &amp; -0.00000408164 \\
+                          -0.00000002233 &amp; +0.00009827055 &amp; -0.00000000419 \\
+                          -0.00000408164 &amp; -0.00000000419 &amp; +0.00008809973 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="thighs">
+<h3>Thighs<a class="headerlink" href="#thighs" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h4>Right<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RHipPitch</strong>.</p>
+<img alt="../../_images/hardware_rthighmass_3.3.png" src="../../_images/hardware_rthighmass_3.3.png" style="width: 300px; height: 425px;" />
+<div class="math">
+<p><img src="../../_images/math/b5b6ceb2f95e03fa7c67390308682d002c61e16d.png" alt="\text{Mass} = 0.38976"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/6042e423fc9c3b0279948ffb95fb15318cb6f3d2.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.00139 \\
+                  -0.00225 \\
+                  -0.05374
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/e604369e10d5d2f9c1b5f74393c10b51b9aa3cb8.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00163748205 &amp; -0.00000083954 &amp; +0.00008588301 \\
+                          -0.00000083954 &amp; +0.00159221403 &amp; -0.00003917626 \\
+                          +0.00008588301 &amp; -0.00003917626 &amp; +0.00030397824 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id16">
+<h4>Left<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LHipPitch</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/65158edf9a9e7b016263f187a8138ec6f081236f.png" alt="\text{Mass} = 0.38968"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/4f944842e74910634ddaefe32aeafa9a0a90bd44.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.00138 \\
+                  0.00221 \\
+                  -0.05373
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/fa2ad7ca23c0a19e8f0e85887962423692d27767.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00163671962 &amp; +0.00000092451 &amp; +0.00008530668 \\
+                          +0.00000092451 &amp; +0.00159107278 &amp; +0.00003836160 \\
+                          +0.00008530668 &amp; +0.00003836160 &amp; +0.00030374342 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="tibia">
+<h3>Tibia<a class="headerlink" href="#tibia" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h4>Right<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RKneePitch</strong>.</p>
+<img alt="../../_images/hardware_rtibiamass_3.3.png" src="../../_images/hardware_rtibiamass_3.3.png" style="width: 290px; height: 395px;" />
+<div class="math">
+<p><img src="../../_images/math/a9b5a38ed3b3045698933fa3bcff0e94a0003386.png" alt="\text{Mass} = 0.29163"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/c417af52d406acb8f7caafa68fa79c824407398c.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.00394 \\
+                  -0.00221 \\
+                  -0.04938
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/79da825ec5e75c3074139373727dd7c9f86ec71d.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00118282956 &amp; -0.00000089650 &amp; +0.00002799690 \\
+                          -0.00000089650 &amp; +0.00112827851 &amp; -0.00003847604 \\
+                          +0.00002799690 &amp; -0.00003847604 &amp; +0.00019145277 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id18">
+<h4>Left<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LKneePitch</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/65c2cf028fd738a1966b094fceae09d03bbf83bf.png" alt="\text{Mass} = 0.29142"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/7fc42bd373d2e599c1c56a66857aca111427059b.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.00453 \\
+                  0.00225 \\
+                  -0.04936
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/7ff386948076f31bed40f4532781e322739a17b2.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00118207967 &amp; +0.00000063362 &amp; +0.00003649697 \\
+                          +0.00000063362 &amp; +0.00112865226 &amp; +0.00003949523 \\
+                          +0.00003649697 &amp; +0.00003949523 &amp; +0.00019322744 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="ankle">
+<h3>Ankle<a class="headerlink" href="#ankle" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h4>Right<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RAnklePitch</strong>.</p>
+<img alt="../../_images/hardware_ranklemass_3.3.png" src="../../_images/hardware_ranklemass_3.3.png" style="width: 238px; height: 221px;" />
+<div class="math">
+<p><img src="../../_images/math/8e32043d5aa5d418597f00519dd474526cc16eea.png" alt="\text{Mass} = 0.13415"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/511011f928e8866711743cb837b16283c5e06971.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.00045 \\
+                  -0.00030 \\
+                  0.00684
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/6ccad860200509332f6d897ebfcffc2731de7c60.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00003850813 &amp; +0.00000006434 &amp; +0.00000387466 \\
+                          +0.00000006434 &amp; +0.00007431082 &amp; -0.00000000458 \\
+                          +0.00000387466 &amp; -0.00000000458 &amp; +0.00005491312 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id20">
+<h4>Left<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LAnklePitch</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/eb86a11f3e9b9b8f8524347e78dde49ba00719aa.png" alt="\text{Mass} = 0.13416"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/b8b068f675258850e6e20bf6ecd7dfef503480e1.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.00045 \\
+                  0.00029 \\
+                  0.00685
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/b84a1b1d87b1361a4a254b46710871d4156134fd.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00003850978 &amp; -0.00000002634 &amp; +0.00000386194 \\
+                          -0.00000002634 &amp; +0.00007426526 &amp; +0.00000001834 \\
+                          +0.00000386194 &amp; +0.00000001834 &amp; +0.00005486540 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+<div class="section" id="feet">
+<h3>Feet<a class="headerlink" href="#feet" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h4>Right<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>RAnkleRoll</strong>.</p>
+<img alt="../../_images/hardware_rfootmass_3.3.png" src="../../_images/hardware_rfootmass_3.3.png" style="width: 395px; height: 327px;" />
+<div class="math">
+<p><img src="../../_images/math/9f45c630b4b9e7dd2c5397a94c4b80ceed0c52e5.png" alt="\text{Mass} = 0.16171"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/9bb954ecc1da24d3b363e2053c8eb055b358f210.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.02540 \\
+                  -0.00332 \\
+                  -0.03239
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/acad768e74091b7129982868f974e7d9fb5c311d.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00026930201 &amp; +0.00000587505 &amp; +0.00013913328 \\
+                          +0.00000587505 &amp; +0.00064347385 &amp; -0.00001884917 \\
+                          +0.00013913328 &amp; -0.00001884917 &amp; +0.00052503477 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+<div class="section" id="id22">
+<h4>Left<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
+<p>(o, R) is located on the joint: <strong>LAnkleRoll</strong>.</p>
+<div class="math">
+<p><img src="../../_images/math/3654079a7f66e6fdc35ad4798b4428b0fca83ef4.png" alt="\text{Mass} = 0.16184"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/01eda85cc789bfde9c0153a926e0754cadc64d38.png" alt="\text{CoM(S)} = \left[
+                \begin{array}{c}
+                  0.02542 \\
+                  0.00330 \\
+                  -0.03239
+                \end{array}
+                \right]_{(o, R)}"/></p>
+</div><div class="math">
+<p><img src="../../_images/math/afaa1d086e96789146915e55b12db09011173ba9.png" alt="\left[I_o(S)\right]_R = \left[
+                        \begin{array}{ccc}
+                          +0.00026944182 &amp; -0.00000569572 &amp; +0.00013937948 \\
+                          -0.00000569572 &amp; +0.00064434250 &amp; +0.00001874092 \\
+                          +0.00013937948 &amp; +0.00001874092 &amp; +0.00052575675 \\
+                        \end{array}
+                        \right]_R"/></p>
+</div></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="joints_h25_v32.html" title="H25 - Joints - V 3.2">H25 - Joints - V 3.2</a>
+     |
+    <a href="index_h25.html" title="NAO H25" accesskey="U">NAO H25</a>
+   |
+    <a href="masses_h25_v33.html" title="H25 - Masses - V 3.3">H25 - Masses - V 3.3</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../nao/index.html">NAO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/configuring.html">Configuring NAO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/taking-care.html">Taking care of <strong>NAO</strong></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Hardware</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../body_type.html">Robot version and Body Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../robots/index_robots.html">NAO Technical overview</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index_h25.html">NAO H25</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dimensions_h25.html">H25 - Dimensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="links_h25.html">H25 - Links</a></li>
+<li class="toctree-l4"><a class="reference internal" href="joints_h25.html">H25 - Joints</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">H25 - Masses</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="masses_h25_v33.html">H25 - Masses - V 3.3</a></li>
+<li class="toctree-l5"><a class="reference internal" href="masses_h25_v32.html">H25 - Masses - V 3.2</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="motors_h25.html">H25 - Motors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="leds_h25.html">H25 - LEDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mre_h25.html">H25 - Joint position sensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="contact-sensors_h25.html">H25 - Contact and tactile sensors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_t14/index_t14.html">NAO T14</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_h21/index_h21.html">NAO H21</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_t2/index_t2.html">NAO T2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">H25 - Masses</a><ul>
+<li><a class="reference internal" href="#legend">Legend</a></li>
+<li><a class="reference internal" href="#whole-robot">Whole robot</a></li>
+<li><a class="reference internal" href="#torso">Torso</a></li>
+<li><a class="reference internal" href="#head">Head</a><ul>
+<li><a class="reference internal" href="#neck">Neck</a></li>
+<li><a class="reference internal" href="#id2">Head</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#arms">Arms</a><ul>
+<li><a class="reference internal" href="#shoulders">Shoulders</a><ul>
+<li><a class="reference internal" href="#right">Right</a></li>
+<li><a class="reference internal" href="#left">Left</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#biceps">Biceps</a><ul>
+<li><a class="reference internal" href="#id3">Right</a></li>
+<li><a class="reference internal" href="#id4">Left</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#elbows">Elbows</a><ul>
+<li><a class="reference internal" href="#id5">Right</a></li>
+<li><a class="reference internal" href="#id6">Left</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#motorized-forearms">Motorized ForeArms</a><ul>
+<li><a class="reference internal" href="#id7">Right</a></li>
+<li><a class="reference internal" href="#id8">Left</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hands-motorized">Hands - motorized</a><ul>
+<li><a class="reference internal" href="#id9">Right</a></li>
+<li><a class="reference internal" href="#id10">Left</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#legs">Legs</a><ul>
+<li><a class="reference internal" href="#pelvis">Pelvis</a><ul>
+<li><a class="reference internal" href="#id11">Right</a></li>
+<li><a class="reference internal" href="#id12">Left</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hips">Hips</a><ul>
+<li><a class="reference internal" href="#id13">Right</a></li>
+<li><a class="reference internal" href="#id14">Left</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#thighs">Thighs</a><ul>
+<li><a class="reference internal" href="#id15">Right</a></li>
+<li><a class="reference internal" href="#id16">Left</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tibia">Tibia</a><ul>
+<li><a class="reference internal" href="#id17">Right</a></li>
+<li><a class="reference internal" href="#id18">Left</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ankle">Ankle</a><ul>
+<li><a class="reference internal" href="#id19">Right</a></li>
+<li><a class="reference internal" href="#id20">Left</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#feet">Feet</a><ul>
+<li><a class="reference internal" href="#id21">Right</a></li>
+<li><a class="reference internal" href="#id22">Left</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="joints_h25_v32.html" title="H25 - Joints - V 3.2">previous</a>
+     |
+    <a href="index_h25.html" title="NAO H25" accesskey="U">up</a>
+   |
+    <a href="masses_h25_v33.html" title="H25 - Masses - V 3.3">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

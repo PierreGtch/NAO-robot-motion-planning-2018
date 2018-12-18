@@ -1,0 +1,339 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALSonar &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Sensors" href="index.html" />
+    <link rel="next" title="ALSonar API" href="alsonar-api.html" />
+    <link rel="prev" title="ALSensors API" href="alsensors-api.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="alsensors-api.html" title="ALSensors API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Sensors" accesskey="U">up</a>
+   |
+    <a href="alsonar-api.html" title="ALSonar API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-sensors-alsonar">
+            
+  <div class="section" id="alsonar">
+<span id="id1"></span><h1>ALSonar<a class="headerlink" href="#alsonar" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-sensors"><em>NAOqi Sensors</em></a> - Overview | <a class="reference internal" href="alsonar-api.html#alsonar-api"><em>API</em></a></p>
+<hr class="docutils" />
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="../../family/robots/sonar_robot.html#robot-sonar"><em>Sonars Hardware</em></a></li>
+</ul>
+</div>
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p><strong>ALsonar</strong> module retrieves ultrasonic sensor value from  <a class="reference internal" href="../core/almemory.html#almemory"><em>ALMemory</em></a>,
+process it and raises events according to the situation.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>In order to save battery power, ultrasonic sensors are not activated by default.</p>
+<p>There are 4 different ultrasonic events: <tt class="docutils literal"><span class="pre">SonarLeftDetected</span></tt>, <tt class="docutils literal"><span class="pre">SonarRightDetected</span></tt>,
+<tt class="docutils literal"><span class="pre">SonarLeftNothingDetected</span></tt>, <tt class="docutils literal"><span class="pre">SonarRightNothingDetected</span></tt>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="31%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Case</th>
+<th class="head">Raised event</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="../../_images/sonar_front_left.png" class="first last" src="../../_images/sonar_front_left.png" />
+</td>
+<td><tt class="docutils literal"><span class="pre">SonarLeftDetected</span></tt></td>
+<td>There is something in front of NAO (left side) at less
+than 0.5m. This means that NAO can&#8217;t go forward and has to stop and turn right
+to avoid the obstacle.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../_images/sonar_front_right.png" class="first last" src="../../_images/sonar_front_right.png" />
+</td>
+<td><tt class="docutils literal"><span class="pre">SonarRightDetected</span></tt></td>
+<td>There is something in front of NAO (right side) at less
+than 0.5m. This means that NAO can&#8217;t go forward and has to stop and turn left
+to avoid the obstacle.</td>
+</tr>
+<tr class="row-even"><td><img alt="../../_images/sonar_right.png" class="first last" src="../../_images/sonar_right.png" />
+</td>
+<td><tt class="docutils literal"><span class="pre">SonarLeftNothingDetected</span></tt></td>
+<td>There is nothing in front of NAO nor on his left side,
+this means NAO can go forward or turn left. An obstacle is present on the right
+side at less than 0.5m but it is not a problem if NAO goes forward.</td>
+</tr>
+<tr class="row-odd"><td><img alt="../../_images/sonar_left.png" class="first last" src="../../_images/sonar_left.png" />
+</td>
+<td><tt class="docutils literal"><span class="pre">SonarRightNothingDetected</span></tt></td>
+<td>There is nothing in front of NAO nor on his right side,
+this means NAO can go forward or turn left. An obstacle is present on the left
+side at less than 0.5m but it is not a problem if NAO goes forward.</td>
+</tr>
+<tr class="row-even"><td><img alt="../../_images/sonar_front_none.png" class="first last" src="../../_images/sonar_front_none.png" />
+</td>
+<td><tt class="docutils literal"><span class="pre">SonarLeftNothingDetected</span></tt> and <tt class="docutils literal"><span class="pre">SonarRightNothingDetected</span></tt></td>
+<td>There is no obstacle, both <tt class="docutils literal"><span class="pre">SonarLeftNothingDetected</span></tt> and
+<tt class="docutils literal"><span class="pre">SonarRightNothingDetected</span></tt> are raised at the same time.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you want to perform your own detection with sonars you can also retrieve
+ultrasonic sensor values from ALMemory (find corresponding keys in
+<a class="reference internal" href="../../family/robots/sonar_robot.html#sonar-key"><em>Accessing value using ALMemory keys</em></a>).
+If you are not familiar with this consult getData function of <a class="reference internal" href="../core/almemory-api.html#almemory-api"><em>ALMemory API</em></a>.</p>
+</div>
+</div>
+<div class="section" id="performance-and-limitations">
+<h2>Performance and Limitations<a class="headerlink" href="#performance-and-limitations" title="Permalink to this headline">¶</a></h2>
+<p>The obstacle detection threshold is 0.5m (it is a software threshold).
+Detected obstacles are seen only if the distance is less than this threshold.</p>
+<p>The sonar values are updated by the HAL every 100ms. Hence the readable value
+accessible through ALMemory or the events are updated at the corresponding frequency.</p>
+<p>Only one sonar event is raised at the same time. This is because at a given time
+we use both left and right ultrasonic sensor data, to determine in which
+situation we are so as to raise the corresponding event.</p>
+</div>
+<div class="section" id="getting-started">
+<span id="alsonar-getting-started"></span><h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p><strong>Starting ultrasonic hardware</strong></p>
+<p>Ultrasonic sensor hardware is not started by default. To start it,
+subscribe to ALSonar module (use <tt class="docutils literal"><span class="pre">ALSonarProxy::subscribe</span></tt>, inherited from
+<a class="reference internal" href="../core/alextractor-api.html#ALExtractor::subscribe__ssCR.iCR.floatCR" title="ALExtractor::subscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::subscribe()</span></tt></a>).
+Doing so starts the ultrasonic sensor hardware automatically.</p>
+<p><strong>Checking the hardware</strong></p>
+<p>To check that your ultrasonic sensor works properly you can start
+Choregraphe and launch a Sonar box. First ensure that you are connected to your
+real NAO hardware. Then drag and drop a sonar box in your diagram and run the
+behavior.</p>
+<p><strong>Observing the signal</strong></p>
+<p>When a Sonar box is launched, you can watch the signal of the ultrasonic
+sensor with Monitor.</p>
+<p><strong>Stopping ultrasonic hardware</strong></p>
+<p>To stop it, unsubscribe from the ALSonar module (use <tt class="docutils literal"><span class="pre">ALSonarProxy::unsubscribe</span></tt>,
+inherited from <a class="reference internal" href="../core/alextractor-api.html#ALExtractor::unsubscribe__ssCR" title="ALExtractor::unsubscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALExtractor::unsubscribe()</span></tt></a>).</p>
+<p>If there are multiple subscribers, the ultrasonic sensor hardware will remain
+active as long as remains at least one subscriber.</p>
+<p><a class="reference download internal" href="../../_downloads/sensors_sonar.py"><tt class="xref download docutils literal"><span class="pre">sensors_sonar.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="c"># Before running this command please check your PYTHONPATH is set correctly to the folder of your pynaoqi sdk.</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span> 
+
+<span class="c"># Set the IP address of your NAO.</span>
+<span class="n">ip</span> <span class="o">=</span> <span class="s">&quot;10.0.252.97&quot;</span>
+
+<span class="c"># Connect to ALSonar module.</span>
+<span class="n">sonarProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALSonar&quot;</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+
+<span class="c"># Subscribe to sonars, this will launch sonars (at hardware level) and start data acquisition.</span>
+<span class="n">sonarProxy</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;myApplication&quot;</span><span class="p">)</span>
+
+<span class="c">#Now you can retrieve sonar data from ALMemory.</span>
+<span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+
+<span class="c"># Get sonar left first echo (distance in meters to the first obstacle).</span>
+<span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/US/Left/Sensor/Value&quot;</span><span class="p">)</span>
+
+<span class="c"># Same thing for right.</span>
+<span class="n">memoryProxy</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="s">&quot;Device/SubDeviceList/US/Right/Sensor/Value&quot;</span><span class="p">)</span>
+
+<span class="c"># Please read Sonar ALMemory keys section if you want to know the other values you can get.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h2>
+<p>You can use ultrasonic sensor to perform obstacle detection.</p>
+</div>
+<div class="section" id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<p><strong>How can I start and stop my ultrasonic senors</strong></p>
+<p>Please see <a class="reference internal" href="#alsonar-getting-started"><em>Getting started</em></a> section.</p>
+<p><strong>When connected to choregraphe, sonar box returns only left or nothing</strong></p>
+<p>Check that you are connected to your real <strong>NAO</strong> and not to the local <strong>NAOqi</strong>
+provided by <strong>Choregraphe</strong>.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="alsensors-api.html" title="ALSensors API">ALSensors API</a>
+     |
+    <a href="index.html" title="NAOqi Sensors" accesskey="U">NAOqi Sensors</a>
+   |
+    <a href="alsonar-api.html" title="ALSonar API">ALSonar API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Sensors</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albattery.html">ALBattery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alfsr.html">ALFsr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alinfrared.html">ALInfrared</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allaser.html">ALLaser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotpose.html">ALRobotPose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alsensors.html">ALSensors</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">ALSonar</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="alsonar-api.html">ALSonar API</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="alleds.html">ALLeds</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALSonar</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li><a class="reference internal" href="#performance-and-limitations">Performance and Limitations</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#use-cases">Use Cases</a></li>
+<li><a class="reference internal" href="#faq">FAQ</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="alsensors-api.html" title="ALSensors API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Sensors" accesskey="U">up</a>
+   |
+    <a href="alsonar-api.html" title="ALSonar API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

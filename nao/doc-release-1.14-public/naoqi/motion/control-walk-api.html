@@ -1,0 +1,1867 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Locomotion control API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Locomotion control" href="control-walk.html" />
+    <link rel="next" title="Locomotion control Tutorial: The Robot Position" href="control-walk-tuto2.html" />
+    <link rel="prev" title="Locomotion control" href="control-walk.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="control-walk.html" title="Locomotion control">previous</a>
+     |
+    <a href="control-walk.html" title="Locomotion control" accesskey="U">up</a>
+   |
+    <a href="control-walk-tuto2.html" title="Locomotion control Tutorial: The Robot Position">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-control-walk-api">
+            
+  <div class="section" id="locomotion-control-api">
+<span id="control-walk-api"></span><h1>Locomotion control API<a class="headerlink" href="#locomotion-control-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-motion"><em>NAOqi Motion</em></a> - <a class="reference internal" href="control-walk.html#control-walk"><em>Overview</em></a> | API |
+<a class="reference internal" href="control-walk-tuto2.html#control-walk-tuto2"><em>robot position Tutorial</em></a></p>
+<hr class="docutils" />
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ALMotionProxy">
+<em class="property">class </em><tt class="descname">ALMotionProxy</tt><a class="headerlink" href="#ALMotionProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALMotionProxy::move__floatCR.floatCR.floatCR" title="ALMotionProxy::move"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::move()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::moveToward__floatCR.floatCR.floatCR" title="ALMotionProxy::moveToward"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveToward()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR" title="ALMotionProxy::setWalkTargetVelocity"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setWalkTargetVelocity()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::walkTo__floatCR.floatCR.floatCR" title="ALMotionProxy::walkTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::walkTo()</span></tt></a> (deprecated, use moveTo instead)</li>
+<li><a class="reference internal" href="#ALMotionProxy::setFootSteps__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="ALMotionProxy::setFootSteps"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setFootSteps()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::setFootStepsWithSpeed__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="ALMotionProxy::setFootStepsWithSpeed"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setFootStepsWithSpeed()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::getFootSteps" title="ALMotionProxy::getFootSteps"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getFootSteps()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::moveInit" title="ALMotionProxy::moveInit"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveInit()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::walkInit" title="ALMotionProxy::walkInit"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::walkInit()</span></tt></a> (deprecated, use moveInit instead)</li>
+<li><a class="reference internal" href="#ALMotionProxy::waitUntilWalkIsFinished" title="ALMotionProxy::waitUntilWalkIsFinished"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::waitUntilWalkIsFinished()</span></tt></a> (deprecated, use waitUntilMoveIsFinished instead)</li>
+<li><a class="reference internal" href="#ALMotionProxy::waitUntilMoveIsFinished" title="ALMotionProxy::waitUntilMoveIsFinished"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::waitUntilMoveIsFinished()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::walkIsActive" title="ALMotionProxy::walkIsActive"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::walkIsActive()</span></tt></a> (deprecated, use moveIsActive instead)</li>
+<li><a class="reference internal" href="#ALMotionProxy::moveIsActive" title="ALMotionProxy::moveIsActive"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveIsActive()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::stopWalk" title="ALMotionProxy::stopWalk"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::stopWalk()</span></tt></a> (deprecated, use stopMove instead)</li>
+<li><a class="reference internal" href="#ALMotionProxy::stopMove" title="ALMotionProxy::stopMove"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::stopMove()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::getFootGaitConfig__ssCR" title="ALMotionProxy::getFootGaitConfig"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getFootGaitConfig()</span></tt></a>  (deprecated, use getMoveConfig instead)</li>
+<li><a class="reference internal" href="#ALMotionProxy::getMoveConfig__ssCR" title="ALMotionProxy::getMoveConfig"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getMoveConfig()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::getRobotPosition__bCR" title="ALMotionProxy::getRobotPosition"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getRobotPosition()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::getNextRobotPosition" title="ALMotionProxy::getNextRobotPosition"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getNextRobotPosition()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::getRobotVelocity" title="ALMotionProxy::getRobotVelocity"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getRobotVelocity()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::getWalkArmsEnabled" title="ALMotionProxy::getWalkArmsEnabled"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getWalkArmsEnabled()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::setWalkArmsEnabled__bCR.bCR" title="ALMotionProxy::setWalkArmsEnabled"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setWalkArmsEnabled()</span></tt></a></li>
+</ul>
+<span class="target" id="almotionproxy-move1"></span><dl class="function">
+<dt id="ALMotionProxy::move__floatCR.floatCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">move</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em><big>)</big><a class="headerlink" href="#ALMotionProxy::move__floatCR.floatCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are two overloads of this function:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#almotionproxy-move1"><em>ALMotionProxy::move</em></a></li>
+<li><a class="reference internal" href="#almotionproxy-move2"><em>ALMotionProxy::move</em></a> with move configuration</li>
+</ul>
+<p>Makes the robot move at the given velocity, expressed in FRAME_ROBOT. This
+is a non-blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; velocity along X-axis, in meters per second. Use negative values for
+backward motion</li>
+<li><strong>y</strong> &#8211; velocity along Y-axis, in meters per second. Use positive values to
+go to the left</li>
+<li><strong>theta</strong> &#8211; velocity around Z-axis, in radians per second. Use negative
+values to turn clockwise.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-move2"></span><dl class="function">
+<dt id="ALMotionProxy::move__floatCR.floatCR.floatCR.AL::ALValueC">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">move</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue</a> <em>moveConfig</em><big>)</big><a class="headerlink" href="#ALMotionProxy::move__floatCR.floatCR.floatCR.AL::ALValueC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes the robot move at the given velocity, expressed in FRAME_ROBOT, with a
+move configuration. This is a non-blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; velocity along X-axis, in meters per second. Use negative values for
+backward motion</li>
+<li><strong>y</strong> &#8211; velocity along Y-axis, in meters per second. Use positive values to
+go to the left</li>
+<li><strong>theta</strong> &#8211; velocity around Z-axis, in radians per second. Use negative
+values to turn clockwise.</li>
+<li><strong>moveConfig</strong> &#8211; An ALValue with the custom move configuration.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-movetoward1"></span><dl class="function">
+<dt id="ALMotionProxy::moveToward__floatCR.floatCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">moveToward</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em><big>)</big><a class="headerlink" href="#ALMotionProxy::moveToward__floatCR.floatCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are two overloads of this function:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#almotionproxy-movetoward1"><em>ALMotionProxy::moveToward</em></a></li>
+<li><a class="reference internal" href="#almotionproxy-movetoward2"><em>ALMotionProxy::moveToward</em></a> with move configuration</li>
+</ul>
+<p>Makes the robot move at the given normalized velocity, expressed in
+FRAME_ROBOT. This is a non-blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; normalized, unitless, velocity along X-axis. +1 and -1 correspond to
+the maximum velocity in the forward and backward directions,
+respectively.</li>
+<li><strong>y</strong> &#8211; normalized, unitless, velocity along Y-axis. +1 and -1 correspond to
+the maximum velocity in the left and right directions,
+respectively.</li>
+<li><strong>theta</strong> &#8211; normalized, unitless, velocity around Z-axis. +1 and -1
+correspond to the maximum velocity in the counterclockwise and
+clockwise directions, respectively.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-movetoward2"></span><dl class="function">
+<dt id="ALMotionProxy::moveToward__floatCR.floatCR.floatCR.AL::ALValueC">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">moveToward</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue</a> <em>moveConfig</em><big>)</big><a class="headerlink" href="#ALMotionProxy::moveToward__floatCR.floatCR.floatCR.AL::ALValueC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes the robot move at the given normalized velocity, expressed in
+FRAME_ROBOT, with a move configuration. This is a non-blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; normalized, unitless, velocity along X-axis. +1 and -1 correspond to
+the maximum velocity in the forward and backward directions,
+respectively.</li>
+<li><strong>y</strong> &#8211; normalized, unitless, velocity along Y-axis. +1 and -1 correspond to
+the maximum velocity in the left and right directions,
+respectively.</li>
+<li><strong>theta</strong> &#8211; normalized, unitless, velocity around Z-axis. +1 and -1
+correspond to the maximum velocity in the counterclockwise and
+clockwise directions, respectively.</li>
+<li><strong>moveConfig</strong> &#8211; An ALValue with the custom move configuration.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-setwalktargetvelocity1"></span><dl class="function">
+<dt id="ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">setWalkTargetVelocity</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>frequency</em><big>)</big><a class="headerlink" href="#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are three overloads of this function:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#almotionproxy-setwalktargetvelocity1"><em>ALMotionProxy::setWalkTargetVelocity</em></a></li>
+<li><a class="reference internal" href="#almotionproxy-setwalktargetvelocity2"><em>ALMotionProxy::setWalkTargetVelocity</em></a> with feetGaitConfiguration</li>
+<li><a class="reference internal" href="#almotionproxy-setwalktargetvelocity3"><em>ALMotionProxy::setWalkTargetVelocity</em></a> with leftFootGaitConfig and rightFootGaitConfig</li>
+</ul>
+<p>Makes NAO walk at the given velocity. This is a non-blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; Fraction of MaxStepX. Use negative for backwards. [-1.0 to 1.0]</li>
+<li><strong>y</strong> &#8211; Fraction of MaxStepY. Use negative for right. [-1.0 to 1.0]</li>
+<li><strong>theta</strong> &#8211; Fraction of MaxStepTheta. Use negative for clockwise [-1.0 to 1.0]</li>
+<li><strong>frequency</strong> &#8211; Fraction of MaxStepFrequency [0.0 to 1.0]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_setwalktargetvelocity.py"><tt class="xref download docutils literal"><span class="pre">almotion_setwalktargetvelocity.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Example showing the use of setWalkTargetVelocity</span>
+    <span class="c"># The parameters are fractions of the maximums</span>
+    <span class="c"># Here we are asking for full speed forwards</span>
+    <span class="n">x</span>  <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">y</span>  <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">theta</span>  <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">frequency</span>  <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+
+    <span class="c"># If we don&#39;t send another command, he will move forever</span>
+    <span class="c"># Lets make him slow down(step length) and turn after 3 seconds</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="mf">0.6</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+
+    <span class="c"># Lets make him slow down(frequency) after 3 seconds</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">frequency</span>  <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+
+    <span class="c"># Lets make him stop after 3 seconds</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">stopMove</span><span class="p">()</span>
+    <span class="c"># Note that at any time, you can use a moveTo command</span>
+    <span class="c"># to run a precise distance. The last command received,</span>
+    <span class="c"># of velocity or position always wins</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_setwalktargetvelocity.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<span class="target" id="almotionproxy-setwalktargetvelocity2"></span><dl class="function">
+<dt id="ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">setWalkTargetVelocity</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>frequency</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>feetGaitConfig</em><big>)</big><a class="headerlink" href="#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes NAO walk at the given velocity. This is a non-blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; Fraction of MaxStepX. Use negative for backwards. [-1.0 to 1.0]</li>
+<li><strong>y</strong> &#8211; Fraction of MaxStepY. Use negative for right. [-1.0 to 1.0]</li>
+<li><strong>theta</strong> &#8211; Fraction of MaxStepTheta. Use negative for clockwise [-1.0 to 1.0]</li>
+<li><strong>frequency</strong> &#8211; Fraction of MaxStepFrequency [0.0 to 1.0]</li>
+<li><strong>feetGaitConfig</strong> &#8211; An ALValue with the custom gait configuration for both feet</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-setwalktargetvelocity3"></span><dl class="function">
+<dt id="ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR.AL::ALValueCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">setWalkTargetVelocity</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>frequency</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>leftFootGaitConfig</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>rightFootGaitConfig</em><big>)</big><a class="headerlink" href="#ALMotionProxy::setWalkTargetVelocity__floatCR.floatCR.floatCR.floatCR.AL::ALValueCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes NAO walk at the given velocity. This is a non-blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; Fraction of MaxStepX. Use negative for backwards. [-1.0 to 1.0]</li>
+<li><strong>y</strong> &#8211; Fraction of MaxStepY. Use negative for right. [-1.0 to 1.0]</li>
+<li><strong>theta</strong> &#8211; Fraction of MaxStepTheta. Use negative for clockwise [-1.0 to 1.0]</li>
+<li><strong>frequency</strong> &#8211; Fraction of MaxStepFrequency [0.0 to 1.0]</li>
+<li><strong>leftFootGaitConfig</strong> &#8211; An ALValue with custom gait configuration for the left foot</li>
+<li><strong>rightFootGaitConfig</strong> &#8211; An ALValue with custom gait configuration for the right foot</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-moveto1"></span><dl class="function">
+<dt id="ALMotionProxy::moveTo__floatCR.floatCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">moveTo</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em><big>)</big><a class="headerlink" href="#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are four overloads of this function:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#almotionproxy-moveto1"><em>ALMotionProxy::moveTo</em></a></li>
+<li><a class="reference internal" href="#almotionproxy-moveto2"><em>ALMotionProxy::moveTo</em></a> with move configuration</li>
+<li><a class="reference internal" href="#almotionproxy-moveto3"><em>ALMotionProxy::moveTo</em></a> with controlPoints</li>
+<li><a class="reference internal" href="#almotionproxy-moveto4"><em>ALMotionProxy::moveTo</em></a> with controlPoints and move configuration</li>
+</ul>
+<p>Makes NAO move to the given pose in the ground plane, relative to FRAME_ROBOT.
+This is a blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; Distance along the X axis in meters.</li>
+<li><strong>y</strong> &#8211; Distance along the Y axis in meters.</li>
+<li><strong>theta</strong> &#8211; Rotation around the Z axis in radians [-3.1415 to 3.1415].</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_moveto.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_moveto.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+<span class="cp">#include &lt;alproxies/alrobotpostureproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_moveto robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALRobotPostureProxy</span> <span class="n">robotPosture</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="n">robotPosture</span><span class="p">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5f</span><span class="p">);</span>
+
+  <span class="c1">// Example showing the moveTo command</span>
+  <span class="c1">// as length of path is less than 0.4m</span>
+  <span class="c1">// the path will be an SE3 interpolation</span>
+  <span class="c1">// The units for this command are meters and radians</span>
+  <span class="kt">float</span> <span class="n">x</span>  <span class="o">=</span> <span class="mf">0.2f</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">y</span>  <span class="o">=</span> <span class="mf">0.2f</span><span class="p">;</span>
+  <span class="c1">// pi/2 anti-clockwise (90 degrees)</span>
+  <span class="kt">float</span> <span class="n">theta</span> <span class="o">=</span> <span class="mf">1.5709f</span><span class="p">;</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">moveTo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">);</span>
+  <span class="c1">// Will block until walk Task is finished</span>
+
+  <span class="c1">// Example showing the moveTo command</span>
+  <span class="c1">// as length of path is more than 0.4m</span>
+  <span class="c1">// the path will be follow a dubins curve</span>
+  <span class="c1">// The units for this command are meters and radians</span>
+  <span class="n">x</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">0.1f</span><span class="p">;</span>
+  <span class="n">y</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">0.5f</span><span class="p">;</span>
+  <span class="n">theta</span>  <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">moveTo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_moveto.py"><tt class="xref download docutils literal"><span class="pre">almotion_moveto.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Example showing the moveTo command</span>
+    <span class="c"># The units for this command are meters and radians</span>
+    <span class="n">x</span>  <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">y</span>  <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">theta</span>  <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+    <span class="c"># Will block until move Task is finished</span>
+
+    <span class="c">########</span>
+    <span class="c"># NOTE #</span>
+    <span class="c">########</span>
+    <span class="c"># If moveTo() method does nothing on the robot,</span>
+    <span class="c"># read the section about walk protection in the</span>
+    <span class="c"># Locomotion control overview page.</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_moveto.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<span class="target" id="almotionproxy-moveto2"></span><dl class="function">
+<dt id="ALMotionProxy::moveTo__floatCR.floatCR.floatCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">moveTo</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>moveConfig</em><big>)</big><a class="headerlink" href="#ALMotionProxy::moveTo__floatCR.floatCR.floatCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes NAO move to the given pose in the ground plane, relative to FRAME_ROBOT,
+with custom move configuration. This is a blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; Distance along the X axis in meters.</li>
+<li><strong>y</strong> &#8211; Distance along the Y axis in meters.</li>
+<li><strong>theta</strong> &#8211; Rotation around the Z axis in radians [-3.1415 to 3.1415].</li>
+<li><strong>moveConfig</strong> &#8211; An ALValue with the custom move configuration.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-moveto3"></span><dl class="function">
+<dt id="ALMotionProxy::moveTo__AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">moveTo</tt><big>(</big><a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>controlPoints</em><big>)</big><a class="headerlink" href="#ALMotionProxy::moveTo__AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes NAO move to the given pose in the ground plane, relative to FRAME_ROBOT,
+while passing through check points. This is a blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>controlPoint</strong> &#8211; An ALValue with all the control points [[x1,y1,theta1], ..., [xN,yN,thetaN]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-moveto4"></span><dl class="function">
+<dt id="ALMotionProxy::moveTo__AL::ALValueCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">moveTo</tt><big>(</big><a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>controlPoints</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>moveConfig</em><big>)</big><a class="headerlink" href="#ALMotionProxy::moveTo__AL::ALValueCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes NAO move to the given pose in the ground plane, relative to FRAME_ROBOT,
+while passing through check points with custom move configuration.
+This is a blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>controlPoints</strong> &#8211; An ALValue with all the control points [[x1,y1,theta1], ..., [xN,yN,thetaN]</li>
+<li><strong>moveConfig</strong> &#8211; An ALValue with the custom move configuration.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-walkto1"></span><dl class="function">
+<dt id="ALMotionProxy::walkTo__floatCR.floatCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">walkTo</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em><big>)</big><a class="headerlink" href="#ALMotionProxy::walkTo__floatCR.floatCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a> instead.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#almotionproxy-walkto1"><em>ALMotionProxy::walkTo</em></a></li>
+<li><a class="reference internal" href="#almotionproxy-walkto2"><em>ALMotionProxy::walkTo</em></a> with feetGaitConfig</li>
+<li><a class="reference internal" href="#almotionproxy-walkto3"><em>ALMotionProxy::walkTo</em></a> with controlPoints</li>
+<li><a class="reference internal" href="#almotionproxy-walkto4"><em>ALMotionProxy::walkTo</em></a> with controlPoints and feetGaitConfig</li>
+</ul>
+<p>Makes NAO walk to the given pose in the ground plane, relative to FRAME_ROBOT.
+This is a blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; Distance along the X axis in meters.</li>
+<li><strong>y</strong> &#8211; Distance along the Y axis in meters.</li>
+<li><strong>theta</strong> &#8211; Rotation around the Z axis in radians [-3.1415 to 3.1415].</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-walkto2"></span><dl class="function">
+<dt id="ALMotionProxy::walkTo__floatCR.floatCR.floatCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">walkTo</tt><big>(</big><a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>x</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>y</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>theta</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>feetGaitConfig</em><big>)</big><a class="headerlink" href="#ALMotionProxy::walkTo__floatCR.floatCR.floatCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a> instead.</p>
+<p>Makes NAO move to the given pose in the ground plane, relative to FRAME_ROBOT,
+with custom gait parameters. This is a blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; Distance along the X axis in meters.</li>
+<li><strong>y</strong> &#8211; Distance along the Y axis in meters.</li>
+<li><strong>theta</strong> &#8211; Rotation around the Z axis in radians [-3.1415 to 3.1415].</li>
+<li><strong>feetGaitConfig</strong> &#8211; An ALValue with the custom gait configuration for both feet.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-walkto3"></span><dl class="function">
+<dt id="ALMotionProxy::walkTo__AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">walkTo</tt><big>(</big><a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>controlPoints</em><big>)</big><a class="headerlink" href="#ALMotionProxy::walkTo__AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a> instead.</p>
+<p>Makes NAO move to the given pose in the ground plane, relative to FRAME_ROBOT,
+while passing through check points. This is a blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>controlPoints</strong> &#8211; An ALValue with all the control points [[x1,y1,theta1], ..., [xN,yN,thetaN]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="almotionproxy-walkto4"></span><dl class="function">
+<dt id="ALMotionProxy::walkTo__AL::ALValueCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">walkTo</tt><big>(</big><a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>controlPoints</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>feetGaitConfig</em><big>)</big><a class="headerlink" href="#ALMotionProxy::walkTo__AL::ALValueCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::moveTo__floatCR.floatCR.floatCR" title="ALMotionProxy::moveTo"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveTo()</span></tt></a> instead.</p>
+<p>Makes NAO walk to the given pose in the ground plane, relative to FRAME_ROBOT,
+while passing through check points with custom move configuration.
+This is a blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>controlPoints</strong> &#8211; An ALValue with all the control points [[x1,y1,theta1], ..., [xN,yN,thetaN]</li>
+<li><strong>feetGaitConfig</strong> &#8211; An ALValue with the custom gait configuration for both feet</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::setFootSteps__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">setFootSteps</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>legName</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>footSteps</em>, <a class="reference internal" href="../stdtypes.html#std::vector:float:" title="std::vector&lt;float&gt;">const std::vector&lt;float&gt;&amp;</a> <em>timeList</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>clearExisting</em><big>)</big><a class="headerlink" href="#ALMotionProxy::setFootSteps__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes NAO do foot step planner. This is a non-blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>legName</strong> &#8211; name of the leg to move(&#8216;LLeg&#8217;or &#8216;RLeg&#8217;)</li>
+<li><strong>footSteps</strong> &#8211; [x, y, theta], [Position along X/Y, Orientation round Z axis] of the leg relative to the other Leg in [meters, meters, radians]. Must be less than [MaxStepX, MaxStepY, MaxStepTheta]</li>
+<li><strong>timeList</strong> &#8211; time list of each foot step</li>
+<li><strong>clearExisting</strong> &#8211; Clear existing foot steps.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_setfootsteps.py"><tt class="xref download docutils literal"><span class="pre">almotion_setfootsteps.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># A small step forwards and anti-clockwise with the left foot</span>
+    <span class="n">legName</span>  <span class="o">=</span> <span class="p">[</span><span class="s">&quot;LLeg&quot;</span><span class="p">]</span>
+    <span class="n">X</span>        <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">Y</span>        <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">Theta</span>    <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">footSteps</span> <span class="o">=</span> <span class="p">[[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">]]</span>
+    <span class="n">timeList</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">]</span>
+    <span class="n">clearExisting</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setFootSteps</span><span class="p">(</span><span class="n">legName</span><span class="p">,</span> <span class="n">footSteps</span><span class="p">,</span> <span class="n">timeList</span><span class="p">,</span> <span class="n">clearExisting</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># A small step forwards and anti-clockwise with the left foot</span>
+    <span class="n">legName</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;LLeg&quot;</span><span class="p">,</span> <span class="s">&quot;RLeg&quot;</span><span class="p">]</span>
+    <span class="n">X</span>       <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">Y</span>       <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">Theta</span>   <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">footSteps</span> <span class="o">=</span> <span class="p">[[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">],</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="o">-</span><span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">]]</span>
+    <span class="n">timeList</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">]</span>
+    <span class="n">clearExisting</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setFootSteps</span><span class="p">(</span><span class="n">legName</span><span class="p">,</span> <span class="n">footSteps</span><span class="p">,</span> <span class="n">timeList</span><span class="p">,</span> <span class="n">clearExisting</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_setfootsteps.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::setFootStepsWithSpeed__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">setFootStepsWithSpeed</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>legName</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>footSteps</em>, <a class="reference internal" href="../stdtypes.html#std::vector:float:" title="std::vector&lt;float&gt;">const std::vector&lt;float&gt;&amp;</a> <em>fractionMaxSpeed</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>clearExisting</em><big>)</big><a class="headerlink" href="#ALMotionProxy::setFootStepsWithSpeed__std::vector:ss:CR.AL::ALValueCR.std::vector:float:CR.bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes NAO do foot step planner with speed. This is a blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>legName</strong> &#8211; name of the leg to move(&#8216;LLeg&#8217;or &#8216;RLeg&#8217;)</li>
+<li><strong>footSteps</strong> &#8211; [x, y, theta], [Position along X/Y, Orientation round Z axis] of the leg relative to the other Leg in [meters, meters, radians]. Must be less than [MaxStepX, MaxStepY, MaxStepTheta]</li>
+<li><strong>fractionMaxSpeed</strong> &#8211; speed of each foot step. Must be between 0 and 1.</li>
+<li><strong>clearExisting</strong> &#8211; Clear existing foot steps.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_setfootstepswithspeed.py"><tt class="xref download docutils literal"><span class="pre">almotion_setfootstepswithspeed.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># A small step forwards and anti-clockwise with the left foot</span>
+    <span class="n">legName</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;LLeg&quot;</span><span class="p">]</span>
+    <span class="n">X</span>       <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">Y</span>       <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">Theta</span>   <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">footSteps</span> <span class="o">=</span> <span class="p">[[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">]]</span>
+    <span class="n">fractionMaxSpeed</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
+    <span class="n">clearExisting</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setFootStepsWithSpeed</span><span class="p">(</span><span class="n">legName</span><span class="p">,</span> <span class="n">footSteps</span><span class="p">,</span> <span class="n">fractionMaxSpeed</span><span class="p">,</span> <span class="n">clearExisting</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># A small step forwards and anti-clockwise with the left foot</span>
+    <span class="n">legName</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;LLeg&quot;</span><span class="p">,</span> <span class="s">&quot;RLeg&quot;</span><span class="p">]</span>
+    <span class="n">X</span>       <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">Y</span>       <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">Theta</span>   <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">footSteps</span> <span class="o">=</span> <span class="p">[[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">],</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="o">-</span><span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">]]</span>
+    <span class="n">fractionMaxSpeed</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+    <span class="n">clearExisting</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setFootStepsWithSpeed</span><span class="p">(</span><span class="n">legName</span><span class="p">,</span> <span class="n">footSteps</span><span class="p">,</span> <span class="n">fractionMaxSpeed</span><span class="p">,</span> <span class="n">clearExisting</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_setfootstepswithspeed.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::getFootSteps">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">getFootSteps</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::getFootSteps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the actual foot steps vector. This is a non-blocking call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An ALValue containing three vector with:<div class="highlight-python"><pre>[
+  [The actual position of the left and right foot steps in world frame]
+  [The unChangeable foot steps]
+  [The changeable foot steps]
+]</pre>
+</div>
+<p>In more details:</p>
+<div class="highlight-python"><pre>[
+  [
+    [(float) LFootWorld_X, (float) LFootWorld_Y, (float) LFootWorld_Theta],
+    [(float) RFootWorld_X, (float) RFootWorld_Y, (float) RFootWorld_Theta]
+  ]
+  [
+    [(std::string) LegName, (float) Time, [(float) Move_X, (float) Move_Y, (float) Move_Y],
+    [...],
+    [(std::string) LegName, (float) Time, [(float) Move_X, (float) Move_Y, (float) Move_Y]
+  ]
+  [
+    [(std::string) LegName, (float) Time, [(float) Move_X, (float) Move_Y, (float) Move_Y],
+    [...],
+    [(std::string) LegName, (float) Time, [(float) Move_X, (float) Move_Y, (float) Move_Y]
+  ]
+]</pre>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Each move of foot step is relative to the previous location of the opposite foot step.
+For example, a foot step move of LFoot will be relative to the last position of the RFoot.</p>
+<p>If you use setFootSteps or setFootStepsWithSpeed with clearExisting parameter equal true,
+walk engine execute unchangeable foot step and remove the other.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_getfootsteps.py"><tt class="xref download docutils literal"><span class="pre">almotion_getfootsteps.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c">#####################################</span>
+    <span class="c"># A small example using getFootSteps</span>
+    <span class="c">#####################################</span>
+
+    <span class="c"># First call of move API</span>
+    <span class="c"># with post prefix to not be bloquing here.</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># wait that the move process start running</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># get the foot steps vector</span>
+    <span class="n">footSteps</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getFootSteps</span><span class="p">()</span>
+
+    <span class="c"># print the result</span>
+    <span class="n">leftFootWorldPosition</span> <span class="o">=</span> <span class="n">footSteps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">print</span> <span class="s">&quot;leftFootWorldPosition:&quot;</span>
+    <span class="k">print</span> <span class="n">leftFootWorldPosition</span>
+    <span class="k">print</span> <span class="s">&quot;&quot;</span>
+
+    <span class="n">rightFootWorldPosition</span> <span class="o">=</span> <span class="n">footSteps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">print</span> <span class="s">&quot;rightFootWorldPosition:&quot;</span>
+    <span class="k">print</span> <span class="n">rightFootWorldPosition</span>
+    <span class="k">print</span> <span class="s">&quot;&quot;</span>
+
+    <span class="n">footStepsUnchangeable</span> <span class="o">=</span> <span class="n">footSteps</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">print</span> <span class="s">&quot;Unchangeable:&quot;</span>
+    <span class="k">print</span> <span class="n">footStepsUnchangeable</span>
+    <span class="k">print</span> <span class="s">&quot;&quot;</span>
+
+    <span class="n">footStepsChangeable</span>   <span class="o">=</span> <span class="n">footSteps</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">print</span> <span class="s">&quot;Changeable:&quot;</span>
+    <span class="k">print</span> <span class="n">footStepsChangeable</span>
+    <span class="k">print</span> <span class="s">&quot;&quot;</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_getfootsteps.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::walkInit">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">walkInit</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::walkInit" title="Permalink to this definition">¶</a></dt>
+<dd><p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::moveInit" title="ALMotionProxy::moveInit"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveInit()</span></tt></a> instead.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::moveInit">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">moveInit</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::moveInit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the move process. Checks the robot pose and takes a right posture. This is blocking called.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_moveinit.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_moveinit.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+<span class="cp">#include &lt;alproxies/alrobotpostureproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_moveinit robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALRobotPostureProxy</span> <span class="n">robotPosture</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+  <span class="n">robotPosture</span><span class="p">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;Stand&quot;</span><span class="p">,</span> <span class="mf">0.5f</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how Initialize move process.</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">moveInit</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_moveinit.py"><tt class="xref download docutils literal"><span class="pre">almotion_moveinit.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;Stand&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Example showing how Initialize move process.</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveInit</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_moveinit.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::waitUntilWalkIsFinished">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">waitUntilWalkIsFinished</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::waitUntilWalkIsFinished" title="Permalink to this definition">¶</a></dt>
+<dd><p>Waits until the WalkTask is finished: this method can be used to block your script/code execution
+until the walk task is totally finished.</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::waitUntilMoveIsFinished" title="ALMotionProxy::waitUntilMoveIsFinished"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::waitUntilMoveIsFinished()</span></tt></a> instead.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::waitUntilMoveIsFinished">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">waitUntilMoveIsFinished</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::waitUntilMoveIsFinished" title="Permalink to this definition">¶</a></dt>
+<dd><p>Waits until the MoveTask is finished: this method can be used to block your script/code execution
+until the move task is totally finished.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_waituntilmoveisfinished.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_waituntilmoveisfinished.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+<span class="cp">#include &lt;alproxies/alrobotpostureproxy.h&gt;</span>
+<span class="cp">#include &lt;qi/os.hpp&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_waituntilmoveisfinished robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALRobotPostureProxy</span> <span class="n">robotPosture</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="n">robotPosture</span><span class="p">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5f</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to use waitUntilMoveIsFinished.</span>
+  <span class="c1">// Start a walk</span>
+  <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.10f</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">theta</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">post</span><span class="p">.</span><span class="n">moveTo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">);</span>
+
+  <span class="c1">// Wait for it to finish</span>
+  <span class="n">motion</span><span class="p">.</span><span class="n">waitUntilMoveIsFinished</span><span class="p">();</span>
+  <span class="c1">// Then do something else</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_waituntilmoveisfinished.py"><tt class="xref download docutils literal"><span class="pre">almotion_waituntilmoveisfinished.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to use waitUntilMoveIsFinished.</span>
+
+    <span class="c"># Start a move</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+
+    <span class="c"># Wait for it to finish</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">waitUntilMoveIsFinished</span><span class="p">()</span>
+
+    <span class="c"># Then do something else</span>
+    <span class="k">print</span> <span class="s">&quot;Move is finished&quot;</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_waituntilmoveisfinished.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::walkIsActive">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">walkIsActive</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::walkIsActive" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if Walk is Active.</td>
+</tr>
+</tbody>
+</table>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::moveIsActive" title="ALMotionProxy::moveIsActive"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::moveIsActive()</span></tt></a> instead.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::moveIsActive">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">moveIsActive</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::moveIsActive" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if move is Active.</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_moveisactive.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_moveisactive.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_moveisactive robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to use walk is active.</span>
+  <span class="kt">bool</span> <span class="n">moveIsActive</span> <span class="o">=</span> <span class="n">motion</span><span class="p">.</span><span class="n">moveIsActive</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Move is active: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">moveIsActive</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_moveisactive.py"><tt class="xref download docutils literal"><span class="pre">almotion_moveisactive.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to use walk is active.</span>
+    <span class="c"># start a 0.2 meter walk</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveIsActive</span><span class="p">():</span>
+        <span class="c"># do something</span>
+        <span class="k">print</span> <span class="s">&quot;Move is active&quot;</span>
+
+    <span class="c"># sleep a little</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># when finished do something else</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_advancedcreaterotation.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::stopWalk">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">stopWalk</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::stopWalk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops Walk task at next double support: this method will end the walk task less
+brutally than killWalk but more quickly than setWalkTargetVelocity(0.0, 0.0, 0.0, pFrequency).</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::stopMove" title="ALMotionProxy::stopMove"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::stopMove()</span></tt></a> instead.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::stopMove">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">stopMove</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::stopMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops Move task at next double support: this method will end the move task less
+brutally than killMove but more quickly than setWalkTargetVelocity(0.0, 0.0, 0.0, pFrequency).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::getFootGaitConfig__ssCR">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">getFootGaitConfig</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>config</em><big>)</big><a class="headerlink" href="#ALMotionProxy::getFootGaitConfig__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the foot Gait config (&#8220;MaxStepX&#8221;, &#8220;MaxStepY&#8221;, &#8220;MaxStepTheta&#8221;,
+&#8220;MaxStepFrequency&#8221;, &#8220;StepHeight&#8221;, &#8220;TorsoWx&#8221;, &#8220;TorsoWy&#8221;).</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALMotionProxy::getMoveConfig__ssCR" title="ALMotionProxy::getMoveConfig"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getMoveConfig()</span></tt></a> instead.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config</strong> &#8211; a string should be &#8220;Max&#8221;, &#8220;Min&#8221;, &#8220;Default&#8221;</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>An ALValue with the following form</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span> <span class="p">[</span><span class="s">&quot;MaxStepX&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;MaxStepY&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;MaxStepTheta&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;MaxStepFrequency&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;StepHeight&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;TorsoWx&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;TorsoWy&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::getMoveConfig__ssCR">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">getMoveConfig</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>config</em><big>)</big><a class="headerlink" href="#ALMotionProxy::getMoveConfig__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the move config (&#8220;MaxStepX&#8221;, &#8220;MaxStepY&#8221;, &#8220;MaxStepTheta&#8221;,
+&#8220;MaxStepFrequency&#8221;, &#8220;StepHeight&#8221;, &#8220;TorsoWx&#8221;, &#8220;TorsoWy&#8221;).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config</strong> &#8211; a string should be &#8220;Max&#8221;, &#8220;Min&#8221;, &#8220;Default&#8221;</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>An ALvalue with the move config. with the following form</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span> <span class="p">[</span><span class="s">&quot;MaxStepX&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;MaxStepY&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;MaxStepTheta&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;MaxStepFrequency&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;StepHeight&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;TorsoWx&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">&quot;TorsoWy&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example in python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Example showing how to get and play with foot gait config</span>
+<span class="c"># a getFootConfig could be directly use in a walk method</span>
+<span class="c"># WARNING : be aware that Max and Min are extrem values and could create</span>
+<span class="c">#           some strange walk behavior</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">proxy</span><span class="o">.</span><span class="n">moveInit</span><span class="p">()</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">proxy</span><span class="o">.</span><span class="n">getMoveConfig</span><span class="p">(</span><span class="s">&quot;Default&quot;</span><span class="p">),</span>
+                                                <span class="n">proxy</span><span class="o">.</span><span class="n">getMoveConfig</span><span class="p">(</span><span class="s">&quot;Min&quot;</span><span class="p">))</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">stopMove</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::getRobotPosition__bCR">
+<a class="reference internal" href="../stdtypes.html#std::vector:float:" title="std::vector&lt;float&gt;">std::vector&lt;float&gt;</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">getRobotPosition</tt><big>(</big><a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>useSensors</em><big>)</big><a class="headerlink" href="#ALMotionProxy::getRobotPosition__bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the World Absolute Robot Position.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>useSensors</strong> &#8211; If true, use the MRE sensor values</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A vector containing the World Absolute Robot Position. (Absolute Position X, Absolute Position Y, Absolute Angle Theta (Wz)).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_getrobotposition.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_getrobotposition.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_getrobotposition robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to get a simplified robot position in world.</span>
+  <span class="kt">bool</span> <span class="n">useSensorValues</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">motion</span><span class="p">.</span><span class="n">getRobotPosition</span><span class="p">(</span><span class="n">useSensorValues</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Robot position is: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_getrobotposition.py"><tt class="xref download docutils literal"><span class="pre">almotion_getrobotposition.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to get a simplified robot position in world.</span>
+    <span class="n">useSensorValues</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotPosition</span><span class="p">(</span><span class="n">useSensorValues</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Robot Position&quot;</span><span class="p">,</span> <span class="n">result</span>
+
+    <span class="c"># Example showing how to use this information to know the robot&#39;s diplacement.</span>
+    <span class="n">useSensorValues</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">initRobotPosition</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotPosition</span><span class="p">(</span><span class="n">useSensorValues</span><span class="p">))</span>
+
+    <span class="c"># Make the robot move</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+
+    <span class="n">endRobotPosition</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotPosition</span><span class="p">(</span><span class="n">useSensorValues</span><span class="p">))</span>
+
+    <span class="c"># Compute robot&#39;s&#39; displacement</span>
+    <span class="n">robotMove</span> <span class="o">=</span> <span class="n">almath</span><span class="o">.</span><span class="n">pose2DInverse</span><span class="p">(</span><span class="n">initRobotPosition</span><span class="p">)</span><span class="o">*</span><span class="n">endRobotPosition</span>
+    <span class="k">print</span> <span class="s">&quot;Robot Move:&quot;</span><span class="p">,</span> <span class="n">robotMove</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_getrobotposition.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::getNextRobotPosition">
+<a class="reference internal" href="../stdtypes.html#std::vector:float:" title="std::vector&lt;float&gt;">std::vector&lt;float&gt;</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">getNextRobotPosition</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::getNextRobotPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the World Absolute next Robot Position.</p>
+<p>When no walk process active, getNextRobotPosition() =   getRobotPosition().</p>
+<p>Else getNextRobotPosition return the position of the robot after the unchangeable foot steps.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A vector containing the World Absolute next Robot position.(Absolute Position X, Absolute Position Y, Absolute Angle Theta (Wz))</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_getnextrobotposition.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_getnextrobotposition.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_getnextrobotposition robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to get a simplified next robot position in world.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">motion</span><span class="p">.</span><span class="n">getNextRobotPosition</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Next robot position is: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_getnextrobotposition.py"><tt class="xref download docutils literal"><span class="pre">almotion_getnextrobotposition.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">import</span> <span class="nn">almath</span> <span class="kn">as</span> <span class="nn">m</span> <span class="c">#python&#39;s wrapping of almath</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to get a simplified robot position in world.</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getNextRobotPosition</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&quot;Next Robot Position&quot;</span><span class="p">,</span> <span class="n">result</span>
+
+    <span class="c"># Example showing how to use this information to know the robot&#39;s diplacement</span>
+    <span class="c"># during the move process.</span>
+
+    <span class="c"># Make the robot move</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="c"># No blocking due to post called</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">initRobotPosition</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getNextRobotPosition</span><span class="p">())</span>
+
+    <span class="c"># Make the robot move</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+
+    <span class="n">endRobotPosition</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">Pose2D</span><span class="p">(</span><span class="n">motionProxy</span><span class="o">.</span><span class="n">getNextRobotPosition</span><span class="p">())</span>
+
+    <span class="c"># Compute robot&#39;s&#39; displacement</span>
+    <span class="n">robotMove</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">pose2DInverse</span><span class="p">(</span><span class="n">initRobotPosition</span><span class="p">)</span><span class="o">*</span><span class="n">endRobotPosition</span>
+    <span class="k">print</span> <span class="s">&quot;Robot Move :&quot;</span><span class="p">,</span> <span class="n">robotMove</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_getnextrobotposition.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::getRobotVelocity">
+<a class="reference internal" href="../stdtypes.html#std::vector:float:" title="std::vector&lt;float&gt;">std::vector&lt;float&gt;</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">getRobotVelocity</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::getRobotVelocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the World Absolute Robot Velocity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A vector containing the World Absolute Robot Velocity. (Absolute Velocity Translation X [m.s-1], Absolute Velocity Translation Y[m.s-1], Absolute Velocity Rotation WZ [rd.s-1])</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_getrobotvelocity.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_getrobotvelocity.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_getrobotvelocity robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to get a simplified robot velocity in world.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">motion</span><span class="p">.</span><span class="n">getRobotVelocity</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Robot velocity is: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_getrobotvelocity.py"><tt class="xref download docutils literal"><span class="pre">almotion_getrobotvelocity.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to get a simplified robot velocity in world.</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotVelocity</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&quot;Robot Velocity: &quot;</span><span class="p">,</span> <span class="n">result</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_getrobotvelocity.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::getWalkArmsEnabled">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">getWalkArmsEnabled</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMotionProxy::getWalkArmsEnabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets if Arms Motions are enabled during the Walk Process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True Arm Motions are controlled by the Walk Task.</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_getwalkarmsenabled.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_getwalkarmsenabled.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_getwalkarmsenable robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to get the enabled flags for the arms</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">result</span> <span class="o">=</span> <span class="n">motion</span><span class="p">.</span><span class="n">getWalkArmsEnabled</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;LeftArmEnabled: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;RightArmEnabled: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_getwalkarmsenabled.py"><tt class="xref download docutils literal"><span class="pre">almotion_getwalkarmsenable.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to get the enabled flags for the arms</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getWalkArmsEnabled</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&#39;LeftArmEnabled: &#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">print</span> <span class="s">&#39;RightArmEnabled: &#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_getwalkarmsenabled.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::setWalkArmsEnabled__bCR.bCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">setWalkArmsEnabled</tt><big>(</big><a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>leftArmEnable</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>rightArmEnable</em><big>)</big><a class="headerlink" href="#ALMotionProxy::setWalkArmsEnabled__bCR.bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets if Arms Motions are enabled during the Walk Process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>leftArmEnable</strong> &#8211; if true Left Arm motions are controlled by the Walk Task</li>
+<li><strong>rightArmEnable</strong> &#8211; if true Right Arm motions are controlled by the Walk Task</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_setwalkarmsenabled.py"><tt class="xref download docutils literal"><span class="pre">almotion_setwalkarmsenabled.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">postureProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALRobotPosture&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALRobotPosture&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># Send NAO to Pose Init</span>
+    <span class="n">postureProxy</span><span class="o">.</span><span class="n">goToPosture</span><span class="p">(</span><span class="s">&quot;StandInit&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">x</span>          <span class="o">=</span> <span class="mf">0.6</span>
+    <span class="n">y</span>          <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">theta</span>      <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">frequency</span>  <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkTargetVelocity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to disable left arm motions during a move</span>
+    <span class="n">leftArmEnable</span>  <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">rightArmEnable</span>  <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkArmsEnabled</span><span class="p">(</span><span class="n">leftArmEnable</span><span class="p">,</span> <span class="n">rightArmEnable</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Disabled left arm&quot;</span>
+
+    <span class="c"># disable also right arm motion after 1 seconds</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">rightArmEnable</span>  <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkArmsEnabled</span><span class="p">(</span><span class="n">leftArmEnable</span><span class="p">,</span> <span class="n">rightArmEnable</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Disabled right arm&quot;</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">stopMove</span><span class="p">()</span>
+
+    <span class="n">leftArmEnable</span>  <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">rightArmEnable</span>  <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setWalkArmsEnabled</span><span class="p">(</span><span class="n">leftArmEnable</span><span class="p">,</span> <span class="n">rightArmEnable</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_setwalkarmsenabled.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="control-walk.html" title="Locomotion control">Locomotion control</a>
+     |
+    <a href="control-walk.html" title="Locomotion control" accesskey="U">Locomotion control</a>
+   |
+    <a href="control-walk-tuto2.html" title="Locomotion control Tutorial: The Robot Position">Locomotion control Tutorial: The Robot Position</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Motion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-stiffness.html">Stiffness control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-joint.html">Joint control</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="control-walk.html">Locomotion control</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">Locomotion control API</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="control-walk-tuto2.html">Locomotion control Tutorial: The Robot Position</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="control-cartesian.html">Cartesian control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-collision-avoidance.html">Self-collision avoidance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-motion-task.html">Motion task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Locomotion control API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="control-walk.html" title="Locomotion control">previous</a>
+     |
+    <a href="control-walk.html" title="Locomotion control" accesskey="U">up</a>
+   |
+    <a href="control-walk-tuto2.html" title="Locomotion control Tutorial: The Robot Position">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

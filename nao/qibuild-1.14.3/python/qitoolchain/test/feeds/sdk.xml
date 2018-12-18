@@ -1,0 +1,3 @@
+<toolchain>
+    <package name="naoqi-sdk" directory="." />
+</toolchain>

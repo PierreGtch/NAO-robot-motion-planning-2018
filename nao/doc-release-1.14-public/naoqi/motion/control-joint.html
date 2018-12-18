@@ -1,0 +1,602 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Joint control &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Motion" href="index.html" />
+    <link rel="next" title="Joint control API" href="control-joint-api.html" />
+    <link rel="prev" title="Stiffness control API" href="control-stiffness-api.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="control-stiffness-api.html" title="Stiffness control API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="control-joint-api.html" title="Joint control API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-control-joint">
+            
+  <div class="section" id="joint-control">
+<span id="control-joint"></span><h1>Joint control<a class="headerlink" href="#joint-control" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-motion"><em>NAOqi Motion</em></a> - Overview | <a class="reference internal" href="control-joint-api.html#control-joint-api"><em>API</em></a> | <a class="reference internal" href="control-joint-tuto.html#control-joint-tuto"><em>Tutorial</em></a></p>
+<hr class="docutils" />
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">These API are dedicated to control directly the position of NAO joints.</div>
+<div class="line">Each joint can be controlled individually, or in parallel with other joints.</div>
+</div>
+<dl class="docutils">
+<dt>There are two ways of controlling a joint or a group of joints:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>animation methods (time fixed, blocking function)</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="control-joint-api.html#ALMotionProxy::angleInterpolation__AL::ALValueCR.AL::ALValueCR.AL::ALValueCR.bCR" title="ALMotionProxy::angleInterpolation"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::angleInterpolation()</span></tt></a></li>
+<li><a class="reference internal" href="control-joint-api.html#ALMotionProxy::angleInterpolationWithSpeed__AL::ALValueCR.AL::ALValueCR.floatCR" title="ALMotionProxy::angleInterpolationWithSpeed"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::angleInterpolationWithSpeed()</span></tt></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>reactive methods (could be changed every <strong>ALMotion</strong> cycle, non blocking function)</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="control-joint-api.html#ALMotionProxy::setAngles__AL::ALValueCR.AL::ALValueCR.floatCR" title="ALMotionProxy::setAngles"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setAngles()</span></tt></a></li>
+<li><a class="reference internal" href="control-joint-api.html#ALMotionProxy::changeAngles__AL::ALValueCR.AL::ALValueCR.floatCR" title="ALMotionProxy::changeAngles"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::changeAngles()</span></tt></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>These API just create a higher level of the <a class="reference internal" href="../../glossary.html#term-dcm"><em class="xref std std-term">DCM</em></a> actuator control and provide
+interpolation to have more smooth behavior.</p>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="body-chains-and-joint-names">
+<span id="body-chain-def"></span><h3>&#8220;Body&#8221;, chains and joint names<a class="headerlink" href="#body-chains-and-joint-names" title="Permalink to this headline">¶</a></h3>
+<p>Joints can be controlled:</p>
+<ul class="simple">
+<li>individually, using a joint name, or</li>
+<li>in parallel, using a chain of joints or a group of joints like &#8220;Body&#8221;.</li>
+</ul>
+<p>The table below lists the chains and all the joints included in each chain:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="9%" />
+<col width="18%" />
+<col width="21%" />
+<col width="21%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Body is ...</th>
+<th class="head" colspan="5">Head + LArm + LLeg + RLeg + RArm</th>
+</tr>
+<tr class="row-even"><th class="head">The chain ...</th>
+<th class="head">Head</th>
+<th class="head">LArm</th>
+<th class="head">LLeg</th>
+<th class="head">RLeg</th>
+<th class="head">RArm</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td rowspan="6"><p class="first">involves  the</p>
+<p class="last">joints ...</p>
+</td>
+<td>HeadYaw</td>
+<td>LShoulderPitch</td>
+<td>LHipYawPitch<sup>1</sup></td>
+<td>RHipYawPitch<sup>1</sup></td>
+<td>RShoulderPitch</td>
+</tr>
+<tr class="row-even"><td>HeadPitch</td>
+<td>LShoulderRoll</td>
+<td>LHipRoll</td>
+<td>RHipRoll</td>
+<td>RShoulderRoll</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>LElbowYaw</td>
+<td>LHipPitch</td>
+<td>RHipPitch</td>
+<td>RElbowYaw</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>LElbowRoll</td>
+<td>LKneePitch</td>
+<td>RKneePitch</td>
+<td>RElbowRoll</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>LWristYaw<sup>2</sup></td>
+<td>LAnklePitch</td>
+<td>RAnklePitch</td>
+<td>RWristYaw<sup>2</sup></td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>LHand<sup>2</sup></td>
+<td>RAnkleRoll</td>
+<td>LAnkleRoll</td>
+<td>RHand<sup>2</sup></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><sup>1</sup> LHipYawPitch and RHipYawPitch share the same motor so they move
+simultaneously and symmetrically. In case of conflicting orders, LHipYawPitch
+always takes the priority.</p>
+<p class="last"><sup>2</sup> These joints do not exist in the <a class="reference internal" href="../../family/body_type.html#nao-family-nao-body-type"><em>NAO Body type</em></a> &#8220;H21&#8221;.</p>
+</div>
+<p>The group &#8220;Body&#8221; addresses all the joints of the robot (the number of joints depends on your
+<a class="reference internal" href="../../family/body_type.html#nao-family-nao-body-type"><em>NAO Body type</em></a>). It is possible to get the list
+of joints available on your robot using the <a class="reference internal" href="tools-general-api.html#ALMotionProxy::getBodyNames__ssCR" title="ALMotionProxy::getBodyNames"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getBodyNames()</span></tt></a> method,
+described in the section: <a class="reference internal" href="tools-general.html#general-tools-jointnames"><em>Case 2: Programmatic access to Joint Names</em></a>.</p>
+</div>
+<div class="section" id="joint-range-and-direction">
+<h3>Joint range and direction<a class="headerlink" href="#joint-range-and-direction" title="Permalink to this headline">¶</a></h3>
+<p>Depends of your <a class="reference internal" href="../../family/body_type.html#nao-family-nao-version"><em>NAO Version</em></a>, you could access to the joint range and
+direction by following the link below:</p>
+<p><strong>NAO V4</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="../../family/robots/joints_robot.html#robot-joints-v4-head-joints"><em>Head joints</em></a></li>
+<li><a class="reference internal" href="../../family/robots/joints_robot.html#robot-joints-v4-left-arm-joints"><em>Left Arm joints</em></a>, <a class="reference internal" href="../../family/robots/joints_robot.html#robot-joints-v4-right-arm-joints"><em>Right Arm joints</em></a></li>
+<li><a class="reference internal" href="../../family/robots/joints_robot.html#robot-joints-v4-pelvis-joints"><em>Pelvis joints</em></a></li>
+<li><a class="reference internal" href="../../family/robots/joints_robot.html#robot-joints-v4-left-leg-joints"><em>Left Leg joints</em></a>, <a class="reference internal" href="../../family/robots/joints_robot.html#robot-joints-v4-right-leg-joints"><em>Right Leg joints</em></a></li>
+</ul>
+<p><strong>NAO V3.3</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="../../family/robots/joints_robot_v33.html#robot-joints-v33-head-joints"><em>Head joints</em></a></li>
+<li><a class="reference internal" href="../../family/robots/joints_robot_v33.html#robot-joints-v33-left-arm-joints"><em>Left Arm joints</em></a>, <a class="reference internal" href="../../family/robots/joints_robot_v33.html#robot-joints-v33-right-arm-joints"><em>Right Arm joints</em></a></li>
+<li><a class="reference internal" href="../../family/robots/joints_robot_v33.html#robot-joints-v33-pelvis-joints"><em>Pelvis joints</em></a></li>
+<li><a class="reference internal" href="../../family/robots/joints_robot_v33.html#robot-joints-v33-left-leg-joints"><em>Left Leg joints</em></a>, <a class="reference internal" href="../../family/robots/joints_robot_v33.html#robot-joints-v33-right-leg-joints"><em>Right Leg joints</em></a></li>
+</ul>
+<p><strong>NAO V3.2</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="../../family/robots/joints_robot_v32.html#robot-joints-v32-head-joints"><em>Head joints</em></a></li>
+<li><a class="reference internal" href="../../family/robots/joints_robot_v32.html#robot-joints-v32-left-arm-joints"><em>Left Arm joints</em></a>, <a class="reference internal" href="../../family/robots/joints_robot_v32.html#robot-joints-v32-right-arm-joints"><em>Right Arm joints</em></a></li>
+<li><a class="reference internal" href="../../family/robots/joints_robot_v32.html#robot-joints-v32-pelvis-joints"><em>Pelvis joints</em></a></li>
+<li><a class="reference internal" href="../../family/robots/joints_robot_v32.html#robot-joints-v32-left-leg-joints"><em>Left Leg joints</em></a>, <a class="reference internal" href="../../family/robots/joints_robot_v32.html#robot-joints-v32-right-leg-joints"><em>Right Leg joints</em></a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="case-1-controlling-joints">
+<h3>Case 1: Controlling Joints<a class="headerlink" href="#case-1-controlling-joints" title="Permalink to this headline">¶</a></h3>
+<p>To control a joint, you need to specify the name of the joint, the
+target angle in radians, and how fast you want to go to the target angle.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_controllingjoints.py"><tt class="xref download docutils literal"><span class="pre">almotion_controllingjoints.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Simple command for the HeadYaw joint at 10% max speed</span>
+    <span class="n">names</span>            <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span>
+    <span class="n">angles</span>           <span class="o">=</span> <span class="mf">30.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span>
+    <span class="n">fractionMaxSpeed</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setAngles</span><span class="p">(</span><span class="n">names</span><span class="p">,</span><span class="n">angles</span><span class="p">,</span><span class="n">fractionMaxSpeed</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_controllingjoints.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="borderless docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><img alt="../../_images/motion_headyaw_position.png" class="first last" src="../../_images/motion_headyaw_position.png" style="width: 300px; height: 225px;" />
+</td>
+<td><img alt="../../_images/motion_headyaw_speed.png" class="first last" src="../../_images/motion_headyaw_speed.png" style="width: 300px; height: 225px;" />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="case-2-timed-interpolations">
+<h3>Case 2: Timed Interpolations<a class="headerlink" href="#case-2-timed-interpolations" title="Permalink to this headline">¶</a></h3>
+<p>When you know in advance the trajectory that you want to follow,
+the <a class="reference internal" href="control-joint-api.html#ALMotionProxy::angleInterpolation__AL::ALValueCR.AL::ALValueCR.AL::ALValueCR.bCR" title="ALMotionProxy::angleInterpolation"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::angleInterpolation()</span></tt></a> and <a class="reference internal" href="control-joint-api.html#ALMotionProxy::angleInterpolationWithSpeed__AL::ALValueCR.AL::ALValueCR.floatCR" title="ALMotionProxy::angleInterpolationWithSpeed"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::angleInterpolationWithSpeed()</span></tt></a> methods can be
+used to set up an interpolation.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Example showing a joint trajectory with a single destination</span>
+<span class="n">names</span> <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span>
+<span class="n">angleLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">times</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">isAbsolute</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can command multiple joints in one command, by using a single
+time, and a number of target angles equal to the number of joints.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Example showing a command for the two joints in the &#39;Head&#39; alias</span>
+<span class="c"># &#39;Head&#39; is expanded to [&#39;HeadYaw&#39;,&#39;HeadPitch&#39;]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="s">&quot;Head&quot;</span>
+<span class="n">angleLists</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">]</span>
+<span class="n">times</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">isAbsolute</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The same command can take a list of angles with corresponding times.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Shake the head from side to side</span>
+<span class="n">names</span> <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span>
+<span class="n">angleLists</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="n">times</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span>  <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span>  <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]</span>
+<span class="n">isAbsolute</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Similarly, trajectories can be specified for multiple joints.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Two trajectories in one command. Each trajectory must have a</span>
+<span class="c"># corresponding number of times</span>
+<span class="n">names</span>      <span class="o">=</span> <span class="p">[</span><span class="s">&quot;HeadYaw&quot;</span><span class="p">,</span> <span class="s">&quot;HeadPitch&quot;</span><span class="p">]</span>
+<span class="n">angleLists</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">]]</span>
+<span class="n">times</span>      <span class="o">=</span> <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span>  <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span>  <span class="mf">4.0</span><span class="p">],</span> <span class="p">[</span> <span class="mf">5.0</span><span class="p">]]</span>
+<span class="n">isAbsolute</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="case-3-reactive-control">
+<h3>Case 3: Reactive Control<a class="headerlink" href="#case-3-reactive-control" title="Permalink to this headline">¶</a></h3>
+<p>The commands <a class="reference internal" href="control-joint-api.html#ALMotionProxy::setAngles__AL::ALValueCR.AL::ALValueCR.floatCR" title="ALMotionProxy::setAngles"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setAngles()</span></tt></a> and <a class="reference internal" href="control-joint-api.html#ALMotionProxy::changeAngles__AL::ALValueCR.AL::ALValueCR.floatCR" title="ALMotionProxy::changeAngles"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::changeAngles()</span></tt></a>, do not block the calling thread.
+This makes them ideal for being called often in reactive control loops, such as
+head tracking. You can call them often, with contradictory commands, and motion will
+ensure that the trajectory is smooth in position and continuous in velocity.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_reactivecontrol.py"><tt class="xref download docutils literal"><span class="pre">almotion_reactivecontrol.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Example simulating reactive control</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">fractionMaxSpeed</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setAngles</span><span class="p">(</span><span class="n">names</span><span class="p">,</span><span class="n">angles</span><span class="p">,</span><span class="n">fractionMaxSpeed</span><span class="p">)</span>
+    <span class="c"># wait half a second</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="c"># change target</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setAngles</span><span class="p">(</span><span class="n">names</span><span class="p">,</span><span class="n">angles</span><span class="p">,</span><span class="n">fractionMaxSpeed</span><span class="p">)</span>
+    <span class="c"># wait half a second</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="c"># change target</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setAngles</span><span class="p">(</span><span class="n">names</span><span class="p">,</span><span class="n">angles</span><span class="p">,</span><span class="n">fractionMaxSpeed</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_reactivecontrol.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="borderless docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><img alt="../../_images/motion_headyaw_reactive_position.png" class="first last" src="../../_images/motion_headyaw_reactive_position.png" style="width: 100%;" />
+</td>
+<td><img alt="../../_images/motion_headyaw_reactive_speed.png" class="first last" src="../../_images/motion_headyaw_reactive_speed.png" style="width: 100%;" />
+</td>
+</tr>
+</tbody>
+</table>
+<p>It is also possible to use time with angleInterpolation to do reactive control.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_angleinterpolationreactif.py"><tt class="xref download docutils literal"><span class="pre">almotion_angleinterpolationreactif.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">import</span> <span class="nn">almath</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Head Start to zeros</span>
+    <span class="n">names</span>             <span class="o">=</span> <span class="s">&quot;Head&quot;</span>
+    <span class="n">targetAngles</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="n">maxSpeedFraction</span>  <span class="o">=</span> <span class="mf">0.2</span> <span class="c"># Using 20% of maximum joint speed</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">angleInterpolationWithSpeed</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">targetAngles</span><span class="p">,</span> <span class="n">maxSpeedFraction</span><span class="p">)</span>
+
+    <span class="c"># Example showing a reactive control with time function angleInterpolation</span>
+    <span class="c"># Goal: after 1.0 second, retarget from 40 to 0 degree: smooth transition</span>
+
+    <span class="c"># Interpolate the head yaw to 20 degrees in 2.0 seconds</span>
+    <span class="c"># With post, angleInterpolation become non-blocking</span>
+    <span class="n">names</span>      <span class="o">=</span> <span class="s">&quot;HeadYaw&quot;</span>
+    <span class="n">angleLists</span> <span class="o">=</span> <span class="mf">20.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span>
+    <span class="n">timeLists</span>  <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">isAbsolute</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">timeLists</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Call getTaskList to have the previous angleInterpolation task number</span>
+    <span class="n">taskList</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getTaskList</span><span class="p">()</span>
+
+    <span class="c"># Prepare the next target to 50.0 degrees in 1.0 second</span>
+    <span class="n">angleLists</span> <span class="o">=</span> <span class="mf">50.0</span><span class="o">*</span><span class="n">almath</span><span class="o">.</span><span class="n">TO_RAD</span>
+    <span class="n">timeLists</span>  <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">angleInterpolation</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">angleLists</span><span class="p">,</span> <span class="n">timeLists</span><span class="p">,</span> <span class="n">isAbsolute</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c"># Kill the first angleInterpolation (go to 40.0 degrees), the second start</span>
+    <span class="c"># smoothly from the current joint position and velocity (go to 0 degrees)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">killTask</span><span class="p">(</span><span class="n">taskList</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;Head&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_angleinterpolationreactif.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="control-stiffness-api.html" title="Stiffness control API">Stiffness control API</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">NAOqi Motion</a>
+   |
+    <a href="control-joint-api.html" title="Joint control API">Joint control API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Motion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-stiffness.html">Stiffness control</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Joint control</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="control-joint-api.html">Joint control API</a></li>
+<li class="toctree-l5"><a class="reference internal" href="control-joint-tuto.html">Joint control Tutorial: The Pose Init</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="control-walk.html">Locomotion control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-cartesian.html">Cartesian control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-collision-avoidance.html">Self-collision avoidance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-motion-task.html">Motion task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Joint control</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a><ul>
+<li><a class="reference internal" href="#body-chains-and-joint-names">&#8220;Body&#8221;, chains and joint names</a></li>
+<li><a class="reference internal" href="#joint-range-and-direction">Joint range and direction</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-cases">Use Cases</a><ul>
+<li><a class="reference internal" href="#case-1-controlling-joints">Case 1: Controlling Joints</a></li>
+<li><a class="reference internal" href="#case-2-timed-interpolations">Case 2: Timed Interpolations</a></li>
+<li><a class="reference internal" href="#case-3-reactive-control">Case 3: Reactive Control</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="control-stiffness-api.html" title="Stiffness control API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="control-joint-api.html" title="Joint control API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

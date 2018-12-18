@@ -1,0 +1,344 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qitoolchain.feeds – Parsing toolchain feeds &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="qitoolchain modules" href="index.html" />
+    <link rel="next" title="qitoolchain.binary_package modules" href="binary_package/index.html" />
+    <link rel="prev" title="qitoolchain.toolchain – Handling binary packages" href="toolchain.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="toolchain.html" title="qitoolchain.toolchain &amp;#8211; Handling binary packages">previous</a>
+     |
+    <a href="index.html" title="qitoolchain modules" accesskey="U">up</a>
+   |
+    <a href="binary_package/index.html" title="qitoolchain.binary_package modules">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="ref-python-packages-qitoolchain-feed">
+            
+  <div class="section" id="module-qitoolchain.feed">
+<span id="qitoolchain-feeds-parsing-toolchain-feeds"></span><h1>qitoolchain.feeds &#8211; Parsing toolchain feeds<a class="headerlink" href="#module-qitoolchain.feed" title="Permalink to this headline">¶</a></h1>
+<p>All the XML parsing is done with the excellent <cite>xml.etree.ElementTree</cite>
+standard Python library.</p>
+<div class="section" id="qitoolchain-feed-parse-feed">
+<h2>qitoolchain.feed.parse_feed<a class="headerlink" href="#qitoolchain-feed-parse-feed" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qitoolchain.feed.parse_feed">
+<tt class="descclassname">qitoolchain.feed.</tt><tt class="descname">parse_feed</tt><big>(</big><em>toolchain</em>, <em>feed</em><big>)</big><a class="headerlink" href="#qitoolchain.feed.parse_feed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse an xml feed, adding packages to the toolchain
+while doing so</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>toolchain</strong> &#8211; a
+<a class="reference internal" href="toolchain.html#qitoolchain.toolchain.Toolchain" title="qitoolchain.toolchain.Toolchain"><tt class="xref py py-class docutils literal"><span class="pre">Toolchain</span></tt></a> instance</li>
+<li><strong>feed</strong> &#8211; a feed location. Maybe a path or an url.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a <a class="reference internal" href="#qitoolchain.feed.ToolchainFeedParser" title="qitoolchain.feed.ToolchainFeedParser"><tt class="xref py py-class docutils literal"><span class="pre">ToolchainFeedParser</span></tt></a> object, then get
+the list of parsed packages, and call <a class="reference internal" href="#qitoolchain.feed.handle_package" title="qitoolchain.feed.handle_package"><tt class="xref py py-func docutils literal"><span class="pre">handle_package()</span></tt></a>
+for each package</p>
+</dd></dl>
+
+</div>
+<div class="section" id="qitoolchain-feed-toolchainfeedparser">
+<h2>qitoolchain.feed.ToolchainFeedParser<a class="headerlink" href="#qitoolchain-feed-toolchainfeedparser" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="qitoolchain.feed.ToolchainFeedParser">
+<em class="property">class </em><tt class="descclassname">qitoolchain.feed.</tt><tt class="descname">ToolchainFeedParser</tt><a class="headerlink" href="#qitoolchain.feed.ToolchainFeedParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to handle feed parsing</p>
+<dl class="attribute">
+<dt id="qitoolchain.feed.ToolchainFeedParser.packages">
+<tt class="descname">packages</tt><a class="headerlink" href="#qitoolchain.feed.ToolchainFeedParser.packages" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>A list of packages, stored as <tt class="docutils literal"><span class="pre">ElementTree</span></tt> objects.
+The feed where the package came from is stored in a
+&#8220;feed&#8221; XML atribute of this package for later use.</div></blockquote>
+<dl class="attribute">
+<dt id="qitoolchain.feed.ToolchainFeedParser._versions">
+<tt class="descname">_versions</tt><a class="headerlink" href="#qitoolchain.feed.ToolchainFeedParser._versions" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dict name-&gt;version used to only keep the latest
+version of packages</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qitoolchain.feed.ToolchainFeedParser.append_package">
+<tt class="descname">append_package</tt><big>(</big><em>package_tree</em><big>)</big><a class="headerlink" href="#qitoolchain.feed.ToolchainFeedParser.append_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a package to self.packages.
+If an older version of the package exists,
+replace it by the new version</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qitoolchain.feed.ToolchainFeedParser.parse">
+<tt class="descname">parse</tt><big>(</big><em>feed</em><big>)</big><a class="headerlink" href="#qitoolchain.feed.ToolchainFeedParser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively parse the feeds, filling <a class="reference internal" href="#qitoolchain.feed.ToolchainFeedParser.packages" title="qitoolchain.feed.ToolchainFeedParser.packages"><tt class="xref py py-attr docutils literal"><span class="pre">packages</span></tt></a> while doing so.</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="handling-packages">
+<h2>Handling packages<a class="headerlink" href="#handling-packages" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qitoolchain.feed.handle_package">
+<tt class="descclassname">qitoolchain.feed.</tt><tt class="descname">handle_package</tt><big>(</big><em>package</em>, <em>package_tree</em>, <em>toolchain</em><big>)</big><a class="headerlink" href="#qitoolchain.feed.handle_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle a package.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>package</strong> &#8211; a <a class="reference internal" href="toolchain.html#qitoolchain.toolchain.Package" title="qitoolchain.toolchain.Package"><tt class="xref py py-class docutils literal"><span class="pre">Package</span></tt></a>
+instance.
+Initially the Packge object will only have its name set,
+but after is has been handled, it will have a correct
+<tt class="docutils literal"><span class="pre">path</span></tt> and a correct <tt class="docutils literal"><span class="pre">toolchain_file</span></tt> attributes.</li>
+<li><strong>package_tree</strong> &#8211; A <tt class="docutils literal"><span class="pre">ElementTree</span></tt> object. Note that it contains all the
+attribute it had when it was parse from the feed, plus
+a &#8216;feed&#8217; attribute containing the url of the feed it
+was parsed from.</li>
+<li><strong>toolchain</strong> &#8211; The :py:class:Toolchain &lt;qitoolchain.toolchain.Toolchain&gt;`
+class to which the package will be added.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Depending on the attribute of the XML object, several
+functions will be called.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qitoolchain.feed.handle_remote_package">
+<tt class="descclassname">qitoolchain.feed.</tt><tt class="descname">handle_remote_package</tt><big>(</big><em>package</em>, <em>package_tree</em>, <em>toolchain</em><big>)</big><a class="headerlink" href="#qitoolchain.feed.handle_remote_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the <cite>path`</cite> attribute of the given package,
+downloading it and extracting it inside
+<tt class="docutils literal"><span class="pre">toolchain.cache</span></tt> if necessary.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qitoolchain.feed.handle_local_package">
+<tt class="descclassname">qitoolchain.feed.</tt><tt class="descname">handle_local_package</tt><big>(</big><em>package</em>, <em>package_tree</em><big>)</big><a class="headerlink" href="#qitoolchain.feed.handle_local_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set <tt class="docutils literal"><span class="pre">package.path</span></tt> using the feed attribute.
+Useful when the package path is relative to the feed</p>
+<p>For instance with:</p>
+<div class="highlight-xml"><pre>&lt;!-- in /path/to/sdk/feed.xml --&gt;
+&lt;package name="foo directory="foo" &gt;</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">package.path</span></tt> will be <tt class="docutils literal"><span class="pre">/path/to/foo</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qitoolchain.feed.handle_toochain_file">
+<tt class="descclassname">qitoolchain.feed.</tt><tt class="descname">handle_toochain_file</tt><big>(</big><em>package</em>, <em>package_tree</em><big>)</big><a class="headerlink" href="#qitoolchain.feed.handle_toochain_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set <tt class="docutils literal"><span class="pre">package.toolchain_file</span></tt> using <tt class="docutils literal"><span class="pre">package.path</span></tt>
+The toolchain file path wil always be relative
+to the package path.</p>
+</dd></dl>
+
+<p>Note: this functions are called in precisely that order.</p>
+<p>This means that something like:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;package</span>
+  <span class="na">name=</span><span class="s">&quot;foo-ctc&quot;</span>
+  <span class="na">url=</span><span class="s">&quot;http://example.com/packages/foo-ctc.tar.gz&quot;</span>
+  <span class="na">toolchain_file=</span><span class="s">&quot;cross-config.cmake&quot;</span>
+<span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>will work.</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li>You can read about the XML format of feeds in the
+<a class="reference internal" href="../../../cfg/toolchain_feed_syntax.html#toolchain-feed-syntax"><em>Toolchain feed syntax</em></a> section.</li>
+<li>You can read more about what happens next when using
+<cite>qitoolchain create</cite>, <cite>qibuild configure</cite> in the
+<a class="reference internal" href="../../../../design/python/overviews/parsing_toolchain_feeds.html#parsing-toolchain-feeds"><em>Parsing toolchain feeds</em></a> overview</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="toolchain.html" title="qitoolchain.toolchain &amp;#8211; Handling binary packages">qitoolchain.toolchain &#8211; Handling binary packages</a>
+     |
+    <a href="index.html" title="qitoolchain modules" accesskey="U">qitoolchain modules</a>
+   |
+    <a href="binary_package/index.html" title="qitoolchain.binary_package modules">qitoolchain.binary_package modules</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">qiBuild reference documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../man/index.html">qibuild man Pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cmake/api.html">qiBuild CMake API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cfg/index.html">Configuration files syntax</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">qiBuild Python documentation</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">qiBuild Python packages documentation</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../qibuild/index.html">qibuild modules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">qitoolchain modules</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="toolchain.html">qitoolchain.toolchain &#8211; Handling binary packages</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">qitoolchain.feeds &#8211; Parsing toolchain feeds</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="binary_package/index.html">qitoolchain.binary_package modules</a></li>
+<li class="toctree-l5"><a class="reference internal" href="remote.html">qitoolchain.remote &#8211; Network operations</a></li>
+<li class="toctree-l5"><a class="reference internal" href="version.html">qitoolchain.version &#8211; Managing packages versions</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../qisrc/index.html">qisrc modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">qitoolchain.feeds &#8211; Parsing toolchain feeds</a><ul>
+<li><a class="reference internal" href="#qitoolchain-feed-parse-feed">qitoolchain.feed.parse_feed</a></li>
+<li><a class="reference internal" href="#qitoolchain-feed-toolchainfeedparser">qitoolchain.feed.ToolchainFeedParser</a></li>
+<li><a class="reference internal" href="#handling-packages">Handling packages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="toolchain.html" title="qitoolchain.toolchain &amp;#8211; Handling binary packages">previous</a>
+     |
+    <a href="index.html" title="qitoolchain modules" accesskey="U">up</a>
+   |
+    <a href="binary_package/index.html" title="qitoolchain.binary_package modules">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

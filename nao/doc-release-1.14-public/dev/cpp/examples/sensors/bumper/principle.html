@@ -1,0 +1,251 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Principle &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../../index.html" />
+    <link rel="up" title="C++ Examples" href="../../../examples.html" />
+    <link rel="next" title="Control the LEDs" href="../leds/leds.html" />
+    <link rel="prev" title="Example code: Bumper module" href="example.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="example.html" title="Example code: Bumper module">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../leds/leds.html" title="Control the LEDs">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-cpp-examples-sensors-bumper-principle">
+            
+  <div class="section" id="principle">
+<h1>Principle<a class="headerlink" href="#principle" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="event-subscription">
+<span id="cpp-tutos-intermediate-events"></span><h2>Event subscription<a class="headerlink" href="#event-subscription" title="Permalink to this headline">¶</a></h2>
+<p>To react to a particular event, you first have to subscribe to it. To do so, you
+must first create a proxy to ALMemory, then call the subscribeToEvent method to
+subscribe to the desired event. If you want to stop calling the callback, use the
+unsubscribeToEvent method. Each event has a particular name.</p>
+<p>To create the memory proxy, you can use the module&#8217;s broker directly instead of
+the IP adress (this only works if you are inside a module). You then indicate
+to which event you want to subscribe, and the callback function that will be called
+somewhere.</p>
+<div class="highlight-python"><pre>AL::ALMemoryProxy memProxy = AL::ALMemoryProxy(getBroker());
+memProxy.subscribeToEvent("eventName", "ModuleForCallback", "callbackFunctionName");</pre>
+</div>
+</div>
+<div class="section" id="callback-function">
+<h2>Callback function<a class="headerlink" href="#callback-function" title="Permalink to this headline">¶</a></h2>
+<p>When subscribing to the event, you specify the callback function and the module
+from where it comes. This means the callback function has to be bound somewhere.
+You cannot give any argument to the callback function.</p>
+</div>
+<div class="section" id="thread-considerations">
+<h2>Thread considerations<a class="headerlink" href="#thread-considerations" title="Permalink to this headline">¶</a></h2>
+<p>You must be particularly careful when using a callback function. The callback
+function processing time could be greater than the time between two event raising.
+In that case, you could be trying for example to read and modify the same variable
+in two different threads.</p>
+<p>To avoid that, you have to ensure that your callback function is thread-safe. To
+do so, you can use the critical section and mutex API provided by Aldebaran, but
+you can also use any other programming method (for example
+<a class="reference external" href="http://www.boost.org/doc/libs/1_47_0/doc/html/thread.html">Boost.Thread</a>).</p>
+<p>To use Aldebaran mutex, you can use a mutex (AL::ALMutex), and a critical section.
+Do not forget to intialize the mutex with AL::ALMutex::createALMutex. Then, you
+can create critical sections in your code using this mutex as an argument:</p>
+<div class="highlight-python"><pre>AL::ALCriticalSection section(mutex)</pre>
+</div>
+<p>The corresponding includes are <strong>&lt;althread/almutex.h&gt;</strong> for the mutex, and
+<strong>&lt;althread/alcriticalsection.h&gt;</strong> for the critical section.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="example.html" title="Example code: Bumper module">Example code: Bumper module</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">C++ Examples</a>
+   |
+    <a href="../leds/leds.html" title="Control the LEDs">Control the LEDs</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current current"><a class="reference internal" href="../../../../index.html">Programming Guide</a><ul class="current current">
+<li class="toctree-l2"><a class="reference internal" href="../../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current current"><a class="reference internal" href="../../../../sdk.html">SDK</a><ul class="current current">
+<li class="toctree-l3 current current"><a class="reference internal" href="../../../index.html">Cpp</a><ul class="current current">
+<li class="toctree-l4"><a class="reference internal" href="../../../install_guide.html">C++ SDK Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tutorials.html">C++ Tutorials</a></li>
+<li class="toctree-l4 current current"><a class="reference internal" href="../../../examples.html">C++ Examples</a><ul class="current current">
+<li class="toctree-l5"><a class="reference internal" href="../../core/events/events.html">Creating events</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/sayhelloworld/sayhelloworld.html">Say Hello World</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/index.html">Creating a simple remote module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/example.html">Example: HelloWorld module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/custommain/custom_main.html">Creating a custom main</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../motion/movehead/movehead.html">Moving NAO&#8217;s head</a></li>
+<li class="toctree-l5 current"><a class="reference internal" href="index.html">Reacting to an event: bumper</a><ul class="current">
+<li class="toctree-l6 current"><a class="current reference internal" href="">Principle</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="example.html">Example code: Bumper module</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="example.html">Example code: Bumper module</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">Principle</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../leds/leds.html">Control the LEDs</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../fastgetsetdcm/fastgetsetexample.html">Fast getting and setting joint angles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audiovideocapture/audiovideocapture.html">Capturing audio and video</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/opencv.html">Using OpenCV</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/optimizedimage/optimizedimage.html">Optimized access to images</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/img2arv/img2arv.html">img2arv example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/arv2avi/arv2avi.html">arv2avi example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/getimage/getimage.html">Getting an image</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/genericvideomodule/genericvideomodule.html">Generic video module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/onfacedetection/onfacedetection.html">Reacting to a vision event: face detected</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/alvisualcompass/alvisualcompass.html">Using ALVisualCompass</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundplayback/soundplayback.html">Sound playback</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/speechbasedreaction/speechbasedreaction.html">Speech based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundbasedreaction/soundbasedreaction.html">Sound based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundbasedreaction/onloudnoise.html">Reacting to an audio event: loud noise</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundprocessing/soundprocessing.html">Sound processing</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tips-and-tricks.html">C++ Tips and tricks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../tools/gdb-on-nao.html">Debugging C/C++ on the robot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../python/index.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Principle</a><ul>
+<li><a class="reference internal" href="#event-subscription">Event subscription</a></li>
+<li><a class="reference internal" href="#callback-function">Callback function</a></li>
+<li><a class="reference internal" href="#thread-considerations">Thread considerations</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="example.html" title="Example code: Bumper module">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../leds/leds.html" title="Control the LEDs">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

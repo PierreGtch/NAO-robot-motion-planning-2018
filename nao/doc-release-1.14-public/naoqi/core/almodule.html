@@ -1,0 +1,228 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALModule &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Core" href="index.html" />
+    <link rel="next" title="ALModule API" href="almodule-api.html" />
+    <link rel="prev" title="ALMemory API" href="almemory-api.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="almemory-api.html" title="ALMemory API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Core" accesskey="U">up</a>
+   |
+    <a href="almodule-api.html" title="ALModule API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-core-almodule">
+            
+  <div class="section" id="almodule">
+<span id="id1"></span><h1>ALModule<a class="headerlink" href="#almodule" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-core"><em>NAOqi Core</em></a> - Overview | <a class="reference internal" href="almodule-api.html#almodule-api"><em>API</em></a></p>
+<hr class="docutils" />
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p>ALModule can be used as a base class for user modules to
+help serve and advertise their methods.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>Each module advertises the methods that it wishes to make available
+to clients participating in the network to a broker within the
+same process.</p>
+<p>The broker then transparently handles directory services so that clients
+need not know if the module that provides a service is in the
+same process, on the same machine, or on the same tcp network.</p>
+<p>Within the same process, direct method calls are used to
+provide optimal speed without having to change your method
+signatures.</p>
+</div>
+<div class="section" id="performances-and-limitations">
+<h2>Performances and Limitations<a class="headerlink" href="#performances-and-limitations" title="Permalink to this headline">¶</a></h2>
+<p>Clients exist in a growing number of languages including c++,
+Python, .Net, Java and Matlab.</p>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>To create a new module, see in the programming guide <a class="reference internal" href="../../dev/cpp/index.html#cpp-introduction"><em>C++ SDK</em></a> or <a class="reference internal" href="../../dev/python/index.html#python-introduction"><em>Python SDK</em></a>
+introductions, and more specifically:</p>
+<ul class="simple">
+<li>for C++: <a class="reference internal" href="../../dev/cpp/tutos/create_module.html#cpp-create-module"><em>Extending NAO API - Creating a new module</em></a>.</li>
+<li>for Python: <a class="reference internal" href="../../dev/python/reacting_to_events.html#python-reacting-to-events"><em>Making a Python module - Reacting to events</em></a>.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="almemory-api.html" title="ALMemory API">ALMemory API</a>
+     |
+    <a href="index.html" title="NAOqi Core" accesskey="U">NAOqi Core</a>
+   |
+    <a href="almodule-api.html" title="ALModule API">ALModule API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Core</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albehaviormanager.html">ALBehaviorManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../connectionmanager/index.html">ALConnectionManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almemory.html">ALMemory</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">ALModule</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="almodule-api.html">ALModule API</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="alpreferences.html">ALPreferences</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alresourcemanager.html">ALResourceManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allauncher.html">ALLauncher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="albonjour.html">ALBonjour</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allogger.html">ALLogger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="extractors.html">Extractors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALModule</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li><a class="reference internal" href="#performances-and-limitations">Performances and Limitations</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="almemory-api.html" title="ALMemory API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Core" accesskey="U">up</a>
+   |
+    <a href="almodule-api.html" title="ALModule API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

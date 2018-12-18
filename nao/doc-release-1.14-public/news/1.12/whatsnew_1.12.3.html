@@ -1,0 +1,275 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>What’s new - 1.12.3 &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Release notes - 1.12" href="index.html" />
+    <link rel="next" title="What’s newn 1.12" href="whatsnew.html" />
+    <link rel="prev" title="What’s new - 1.12.5" href="whatsnew_1.12.5.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="whatsnew_1.12.5.html" title="What&amp;#8217;s new - 1.12.5">previous</a>
+     |
+    <a href="index.html" title="Release notes - 1.12" accesskey="U">up</a>
+   |
+    <a href="whatsnew.html" title="What&amp;#8217;s newn 1.12">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="news-1.12-whatsnew_1.12.3">
+            
+  <div class="section" id="what-s-new-1-12-3">
+<span id="whats-new-1-12-3"></span><h1>What&#8217;s new - 1.12.3<a class="headerlink" href="#what-s-new-1-12-3" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="nao-firmware">
+<h2>NAO firmware<a class="headerlink" href="#nao-firmware" title="Permalink to this headline">¶</a></h2>
+<p>After a few weeks of life, NAO V4 needed to be settled, adjusted.</p>
+<ul class="simple">
+<li><strong>Thermal model</strong> has been updated, in order to safely allow him to go further
+before saying &#8220;Motor hot&#8221;.</li>
+<li><strong>Current limits</strong> of the motors have been pushed forward, so NAO V4 should be
+strong enough for the most difficult poses.</li>
+<li><strong>Head Fan</strong> temperature/speed settings have been also updated in order to
+minimize unnecessary noise.</li>
+<li><strong>WiFi</strong> transmission from the robot highly improved.</li>
+</ul>
+<p>So don&#8217;t forget to update your robot: <a class="reference internal" href="../../software/choregraphe/choregraphe_update_system.html#choregraphe-howto-update-nao-system"><em>How to update NAO system</em></a>.</p>
+</div>
+<div class="section" id="choregraphe">
+<h2>Choregraphe<a class="headerlink" href="#choregraphe" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="improved-boxes">
+<h3>Improved boxes<a class="headerlink" href="#improved-boxes" title="Permalink to this headline">¶</a></h3>
+<p><strong>Walk to</strong> and <strong>Walk Toward</strong> boxes take less time to stop:
+in order to make NAO react more quickly, <strong>Walk to</strong> and <strong>Walk Toward</strong> boxes
+now use <strong>ALMotion stopWalk()</strong> to stop.</p>
+<p><strong>Stand up</strong> box has been fixed, its behavior is again symmetric.</p>
+</div>
+<div class="section" id="installation-on-a-multi-user-computer">
+<h3>Installation on a multi user computer<a class="headerlink" href="#installation-on-a-multi-user-computer" title="Permalink to this headline">¶</a></h3>
+<p>License key activation on a multi user computer is now implemented for
+<strong>Choregraphe Suite</strong>.</p>
+<p>So before installing, make sure you are logged as Administrator.</p>
+<p>For further details, see <a class="reference internal" href="../../software/installing.html#desktop-installation"><em>Choregraphe suite installation</em></a>.</p>
+</div>
+<div class="section" id="temporary-directories-cleaning">
+<h3>Temporary directories cleaning<a class="headerlink" href="#temporary-directories-cleaning" title="Permalink to this headline">¶</a></h3>
+<p>In version 1.12.0 and previous ones, <strong>Choregraphe</strong> could have created temporary
+directories in a wrong path where the Windows <strong>Cleaning disk</strong> command has not access.</p>
+<p>This issue is now fixed.</p>
+<p>To know how to clean manually these temporary files,
+see <a class="reference internal" href="../../software/choregraphe/tutos/troubleshooting.html#choregraphe-temporary-directories-fix"><em>Windows only - Choregraphe temporary directories</em></a>.</p>
+</div>
+</div>
+<div class="section" id="naosim">
+<h2>NAOsim<a class="headerlink" href="#naosim" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Installation on a multi user computer<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>License key activation on a multi user computer is now implemented for <strong>NAOsim</strong>.</p>
+<p>So before installing, make sure you are logged as Administrator.</p>
+</div>
+<div class="section" id="license-activation-for-non-connected-computers">
+<h3>License activation for non connected computers<a class="headerlink" href="#license-activation-for-non-connected-computers" title="Permalink to this headline">¶</a></h3>
+<p><strong>NAOsim Activator</strong> allows you to activate NAOsim License even if your computer
+has no Internet connection.</p>
+</div>
+</div>
+<div class="section" id="supported-operating-systems">
+<h2>Supported Operating systems<a class="headerlink" href="#supported-operating-systems" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="os-x-lion-supported">
+<h3>OS X Lion supported<a class="headerlink" href="#os-x-lion-supported" title="Permalink to this headline">¶</a></h3>
+<p>Mac OS X 10.7.1 (Lion) is now supported.</p>
+<p>For further details, see <a class="reference internal" href="../../software/requirements.html#desktop-index"><em>Choregraphe suite requirements</em></a>, <a class="reference internal" href="../../dev/cpp/install_guide.html#cpp-install-guide"><em>C++ SDK Installation</em></a>,
+<a class="reference internal" href="../../dev/python/install_guide.html#python-install-guide"><em>Python SDK Install Guide</em></a>.</p>
+</div>
+<div class="section" id="new-64-bit-packages-available">
+<h3>New 64-bit packages available<a class="headerlink" href="#new-64-bit-packages-available" title="Permalink to this headline">¶</a></h3>
+<p>We are moving to full support 64-bit.</p>
+<p>Here is the list of new packages, already available even if still under validation:</p>
+<ul class="simple">
+<li>choregraphe-suite-1.12.1.10-linux64.tar.gz</li>
+<li>choregraphe-suite-1.12.1.10-mac64.dmg</li>
+<li>naoqi-sdk-1.12.1.10-linux64.tar.gz</li>
+<li>naoqi-sdk-1.12.1.10-mac64.tar.gz</li>
+<li>pynaoqi-python2.6-linux64</li>
+<li>pynaoqi-python2.7-linux64</li>
+</ul>
+</div>
+</div>
+<div class="section" id="c-sdk">
+<h2>C++ SDK<a class="headerlink" href="#c-sdk" title="Permalink to this headline">¶</a></h2>
+<p>Read the <a class="reference external" href="../../qibuild/relnotes.html">qiBuild release notes</a>.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="whatsnew_1.12.5.html" title="What&amp;#8217;s new - 1.12.5">What&#8217;s new - 1.12.5</a>
+     |
+    <a href="index.html" title="Release notes - 1.12" accesskey="U">Release notes - 1.12</a>
+   |
+    <a href="whatsnew.html" title="What&amp;#8217;s newn 1.12">What&#8217;s newn 1.12</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">What&#8217;s new</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1.14.5/whatsnew.html">Release note - 1.14.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1.14.5/whatsnew.html#known-issues">Known issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html">ChangeLog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1.14.3/index.html">Release notes - 1.14.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1.14.2/index.html">Release notes - 1.14.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1.14.1/index.html">Release notes - 1.14.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1.14/index.html">Release notes - 1.14</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Release notes - 1.12</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="whatsnew_1.12.5.html">What&#8217;s new - 1.12.5</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">What&#8217;s new - 1.12.3</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="whatsnew.html">What&#8217;s newn 1.12</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changes/naoqi.html">NAOqi Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changes/audio.html">ALAudio Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changes/vision.html">ALVision Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changes/almotion.html">ALMotion Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changes/opennao.html">OpenNAO Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changes/cpp.html">C++ Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changes/python.html">Python SDK changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changes/cmake.html">CMake Changes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">What&#8217;s new - 1.12.3</a><ul>
+<li><a class="reference internal" href="#nao-firmware">NAO firmware</a></li>
+<li><a class="reference internal" href="#choregraphe">Choregraphe</a><ul>
+<li><a class="reference internal" href="#improved-boxes">Improved boxes</a></li>
+<li><a class="reference internal" href="#installation-on-a-multi-user-computer">Installation on a multi user computer</a></li>
+<li><a class="reference internal" href="#temporary-directories-cleaning">Temporary directories cleaning</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#naosim">NAOsim</a><ul>
+<li><a class="reference internal" href="#id1">Installation on a multi user computer</a></li>
+<li><a class="reference internal" href="#license-activation-for-non-connected-computers">License activation for non connected computers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#supported-operating-systems">Supported Operating systems</a><ul>
+<li><a class="reference internal" href="#os-x-lion-supported">OS X Lion supported</a></li>
+<li><a class="reference internal" href="#new-64-bit-packages-available">New 64-bit packages available</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#c-sdk">C++ SDK</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="whatsnew_1.12.5.html" title="What&amp;#8217;s new - 1.12.5">previous</a>
+     |
+    <a href="index.html" title="Release notes - 1.12" accesskey="U">up</a>
+   |
+    <a href="whatsnew.html" title="What&amp;#8217;s newn 1.12">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

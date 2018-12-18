@@ -1,0 +1,437 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using toolchains &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../index.html" />
+    <link rel="up" title="qiBuild Programming guide" href="index.html" />
+    <link rel="next" title="Mananing build configurations" href="build_configs.html" />
+    <link rel="prev" title="Porting a CMake project to qiBuild" href="porting_to_qibuild.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../search.html">Search</a>
+         |
+        <a title="Index" href="../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="porting_to_qibuild.html" title="Porting a CMake project to qiBuild">previous</a>
+     |
+    <a href="index.html" title="qiBuild Programming guide" accesskey="U">up</a>
+   |
+    <a href="build_configs.html" title="Mananing build configurations">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="guide-using_toolchains">
+            
+  <div class="section" id="using-toolchains">
+<span id="id1"></span><h1>Using toolchains<a class="headerlink" href="#using-toolchains" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial, you will learn how to build your projects using pre-compiled
+packages.</p>
+<div class="section" id="using-aldebaran-toolchains">
+<h2>Using Aldebaran toolchains<a class="headerlink" href="#using-aldebaran-toolchains" title="Permalink to this headline">¶</a></h2>
+<p>Aldebaran C++ SDKs and cross-toolchains are, by definition, toolchains.</p>
+<p>Using them is done with</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qitoolchain create &lt;name&gt; /path/to/toolchain.xml
+</pre></div>
+</div>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../qibuild_in_five_minutes.html#qibuild-using-aldebaran-packages"><em>Using Aldebaran packages</em></a></p>
+</div>
+</div>
+<div class="section" id="adding-packages-to-a-toolchain">
+<h2>Adding packages to a toolchain<a class="headerlink" href="#adding-packages-to-a-toolchain" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<p>The requirements for this tutorial are the same as in
+the <a class="reference internal" href="overview/managing_deps.html#qibuild-managing-deps"><em>Managing dependencies between projects</em></a> tutorial.</p>
+<p>You should have:</p>
+<ul class="simple">
+<li>a properly configured qiBuild worktree</li>
+<li>two projects, world and hello, with hello depending on the world library.</li>
+</ul>
+<p>You can find these two projects here <a class="reference download internal" href="../_downloads/helloworld.zip"><tt class="xref download docutils literal"><span class="pre">helloworld.zip</span></tt></a></p>
+<p>The goal of this tutorial is to manage to compile <tt class="docutils literal"><span class="pre">hello</span></tt>, using a pre-compiled
+binary of <tt class="docutils literal"><span class="pre">world</span></tt>.</p>
+</div>
+<div class="section" id="creating-the-world-package">
+<h3>Creating the world package<a class="headerlink" href="#creating-the-world-package" title="Permalink to this headline">¶</a></h3>
+<p>Generating a package for the <tt class="docutils literal"><span class="pre">world</span></tt> project is done with:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild package world
+</pre></div>
+</div>
+<p>This will create a package named <tt class="docutils literal"><span class="pre">world.tar.gz</span></tt> in
+<tt class="docutils literal"><span class="pre">QI_WORK_TREE/package/world.tar.gz</span></tt> (or <tt class="docutils literal"><span class="pre">world.tar.gz</span></tt> on windows)</p>
+<p>Inside the package, you will have:</p>
+<div class="highlight-python"><pre>world
+|__ include
+    |__ world
+       |__ world.hpp
+    lib
+       |__ libworld.so
+    share
+      cmake
+        |__ world-config.cmake</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The archive generated by qibuid <strong>always</strong> contain
+a properly named top directory.
+This is annoying only when using the build-in zip extractor
+of Windows, you will end up with world/world/ ...),
+so get over it or just use 7zip.</p>
+</div>
+<p>The LFS hierarchy is still preserved, and it is the same as in <tt class="docutils literal"><span class="pre">build/sdk</span></tt>.</p>
+<p>The <tt class="docutils literal"><span class="pre">world-config.cmake</span></tt> is a standard CMake file, but it can be used even after
+installing the world package, because it only uses relative paths.</p>
+<p>So the world package is usable anywhere.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The world-config.cmake does not even requires qibuild to be used by
+an other CMake project, all it does is calling standard CMake functions.</p>
+</div>
+</div>
+<div class="section" id="create-a-toolchain-from-scratch">
+<h3>Create a toolchain from scratch<a class="headerlink" href="#create-a-toolchain-from-scratch" title="Permalink to this headline">¶</a></h3>
+<p>If you are already using a Aldebaran toolchain, you can skip this section.</p>
+<p>Otherwise, you have to create a <strong>toolchain</strong> from scratch for qibuild to use:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qitoolchain create &lt;TOOLCHAIN_NAME&gt; --default
+</pre></div>
+</div>
+<p>You are free to choose any name for your toolchain, but it is advised
+to pick one from this set of configurations:</p>
+<ul class="simple">
+<li>linux32</li>
+<li>linux64</li>
+<li>mac32</li>
+<li>mac64</li>
+<li>win32-vs2008</li>
+<li>win32-vs2010</li>
+<li>mingw</li>
+</ul>
+<p>Here we will assume you chose <tt class="docutils literal"><span class="pre">linux32</span></tt>.</p>
+<p>Here we used the <tt class="docutils literal"><span class="pre">--default</span></tt> option. If you don&#8217;t, you will have to add
+<tt class="docutils literal"><span class="pre">-c</span> <span class="pre">linux32</span></tt> to every qibuild command.</p>
+<p>The only thing the <tt class="docutils literal"><span class="pre">default</span></tt> option does is to set
+<tt class="docutils literal"><span class="pre">QI_WORK_TREE/.qi/qibuild.xml</span></tt> so that it looks like:</p>
+<div class="highlight-xml"><div class="highlight"><pre> <span class="nt">&lt;qibuild</span> <span class="na">version=</span><span class="s">&quot;1&quot;</span> <span class="nt">&gt;</span>
+  <span class="nt">&lt;defaults</span> <span class="na">config=</span><span class="s">&quot;linux32&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/qibuild&gt;</span>
+</pre></div>
+</div>
+<p>So it&#8217;s easy to change your mind later.</p>
+<p>This will create a directory looking like:
+<tt class="docutils literal"><span class="pre">~/.local/share/qi/toolchains/linux32/</span></tt>
+where every packages will be put.</p>
+<p>You can check that your toolchain has been created with:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qitoolchain info
+
+<span class="go">Toolchain linux32</span>
+<span class="go">No feed</span>
+<span class="go">No packages</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-the-world-package-to-the-toolchain">
+<h3>Adding the world package to the toolchain<a class="headerlink" href="#adding-the-world-package-to-the-toolchain" title="Permalink to this headline">¶</a></h3>
+<p>Now you can use:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qitoolchain add-package -c linux32 world /path/to/worktree/package/world.tar.gz
+</pre></div>
+</div>
+<p>You can check that your package has been added with:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qitoolchain info
+
+<span class="go">Toolchain linux32</span>
+<span class="go">No feed</span>
+<span class="go">  Packages:</span>
+<span class="go">    world</span>
+<span class="go">      in /home/user/.local/share/qi/toolchains/linux32/world</span>
+</pre></div>
+</div>
+<p>This will simply:</p>
+<ul class="simple">
+<li>copy the <tt class="docutils literal"><span class="pre">world</span></tt> package somewhere in you toolchain directory.</li>
+<li>configure some files so that qibuild knows that the
+<tt class="docutils literal"><span class="pre">linux32</span></tt> toolchain can provide the <tt class="docutils literal"><span class="pre">world</span></tt> package</li>
+</ul>
+<p>When resolving dependencies of the <tt class="docutils literal"><span class="pre">hello</span></tt> project, qibuild will see that you
+use a toolchain called <tt class="docutils literal"><span class="pre">linux32</span></tt> and that this toolchain provides the
+<tt class="docutils literal"><span class="pre">world</span></tt> project, so it’s enough to set <tt class="docutils literal"><span class="pre">CMAKE_MODULE_PATHS</span></tt> to
+<tt class="docutils literal"><span class="pre">path/to/linux/toolchain/world</span></tt></p>
+<p>The <tt class="docutils literal"><span class="pre">world</span></tt> project will not be built when you use <tt class="docutils literal"><span class="pre">qibuild</span> <span class="pre">make</span> <span class="pre">hello</span></tt>,
+unless you specify it explicitly on the command line:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild configure world hello
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="creating-toolchain-feeds">
+<h2>Creating toolchain feeds<a class="headerlink" href="#creating-toolchain-feeds" title="Permalink to this headline">¶</a></h2>
+<p>Now, that you have a nice local toolchain, and a <tt class="docutils literal"><span class="pre">world</span></tt> package,
+you may want other people to be able to use the <tt class="docutils literal"><span class="pre">world</span></tt> package,
+without them having to recompile it from source.</p>
+<p>So here we are going to create a remote configuration file, so
+that other developers can simply download the <tt class="docutils literal"><span class="pre">world</span></tt> package from
+a server.</p>
+<p>We will assume you have access to a FTP or a HTTP sever.</p>
+<p>First, upload the world package, so that is accessible with the url:
+<tt class="docutils literal"><span class="pre">http://example.com/packages/world.tar.gz</span></tt></p>
+<p>Next, create a <tt class="docutils literal"><span class="pre">feed.xml</span></tt> accessible with the url:
+<tt class="docutils literal"><span class="pre">http://example.com/feed.xml</span></tt>, looking like</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;toolchain&gt;</span>
+
+  <span class="nt">&lt;package</span>
+    <span class="na">name=</span><span class="s">&quot;world&quot;</span>
+    <span class="na">url =</span> <span class="s">&quot;http://example.com/packages/world.tar.gz&quot;</span>
+  <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/toolchain&gt;</span>
+</pre></div>
+</div>
+<p>Then, from an other machine, run</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qitoolchain create linux32 http://example.com/feed.xml
+
+<span class="go">Getting package world from http://example.com/packages/world.tar.gz</span>
+<span class="go">Toolchain linux32: adding package world</span>
+</pre></div>
+</div>
+<p>You can see that the feed has been stored in your qibuild configuration:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qitoolchain info
+
+<span class="go">Toolchain linux32</span>
+<span class="go">Using feed from http://example.com/feed.xml</span>
+<span class="go">  Packages:</span>
+<span class="go">    foo</span>
+<span class="go">      in /home/user/.local/share/qi/toolchains/linux32/world</span>
+</pre></div>
+</div>
+<p>Note: if you HTTP or FTP server is protected by a password, you can put
+the username and password in the <tt class="docutils literal"><span class="pre">.config/qi/qibuild.xml</span></tt> configuration file.</p>
+<p>See the section <a class="reference internal" href="../ref/cfg/qibuild_xml_syntax.html#qibuild-xml-syntax"><em>qibuild.xml configuration file syntax</em></a> for details.</p>
+<p>You can also add the Aldebaran C++ SDKs or cross toolchains as if they were packages.
+(This sound a bit weird, but it works)</p>
+<p>For instance, assuming you were using the atom cross-toolchain and cross-compiled
+the world package, you can create a feed looking like</p>
+<div class="highlight-xml"><div class="highlight"><pre> <span class="nt">&lt;toolchain&gt;</span>
+  <span class="nt">&lt;package</span> <span class="na">name=</span><span class="s">&quot;atom-ctc&quot;</span>  <span class="na">url=</span><span class="s">&quot;http://example.com/packages/aldebaran-ctc.tar.gz&quot;</span>
+    <span class="na">toolchain_file=</span><span class="s">&quot;cross-config.cmake&quot;</span> <span class="nt">/&gt;</span>
+
+  <span class="nt">&lt;package</span> <span class="na">name=</span><span class="s">&quot;hello&quot;</span>  <span class="na">url=</span><span class="s">&quot;http://example.com/packages/world.tar.gz&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/toolchain&gt;</span>
+</pre></div>
+</div>
+<p>Don&#8217;t forget the <tt class="docutils literal"><span class="pre">toolchain_file</span></tt> attribute of the <tt class="docutils literal"><span class="pre">atom-ctc</span></tt> package, though.</p>
+</div>
+<div class="section" id="full-feed-xml-specification">
+<h2>Full feed.xml specification<a class="headerlink" href="#full-feed-xml-specification" title="Permalink to this headline">¶</a></h2>
+<p>The full specification can be found in the
+<a class="reference internal" href="../ref/cfg/toolchain_feed_syntax.html#toolchain-feed-syntax"><em>Toolchain feed syntax</em></a> section</p>
+</div>
+<div class="section" id="just-for-fun">
+<h2>Just for fun<a class="headerlink" href="#just-for-fun" title="Permalink to this headline">¶</a></h2>
+<p>You can always add something like</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="cp">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;../xsl/toolchain.xsl&quot;?&gt;</span>
+</pre></div>
+</div>
+<p>With an xsl looking like</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;html</span> <span class="na">xsl:version=</span><span class="s">&quot;1.0&quot;</span> <span class="na">xmlns:xsl=</span><span class="s">&quot;http://www.w3.org/1999/XSL/Transform&quot;</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;body</span> <span class="nt">&gt;</span>
+    <span class="nt">&lt;h2&gt;</span> Packages <span class="nt">&lt;/h2&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+      <span class="nt">&lt;xsl:for-each</span> <span class="na">select=</span><span class="s">&quot;toolchain/package&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;a&gt;</span>
+        <span class="nt">&lt;xsl:attribute</span> <span class="na">name=</span><span class="s">&quot;href&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&quot;@url&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/xsl:attribute&gt;</span>
+        <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&quot;@name&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;/xsl:for-each&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;h2&gt;</span> Feeds <span class="nt">&lt;/h2&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+      <span class="nt">&lt;xsl:for-each</span> <span class="na">select=</span><span class="s">&quot;toolchain/feed&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;a&gt;</span>
+        <span class="nt">&lt;xsl:attribute</span> <span class="na">name=</span><span class="s">&quot;href&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&quot;@url&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/xsl:attribute&gt;</span>
+        <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&quot;@url&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;/xsl:for-each&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="porting_to_qibuild.html" title="Porting a CMake project to qiBuild">Porting a CMake project to qiBuild</a>
+     |
+    <a href="index.html" title="qiBuild Programming guide" accesskey="U">qiBuild Programming guide</a>
+   |
+    <a href="build_configs.html" title="Mananing build configurations">Mananing build configurations</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">qiBuild Programming guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview/index.html">qiBuild overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmake/index.html">Using qiBuild CMake API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="porting_to_qibuild.html">Porting a CMake project to qiBuild</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Using toolchains</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="build_configs.html">Mananing build configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_write_a_library.html">How to write a library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extending_qibuild_actions.html">Extending qiBuild actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tips_and_tricks.html">qiBuild tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Using toolchains</a><ul>
+<li><a class="reference internal" href="#using-aldebaran-toolchains">Using Aldebaran toolchains</a></li>
+<li><a class="reference internal" href="#adding-packages-to-a-toolchain">Adding packages to a toolchain</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#creating-the-world-package">Creating the world package</a></li>
+<li><a class="reference internal" href="#create-a-toolchain-from-scratch">Create a toolchain from scratch</a></li>
+<li><a class="reference internal" href="#adding-the-world-package-to-the-toolchain">Adding the world package to the toolchain</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-toolchain-feeds">Creating toolchain feeds</a></li>
+<li><a class="reference internal" href="#full-feed-xml-specification">Full feed.xml specification</a></li>
+<li><a class="reference internal" href="#just-for-fun">Just for fun</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="porting_to_qibuild.html" title="Porting a CMake project to qiBuild">previous</a>
+     |
+    <a href="index.html" title="qiBuild Programming guide" accesskey="U">up</a>
+   |
+    <a href="build_configs.html" title="Mananing build configurations">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,551 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Webots for NAO &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Software" href="../index.html" />
+    <link rel="next" title="Choregraphe User Guide" href="../choregraphe/index.html" />
+    <link rel="prev" title="NAOFlasher for NAO V4" href="../naoflasher/rescue_nao_v4.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../naoflasher/rescue_nao_v4.html" title="NAOFlasher for NAO V4">previous</a>
+     |
+    <a href="../index.html" title="Software" accesskey="U">up</a>
+   |
+    <a href="../choregraphe/index.html" title="Choregraphe User Guide">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="software-webots-webots_index">
+            
+  <div class="section" id="webots-for-nao">
+<span id="webots4nao"></span><h1>Webots for NAO<a class="headerlink" href="#webots-for-nao" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-webots-for-nao">
+<h2>What is Webots for NAO<a class="headerlink" href="#what-is-webots-for-nao" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><strong>Webots for NAO</strong> allows you to launch a simulated <strong>NAO</strong> moving in a virtual world.</div>
+<div class="line">It offers a safe place to test behaviors before playing them on a real robot.</div>
+<div class="line"><br /></div>
+</div>
+<img alt="../../_images/webots4nao.png" src="../../_images/webots4nao.png" style="width: 464px; height: 332px;" />
+<p><strong>Webots for NAO</strong> is a specific release of <strong>Webots 7</strong>, exclusively dedicated
+to the use of a simulated NAO.</p>
+<p>It offers predefined <strong>NAO</strong> simulations with their ready-to-use controllers.</p>
+</div>
+<div class="section" id="what-it-is-not">
+<h2>What it is not<a class="headerlink" href="#what-it-is-not" title="Permalink to this headline">¶</a></h2>
+<p><strong>Webots for NAO</strong> is a lite version of <strong>Webots</strong>, it is not designed to let you
+use other robots nor create new robot controllers.</p>
+</div>
+<div class="section" id="installing-webots-for-nao">
+<h2>Installing Webots for NAO<a class="headerlink" href="#installing-webots-for-nao" title="Permalink to this headline">¶</a></h2>
+<p>To install <strong>Webots for NAO</strong>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Retrieve the installer <strong>Webots for NAO</strong> for your operating system:</p>
+<ul class="simple">
+<li><strong>Windows</strong>: <tt class="docutils literal"><span class="pre">webots-for-nao-7.x.x_setup.exe</span></tt>,</li>
+<li><strong>Mac</strong>: <tt class="docutils literal"><span class="pre">webots-for-nao-7.x.x.dmg</span></tt>,</li>
+<li><strong>Linux 32 bits</strong>: <tt class="docutils literal"><span class="pre">webots-for-nao-7.x.x-i386.tar.bz2</span></tt>,</li>
+<li><strong>Linux 64 bits</strong>: <tt class="docutils literal"><span class="pre">webots-for-nao-7.x.x-x86-64.tar.bz2</span></tt>.</li>
+</ul>
+<p class="last">You can download the latest release from the
+<a class="reference external" href="https://community.aldebaran.com/">Aldebaran Community Website</a>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Uninstall completely any old version of <strong>Webots</strong>.</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Launch the installer then follow the step-by-step instructions.</p>
+<p class="last">For further details or in case of trouble, see the <strong>Chapter 1: Installing Webots</strong>
+in <strong>Webots</strong> online user guide here: <a class="reference external" href="http://www.cyberbotics.com/guide/">http://www.cyberbotics.com/guide/</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="launching-a-simulated-robot">
+<span id="webots-launching"></span><h3>Launching a simulated robot<a class="headerlink" href="#launching-a-simulated-robot" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Launch <strong>Webots for NAO</strong>.</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Choose <strong>File</strong> &gt; <strong>Open World...</strong></p>
+<p>and select the file <tt class="docutils literal"><span class="pre">nao.wbt</span></tt>
+located in <tt class="docutils literal"><span class="pre">[Webots</span> <span class="pre">directory]\projects\robots\nao\worlds</span></tt>.</p>
+<img alt="../../_images/webots4nao.png" class="last" src="../../_images/webots4nao.png" style="width: 483px; height: 342px;" />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="connecting-choregraphe-to-the-simulated-robot">
+<span id="webots-connecting"></span><h3>Connecting Choregraphe to the simulated robot<a class="headerlink" href="#connecting-choregraphe-to-the-simulated-robot" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Launch <strong>Choregraphe</strong>.</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Choose <strong>Connection</strong> &gt; <strong>Connect to</strong> or click the <img alt="connect-button" class="img-inline" src="../../_images/connect-to_button.png" /> <strong>Connect to</strong>
+button.</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Select your simulated robot (the name should include the name of your computer).</p>
+<p>Its icon should be:</p>
+<img alt="../../_images/beginning_nao_bleu.png" src="../../_images/beginning_nao_bleu.png" style="width: 66px; height: 66px;" />
+<p>In Choregraphe, you can now:</p>
+<ul class="simple">
+<li>control the virtual robot with the <strong>Robot view</strong> panel and</li>
+<li>check what the virtual robot is seeing in the <strong>Video monitor</strong> panel.</li>
+</ul>
+<img alt="../../_images/webots_in_choregraphe.png" class="last" src="../../_images/webots_in_choregraphe.png" style="width: 463px; height: 334px;" />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="testing-a-behavior-in-webots-for-nao">
+<h3>Testing a behavior in Webots for NAO<a class="headerlink" href="#testing-a-behavior-in-webots-for-nao" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Make sure you have launched a simulated robot and have connected <strong>Choregraphe</strong> to it.</p>
+<p>For further details see:</p>
+<ul class="last simple">
+<li><a class="reference internal" href="#webots-launching"><em>Launching a simulated robot</em></a> and</li>
+<li><a class="reference internal" href="#webots-connecting"><em>Connecting Choregraphe to the simulated robot</em></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">In <strong>Choregraphe</strong>, create a behavior.</p>
+<p class="last">For example, test the <strong>Tai Chi Chuan</strong> box.</p>
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>Make sure the <strong>Stiffness</strong> is on: <img alt="stiffen-button" class="img-inline" src="../../_images/beginning_enslave.png" /> should be red <img alt="unstiffen-button" class="img-inline" src="../../_images/beginning_unenslave.png" />.</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click the <img alt="play-button" class="img-inline" src="../../_images/beginning_play_button.png" /> <strong>Play</strong> button and follow the behavior both in <strong>Choregraphe</strong>
+and in <strong>Webots for NAO</strong>.</p>
+<img alt="../../_images/webots_in_cho_running.png" src="../../_images/webots_in_cho_running.png" style="width: 463px; height: 335px;" />
+<img alt="../../_images/webots_in_cho_running2.png" class="last" src="../../_images/webots_in_cho_running2.png" style="width: 462px; height: 334px;" />
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Try to modify your point of view.</p>
+<p class="last">For further details, see: <strong>How do I navigate in 3D world?</strong> in the <strong>Help</strong> menu.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="monitoring-the-simulated-nao">
+<h3>Monitoring the simulated NAO<a class="headerlink" href="#monitoring-the-simulated-nao" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">In <strong>Webots for NAO</strong>, double-click the robot.</p>
+<p>The panel below appears.</p>
+<img alt="../../_images/webots_robot_view.png" class="last" src="../../_images/webots_robot_view.png" style="width: 496px; height: 230px;" />
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Choose one of the tabs and select the data you want to monitor.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="customizing-nao-s-worlds">
+<h2>Customizing NAO&#8217;s worlds<a class="headerlink" href="#customizing-nao-s-worlds" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="adding-an-object">
+<h3>Adding an object<a class="headerlink" href="#adding-an-object" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s add a table, for example:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Make sure the simulation is stopped.</p>
+<p class="last">Otherwise, choose, <strong>Simulation</strong> &gt; <strong>Stop</strong> then <strong>File</strong> &gt; <strong>Revert World</strong>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">In the <strong>Scene Tree</strong>, select the last node.</p>
+<img alt="../../_images/add_object1.png" class="last" src="../../_images/add_object1.png" style="width: 397px; height: 286px;" />
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click the <img alt="add-object" class="img-inline" src="../../_images/add_object_btn.png" /> <strong>Add a new object</strong> button and select this object:</p>
+<p><tt class="docutils literal"><span class="pre">PROTO</span></tt> &gt; <tt class="docutils literal"><span class="pre">objects</span></tt> &gt; <tt class="docutils literal"><span class="pre">indoor</span></tt> &gt; <tt class="docutils literal"><span class="pre">tables</span></tt>  &gt; <tt class="docutils literal"><span class="pre">Desk</span> <span class="pre">(Solid)</span></tt></p>
+<img alt="../../_images/add_object2.png" class="last" src="../../_images/add_object2.png" style="width: 398px; height: 288px;" />
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click the <strong>Add</strong> button.</p>
+<img alt="../../_images/add_object3.png" class="last" src="../../_images/add_object3.png" style="width: 398px; height: 294px;" />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="moving-objects">
+<h3>Moving objects<a class="headerlink" href="#moving-objects" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s play with objects in order to learn how to move them.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Make sure the simulation is stopped.</p>
+<p class="last">Otherwise, choose, <strong>Simulation</strong> &gt; <strong>Stop</strong>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>In the <strong>Scene Tree</strong>, select the last node.</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click the <img alt="add-object" class="img-inline" src="../../_images/add_object_btn.png" /> <strong>Add a new object</strong> button and select this object:</p>
+<p class="last"><tt class="docutils literal"><span class="pre">PROTO</span></tt> &gt; <tt class="docutils literal"><span class="pre">objects</span></tt> &gt; <tt class="docutils literal"><span class="pre">indoor</span></tt> &gt; <tt class="docutils literal"><span class="pre">fruits</span></tt>  &gt; <tt class="docutils literal"><span class="pre">FruitBowl</span> <span class="pre">(Solid)</span></tt></p>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click the <strong>Add</strong> button.</p>
+<img alt="../../_images/add_object4.png" class="last" src="../../_images/add_object4.png" style="width: 400px; height: 293px;" />
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Try to put the fruit bowl on the table.</p>
+<p>For further details, see: <strong>How do I move an object?</strong> in the <strong>Help</strong> menu.</p>
+<img alt="../../_images/add_object5.png" class="last" src="../../_images/add_object5.png" style="width: 398px; height: 291px;" />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nao-and-webots">
+<h3>NAO and Webots<a class="headerlink" href="#nao-and-webots" title="Permalink to this headline">¶</a></h3>
+<p>Read the Section <strong>8.2 Using the NAO robot</strong> of the <strong>Webots</strong> user guide
+to learn more about managing one or several <strong>NAOs</strong> using <strong>Webots for NAO</strong>.</p>
+</div>
+</div>
+<div class="section" id="tips">
+<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="i-can-t-see-my-simulated-robot-in-the-choregraphe-browse-robots-panel">
+<h3>I can&#8217;t see my simulated robot in the Choregraphe <strong>Browse robots</strong> panel.<a class="headerlink" href="#i-can-t-see-my-simulated-robot-in-the-choregraphe-browse-robots-panel" title="Permalink to this headline">¶</a></h3>
+<p>Make sure the simulation is not stopped in <strong>Webots for NAO</strong>.</p>
+</div>
+<div class="section" id="navigating-i-lost-sight-of-nao">
+<h3>Navigating I lost sight of NAO.<a class="headerlink" href="#navigating-i-lost-sight-of-nao" title="Permalink to this headline">¶</a></h3>
+<p>Choose <strong>View</strong> &gt; <strong>Restore Viewpoint</strong> or press <strong>F6</strong> key.
+The view is reset to the origin point.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../naoflasher/rescue_nao_v4.html" title="NAOFlasher for NAO V4">NAOFlasher for NAO V4</a>
+     |
+    <a href="../index.html" title="Software" accesskey="U">Software</a>
+   |
+    <a href="../choregraphe/index.html" title="Choregraphe User Guide">Choregraphe User Guide</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Software</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../requirements.html">Choregraphe suite requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html">Choregraphe suite installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../choregraphe/choregraphe_overview.html">Choregraphe overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monitor/index.html">Monitor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../naoflasher/index.html">NAOFlasher</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Webots for NAO</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Webots for NAO</a><ul>
+<li><a class="reference internal" href="#what-is-webots-for-nao">What is Webots for NAO</a></li>
+<li><a class="reference internal" href="#what-it-is-not">What it is not</a></li>
+<li><a class="reference internal" href="#installing-webots-for-nao">Installing Webots for NAO</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a><ul>
+<li><a class="reference internal" href="#launching-a-simulated-robot">Launching a simulated robot</a></li>
+<li><a class="reference internal" href="#connecting-choregraphe-to-the-simulated-robot">Connecting Choregraphe to the simulated robot</a></li>
+<li><a class="reference internal" href="#testing-a-behavior-in-webots-for-nao">Testing a behavior in Webots for NAO</a></li>
+<li><a class="reference internal" href="#monitoring-the-simulated-nao">Monitoring the simulated NAO</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#customizing-nao-s-worlds">Customizing NAO&#8217;s worlds</a><ul>
+<li><a class="reference internal" href="#adding-an-object">Adding an object</a></li>
+<li><a class="reference internal" href="#moving-objects">Moving objects</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#next-steps">Next steps</a><ul>
+<li><a class="reference internal" href="#nao-and-webots">NAO and Webots</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tips">Tips</a><ul>
+<li><a class="reference internal" href="#i-can-t-see-my-simulated-robot-in-the-choregraphe-browse-robots-panel">I can&#8217;t see my simulated robot in the Choregraphe <strong>Browse robots</strong> panel.</a></li>
+<li><a class="reference internal" href="#navigating-i-lost-sight-of-nao">Navigating I lost sight of NAO.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../naoflasher/rescue_nao_v4.html" title="NAOFlasher for NAO V4">previous</a>
+     |
+    <a href="../index.html" title="Software" accesskey="U">up</a>
+   |
+    <a href="../choregraphe/index.html" title="Choregraphe User Guide">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

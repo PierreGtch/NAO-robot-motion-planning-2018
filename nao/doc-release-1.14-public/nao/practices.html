@@ -1,0 +1,255 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Best practices &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../index.html" />
+    <link rel="up" title="Out of the box" href="out_of_the_box.html" />
+    <link rel="next" title="Software in and out of the robot" href="../getting_started/software_in_and_out.html" />
+    <link rel="prev" title="Setting NAO’s WiFi connection" href="nao-connecting.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../search.html">Search</a>
+         |
+        <a title="Index" href="../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="nao-connecting.html" title="Setting NAO&amp;#8217;s WiFi connection">previous</a>
+     |
+    <a href="out_of_the_box.html" title="Out of the box" accesskey="U">up</a>
+   |
+    <a href="../getting_started/software_in_and_out.html" title="Software in and out of the robot">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="nao-practices">
+            
+  <div class="section" id="best-practices">
+<h1>Best practices<a class="headerlink" href="#best-practices" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="charging-nao">
+<h2>Charging NAO<a class="headerlink" href="#charging-nao" title="Permalink to this headline">¶</a></h2>
+<p>Plug the adaptor into NAO&#8217;s back while he&#8217;s in a stable position and leave him to charge for at least 2 hours. He should not walk or lie down while charging.</p>
+<img alt="../_images/nao_assis_dos.png" src="../_images/nao_assis_dos.png" />
+</div>
+<div class="section" id="ethernet-cable">
+<h2>Ethernet cable<a class="headerlink" href="#ethernet-cable" title="Permalink to this headline">¶</a></h2>
+<p>When plugged into Ethernet, NAO should not walk, lie down or perform behaviors
+which could move his head too far (particularly tilting his head back), as the
+plug could damage his head. The WiFi connection is the recommended connection.</p>
+</div>
+<div class="section" id="hands">
+<h2>Hands<a class="headerlink" href="#hands" title="Permalink to this headline">¶</a></h2>
+<p>Avoid playing with NAO&#8217;s fingers and rotating his hands when turned off.</p>
+</div>
+<div class="section" id="safe-poses">
+<h2>Safe Poses<a class="headerlink" href="#safe-poses" title="Permalink to this headline">¶</a></h2>
+<p>NAO needs to be in a stable position when he&#8217;s not in use or while charging, like in this picture.</p>
+<div class="section" id="nao-h21-h25">
+<h3>NAO H21/H25<a class="headerlink" href="#nao-h21-h25" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/nao_pose_secu_face_3_4.png" src="../_images/nao_pose_secu_face_3_4.png" />
+</div>
+<div class="section" id="nao-t2-t14">
+<h3>NAO T2/T14<a class="headerlink" href="#nao-t2-t14" title="Permalink to this headline">¶</a></h3>
+<p>Fix NAO&#8217;s base onto a horizontal surface with 4 screws.</p>
+<img alt="../_images/assemblage_nao_sur_socle.png" src="../_images/assemblage_nao_sur_socle.png" />
+</div>
+</div>
+<div class="section" id="safe-area">
+<h2>Safe Area<a class="headerlink" href="#safe-area" title="Permalink to this headline">¶</a></h2>
+<p>You should prevent NAO from falling. Yet if he falls, he should not hurt any object or fall from a high surface, such as a table. A safe working area is shown in the figures opposite.</p>
+<img alt="../_images/safearea.png" src="../_images/safearea.png" />
+<p>The way you position NAO is also important to prevent NAO from falling or hurting himself. Place him in a stable position when pressing his chest button, or when plugging a cable. before starting a move, make sure he can perform it from his
+current position.</p>
+<p>When turned off, the best position is to have NAO lying down on his back, with no cable plugged.</p>
+</div>
+<div class="section" id="recommendations">
+<h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Precautions: take all necessary precautions to ensure that NAO will not be directly or indirectly damaged by its surroundings. Do not exert strong forces on NAO and protect it from falls. Do not make NAO walk on thick carpets or rugs, mattresses, clothes. NAO will move about properly if the floor is flat, hard and smooth. Do not block its sensors or introduce foreign objects into its body. Do not use NAO outdoors.</li>
+<li>Handling: if you need to handle or move NAO, it is best to hold it with both hands by the waist/torso. Do not pull it by the arms, legs or head.</li>
+<li>Water: do not expose NAO to any form of water as permanent damage may occur. In particular, if NAO switches from a cold environment to a warm one, condensation may occur on its surface or inside. In that case, let NAO dry before turning it on.</li>
+<li>Temperature: NAO is designed to function between 10 and 35 °C ( 50-95 F).</li>
+<li>Humidity: NAO is designed to function within 10% to 90% relative humidity.</li>
+<li>Electrical shock: do not attempt to disassemble or modify NAO, as this can cause malfunction/damage or result in electrical shock.</li>
+<li>Children and pets: do not let children or pets interact with NAO.</li>
+<li>Storage: when not intending to use NAO for a long time, remove the battery and store it in a dry location, at temperatures between 0 and 45 °C (32- 113 F). Be aware that during storage, the battery will be subject to discharge. Also bear in mind that the charge capacity of the battery will decrease in time.</li>
+<li>Transport: the robot must always be transported in its original packing or in
+a specific suitcase sold by Aldebaran Robotics. Any other packing may damage
+the robot and void the warranty.</li>
+<li>Battery handling: do not expose the battery to temperatures above 45 °C (113°F). Protect the battery terminals from dust or foreign objects.</li>
+<li>Cleaning: clean NAO and charger with a soft, dry cloth only. Do not use solvents.</li>
+<li>Do not oil NAO&#8217;s joints or other movable parts.</li>
+<li>Lithium-ion rechargeable batteries are recyclable. You can help preserve our environment by returning your used rechargeable battery to the collection and recycling location nearest you.</li>
+<li>For information regarding the AC adapter, please refer to the manual provided separately.</li>
+</ul>
+</div>
+<div class="section" id="safety">
+<span id="nao-safety"></span><h2>Safety<a class="headerlink" href="#safety" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Periodically examine the AC adapter for conditions that may result in the risk of fire, electric shock, or injury to persons (such as damage to the cords, blades, housing). In the event of such conditions, the AC adapter should not be used until properly replaced.</li>
+<li>The robot must be used only with the recommended AC adapter and battery. Use of another type of adapter and/or battery may result in malfunction and voids the warranty.</li>
+<li>If the external flexible cable or cord is damaged, it must be replaced or repaired only by the manufacturer, an authorized service agent or a similar qualified person in order to avoid a hazard.</li>
+<li>All material for fastening or packing purposes are not part of the robot and should be disregarded for children&#8217;s safety.</li>
+<li>Do not handle damaged or leaking lithium ion batteries.</li>
+<li>There is a risk of explosion if the battery is incorrectly replaced. Replace only with an Aldebaran battery. Discard used batteries according to the manufacturer&#8217;s instructions.</li>
+<li>The battery pack used in this device may present a fire or chemical burn hazard if mistreated. Do not disassemble, heat above 60 °C (140 °F ) or incinerate. Dispose of used battery promptly. Keep away from children. Do not disassemble and do not dispose of in fire.</li>
+<li>Do not drop the battery pack or place heavy object on it. Do not apply strong pressure or physical shock to the battery pack.</li>
+<li>In case of problems with your electrical power circuit, immediately unplug NAO&#8217;s charger.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="nao-connecting.html" title="Setting NAO&amp;#8217;s WiFi connection">Setting NAO&#8217;s WiFi connection</a>
+     |
+    <a href="out_of_the_box.html" title="Out of the box" accesskey="U">Out of the box</a>
+   |
+    <a href="../getting_started/software_in_and_out.html" title="Software in and out of the robot">Software in and out of the robot</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">NAO</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../getting_started/index.html">Getting started</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="out_of_the_box.html">Out of the box</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="battery-charging.html">Charging the battery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nao-turn-on.html">Turning your NAO on and off</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nao-connecting.html">Setting NAO&#8217;s WiFi connection</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Best practices</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../getting_started/software_in_and_out.html">Software in and out of the robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting_started/helloworlds.html">Hello World(s)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="configuring.html">Configuring NAO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="taking-care.html">Taking care of <strong>NAO</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../family/index.html">Hardware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Best practices</a><ul>
+<li><a class="reference internal" href="#charging-nao">Charging NAO</a></li>
+<li><a class="reference internal" href="#ethernet-cable">Ethernet cable</a></li>
+<li><a class="reference internal" href="#hands">Hands</a></li>
+<li><a class="reference internal" href="#safe-poses">Safe Poses</a><ul>
+<li><a class="reference internal" href="#nao-h21-h25">NAO H21/H25</a></li>
+<li><a class="reference internal" href="#nao-t2-t14">NAO T2/T14</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#safe-area">Safe Area</a></li>
+<li><a class="reference internal" href="#recommendations">Recommendations</a></li>
+<li><a class="reference internal" href="#safety">Safety</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="nao-connecting.html" title="Setting NAO&amp;#8217;s WiFi connection">previous</a>
+     |
+    <a href="out_of_the_box.html" title="Out of the box" accesskey="U">up</a>
+   |
+    <a href="../getting_started/software_in_and_out.html" title="Software in and out of the robot">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

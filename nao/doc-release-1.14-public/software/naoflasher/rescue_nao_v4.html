@@ -1,0 +1,398 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NAOFlasher for NAO V4 &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOFlasher" href="index.html" />
+    <link rel="next" title="Webots for NAO" href="../webots/webots_index.html" />
+    <link rel="prev" title="NAOFlasher for NAO V3.x" href="rescue_nao_v3.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="rescue_nao_v3.html" title="NAOFlasher for NAO V3.x">previous</a>
+     |
+    <a href="index.html" title="NAOFlasher" accesskey="U">up</a>
+   |
+    <a href="../webots/webots_index.html" title="Webots for NAO">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="software-naoflasher-rescue_nao_v4">
+            
+  <div class="section" id="naoflasher-for-nao-v4">
+<span id="nao-v4-upgrade"></span><h1>NAOFlasher for NAO V4<a class="headerlink" href="#naoflasher-for-nao-v4" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="before-starting">
+<h2>Before starting<a class="headerlink" href="#before-starting" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Make sure your NAO is a <strong>V4</strong>, if it is not the case, see <a class="reference internal" href="rescue_nao_v3.html#nao-v3-upgrade"><em>NAOFlasher for NAO V3.x</em></a>.</p>
+</li>
+<li><p class="first">Be aware that the <strong>rescue</strong> procedure is not the standard way to update the
+software version of NAO.</p>
+<p>To make sure it is what you need, read: <a class="reference internal" href="index.html#rescue-mode"><em>Rescue mode</em></a>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="how-to-update-your-nao-v4-with-naoflasher">
+<h2>How to update your NAO V4 with NAOFlasher<a class="headerlink" href="#how-to-update-your-nao-v4-with-naoflasher" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Get a USB stick:</p>
+<ul class="simple">
+<li>unformatted,</li>
+<li>larger or equal to 512MB.</li>
+</ul>
+<p>If you want to use an already formatted USB stick, you have to clean it.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>This process erases the whole USB stick.</p>
+<p class="last">Any data on the USB stick will be irreparably lost.</p>
+</div>
+<ul class="last simple">
+<li>On <strong>Windows</strong>, try <a class="reference internal" href="index.html#usb-cleanup-windows"><em>Cleaning up your USB stick - Windows</em></a>.</li>
+<li>On <strong>Linux</strong>, try <a class="reference internal" href="index.html#usb-cleanup-linux"><em>Cleaning up your USB stick - Linux</em></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Get the <strong>NAO</strong> system image.</p>
+<p>You can download the latest release from the
+<a class="reference external" href="https://community.aldebaran.com/">Aldebaran Community Website</a>.</p>
+<p>Make sure to select the image that suits to your <strong>NAO</strong>:</p>
+<ul class="last simple">
+<li><tt class="docutils literal"><span class="pre">opennao-atom-system-image-1.14.[x].opn</span></tt> is for NAO V4,</li>
+<li>while <tt class="docutils literal"><span class="pre">opennao-geode-system-image-1.14.[x].gz</span></tt> is for NAO V3.x.</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Write the image on the USB stick.</p>
+<p class="last">For further details, see <a class="reference internal" href="#nao-v4-upgrade-create-rescue-usbstick"><em>Writing the image on the USB stick</em></a>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Upgrade the NAO&#8217;s system and run the new software version</p>
+<p class="last">For further details, see <a class="reference internal" href="#nao-v4-upgrade-reboot"><em>Upgrading the NAO&#8217;s system and running the new software version</em></a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="writing-the-image-on-the-usb-stick">
+<span id="nao-v4-upgrade-create-rescue-usbstick"></span><h2>Writing the image on the USB stick<a class="headerlink" href="#writing-the-image-on-the-usb-stick" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Insert your USB stick in your computer.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p>On <strong>Windows</strong> and <strong>Mac OS X</strong>, you might encounter a prompt telling you that the USB
+drive you inserted is not readable, and that you should format it.</p>
+<p class="last">Please ignore this and click the <strong>Cancel</strong> button or similar.</p>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Launch the <strong>flasher</strong> executable.</p>
+<p>It should look roughly like this:</p>
+<img alt="../../_images/nao-flasher01.png" class="last" src="../../_images/nao-flasher01.png" style="width: 542px; height: 271px;" />
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click the <strong>Browse</strong> button (or press Ctrl+O) to select the image you want to flash in your
+local file system. You can also copy/paste the file&#8217;s address directly in the text box.</p>
+<img alt="../../_images/nao-flasher02.png" class="last" src="../../_images/nao-flasher02.png" style="width: 542px; height: 271px;" />
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Select your USB stick from the list.</p>
+<p>If your USB stick  doesn&#8217;t appear in the list,
+try the <strong>Refresh</strong> button after inserting it in your computer).</p>
+<img alt="../../_images/nao-flasher03.png" class="last" src="../../_images/nao-flasher03.png" style="width: 542px; height: 271px;" />
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Check the <strong>Factory Reset</strong> box in order to install a brand new system in a <a class="reference internal" href="index.html#rescue-mode"><em>Rescue mode</em></a>.</p>
+<p>If not checked, <strong>NAO Flasher</strong> will do a simple update, like the command available in Choregraphe.
+For further details about why you should or should not choose a <strong>Factory reset</strong>,
+read <a class="reference internal" href="index.html#rescue-mode"><em>Rescue mode</em></a>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><strong>Factory Reset</strong> will remove all the data from your robot, please backup your data
+before running the program.</p>
+</div>
+<img alt="../../_images/nao-flasher07.png" class="last" src="../../_images/nao-flasher07.png" style="width: 528px; height: 264px;" />
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click the <strong>Write</strong> button to start the process:</p>
+<img alt="../../_images/nao-flasher04.png" class="last" src="../../_images/nao-flasher04.png" style="width: 542px; height: 271px;" />
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="7">
+<li></li>
+</ol>
+</td>
+<td><p class="first">If you get an error message telling:</p>
+<ul class="last">
+<li><p class="first">the USB stick contains a file system, try:</p>
+<p><a class="reference internal" href="index.html#usb-cleanup-windows"><em>Cleaning up your USB stick - Windows</em></a> or</p>
+<p><a class="reference internal" href="index.html#usb-cleanup-linux"><em>Cleaning up your USB stick - Linux</em></a>.</p>
+</li>
+<li><p class="first">you don&#8217;t have administrator privileges, try:</p>
+<p><a class="reference internal" href="index.html#flasher-admin-rights"><em>Launching NAOFlasher with administrator privileges</em></a>.</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="8">
+<li></li>
+</ol>
+</td>
+<td><p class="first">When the process is completed, it should look like this:</p>
+<img alt="../../_images/nao-flasher06.png" class="last" src="../../_images/nao-flasher06.png" style="width: 542px; height: 271px;" />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="upgrading-the-nao-s-system-and-running-the-new-software-version">
+<span id="nao-v4-upgrade-reboot"></span><h2>Upgrading the NAO&#8217;s system and running the new software version<a class="headerlink" href="#upgrading-the-nao-s-system-and-running-the-new-software-version" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Make sure that  the robot is plugged to its charger all along the system update process.</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Shutdown the robot.</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>Plug the USB stick you previously flashed into the USB connector at the back of NAO&#8217;s head.</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">To perform and monitor the upgrade, see: <a class="reference internal" href="../../nao/upgrade.html#launching-upgrade"><em>Launching the upgrade</em></a>.</p>
+<p>NAO&#8217;s system will be upgraded during the boot. The new software version will be automatically started.</p>
+<p class="last">If you enabled the <strong>Factory reset</strong> option, this may take a very long time to complete.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="rescue_nao_v3.html" title="NAOFlasher for NAO V3.x">NAOFlasher for NAO V3.x</a>
+     |
+    <a href="index.html" title="NAOFlasher" accesskey="U">NAOFlasher</a>
+   |
+    <a href="../webots/webots_index.html" title="Webots for NAO">Webots for NAO</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Software</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../requirements.html">Choregraphe suite requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html">Choregraphe suite installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../choregraphe/choregraphe_overview.html">Choregraphe overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monitor/index.html">Monitor</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">NAOFlasher</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rescue_nao_v3.html">NAOFlasher for NAO V3.x</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">NAOFlasher for NAO V4</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../webots/webots_index.html">Webots for NAO</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">NAOFlasher for NAO V4</a><ul>
+<li><a class="reference internal" href="#before-starting">Before starting</a></li>
+<li><a class="reference internal" href="#how-to-update-your-nao-v4-with-naoflasher">How to update your NAO V4 with NAOFlasher</a></li>
+<li><a class="reference internal" href="#writing-the-image-on-the-usb-stick">Writing the image on the USB stick</a></li>
+<li><a class="reference internal" href="#upgrading-the-nao-s-system-and-running-the-new-software-version">Upgrading the NAO&#8217;s system and running the new software version</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="rescue_nao_v3.html" title="NAOFlasher for NAO V3.x">previous</a>
+     |
+    <a href="index.html" title="NAOFlasher" accesskey="U">up</a>
+   |
+    <a href="../webots/webots_index.html" title="Webots for NAO">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

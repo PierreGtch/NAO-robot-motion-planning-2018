@@ -1,0 +1,359 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>img2arv example &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../../index.html" />
+    <link rel="up" title="C++ Examples" href="../../../examples.html" />
+    <link rel="next" title="arv2avi example" href="../arv2avi/arv2avi.html" />
+    <link rel="prev" title="Optimized access to images" href="../optimizedimage/optimizedimage.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../optimizedimage/optimizedimage.html" title="Optimized access to images">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../arv2avi/arv2avi.html" title="arv2avi example">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-cpp-examples-vision-img2arv-img2arv">
+            
+  <div class="section" id="img2arv-example">
+<span id="cpp-examples-img2arv"></span><h1>img2arv example<a class="headerlink" href="#img2arv-example" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Convert a serie of image to an arv video file.</p>
+</div>
+<div class="section" id="download">
+<h2>Download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h2>
+<p>The whole example is available here: <a class="reference download internal" href="../../../../../_downloads/img2arv.zip"><tt class="xref download docutils literal"><span class="pre">img2arv.zip</span></tt></a></p>
+<div class="section" id="source-img2arv-cpp">
+<h3>Source: img2arv.cpp<a class="headerlink" href="#source-img2arv-cpp" title="Permalink to this headline">¶</a></h3>
+<p>Download <a class="reference download internal" href="../../../../../_downloads/img2arv.cpp"><tt class="xref download docutils literal"><span class="pre">img2arv.cpp</span></tt></a>.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;stdlib.h&gt;</span>
+<span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;string&gt;</span>
+<span class="cp">#include &lt;vector&gt;</span>
+<span class="cp">#include &lt;boost/filesystem.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/core/core.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/highgui/highgui.hpp&gt;</span>
+<span class="cp">#include &lt;alvision/alvisiondefinitions.h&gt;</span>
+<span class="cp">#include &lt;alvision/alvideo.h&gt;</span>
+
+
+<span class="k">namespace</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">boost</span><span class="o">::</span><span class="n">filesystem</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">AL</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">printUsage</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Usage: imgFiles2arv DIRECTORY ARV_FILE</span><span class="se">\n</span><span class="s">&quot;</span>
+         <span class="s">&quot;Parse all image files in DIRECTORY and place them into an ARV_FILE.</span><span class="se">\n</span><span class="s">&quot;</span>
+         <span class="s">&quot;Note that only color images with the same resolution than the first one&quot;</span>
+         <span class="s">&quot; found in the folder will be processed.</span><span class="se">\n\n</span><span class="s">&quot;</span> <span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">//int streamNumber = 0;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printUsage</span><span class="p">();</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">//const char* imgFolder = argv[1];</span>
+  <span class="kt">char</span><span class="o">*</span> <span class="n">arvFile</span>   <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+  <span class="k">if</span><span class="p">(</span> <span class="n">strlen</span><span class="p">(</span><span class="n">arvFile</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="p">)</span> <span class="c1">//remove arv extension if writen by the user</span>
+    <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="n">strcmp</span><span class="p">(</span> <span class="n">arvFile</span><span class="o">+</span><span class="n">strlen</span><span class="p">(</span><span class="n">arvFile</span><span class="p">)</span><span class="o">-</span><span class="mi">4</span> <span class="p">,</span><span class="s">&quot;.arv&quot;</span><span class="p">)</span> <span class="p">)</span>
+      <span class="n">arvFile</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">arvFile</span><span class="p">)</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+
+  <span class="n">fs</span><span class="o">::</span><span class="n">path</span> <span class="n">full_path</span><span class="p">(</span> <span class="n">fs</span><span class="o">::</span><span class="n">initial_path</span><span class="o">&lt;</span><span class="n">fs</span><span class="o">::</span><span class="n">path</span><span class="o">&gt;</span><span class="p">()</span> <span class="p">);</span>
+  <span class="n">full_path</span> <span class="o">=</span> <span class="n">fs</span><span class="o">::</span><span class="n">system_complete</span><span class="p">(</span> <span class="n">fs</span><span class="o">::</span><span class="n">path</span><span class="p">(</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span> <span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">fs</span><span class="o">::</span><span class="n">exists</span><span class="p">(</span> <span class="n">full_path</span> <span class="p">)</span> <span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Not found: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">full_path</span><span class="p">.</span><span class="n">string</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">2</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span> <span class="n">fs</span><span class="o">::</span><span class="n">is_directory</span><span class="p">(</span> <span class="n">full_path</span> <span class="p">)</span> <span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">//*********** initialisation using the first image file ***********//</span>
+    <span class="kt">char</span> <span class="n">fileName</span><span class="p">[</span><span class="mi">2048</span><span class="p">];</span>
+    <span class="kt">long</span> <span class="kt">long</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">pImg</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">();</span>
+    <span class="n">streamHeader</span> <span class="n">tmpStreamHeader</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">streamHeader</span><span class="o">&gt;</span> <span class="n">streamHeaderVector</span><span class="p">;</span>
+    <span class="n">ALVideo</span> <span class="n">videoFile</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">isInitialized</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+
+    <span class="n">fs</span><span class="o">::</span><span class="n">directory_iterator</span> <span class="n">end_iter</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="n">fs</span><span class="o">::</span><span class="n">directory_iterator</span> <span class="n">dir_itr</span><span class="p">(</span> <span class="n">full_path</span> <span class="p">);</span> <span class="n">dir_itr</span> <span class="o">!=</span> <span class="n">end_iter</span><span class="p">;</span> <span class="o">++</span><span class="n">dir_itr</span> <span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">fileName</span> <span class="o">=</span> <span class="p">(</span> <span class="n">full_path</span> <span class="o">/</span> <span class="n">dir_itr</span><span class="o">-&gt;</span><span class="n">path</span><span class="p">().</span><span class="n">filename</span><span class="p">()</span> <span class="p">).</span><span class="n">string</span><span class="p">();</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="n">fs</span><span class="o">::</span><span class="n">is_regular_file</span><span class="p">(</span> <span class="n">dir_itr</span><span class="o">-&gt;</span><span class="n">status</span><span class="p">()</span> <span class="p">)</span> <span class="p">)</span>
+      <span class="p">{</span>
+        <span class="k">try</span> <span class="p">{</span>
+          <span class="n">pImg</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">imread</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">catch</span> <span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">exception</span> <span class="o">&amp;</span> <span class="n">ex</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">dir_itr</span><span class="o">-&gt;</span><span class="n">path</span><span class="p">().</span><span class="n">filename</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ex</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">pImg</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+        <span class="p">{</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="s">&quot;File : &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">fileName</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+          <span class="k">if</span><span class="p">(</span> <span class="n">isInitialized</span> <span class="o">==</span> <span class="kc">false</span> <span class="p">)</span>
+          <span class="p">{</span>
+            <span class="n">tmpStreamHeader</span><span class="p">.</span><span class="n">width</span>      <span class="o">=</span> <span class="n">pImg</span><span class="p">.</span><span class="n">cols</span><span class="p">;</span>
+            <span class="n">tmpStreamHeader</span><span class="p">.</span><span class="n">height</span>     <span class="o">=</span> <span class="n">pImg</span><span class="p">.</span><span class="n">rows</span><span class="p">;</span>
+            <span class="n">tmpStreamHeader</span><span class="p">.</span><span class="n">colorSpace</span> <span class="o">=</span> <span class="n">kYUV422ColorSpace</span><span class="p">;</span>
+            <span class="n">tmpStreamHeader</span><span class="p">.</span><span class="n">pixelDepth</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+
+            <span class="n">streamHeaderVector</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">tmpStreamHeader</span><span class="p">);</span>
+
+            <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Output arv file properties: &quot;</span><span class="o">&lt;&lt;</span> <span class="n">streamHeaderVector</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">width</span> <span class="o">&lt;&lt;</span><span class="s">&quot;x&quot;</span><span class="o">&lt;&lt;</span> <span class="n">streamHeaderVector</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">height</span>
+              <span class="o">&lt;&lt;</span><span class="s">&quot; Colorspace id:&quot;</span><span class="o">&lt;&lt;</span> <span class="n">streamHeaderVector</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">colorSpace</span> <span class="o">&lt;&lt;</span><span class="s">&quot; Pixel depth:&quot;</span><span class="o">&lt;&lt;</span> <span class="n">streamHeaderVector</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pixelDepth</span>
+              <span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="n">videoFile</span><span class="p">.</span><span class="n">recordVideo</span><span class="p">(</span> <span class="n">arvFile</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">streamHeaderVector</span> <span class="p">)</span> <span class="p">)</span>
+            <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Error writing &quot;</span><span class="o">&lt;&lt;</span> <span class="n">arvFile</span> <span class="o">&lt;&lt;</span><span class="s">&quot; file.&quot;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+              <span class="k">return</span> <span class="o">-</span><span class="mi">3</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">isInitialized</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+          <span class="p">}</span>
+
+          <span class="k">if</span><span class="p">(</span>  <span class="p">(</span><span class="n">pImg</span><span class="p">.</span><span class="n">cols</span> <span class="o">==</span> <span class="n">tmpStreamHeader</span><span class="p">.</span><span class="n">width</span><span class="p">)</span>
+            <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">pImg</span><span class="p">.</span><span class="n">rows</span> <span class="o">==</span> <span class="n">tmpStreamHeader</span><span class="p">.</span><span class="n">height</span><span class="p">)</span>
+            <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">pImg</span><span class="p">.</span><span class="n">channels</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">)</span>
+          <span class="p">{</span>
+            <span class="n">videoFile</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">pImg</span><span class="p">.</span><span class="n">rows</span><span class="p">,</span> <span class="n">pImg</span><span class="p">.</span><span class="n">cols</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span> <span class="n">pImg</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                            <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
+            <span class="n">timestamp</span> <span class="o">+=</span> <span class="mi">66000</span><span class="p">;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span> <span class="n">isInitialized</span> <span class="p">)</span>
+      <span class="n">videoFile</span><span class="p">.</span><span class="n">closeVideo</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="source-cmakelists-txt">
+<h3>Source: CMakeLists.txt<a class="headerlink" href="#source-cmakelists-txt" title="Permalink to this headline">¶</a></h3>
+<p>Download <a class="reference download internal" href="../../../../../_downloads/CMakeLists16.txt"><tt class="xref download docutils literal"><span class="pre">CMakeLists.txt</span></tt></a>.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">cmake_minimum_required</span><span class="p">(</span><span class="n">VERSION</span> <span class="mf">2.6.4</span> <span class="n">FATAL_ERROR</span><span class="p">)</span>
+<span class="n">project</span><span class="p">(</span><span class="n">Img2Arv</span><span class="p">)</span>
+<span class="n">find_package</span><span class="p">(</span><span class="n">qibuild</span><span class="p">)</span>
+
+<span class="n">qi_create_bin</span><span class="p">(</span><span class="n">img2arv</span> <span class="n">img2arv</span><span class="p">.</span><span class="n">cpp</span><span class="p">)</span>
+<span class="n">qi_use_lib</span><span class="p">(</span><span class="n">img2arv</span> <span class="n">ALVISION</span> <span class="n">OPENCV2_CORE</span> <span class="n">OPENCV2_HIGHGUI</span> <span class="n">BOOST_FILESYSTEM</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Please read <a class="reference internal" href="../opencv.html#cpp-tutos-opencv"><em>Using OpenCV</em></a> before trying to use this example on
+your desktop if you are using linux.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../optimizedimage/optimizedimage.html" title="Optimized access to images">Optimized access to images</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">C++ Examples</a>
+   |
+    <a href="../arv2avi/arv2avi.html" title="arv2avi example">arv2avi example</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../index.html">Cpp</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../install_guide.html">C++ SDK Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tutorials.html">C++ Tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../examples.html">C++ Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../../core/events/events.html">Creating events</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/sayhelloworld/sayhelloworld.html">Say Hello World</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/index.html">Creating a simple remote module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/example.html">Example: HelloWorld module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/custommain/custom_main.html">Creating a custom main</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../motion/movehead/movehead.html">Moving NAO&#8217;s head</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/bumper/index.html">Reacting to an event: bumper</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/bumper/example.html">Example code: Bumper module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/bumper/principle.html">Principle</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/leds/leds.html">Control the LEDs</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/fastgetsetdcm/fastgetsetexample.html">Fast getting and setting joint angles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audiovideocapture/audiovideocapture.html">Capturing audio and video</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../opencv.html">Using OpenCV</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../optimizedimage/optimizedimage.html">Optimized access to images</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">img2arv example</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../arv2avi/arv2avi.html">arv2avi example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../getimage/getimage.html">Getting an image</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../genericvideomodule/genericvideomodule.html">Generic video module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../onfacedetection/onfacedetection.html">Reacting to a vision event: face detected</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../alvisualcompass/alvisualcompass.html">Using ALVisualCompass</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundplayback/soundplayback.html">Sound playback</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/speechbasedreaction/speechbasedreaction.html">Speech based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundbasedreaction/soundbasedreaction.html">Sound based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundbasedreaction/onloudnoise.html">Reacting to an audio event: loud noise</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audio/soundprocessing/soundprocessing.html">Sound processing</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tips-and-tricks.html">C++ Tips and tricks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../tools/gdb-on-nao.html">Debugging C/C++ on the robot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../python/index.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">img2arv example</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#download">Download</a><ul>
+<li><a class="reference internal" href="#source-img2arv-cpp">Source: img2arv.cpp</a></li>
+<li><a class="reference internal" href="#source-cmakelists-txt">Source: CMakeLists.txt</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../optimizedimage/optimizedimage.html" title="Optimized access to images">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../arv2avi/arv2avi.html" title="arv2avi example">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

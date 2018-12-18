@@ -1,0 +1,1061 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Boxes &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="Choregraphe Tutorials" href="index.html" />
+    <link rel="next" title="Attached files" href="attached_files.html" />
+    <link rel="prev" title="Testing the speech recognition" href="speech_recognition.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="speech_recognition.html" title="Testing the speech recognition">previous</a>
+     |
+    <a href="index.html" title="Choregraphe Tutorials" accesskey="U">up</a>
+   |
+    <a href="attached_files.html" title="Attached files">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="software-choregraphe-tutos-boxes">
+            
+  <div class="section" id="boxes">
+<h1>Boxes<a class="headerlink" href="#boxes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="using-flow-control-boxes">
+<span id="logical-boxes-tuto"></span><h2>Using Flow Control boxes<a class="headerlink" href="#using-flow-control-boxes" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Here is an example of the use of 2 <strong>Flow Control</strong> boxes: <strong>For</strong> and <strong>Wait For Signals</strong>.</div>
+<div class="line"><strong>Flow Control</strong> boxes are very useful when you want to create more complex behaviors.</div>
+</div>
+<p><em>Create the following behavior</em>: while introducing himself, NAO nods two times,
+then when both are done, NAO starts to wave.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="60%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Drag and drop a <strong>Audio</strong>&gt; <strong>Voice</strong> &gt; <strong>Say</strong> box.</p>
+<p>Write NAO&#8217;s introduction sentence (<em>e.g.</em> &#8220;Hello I am NAO the little robot and
+I am ready to serve you, master!&#8221;)</p>
+<p class="last">Connect its input to the main input of the behavior.</p>
+</td>
+<td><p class="first">_</p>
+<p class="last"><a class="reference internal" href="../choregraphe_first_steps.html#choregraphe-howto-make-nao-say-something"><em>How to make NAO say something</em></a></p>
+</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Create a new <strong>Timeline</strong> box, call it &#8220;Nod&#8221;.</p>
+<p>Create a simple nodding movement behavior with its
+Motion Timeline.</p>
+<p class="last">Connect its input to the main input of the behavior.</p>
+</td>
+<td><p class="first"><a class="reference internal" href="../objects/timeline_box.html#choregraphe-howto-create-timeline-box"><em>How to create a Timeline box</em></a></p>
+<p class="last"><a class="reference internal" href="movements.html#movements-tuto"><em>Tutorial about movements</em></a></p>
+</td>
+</tr>
+<tr class="row-even"><td>Test</td>
+<td>If you click the <img alt="play-button" class="img-inline" src="../../../_images/beginning_play_button.png" /> <strong>Play</strong> button, NAO nods once
+and introduces himself.</td>
+<td>If you are on a real robot, you have to stiffen
+your robot first, see
+<a class="reference internal" href="../choregraphe_first_steps.html#choregraphe-howto-enslave"><em>How to stiffen your NAO</em></a>.</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Add a <strong>Flow Control</strong> &gt; <strong>For</strong> box to your behavior.</p>
+<p>Set its <strong>Final value</strong> parameter to 2.</p>
+<p>Connect it to your &#8220;Nod&#8221; box as below (outputs with inputs):</p>
+<img alt="../../../_images/chore_tuto_loop.png" class="last" src="../../../_images/chore_tuto_loop.png" style="width: 359px; height: 414px;" />
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Test</td>
+<td><p class="first">NAO nods two times and talk.</p>
+<p class="last">It’s not bad but we also want NAO to start waving after he has finished nodding
+and talking. This is quite simple: a <strong>Wait For Signals</strong> box should be used.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Add a <strong>Flow Control</strong> &gt; <strong>Wait For Signals</strong> box.</p>
+<p>Connect the <strong>onStopped</strong> output of <strong>Say</strong> box to its <strong>Signal 1</strong> input
+and the <strong>onStopped</strong> output of <strong>For</strong> to its <strong>Signal 2</strong> input.</p>
+<p class="last">The <strong>Wait For Signals</strong> box stimulates its output once the two inputs are
+stimulated.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Add a <strong>Motions</strong> &gt; <strong>Animations</strong> &gt; <strong>Hello</strong> box.</p>
+<img alt="../../../_images/chore_tuto_motionloopwaitwalk.png" class="last" src="../../../_images/chore_tuto_motionloopwaitwalk.png" style="width: 505px; height: 406px;" />
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>Test</td>
+<td>NAO starts waving after he has finished nodding and talking!</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td>As a final exercise, you could create a single box that perform all these
+actions.</td>
+<td><a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-howto-convert-boxes-to-one-box"><em>How to group several boxes into a single one</em></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="simple-modifications-of-a-box-script">
+<span id="box-script-tuto"></span><h2>Simple modifications of a box script<a class="headerlink" href="#simple-modifications-of-a-box-script" title="Permalink to this headline">¶</a></h2>
+<p>All the boxes in Choregraphe have their own script, so you can easily edit them and modify the script.</p>
+<div class="section" id="description-of-the-script-logic">
+<h3>Description of the script logic<a class="headerlink" href="#description-of-the-script-logic" title="Permalink to this headline">¶</a></h3>
+<p>The script programming language in Choregraphe is Python. Each box in Choregraphe
+is a module. Briefly, a module is like an application, completely independent,
+that can run on its own and communicate easily with other modules.</p>
+<p>The box creation is done in several steps:</p>
+<ol class="arabic simple">
+<li>Instantiation of the box</li>
+<li>Registration of the box as a module so it can be called from other boxes through linking</li>
+<li>Box initialization</li>
+</ol>
+<p>The first two steps are automatic: you have no control over the script.
+But you have full control over the third step. Actually, this step executes some
+part of code you have written in the box script.</p>
+</div>
+<div class="section" id="description-of-a-box-script">
+<h3>Description of a box script<a class="headerlink" href="#description-of-a-box-script" title="Permalink to this headline">¶</a></h3>
+<p>To examine a box script, drag and drop the <strong>Set LEDs</strong> box onto the diagram panel and double-click on it.</p>
+<p>The script window is displayed, showing the following script:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">GeneratedClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">GeneratedClass</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">onLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box initialization here</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onUnload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box cleanup here</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ALLeds</span><span class="o">.</span><span class="n">fade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;LEDs group&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;Intensity (%)&quot;</span><span class="p">)</span><span class="o">/</span><span class="mf">100.</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;Duration (s)&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onReady</span><span class="p">()</span> <span class="c"># activate output of the box</span>
+</pre></div>
+</div>
+<p>This box orders the LEDs of a group of LEDs (ear LEDs by default) to switch on (onStart input) in the given amount of time (default 1 second).</p>
+<p>When writing script, you must remember that you are defining methods of a module class. A method is a function the program calls to execute each time the same action.</p>
+<p>There are 4 methods in the <strong>Set LEDs</strong> script:</p>
+<ul class="simple">
+<li>initialize</li>
+<li>onLoad</li>
+<li>onUnload</li>
+<li>onInput_onSet</li>
+</ul>
+</div>
+<div class="section" id="how-does-the-set-leds-script-work">
+<h3>How does the Set LEDs script work<a class="headerlink" href="#how-does-the-set-leds-script-work" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">When the behavior starts to play, the initialize method is executed first : <strong>GeneratedClass.__init__(self)</strong>.
+It is a function which resets the basic box parameters that are common to all the boxes in Choregraphe.
+After that, the box is a &#8220;module&#8221; running in NAOqi, on the robot.
+The box has also initialized all its &#8220;parameters&#8221; so they are now available in the script. This method is called once per behavior.
+You can initialize objects that you want to have during the whole behavior (proxies for instance).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should never modify the first 3 lines of a script box as they are mandatory.</p>
+</div>
+</li>
+<li><p class="first"><strong>onLoad method</strong>: This method is called when the box flow diagram is loading. It is necessarily called after the __init__ method of all the boxes of the current behavior. When a flow diagram is loading, this method is called on each box of current level before any IO can be stimulated.</p>
+</li>
+<li><p class="first"><strong>onUnload method</strong>: This method is called when the box flow diagram is unloading. When a flow diagram is unloading, this method is called on each box of current level. After the flow diagram unloading, boxes are disabled and cannot receive any event on their inputs. Note that the method usually stop everything running in the script, that is what you expect of the onStop input. That is why the latter calls onUnload by default.</p>
+</li>
+<li><p class="first"><strong>onInput_onSet method</strong>: This method is called when the onStart is stimulated. It calls <strong>ALLeds.fade(self.getParameter(&#8220;Leds name&#8221;), self.getParameter(&#8220;Intensity&#8221;), self.getParameter(&#8220;Duration&#8221;))</strong> . This call to the ALLeds module orders the given group of LEDs to switch on, in a given time, to the given intensity. See that we never use hardcoded values, as we want the user to be able to change those values easily through Choregraphe interface. At the end of the onStart method, self.onStopped() stimulates the onStopped output of the “Switch LEDs” box.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="modifying-the-script">
+<h3>Modifying the script<a class="headerlink" href="#modifying-the-script" title="Permalink to this headline">¶</a></h3>
+<p>Modify the “Set LEDs&#8221; box script in order to make NAO&#8217;s LEDs group flash five times before switching off.</p>
+<p>To do so:</p>
+<ol class="arabic simple">
+<li>Modify the script box as follows:</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">GeneratedClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">GeneratedClass</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="k">def</span> <span class="nf">onLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box initialization here</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onUnload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span>
+        <span class="c">#~ puts code for box cleanup here</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">):</span>
+            <span class="n">ALLeds</span><span class="o">.</span><span class="n">fade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;LEDs group&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;Intensity (%)&quot;</span><span class="p">)</span><span class="o">/</span><span class="mf">100.</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;Duration (s)&quot;</span><span class="p">))</span>
+            <span class="n">ALLeds</span><span class="o">.</span><span class="n">fade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;LEDs group&quot;</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;Duration (s)&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onUnload</span><span class="p">()</span> <span class="c"># activate output of the box</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<ol class="arabic" start="2">
+<li><p class="first">We have used a &#8220;while&#8221; function in the onStart method to achieve our goal.</p>
+<p>When the onSet input is stimulated, NAO will blink 5 times and switch off its LEDs.</p>
+</li>
+<li><p class="first">Note that a lot of things could be improved in this box: prevent the box from entering the while loop several times (if onSet is stimulated more than once), make the &#8220;self.max&#8221; count appears as a parameter... Try to modify the scripts of Choregraphe&#8217;s default library to create awesome behaviors!</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="creating-a-box-script-from-scratch-using-parameters">
+<span id="box-script-scratch-tuto"></span><h2>Creating a box script from scratch using parameters<a class="headerlink" href="#creating-a-box-script-from-scratch-using-parameters" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
+<p>In Choregraphe, it is possible to write your own box, defining their complete workings.</p>
+<ul>
+<li><p class="first">We have already seen how a script works in the <a class="reference internal" href="#box-script-tuto"><em>Simple modifications of a box script</em></a> tutorial. As explained above, the first two steps are automatic, the user has no control over it from the script. The second step is done from the links the user has created. But, you have full control over the third step which executes some part of the code you have written in the script.</p>
+<p>When writing script, you must remember that you are defining methods of a module class. Attributes, subscribing on ALMemory events... the possibilities are wide open.</p>
+</li>
+<li><p class="first">Once the box is initialized, the box is ready to be loaded. Whenever the box is loaded and an input is stimulated, a method is called in your script: <strong>&#8220;onInput_&lt;name&gt;&#8221;</strong>. This is how you decide what to do when an input is stimulated.</p>
+</li>
+<li><p class="first">When writing script, you can decide at any time to stimulate an output. The method name that is called is <strong>&lt;outputName&gt;(parameter)</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="how-does-it-work">
+<h3>How does it work<a class="headerlink" href="#how-does-it-work" title="Permalink to this headline">¶</a></h3>
+<p>For instance:</p>
+<ul class="simple">
+<li>If you have an onStopped output that is of &#8220;bang&#8221; type, calling onStopped() should do the job.</li>
+<li>If you have a faceDetected(string) output, you can call faceDetected(&#8220;Robert&#8221;) to warn that Robert has been detected.</li>
+</ul>
+<p>The generated script of a new box would look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">GeneratedClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">GeneratedClass</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">onLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box initialization here</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onUnload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box cleanup here</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ self.onStopped() #~ activate output of the box</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onUnload</span><span class="p">()</span> <span class="c">#~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">Beyond the <strong>initialize method</strong>, you have one method associated with each of the box inputs.</p>
+</li>
+<li><p class="first">The first 3 lines are completely mandatory, and modifying then will lead to strange behavior. What you should modify is the content of the initialize method. You can initialize attributes (such as variables, or proxies to other modules). You should do everything that you only want to do once, because this box will not be destroyed before the end of this behavior.</p>
+</li>
+<li><p class="first">You will see an &#8220;onLoad&#8221; method. This is called whenever the box is loaded, which can be caused by one of the three following events:</p>
+<p>The behavior is started and the box is at the root level.
+The box is contained in a behavior keyframe that is being loaded.
+The box is contained in another box (meaning the latter box has a &#8220;flow diagram&#8221; offspring), and we stimulated an input of nature &#8220;onStart&#8221; on the parent box.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method is called when the box is loaded, so it is strongly advised to avoid heavy code here. Meaning that if a box loading takes too long, the whole behavior will be slowed down. If you are in a Timeline, you may even lose real-time.</p>
+</div>
+</li>
+<li><p class="first">You can also see an <strong>&#8220;onUnload&#8221; method</strong>. This is called whenever the box is unloaded, which can be caused by one of the two events:</p>
+<p>The behavior is stopped.
+The box is contained in a behavior keyframe, and another keyframe of the same layer is being loaded (as the keyframe parent of the current box needs to be unloaded).
+The box is contained in another box (meaning the latter box has a &#8220;flow diagram&#8221; offspring), and we stimulated an input of nature &#8220;onStop&#8221; on the parent box.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This allows you to warn other modules that your box is about to be unloaded and can therefore be very useful. For now you can probably forget about it, you will not need to use this function for simple boxes.</p>
+</div>
+</li>
+<li><p class="first">And what about the <strong>inputs method</strong>? Well the possibilities are unlimited. You are running in separate threads, so take your time, do heavy calculation, it should not affect the playing behavior... Remember that your output(s) will not be stimulated unless you explicitly do so. Meaning you write &#8220;onStopped&#8221; somewhere in your code. So if you use several script boxes that you have written, and you do not understand why the signal never comes out one of your box, the cause should not be hard to find: you forgot to call the output once your processing is done! Yes it is painful, but this way you can really decide when you want it to be stimulated, which allows you to do powerful things (and also use several outputs as you wish).</p>
+</li>
+</ul>
+</div>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>You find the LEDs of your robot very nice, but you would like to use script to switch them on. Well, what should you do? First, read the ALLeds documentation: this is the module that allows the user to turn on/off the LEDs. If you read the documentation, you should find that the methods are quite simple. For instance, turning the left feet LEDs requires the following command: setIntensity(&#8220;LeftFootLeds&#8221;, r) with r between 0 and 1.</li>
+</ul>
+<p>So, what about running a little script to increase and decrease intensity over time, with self.step = 0.02 for instance. A classic Python script would look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">r</span><span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">step</span>
+    <span class="n">ALLeds</span><span class="o">.</span><span class="n">setIntensity</span> <span class="p">(</span><span class="s">&quot;LeftFootLeds&quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span>
+    <span class="n">ALLeds</span><span class="o">.</span><span class="n">setIntensity</span> <span class="p">(</span><span class="s">&quot;LeftFootLeds&quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Now, create a new box called &#8220;RightEarLeds&#8221;.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you do not know how to do this, please see <a class="reference internal" href="../objects/script_box.html#choregraphe-howto-create-script-box"><em>How to create a Script box</em></a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Three standard entries to your box are automatically created: onStart input, onStop input and onStopped output. You can modify these entries and create new ones by editing the box.</p>
+</div>
+<ol class="arabic simple">
+<li>Double-click on the box to edit its script box.</li>
+<li>Write the script to increase and decrease intensity over time. The &#8220;RightEarLeds&#8221; script should look like this:</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">GeneratedClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">GeneratedClass</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ledsName</span> <span class="o">=</span> <span class="s">&quot;RightEarLeds&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+    <span class="k">def</span> <span class="nf">onLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box initialization here</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onUnload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box cleanup here</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ self.onStopped() #~ activate output of the box</span>
+        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span><span class="p">):</span>
+            <span class="n">r</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span>
+            <span class="n">ALLeds</span><span class="o">.</span><span class="n">setIntensity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ledsName</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span><span class="p">):</span>
+            <span class="n">r</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span>
+            <span class="n">ALLeds</span><span class="o">.</span><span class="n">setIntensity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ledsName</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onStopped</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onStopped</span><span class="p">()</span> <span class="c">#~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note the code that we had to put in onUnload to make sure the box exits its loop if we call onStop or if the flow diagram is unloaded.</p>
+</div>
+</div>
+<div class="section" id="using-parameters">
+<h3>Using parameters<a class="headerlink" href="#using-parameters" title="Permalink to this headline">¶</a></h3>
+<p>Parameters allow you to customize the way the box works. After having created the parameters of the box, you will not have to edit a single line of script to use it.</p>
+<p>To create the parameters of the box:</p>
+<ol class="arabic">
+<li><p class="first">Right click on the box and select the <strong>&#8220;Edit box&#8221;</strong> option.</p>
+</li>
+<li><p class="first">First, we want to be able to change the group of LEDs we are working on, the left or right ear LEDs for instance. To do so, add a new parameter by clicking on the &#8220;+&#8221; icon, on the right side of the parameters list which should be empty.</p>
+</li>
+<li><p class="first">Its name can be &#8220;LEDs name&#8221; for instance. A quick Tooltip to explain what it is going to do would be good. The parameter we want to add is a &#8220;string&#8221;, so select the &#8216;String&#8217; option in the <strong>&#8220;Type&#8221;</strong> field.</p>
+</li>
+<li><p class="first">In the <strong>Content</strong> area, you can just enter &#8220;RightEarLeds&#8221; as a default value but it would not be very nice, as you have actually various other possibilities. It is better to enter several choices in the <strong>&#8220;Multiple choices&#8221;</strong> field. To do so, click on the &#8220;+&#8221; icon then enter &#8220;RightEarLeds&#8221;. Click on OK then click again on the &#8220;+&#8221; icon to add the &#8220;LeftEarLEds&#8221; option for instance.</p>
+</li>
+<li><p class="first">As we cannot enter all the possibilities (there are too many), we can also check the &#8220;Custom string possible&#8221; option, which will allow you to enter manually another group directly from the box, without entering again on its properties.</p>
+</li>
+<li><p class="first">Now, the only thing to do is to enter the script. To do so, right click on the bow then select the <strong>&#8220;Edit box script&#8221;</strong> option.</p>
+</li>
+<li><p class="first">Remove the <strong>self.ledsName</strong> reference, and replace it with an access to a parameter. To do so, select the reference then right click on it to select <strong>&#8220;Insert Function &gt; Get parameter &gt; leds name</strong>. It should write the following script:</p>
+<p>&gt; self.getParameter(&#8220;LEDs name&#8221;)</p>
+</li>
+<li><p class="first">The script should look like this at the end:</p>
+</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">GeneratedClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">GeneratedClass</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+    <span class="k">def</span> <span class="nf">onLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box initialization here</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onUnload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box cleanup here</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ self.onStopped() #~ activate output of the box</span>
+        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span><span class="p">):</span>
+            <span class="n">r</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span>
+            <span class="n">ALLeds</span><span class="o">.</span><span class="n">setIntensity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;Leds name&quot;</span><span class="p">),</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span><span class="p">):</span>
+            <span class="n">r</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span>
+            <span class="n">ALLeds</span><span class="o">.</span><span class="n">setIntensity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;Leds name&quot;</span><span class="p">),</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">isRunning</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onStopped</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onStopped</span><span class="p">()</span> <span class="c">#~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li>Now, you just have to on the wrench of the box to change the side of ear LEDs that will fade over time. As you can see, creating a box from scratch is not too complicated!</li>
+</ol>
+</div>
+</div>
+<div class="section" id="creating-a-box-to-retrieve-right-bumper-value-using-almemory">
+<span id="choregraphe-tuto-right-bumper-almemory"></span><h2>Creating a box to retrieve right bumper value using ALMemory<a class="headerlink" href="#creating-a-box-to-retrieve-right-bumper-value-using-almemory" title="Permalink to this headline">¶</a></h2>
+<p><img alt="no-virtual" class="img-inline" src="../../../_images/no_virtual.png" /> <em>Cannot be tested on a simulated robot</em>.</p>
+<hr class="docutils" />
+<p>This tutorial will show you how to retrieve an <strong>ALMemory</strong> value directly from your behavior.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="60%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Create a <strong>Flow diagram box</strong>.</td>
+<td><a class="reference internal" href="../objects/flow_diagram_box.html#choregraphe-howto-create-flow-diagram-box"><em>How to create a Flow diagram box</em></a></td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Link it to the beginning of the root behavior.</p>
+<img alt="../../../_images/right_bumper_root.png" class="last" src="../../../_images/right_bumper_root.png" style="width: 351px; height: 325px;" />
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Double-click the box to display its content
+and click the <img alt="add_input" class="img-inline" src="../../../_images/chore_pose_library_add.png" /> <strong>Add an event from ALMemory</strong> button.</p>
+<img alt="../../../_images/right_bumper_root2.png" class="last" src="../../../_images/right_bumper_root2.png" style="width: 349px; height: 323px;" />
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Select the <strong>RightBumperPressed</strong> event and
+click the <strong>OK</strong> button.</p>
+<img alt="../../../_images/right_bumper_root3.png" class="last" src="../../../_images/right_bumper_root3.png" style="width: 396px; height: 502px;" />
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Drag and drop the <strong>Flow Control</strong> &gt; <strong>If</strong> box onto your diagram and link it to the
+<strong>RightBumper</strong> input.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This box is used to filter the event, the event will be transmitted to the rest of the
+diagram only if the value is equal to one so the rest of the diagram is executed only
+when the right bumper is pressed and not released.</p>
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Drag and drop the <strong>Audio</strong> &gt; <strong>Voice</strong> &gt; <strong>Say</strong> box onto the diagram and link the
+onStart inputs to the second output of the <strong>If</strong> box.</p>
+<img alt="../../../_images/right_bumper_box_in.png" class="last" src="../../../_images/right_bumper_box_in.png" style="width: 347px; height: 320px;" />
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="7">
+<li></li>
+</ol>
+</td>
+<td>Get into the say box and change the text in the <strong>Localized Text</strong> box into
+&#8220;This is my right bumper&#8221;.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="8">
+<li></li>
+</ol>
+</td>
+<td>Click the <img alt="play-button" class="img-inline" src="../../../_images/beginning_play_button.png" /> <strong>Play</strong> button to start the behavior.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="9">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Push the right bumper of the robot.</p>
+<p class="last">Your NAO detects that its bumper were touched.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>You are now capable to retrieve an <strong>ALMemory</strong> value from any behavior.</p>
+<p><a class="reference download internal" href="../../../_downloads/tutorial_almemory_bumper_behavior.crg"><tt class="xref download docutils literal"><span class="pre">tutorial_almemory_bumper_behavior.crg</span></tt></a></p>
+</div>
+<div class="section" id="transmit-a-value-from-a-behavior-to-another-using-almemory-events">
+<span id="choregraphe-tuto-transmit-your-own-data-almemory"></span><h2>Transmit a value from a behavior to another using ALMemory events<a class="headerlink" href="#transmit-a-value-from-a-behavior-to-another-using-almemory-events" title="Permalink to this headline">¶</a></h2>
+<p><img alt="no-virtual" class="img-inline" src="../../../_images/no_virtual.png" /> <em>Cannot be tested on a simulated robot</em>.</p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line">In this tutorial we will see how to use the <strong>ALMemory</strong> module to transmit your own values between two behaviors.</div>
+<div class="line">For more information about the ALMemory module, see the <a class="reference internal" href="../../../naoqi/core/almemory-api.html#almemory-api"><em>ALMemory API</em></a>.</div>
+</div>
+<p><em>Create the two following behaviors and make them interact</em>:</p>
+<ul class="simple">
+<li>a sender behavior that will raise an event, for example the current value of NAO&#8217;s mood,</li>
+<li>a receiver behavior that will receive the event and will make <strong>NAO</strong> say the value associated to it.</li>
+</ul>
+<div class="section" id="writing-a-value-in-almemory">
+<h3>Writing a value in ALMemory<a class="headerlink" href="#writing-a-value-in-almemory" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s start with the sender module:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="60%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Create a new script box, called, for example <tt class="docutils literal"><span class="pre">ALMemory</span> <span class="pre">sender</span></tt>.</td>
+<td><a class="reference internal" href="../objects/script_box.html#choregraphe-howto-create-script-box"><em>How to create a Script box</em></a></td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Add a parameter to the box.</td>
+<td><a class="reference internal" href="../objects/box_optional_components.html#choregraphe-howto-add-remove-box-in-out-param"><em>How to add/remove inputs, outputs, parameters in a box</em></a></td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td><p class="first">In the <strong>Add a new parameter</strong> menu, set:</p>
+<ul class="simple">
+<li>the name to <tt class="docutils literal"><span class="pre">mood</span></tt>,</li>
+<li>the parameter <strong>Type</strong> to <tt class="docutils literal"><span class="pre">String</span></tt>,</li>
+<li>the <strong>Default value</strong> to <tt class="docutils literal"><span class="pre">I'm</span> <span class="pre">happy</span></tt>.</li>
+</ul>
+<p>Then click the <strong>Ok</strong> button twice.</p>
+<img alt="../../../_images/add_parameter_menu.png" class="last" src="../../../_images/add_parameter_menu.png" style="width: 388px; height: 434px;" />
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Double click the box to display the box script.</p>
+<p class="last">You can see that the structure of the box were automatically generated.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">In the <strong>onLoad</strong> method, create a proxy to the <strong>ALMemory</strong> module.</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p class="first">In the <strong>onStart</strong> method, raise an event called <strong>myParameterValue</strong> with
+the parameter: <tt class="docutils literal"><span class="pre">mood</span></tt>.</p>
+<p>The code of the box should look like that:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">GeneratedClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">GeneratedClass</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">onLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memoryProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMemory&quot;</span><span class="p">)</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onUnload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#~ puts code for box cleanup here</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memoryProxy</span><span class="o">.</span><span class="n">raiseEvent</span><span class="p">(</span><span class="s">&quot;myParameterValue&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="s">&quot;mood&quot;</span><span class="p">))</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">onInput_onStop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onUnload</span><span class="p">()</span><span class="c">#~ it is recommended to call onUnload of this box in a onStop</span>
+<span class="n">method</span><span class="p">,</span> <span class="k">as</span> <span class="n">the</span> <span class="n">code</span> <span class="n">written</span> <span class="ow">in</span> <span class="n">onUnload</span> <span class="ow">is</span> <span class="n">used</span> <span class="n">to</span> <span class="n">stop</span> <span class="n">the</span> <span class="n">box</span> <span class="k">as</span> <span class="n">well</span> <span class="k">pass</span>
+</pre></div>
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="7">
+<li></li>
+</ol>
+</td>
+<td>Close the script editor.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="8">
+<li></li>
+</ol>
+</td>
+<td>In your diagram, drag and drop the <strong>Flow Control</strong> &gt; <strong>Time</strong> &gt; <strong>Timer</strong> box.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="9">
+<li></li>
+</ol>
+</td>
+<td>Link it to the beginning of the root behavior.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="10">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Link the second output of the timer box to the <strong>onStart</strong> input of the
+box that raise the event.</p>
+<p>Your diagram should look like that:</p>
+<img alt="../../../_images/tuto_memory_sender.png" src="../../../_images/tuto_memory_sender.png" style="width: 330px; height: 344px;" />
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p>The timer box will trigger the raise event each second.</p>
+<p class="last">Click the <img alt="parameter-button" class="img-inline" src="../../../_images/parameter_button.png" /> <strong>parameter</strong> button if you want to slow down,
+for example to 4 seconds.</p>
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="11">
+<li></li>
+</ol>
+</td>
+<td>Choose <strong>File</strong> &gt; <strong>Save project</strong> to save the first behavior.</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../../_downloads/tutorial_almemory_sender_behavior.crg"><tt class="xref download docutils literal"><span class="pre">tutorial_almemory_sender_behavior.crg</span></tt></a></p>
+</div>
+<div class="section" id="reading-a-value-from-almemory">
+<h3>Reading a value from ALMemory<a class="headerlink" href="#reading-a-value-from-almemory" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s create the receiver behavior:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="57%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td><div class="first last line-block">
+<div class="line">Choose <strong>File</strong> &gt; <strong>New profile</strong> to create a new behavior.</div>
+<div class="line">Be sure that the previous one was correctly saved.</div>
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td>Right click the <strong>Input border</strong>, and choose <strong>Add input from AlMemory</strong>.</td>
+<td><a class="reference internal" href="../panels/flow_diagram_panel.html#choregraphe-overview-flow-diagram-panel"><em>Flow diagram Panel</em></a></td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>In the event name, write the name you have defined as first attribute of the
+method <strong>raiseEvent</strong>, in our case it is <tt class="docutils literal"><span class="pre">myParameterValue</span></tt>.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td>Click the <strong>OK</strong> button.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">We need now a <strong>Say text</strong> box, like the one inside the <strong>Say</strong> box.</p>
+<p>To do so:</p>
+<ol class="last arabic simple">
+<li>Drag and drop the <strong>Audio</strong> &gt; <strong>Voice</strong> &gt; <strong>Say</strong> box into the diagram.</li>
+<li>Double-click it to display the inner diagram.</li>
+<li>Copy the <strong>Say text</strong> box.</li>
+<li>Click the <strong>root</strong> label to come back to the behavior.</li>
+<li>Paste the <strong>Say text</strong> box.</li>
+<li>Delete the <strong>Say</strong> box.</li>
+</ol>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Link it to the input you have just created.</p>
+<p>Your diagram should look like that:</p>
+<img alt="../../../_images/tuto_memory_receiver.png" class="last" src="../../../_images/tuto_memory_receiver.png" style="width: 306px; height: 344px;" />
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="7">
+<li></li>
+</ol>
+</td>
+<td>Choose <strong>File</strong> &gt; <strong>Save project</strong> to save the behavior.</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../../_downloads/tutorial_almemory_receiver_behavior.crg"><tt class="xref download docutils literal"><span class="pre">tutorial_almemory_receiver_behavior.crg</span></tt></a></p>
+</div>
+<div class="section" id="playing-two-interacting-behaviors">
+<h3>Playing two interacting behaviors<a class="headerlink" href="#playing-two-interacting-behaviors" title="Permalink to this headline">¶</a></h3>
+<p>Now we will execute the sender and the receiver together.
+To do it, we will need to execute the receiver using the behavior manager.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="61%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Step</th>
+<th class="head">Action</th>
+<th class="head">Further help</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+<td>Display the <strong>Behavior manager</strong>.</td>
+<td><a class="reference internal" href="../display_hide_panels.html#choregraphe-howto-display-hide-panels"><em>How to display/hide panels</em></a></td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="2">
+<li></li>
+</ol>
+</td>
+<td><p class="first">In the <strong>Behavior manager</strong> panel, click on the <img alt="add-behavior" class="img-inline" src="../../../_images/export2-logo-16.png" />
+<strong>Add current behavior</strong> button.</p>
+<p class="last">The receiver behavior appears into the list of behavior that are on the robot.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="3">
+<li></li>
+</ol>
+</td>
+<td>In the Behavior list, start the receiver behavior by clicking on its <strong>Play</strong>
+button.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="4">
+<li></li>
+</ol>
+</td>
+<td>Open the sender behavior.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="5">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click the <img alt="play-button" class="img-inline" src="../../../_images/beginning_play_button.png" /> <strong>Play</strong> button to start the sender behavior.</p>
+<p class="last">The sender raises the event according to <strong>Timer</strong> rhythm
+and the receiver retrieves the value.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="6">
+<li></li>
+</ol>
+</td>
+<td><p class="first">Click the <img alt="parameter-button" class="img-inline" src="../../../_images/parameter_button.png" /> <strong>Parameter</strong> button of the <strong>ALMemeory sender</strong>
+box to define another mood, for example, type: &#8220;I&#8217;m sad&#8221;.</p>
+<p class="last">You can hear your NAO repeating its new mood at the rhythm of the
+<strong>Timer</strong> parameter.</p>
+</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>You are now capable to send values from a behavior to another using the <strong>AlMemory</strong> module.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="speech_recognition.html" title="Testing the speech recognition">Testing the speech recognition</a>
+     |
+    <a href="index.html" title="Choregraphe Tutorials" accesskey="U">Choregraphe Tutorials</a>
+   |
+    <a href="attached_files.html" title="Attached files">Attached files</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Software</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Choregraphe User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../starting_discovery.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../main_objects.html">Mastering the main objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_panels.html">Advanced panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mouvement.html">Mastering movements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../miscel.html">How to ...</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../customizing.html">Customizing Choregraphe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../debugging.html">Debugging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Choregraphe Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="basic.html">Playing music</a></li>
+<li class="toctree-l3"><a class="reference internal" href="movements.html">Movements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="speech_recognition.html">Testing the speech recognition</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Boxes</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="attached_files.html">Attached files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resource_manager.html">Resources manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="behavior_manager.html">Enrich NAO&#8217;s behavior list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trackers.html">Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recognize_objects.html">Recognizing objects</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Boxes</a><ul>
+<li><a class="reference internal" href="#using-flow-control-boxes">Using Flow Control boxes</a></li>
+<li><a class="reference internal" href="#simple-modifications-of-a-box-script">Simple modifications of a box script</a><ul>
+<li><a class="reference internal" href="#description-of-the-script-logic">Description of the script logic</a></li>
+<li><a class="reference internal" href="#description-of-a-box-script">Description of a box script</a></li>
+<li><a class="reference internal" href="#how-does-the-set-leds-script-work">How does the Set LEDs script work</a></li>
+<li><a class="reference internal" href="#modifying-the-script">Modifying the script</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-a-box-script-from-scratch-using-parameters">Creating a box script from scratch using parameters</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#how-does-it-work">How does it work</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#using-parameters">Using parameters</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-a-box-to-retrieve-right-bumper-value-using-almemory">Creating a box to retrieve right bumper value using ALMemory</a></li>
+<li><a class="reference internal" href="#transmit-a-value-from-a-behavior-to-another-using-almemory-events">Transmit a value from a behavior to another using ALMemory events</a><ul>
+<li><a class="reference internal" href="#writing-a-value-in-almemory">Writing a value in ALMemory</a></li>
+<li><a class="reference internal" href="#reading-a-value-from-almemory">Reading a value from ALMemory</a></li>
+<li><a class="reference internal" href="#playing-two-interacting-behaviors">Playing two interacting behaviors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="speech_recognition.html" title="Testing the speech recognition">previous</a>
+     |
+    <a href="index.html" title="Choregraphe Tutorials" accesskey="U">up</a>
+   |
+    <a href="attached_files.html" title="Attached files">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

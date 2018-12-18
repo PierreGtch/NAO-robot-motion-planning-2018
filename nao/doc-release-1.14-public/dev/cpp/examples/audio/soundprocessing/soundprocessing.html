@@ -1,0 +1,465 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Sound processing &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../../index.html" />
+    <link rel="up" title="C++ Examples" href="../../../examples.html" />
+    <link rel="next" title="C++ Tips and tricks" href="../../../tips-and-tricks.html" />
+    <link rel="prev" title="Reacting to an audio event: loud noise" href="../soundbasedreaction/onloudnoise.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../soundbasedreaction/onloudnoise.html" title="Reacting to an audio event: loud noise">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../../../tips-and-tricks.html" title="C++ Tips and tricks">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-cpp-examples-audio-soundprocessing-soundprocessing">
+            
+  <div class="section" id="sound-processing">
+<span id="cpp-examples-sound-processing"></span><h1>Sound processing<a class="headerlink" href="#sound-processing" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>ALSoundProcessing</strong> example module shows how to process sound data and
+interact with ALMemory. It writes the RMS power of all four channels in
+ALMemory.</p>
+<p>This is a <strong>remote or local</strong> module.</p>
+</div>
+<div class="section" id="downloads">
+<h2>Downloads<a class="headerlink" href="#downloads" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="whole-module">
+<h3>Whole module<a class="headerlink" href="#whole-module" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/soundprocessing.zip"><tt class="xref download docutils literal"><span class="pre">soundprocessing.zip</span></tt></a></p>
+</div>
+<div class="section" id="header-alsoundprocessing-h">
+<h3>Header: alsoundprocessing.h<a class="headerlink" href="#header-alsoundprocessing-h" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/alsoundprocessing.h"><tt class="xref download docutils literal"><span class="pre">alsoundprocessing.h</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm">* @author Gwennael Gate</span>
+<span class="cm">* Copyright (c) Aldebaran Robotics 2010, 2011</span>
+<span class="cm">*/</span>
+
+
+<span class="cp">#ifndef SOUNDPROCESSING_H</span>
+<span class="cp">#define SOUNDPROCESSING_H</span>
+<span class="cp">#include &lt;string&gt;</span>
+<span class="cp">#include &lt;rttools/rttime.h&gt;</span>
+
+<span class="cp">#include &lt;boost/shared_ptr.hpp&gt;</span>
+<span class="cp">#include &lt;alvalue/alvalue.h&gt;</span>
+<span class="cp">#include &lt;alproxies/almemoryproxy.h&gt;</span>
+<span class="cp">#include &lt;alaudio/alsoundextractor.h&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">AL</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ALSoundProcessing</span> <span class="o">:</span> <span class="k">public</span> <span class="n">ALSoundExtractor</span>
+<span class="p">{</span>
+
+<span class="k">public</span><span class="o">:</span>
+
+  <span class="n">ALSoundProcessing</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ALBroker</span><span class="o">&gt;</span> <span class="n">pBroker</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">pName</span><span class="p">);</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">ALSoundProcessing</span><span class="p">();</span>
+
+  <span class="c1">//method inherited from almodule that will be called after constructor</span>
+  <span class="kt">void</span> <span class="n">init</span><span class="p">();</span>
+
+<span class="k">public</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">process</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">nbOfChannels</span><span class="p">,</span>
+               <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">nbrOfSamplesByChannel</span><span class="p">,</span>
+               <span class="k">const</span> <span class="n">AL_SOUND_FORMAT</span> <span class="o">*</span> <span class="n">buffer</span><span class="p">,</span>
+               <span class="k">const</span> <span class="n">ALValue</span> <span class="o">&amp;</span> <span class="n">timeStamp</span><span class="p">);</span>
+
+<span class="k">private</span><span class="o">:</span>
+  <span class="n">ALMemoryProxy</span> <span class="n">fProxyToALMemory</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">fALMemoryKeys</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="source-alsoundprocessing-cpp">
+<h3>Source: alsoundprocessing.cpp<a class="headerlink" href="#source-alsoundprocessing-cpp" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/alsoundprocessing.cpp"><tt class="xref download docutils literal"><span class="pre">alsoundprocessing.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &quot;alsoundprocessing.h&quot;</span>
+<span class="cp">#include &lt;alcommon/alproxy.h&gt;</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="n">ALSoundProcessing</span><span class="o">::</span><span class="n">ALSoundProcessing</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ALBroker</span><span class="o">&gt;</span> <span class="n">pBroker</span><span class="p">,</span>
+                                     <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">pName</span><span class="p">)</span>
+  <span class="o">:</span> <span class="n">ALSoundExtractor</span><span class="p">(</span><span class="n">pBroker</span><span class="p">,</span> <span class="n">pName</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">setModuleDescription</span><span class="p">(</span><span class="s">&quot;This module processes the data collected by the &quot;</span>
+                       <span class="s">&quot;microphones and output in the ALMemory the RMS power &quot;</span>
+                       <span class="s">&quot;of each of the four channels.&quot;</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ALSoundProcessing</span><span class="o">::</span><span class="n">init</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">fALMemoryKeys</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">&quot;ALSoundProcessing/leftMicEnergy&quot;</span><span class="p">);</span>
+  <span class="n">fALMemoryKeys</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">&quot;ALSoundProcessing/rightMicEnergy&quot;</span><span class="p">);</span>
+  <span class="n">fALMemoryKeys</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">&quot;ALSoundProcessing/frontMicEnergy&quot;</span><span class="p">);</span>
+  <span class="n">fALMemoryKeys</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">&quot;ALSoundProcessing/rearMicEnergy&quot;</span><span class="p">);</span>
+
+  <span class="n">fProxyToALMemory</span><span class="p">.</span><span class="n">insertData</span><span class="p">(</span><span class="n">fALMemoryKeys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mf">0.0f</span><span class="p">);</span>
+  <span class="n">fProxyToALMemory</span><span class="p">.</span><span class="n">insertData</span><span class="p">(</span><span class="n">fALMemoryKeys</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mf">0.0f</span><span class="p">);</span>
+  <span class="n">fProxyToALMemory</span><span class="p">.</span><span class="n">insertData</span><span class="p">(</span><span class="n">fALMemoryKeys</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="mf">0.0f</span><span class="p">);</span>
+  <span class="n">fProxyToALMemory</span><span class="p">.</span><span class="n">insertData</span><span class="p">(</span><span class="n">fALMemoryKeys</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="mf">0.0f</span><span class="p">);</span>
+
+
+
+  <span class="n">audioDevice</span><span class="o">-&gt;</span><span class="n">callVoid</span><span class="p">(</span><span class="s">&quot;setClientPreferences&quot;</span><span class="p">,</span>
+                        <span class="n">getName</span><span class="p">(),</span>                <span class="c1">//Name of this module</span>
+                        <span class="mi">48000</span><span class="p">,</span>                    <span class="c1">//48000 Hz requested</span>
+                        <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">ALLCHANNELS</span><span class="p">,</span>         <span class="c1">//4 Channels requested</span>
+                        <span class="mi">1</span>                         <span class="c1">//Deinterleaving requested</span>
+                        <span class="p">);</span>
+
+  <span class="n">startDetection</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">ALSoundProcessing</span><span class="o">::~</span><span class="n">ALSoundProcessing</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">stopDetection</span><span class="p">();</span>
+<span class="p">}</span>
+
+
+<span class="c1">/// Description: The name of this method should not be modified as this</span>
+<span class="c1">/// method is automatically called by the AudioDevice Module.</span>
+<span class="kt">void</span> <span class="n">ALSoundProcessing</span><span class="o">::</span><span class="n">process</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">nbOfChannels</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">nbOfSamplesByChannel</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="n">AL_SOUND_FORMAT</span> <span class="o">*</span> <span class="n">buffer</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="n">ALValue</span> <span class="o">&amp;</span> <span class="n">timeStamp</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">/// Computation of the RMS power of the signal delivered by</span>
+  <span class="c1">/// each microphone on a 170ms buffer</span>
+  <span class="c1">/// init RMS power to 0</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">fMicsEnergy</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span> <span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nbOfChannels</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">fMicsEnergy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">/// Calculation of the RMS power</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">channelInd</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">channelInd</span> <span class="o">&lt;</span> <span class="n">nbOfChannels</span> <span class="p">;</span> <span class="n">channelInd</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nbOfSamplesByChannel</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">fMicsEnergy</span><span class="p">[</span><span class="n">channelInd</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">buffer</span><span class="p">[</span><span class="n">nbOfSamplesByChannel</span><span class="o">*</span><span class="n">channelInd</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span>
+                                 <span class="o">*</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">buffer</span><span class="p">[</span><span class="n">nbOfSamplesByChannel</span><span class="o">*</span><span class="n">channelInd</span> <span class="o">+</span> <span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">fMicsEnergy</span><span class="p">[</span><span class="n">channelInd</span><span class="p">]</span> <span class="o">/=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">nbOfSamplesByChannel</span><span class="p">;</span>
+    <span class="n">fMicsEnergy</span><span class="p">[</span><span class="n">channelInd</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqrtf</span><span class="p">(</span><span class="n">fMicsEnergy</span><span class="p">[</span><span class="n">channelInd</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="c1">/// Puts the result in ALMemory</span>
+  <span class="c1">/// (for example to be easily retrieved by another module)</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span> <span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nbOfChannels</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">fProxyToALMemory</span><span class="p">.</span><span class="n">insertData</span><span class="p">(</span><span class="n">fALMemoryKeys</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">fMicsEnergy</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="c1">/// Displays the results on the Naoqi console</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ALSoundProcessing Energy Left  = &quot;</span> <span class="o">&lt;&lt;</span>  <span class="n">fMicsEnergy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ALSoundProcessing Energy Right  = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">fMicsEnergy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ALSoundProcessing Energy Front  = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">fMicsEnergy</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ALSoundProcessing Energy Rear  = &quot;</span> <span class="o">&lt;&lt;</span>  <span class="n">fMicsEnergy</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="main-main-cpp">
+<h3>Main: main.cpp<a class="headerlink" href="#main-main-cpp" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/main2.cpp"><tt class="xref download docutils literal"><span class="pre">soundprocessingmain.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// This file has been generated automatically through the module generator provided in the sdk.</span>
+<span class="c1">///  This file handle the creation of the dynamic library (local use) or the executable (remote use).</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="c1">/// &lt;remarks&gt; Copyright 2010 A. Dupont &lt;/remarks&gt;</span>
+
+
+<span class="cp">#include &lt;signal.h&gt;</span>
+<span class="cp">#include &lt;boost/shared_ptr.hpp&gt;</span>
+<span class="cp">#include &lt;alcommon/albroker.h&gt;</span>
+<span class="cp">#include &lt;alcommon/almodule.h&gt;</span>
+<span class="cp">#include &lt;alcommon/albrokermanager.h&gt;</span>
+<span class="cp">#include &lt;alcommon/altoolsmain.h&gt;</span>
+
+<span class="c1">// include the modules</span>
+<span class="cp">#include &quot;alsoundprocessing.h&quot;</span>
+
+<span class="cp">#ifdef SOUNDPROCESSING_IS_REMOTE</span>
+<span class="cp"># define ALCALL</span>
+<span class="cp">#else</span>
+<span class="cp"># ifdef _WIN32</span>
+<span class="cp">#  define ALCALL __declspec(dllexport)</span>
+<span class="cp"># else</span>
+<span class="cp">#  define ALCALL</span>
+<span class="cp"># endif</span>
+<span class="cp">#endif</span>
+
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span>
+<span class="p">{</span>
+
+  <span class="n">ALCALL</span> <span class="kt">int</span> <span class="n">_createModule</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALBroker</span><span class="o">&gt;</span> <span class="n">pBroker</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// init broker with the main broker instance</span>
+    <span class="c1">// from the parent executable</span>
+    <span class="n">AL</span><span class="o">::</span><span class="n">ALBrokerManager</span><span class="o">::</span><span class="n">setInstance</span><span class="p">(</span><span class="n">pBroker</span><span class="o">-&gt;</span><span class="n">fBrokerManager</span><span class="p">.</span><span class="n">lock</span><span class="p">());</span>
+    <span class="n">AL</span><span class="o">::</span><span class="n">ALBrokerManager</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">addBroker</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+
+    <span class="c1">// create module instances</span>
+    <span class="n">AL</span><span class="o">::</span><span class="n">ALModule</span><span class="o">::</span><span class="n">createModule</span><span class="o">&lt;</span><span class="n">ALSoundProcessing</span><span class="o">&gt;</span><span class="p">(</span><span class="n">pBroker</span><span class="p">,</span><span class="s">&quot;ALSoundProcessing&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">ALCALL</span> <span class="kt">int</span> <span class="n">_closeModule</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span> <span class="c1">// extern &quot;C&quot;</span>
+
+
+<span class="cp">#ifdef SOUNDPROCESSING_IS_REMOTE</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[]</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// pointer to createModule</span>
+  <span class="n">TMainType</span> <span class="n">sig</span><span class="p">;</span>
+  <span class="n">sig</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">_createModule</span><span class="p">;</span>
+
+  <span class="c1">// call main</span>
+  <span class="n">ALTools</span><span class="o">::</span><span class="n">mainFunction</span><span class="p">(</span><span class="s">&quot;alsoundprocessing&quot;</span><span class="p">,</span> <span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="n">sig</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cmakelists-txt">
+<h3>CMakeLists.txt<a class="headerlink" href="#cmakelists-txt" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../../_downloads/CMakeLists2.txt"><tt class="xref download docutils literal"><span class="pre">CMakeLists.txt</span></tt></a></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="c"># Copyright (C) 2010 Aldebaran Robotics</span>
+
+<span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.6.4</span> <span class="s">FATAL_ERROR</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">soundprocessing</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">qibuild</span><span class="p">)</span>
+
+<span class="nb">option</span><span class="p">(</span><span class="s">SOUNDPROCESSING_IS_REMOTE</span>
+  <span class="s2">&quot;module is compiled as a remote module (ON or OFF)&quot;</span>
+  <span class="s">ON</span><span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span><span class="s">_srcs</span>
+    <span class="s">main.cpp</span>
+    <span class="s">alsoundprocessing.h</span>
+    <span class="s">alsoundprocessing.cpp</span>
+<span class="p">)</span>
+
+<span class="nb">if</span><span class="p">(</span><span class="s">SOUNDPROCESSING_IS_REMOTE</span><span class="p">)</span>
+  <span class="nb">add_definitions</span><span class="p">(</span><span class="s2">&quot; -DSOUNDPROCESSING_IS_REMOTE &quot;</span><span class="p">)</span>
+  <span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">soundprocessing</span> <span class="o">${</span><span class="nv">_srcs</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">else</span><span class="p">()</span>
+  <span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">soundprocessing</span> <span class="s">SHARED</span> <span class="o">${</span><span class="nv">_srcs</span><span class="o">}</span> <span class="s">SUBFOLDER</span> <span class="s">naoqi</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+
+<span class="nb">qi_use_lib</span><span class="p">(</span><span class="s">soundprocessing</span> <span class="s">ALCOMMON</span> <span class="s">ALAUDIO</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../soundbasedreaction/onloudnoise.html" title="Reacting to an audio event: loud noise">Reacting to an audio event: loud noise</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">C++ Examples</a>
+   |
+    <a href="../../../tips-and-tricks.html" title="C++ Tips and tricks">C++ Tips and tricks</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../index.html">Cpp</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../install_guide.html">C++ SDK Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tutorials.html">C++ Tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../examples.html">C++ Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../../core/events/events.html">Creating events</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/sayhelloworld/sayhelloworld.html">Say Hello World</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/index.html">Creating a simple remote module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/helloworld/example.html">Example: HelloWorld module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../core/custommain/custom_main.html">Creating a custom main</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../motion/movehead/movehead.html">Moving NAO&#8217;s head</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/bumper/index.html">Reacting to an event: bumper</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/bumper/example.html">Example code: Bumper module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/bumper/principle.html">Principle</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/leds/leds.html">Control the LEDs</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../sensors/fastgetsetdcm/fastgetsetexample.html">Fast getting and setting joint angles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../audiovideocapture/audiovideocapture.html">Capturing audio and video</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/opencv.html">Using OpenCV</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/optimizedimage/optimizedimage.html">Optimized access to images</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/img2arv/img2arv.html">img2arv example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/arv2avi/arv2avi.html">arv2avi example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/getimage/getimage.html">Getting an image</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/genericvideomodule/genericvideomodule.html">Generic video module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/onfacedetection/onfacedetection.html">Reacting to a vision event: face detected</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../vision/alvisualcompass/alvisualcompass.html">Using ALVisualCompass</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../soundplayback/soundplayback.html">Sound playback</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../speechbasedreaction/speechbasedreaction.html">Speech based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../soundbasedreaction/soundbasedreaction.html">Sound based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../soundbasedreaction/onloudnoise.html">Reacting to an audio event: loud noise</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">Sound processing</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tips-and-tricks.html">C++ Tips and tricks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../tools/gdb-on-nao.html">Debugging C/C++ on the robot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../python/index.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Sound processing</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#downloads">Downloads</a><ul>
+<li><a class="reference internal" href="#whole-module">Whole module</a></li>
+<li><a class="reference internal" href="#header-alsoundprocessing-h">Header: alsoundprocessing.h</a></li>
+<li><a class="reference internal" href="#source-alsoundprocessing-cpp">Source: alsoundprocessing.cpp</a></li>
+<li><a class="reference internal" href="#main-main-cpp">Main: main.cpp</a></li>
+<li><a class="reference internal" href="#cmakelists-txt">CMakeLists.txt</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../soundbasedreaction/onloudnoise.html" title="Reacting to an audio event: loud noise">previous</a>
+     |
+    <a href="../../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../../../tips-and-tricks.html" title="C++ Tips and tricks">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

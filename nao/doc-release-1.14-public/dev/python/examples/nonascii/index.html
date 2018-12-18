@@ -1,0 +1,284 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Reading non-ASCII text &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="Python Examples" href="../../examples.html" />
+    <link rel="next" title="Motion" href="../motion/index.html" />
+    <link rel="prev" title="Python Examples" href="../../examples.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../../examples.html" title="Python Examples">previous</a>
+     |
+    <a href="../../examples.html" title="Python Examples" accesskey="U">up</a>
+   |
+    <a href="../motion/index.html" title="Motion">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-python-examples-nonascii-index">
+            
+  <div class="section" id="reading-non-ascii-text">
+<span id="python-example-non-ascii"></span><h1>Reading non-ASCII text<a class="headerlink" href="#reading-non-ascii-text" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<p>Suppose you have your robot configure to speak in French,
+and you want it to say some sentences from a data file.</p>
+<p>Doing so is a bit trickier than it sounds, because you
+have to take care of the encoding.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>First, download the following files and put them on the robot, in the same
+directory:</p>
+<ul class="simple">
+<li><a class="reference download internal" href="../../../../_downloads/coffee_en.txt"><tt class="xref download docutils literal"><span class="pre">coffee_en.txt</span></tt></a></li>
+<li><a class="reference download internal" href="../../../../_downloads/coffee_fr_utf-8.txt"><tt class="xref download docutils literal"><span class="pre">coffee_fr_utf-8.txt</span></tt></a></li>
+<li><a class="reference download internal" href="../../../../_downloads/coffee_fr_latin9.txt"><tt class="xref download docutils literal"><span class="pre">coffee_fr_latin9.txt</span></tt></a></li>
+<li><a class="reference download internal" href="../../../../_downloads/non_ascii.py"><tt class="xref download docutils literal"><span class="pre">non_ascii.py</span></tt></a></li>
+</ul>
+<p>The <tt class="docutils literal"><span class="pre">coffee_en.txt</span></tt> file contains the string &#8220;I like coffee&#8221;, the files
+<tt class="docutils literal"><span class="pre">coffee_fr_utf-8.txt</span></tt> and <tt class="docutils literal"><span class="pre">coffee_fr_latin9.txt</span></tt> hold its French
+translation: <cite>J&#8217;aime le café</cite>, so it&#8217;s best if you robot can speak French in
+addition to English :)</p>
+<p>Let&#8217;s have a closer look on the file</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">import</span> <span class="nn">codecs</span>
+
+
+<span class="k">def</span> <span class="nf">say_from_file</span><span class="p">(</span><span class="n">tts</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">encoding</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="c"># warning: print contents won&#39;t work</span>
+        <span class="n">to_say</span> <span class="o">=</span> <span class="n">contents</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="n">tts</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="n">to_say</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">tts</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALTextToSpeech&quot;</span><span class="p">,</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+
+    <span class="n">tts</span><span class="o">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="s">&#39;French&#39;</span><span class="p">)</span>
+    <span class="n">say_from_file</span><span class="p">(</span><span class="n">tts</span><span class="p">,</span> <span class="s">&#39;coffee_fr_utf-8.txt&#39;</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">say_from_file</span><span class="p">(</span><span class="n">tts</span><span class="p">,</span> <span class="s">&#39;coffee_fr_latin9.txt&#39;</span><span class="p">,</span> <span class="s">&#39;latin9&#39;</span><span class="p">)</span>
+
+    <span class="n">tts</span><span class="o">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="s">&#39;English&#39;</span><span class="p">)</span>
+    <span class="c"># the string &quot;I like coffee&quot; is encoded the exact same way in these three</span>
+    <span class="c"># encodings</span>
+    <span class="n">say_from_file</span><span class="p">(</span><span class="n">tts</span><span class="p">,</span> <span class="s">&#39;coffee_en.txt&#39;</span><span class="p">,</span> <span class="s">&#39;ascii&#39;</span><span class="p">)</span>
+    <span class="n">say_from_file</span><span class="p">(</span><span class="n">tts</span><span class="p">,</span> <span class="s">&#39;coffee_en.txt&#39;</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">say_from_file</span><span class="p">(</span><span class="n">tts</span><span class="p">,</span> <span class="s">&#39;coffee_en.txt&#39;</span><span class="p">,</span> <span class="s">&#39;latin9&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>First, notice how we do not use <tt class="docutils literal"><span class="pre">open</span></tt> but <tt class="docutils literal"><span class="pre">codecs.open</span></tt>, specifying the
+encoding.</p>
+<p>Also notice how we decode the result of the read from the file.
+The object returned by <tt class="docutils literal"><span class="pre">fp.read</span></tt> is a <tt class="docutils literal"><span class="pre">unicode</span></tt> object, and we need to
+encode it back to get a <tt class="docutils literal"><span class="pre">str</span></tt> object encoded in i&#8217;UTF-8&#8217;, usable the TTS
+proxy.</p>
+<p>Trying to run <tt class="docutils literal"><span class="pre">print</span> <span class="pre">contents</span></tt> won&#8217;t work because Python will try to decode
+the string using the current locale of the robot, which is &#8216;ASCII&#8217;, leading to
+this error:</p>
+<div class="highlight-pytb"><div class="highlight"><pre><span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;non_ascii.py&quot;</span>, line <span class="m">22</span>, in <span class="n">&lt;module&gt;</span>
+    <span class="n">main</span><span class="p">()</span>
+  File <span class="nb">&quot;non_ascii.py&quot;</span>, line <span class="m">18</span>, in <span class="n">main</span>
+    <span class="n">say_from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  File <span class="nb">&quot;non_ascii&quot;</span>, line <span class="m">10</span>, in <span class="n">say_from_file</span>
+    <span class="k">print</span> <span class="n">contents</span>
+<span class="gr">UnicodeEncodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t encode character u&#39;\xe9&#39; in position</span>
+<span class="x">13: ordinal not in range(128)</span>
+</pre></div>
+</div>
+<p>Notice at last that regardless of the file encoding, everything gets encoded to
+&#8216;UTF-8&#8217; before being sent to the text-to-speech proxy.</p>
+</div>
+<div class="section" id="running-the-example">
+<h2>Running the example<a class="headerlink" href="#running-the-example" title="Permalink to this headline">¶</a></h2>
+<p>Open a SSH connection on the robot, and type</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> python non_ascii.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="going-further">
+<h2>Going further<a class="headerlink" href="#going-further" title="Permalink to this headline">¶</a></h2>
+<p>If you are not sure whereas your file is UTF-8 encoded, you can use
+something like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">filename</span><span class="p">,</span> <span class="s">&quot;is not UTF-8 encoded&quot;</span>
+        <span class="k">return</span>
+</pre></div>
+</div>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">* <a class="reference external" href="http://docs.python.org/howto/unicode.html">The unicode doc from python</a>
+* <a class="reference external" href="http://www.joelonsoftware.com/articles/Unicode.html">This article on Joel on Software</a></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../../examples.html" title="Python Examples">Python Examples</a>
+     |
+    <a href="../../examples.html" title="Python Examples" accesskey="U">Python Examples</a>
+   |
+    <a href="../motion/index.html" title="Motion">Motion</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../cpp/index.html">Cpp</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html">Python</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../install_guide.html">Python SDK Install Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tutorials.html">Python tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../examples.html">Python Examples</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">Reading non-ASCII text</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../motion/index.html">Motion</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../almath/index.html">ALMath</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/index.html">Sensors</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/index.html">Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../tips-and-tricks.html">Python SDK tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Reading non-ASCII text</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#running-the-example">Running the example</a></li>
+<li><a class="reference internal" href="#going-further">Going further</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../../examples.html" title="Python Examples">previous</a>
+     |
+    <a href="../../examples.html" title="Python Examples" accesskey="U">up</a>
+   |
+    <a href="../motion/index.html" title="Motion">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

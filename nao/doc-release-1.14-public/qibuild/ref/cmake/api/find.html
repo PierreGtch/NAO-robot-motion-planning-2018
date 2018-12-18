@@ -1,0 +1,501 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Functions to find libaries and include directories &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="qiBuild CMake API" href="../api.html" />
+    <link rel="next" title="Handling compile flags" href="flags.html" />
+    <link rel="prev" title="Using options" href="option.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="option.html" title="Using options">previous</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="flags.html" title="Handling compile flags">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="ref-cmake-api-find">
+            
+  <div class="section" id="functions-to-find-libaries-and-include-directories">
+<h1>Functions to find libaries and include directories<a class="headerlink" href="#functions-to-find-libaries-and-include-directories" title="Permalink to this headline">¶</a></h1>
+<p>The qibuild CMake framework contains several <tt class="docutils literal"><span class="pre">-config.cmake</span></tt> files
+when upstream <tt class="docutils literal"><span class="pre">Find-.cmake</span></tt> files are not correct or missing.</p>
+<p>For instance, the canonical <tt class="docutils literal"><span class="pre">FindFoo.cmake</span></tt> looks like:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">include</span><span class="p">(</span><span class="s">FindPackageHandleStandardArgs.cmake</span><span class="p">)</span>
+
+<span class="nb">find_path</span><span class="p">(</span><span class="s">FOO_INCLUDE_DIR</span> <span class="s">foo/foo.h</span><span class="p">)</span>
+<span class="nb">find_library</span><span class="p">(</span><span class="s">FOO_LIBRARY</span> <span class="s">foo</span><span class="p">)</span>
+
+<span class="nb">find_package_handle_standard_args</span><span class="p">(</span><span class="s">FOO</span>
+ <span class="s">DEFAULT_MSG</span>
+  <span class="s">FOO_INCLUDE_DIR</span>
+  <span class="s">FOO_LIBRARY</span>
+<span class="p">)</span>
+
+<span class="nb">mark_as_advanced</span><span class="p">(</span><span class="s">FOO_LIBRARY</span> <span class="s">FOO_INCLUDE_DIR</span><span class="p">)</span>
+
+<span class="nb">if</span><span class="p">(</span><span class="s">FOO_FOUND</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">FOO_LIBRARIES</span>    <span class="o">${</span><span class="nv">FOO_LIBRARY</span><span class="o">}</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">FOO_INCLUDE_DIRS</span> <span class="o">${</span><span class="nv">FOO_INCLUDE_DIR</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>There is a lot of boilerplate code here, and it&#8217;s not easy
+to know the names of the variables (is it <tt class="docutils literal"><span class="pre">FOO_INCLUDE_DIR</span></tt> or <tt class="docutils literal"><span class="pre">FOO_INCLUDE_DIRS</span></tt> ?)</p>
+<p>For qibuild, we use the concept of <tt class="docutils literal"><span class="pre">PREFIX</span></tt> and exported variables will always
+be <tt class="docutils literal"><span class="pre">${${PREFIX}_INCLUDE_DIRS}</span></tt> and <tt class="docutils literal"><span class="pre">${${PREFIX}_LIBRARIES}</span></tt></p>
+<p>Thus, <tt class="docutils literal"><span class="pre">foo-config.cmake</span></tt> can simply be rewritten as:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">clean</span><span class="p">(</span><span class="s">FOO</span><span class="p">)</span>
+<span class="nb">fpath</span><span class="p">(</span><span class="s">FOO</span> <span class="s">foo/foo.h</span><span class="p">)</span>
+<span class="nb">flib</span><span class="p">(</span><span class="s">FOO</span>  <span class="s">foo</span><span class="p">)</span>
+<span class="nb">export</span><span class="p">(</span><span class="s">FOO</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the exported variables will always be
+all upper-case, will contain no version number and will have
+the plural form.</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">FOO_INCLUDE_DIRS</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">FOO_LIBRARIES</span></tt></li>
+</ul>
+</div></blockquote>
+<p>Also note that <tt class="docutils literal"><span class="pre">FOO_LIBRARIES</span></tt> will equal either:</p>
+<div class="highlight-cmake"><pre>"general;/path/to/foo.so"</pre>
+</div>
+<p>if <tt class="docutils literal"><span class="pre">flib()</span></tt> was called with no specific argument
+or:</p>
+<div class="highlight-cmake"><pre>"debug;/path/to/foo_d.lib;optimized;/path/to/foo.lib"</pre>
+</div>
+<p>if both <tt class="docutils literal"><span class="pre">flib(FOO</span> <span class="pre">OPTIMIZED</span> <span class="pre">...)</span></tt> and <tt class="docutils literal"><span class="pre">flib(FOO</span> <span class="pre">DEBUG</span> <span class="pre">...)</span></tt>
+have been called.</p>
+<p>So this variable can be used directly in the <tt class="docutils literal"><span class="pre">target_link_libraries()</span></tt> call</p>
+<div class="section" id="clean">
+<h2>clean<a class="headerlink" href="#clean" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="clean">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">clean</span><span class="p">(</span><span class="s">prefix</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#clean" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> &#8211; The prefix of the variables to clean</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Cleanup variables related to a library/executable/source-only library
+Use this at the start of the <tt class="docutils literal"><span class="pre">${prefix}-config.cmake</span></tt> file</p>
+</dd></dl>
+
+</div>
+<div class="section" id="fpath">
+<h2>fpath<a class="headerlink" href="#fpath" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="fpath">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">fpath</span><span class="p">(</span><span class="s">prefix</span> <span class="s">path</span> <span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#fpath" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> &#8211; The prefix of the exported variables. Must match the argument of <tt class="docutils literal"><span class="pre">clean()</span></tt> and <tt class="docutils literal"><span class="pre">export_lib()</span></tt> (or <tt class="docutils literal"><span class="pre">export_header</span></tt> for a header-only library) calls.</li>
+<li><strong>path</strong> &#8211; The path of one of the headers inside the include directory.</li>
+<li><strong>args</strong> (<em>remaining</em>) &#8211; The remaining arguments will be passed to <tt class="docutils literal"><span class="pre">find_path</span></tt></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Search for an include directory</p>
+<p>A small example, assuming <tt class="docutils literal"><span class="pre">/usr/local/include/foo/foo.h</span></tt>
+exists.</p>
+<p>If you use:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">fpath</span><span class="p">(</span><span class="s">FOO</span> <span class="s">foo/foo.h</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">FOO_INCLUDE_DIRS</span></tt> will equal <tt class="docutils literal"><span class="pre">/usr/local/include</span></tt>, so you will
+have to use</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;foo/foo.h&gt;</span>
+</pre></div>
+</div>
+<p>Whereas if you use</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">fpath</span><span class="p">(</span><span class="s">FOO</span> <span class="s">foo.h</span> <span class="s">PATH_SUFFIXES</span> <span class="s">foo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">FOO_INCLUDE_DIRS</span></tt> will equal <tt class="docutils literal"><span class="pre">usr/local/include/foo</span></tt>, so you
+will have to use</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;foo.h&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="flib">
+<h2>flib<a class="headerlink" href="#flib" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="flib">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">flib</span><span class="p">(</span><span class="s">prefix</span> <span class="s">name</span> <span class="s">[DEBUG]</span>
+    <span class="s">[OPTIMIZED]</span>
+    <span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#flib" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> &#8211; The prefix of the exported variables. Must match the argument of <tt class="docutils literal"><span class="pre">clean()</span></tt> and <tt class="docutils literal"><span class="pre">export()</span></tt> calls.</li>
+<li><strong>name</strong> &#8211; The name of the library</li>
+<li><strong>DEBUG</strong> &#8211; find a library that will be used for a debug build</li>
+<li><strong>OPTIMIZED</strong> &#8211; find a library that will be used for an optimized build</li>
+<li><strong>args</strong> (<em>remaining</em>) &#8211; The remaining arguments will be passed to <tt class="docutils literal"><span class="pre">find_library</span></tt></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Search for a library</p>
+<p>If the library has a different name in debug and in release,
+you should use:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">flib</span><span class="p">(</span><span class="s">foo</span> <span class="s">DEBUG</span>     <span class="s">foo_d</span><span class="p">)</span>
+<span class="nb">flib</span><span class="p">(</span><span class="s">foo</span> <span class="s">OPTIMIZED</span> <span class="s">foo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the library has different names, you should call flib() just once</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">flib</span><span class="p">(</span><span class="s">foo</span> <span class="s">foo</span> <span class="s">foo3</span> <span class="s">foo3.4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want to link with several libraries in one step (for instance
+foo-bar depends on foo-core but you just want to do
+<tt class="docutils literal"><span class="pre">qi_use_lib(..</span> <span class="pre">FOO)</span></tt>, you must call flib() several times:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">flib</span><span class="p">(</span><span class="s">foo</span> <span class="s">foo-bar</span><span class="p">)</span>
+<span class="nb">flib</span><span class="p">(</span><span class="s">foo</span> <span class="s">foo-core</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="fprogram">
+<h2>fprogram<a class="headerlink" href="#fprogram" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="fprogram">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">fprogram</span><span class="p">(</span><span class="s">prefix</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#fprogram" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> &#8211; Prefix of the variables to export. Must match the calls to <tt class="docutils literal"><span class="pre">clean()</span></tt> and <tt class="docutils literal"><span class="pre">export_bin()</span></tt> calls.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Search for an executable</p>
+</dd></dl>
+
+</div>
+<div class="section" id="export-lib">
+<h2>export_lib<a class="headerlink" href="#export-lib" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="export_lib">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">export_lib</span><span class="p">(</span><span class="s">prefix</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#export_lib" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> &#8211; The prefix of the exported variables</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Export the variables related to a library</p>
+<p>Use this at the end of the <tt class="docutils literal"><span class="pre">${prefix}-config.cmake</span></tt>
+<tt class="docutils literal"><span class="pre">find_package_handle_standard_args</span></tt> will be called to make
+sure <tt class="docutils literal"><span class="pre">${prefix}_LIBRARIES</span></tt> and <tt class="docutils literal"><span class="pre">${prefix}_INCLUDE_DIRS</span></tt> have
+been found.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="export-lib-pkgconfig">
+<h2>export_lib_pkgconfig<a class="headerlink" href="#export-lib-pkgconfig" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="export_lib_pkgconfig">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">export_lib_pkgconfig</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#export_lib_pkgconfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to use with pkgconfig.</p>
+<p>Usage, assuming <tt class="docutils literal"><span class="pre">foo-1.0.pc</span></tt> is somewhere
+in <tt class="docutils literal"><span class="pre">PKG_CONFIG_PATH</span></tt></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">clean</span><span class="p">(</span><span class="s">FOO</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">PkgConfig</span><span class="p">)</span>
+<span class="nb">pkg_check_modules</span><span class="p">(</span><span class="s">FOO</span> <span class="s">foo-1.0</span><span class="p">)</span>
+<span class="nb">export_lib_pkgconfig</span><span class="p">(</span><span class="s">FOO</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="export-bin">
+<h2>export_bin<a class="headerlink" href="#export-bin" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="export_bin">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">export_bin</span><span class="p">(</span><span class="s">prefix</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#export_bin" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> &#8211; The prefix of the variables to export</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Export the variables related to an executable</p>
+<p>Use at the end of <tt class="docutils literal"><span class="pre">foo-config.cmake</span></tt></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">fprogram</span><span class="p">(</span><span class="s">FOO</span> <span class="s">RELEASE</span> <span class="s">foo</span><span class="p">)</span>
+<span class="nb">fprogram</span><span class="p">(</span><span class="s">FOO</span> <span class="s">OPTIMIZED</span> <span class="s">foo_d</span><span class="p">)</span>
+<span class="nb">export_bin</span><span class="p">(</span><span class="s">FOO</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, <tt class="docutils literal"><span class="pre">FOO_EXECUTABLE</span></tt> will be set to
+&#8216;/path/to/foo.exe&#8217;, and <tt class="docutils literal"><span class="pre">FOO_EXECUTABLE_DEBUG</span></tt>
+to &#8216;path/to/foo_d.exe&#8217;</p>
+</dd></dl>
+
+</div>
+<div class="section" id="export-header">
+<h2>export_header<a class="headerlink" href="#export-header" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="export_header">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">export_header</span><span class="p">(</span><span class="s">prefix</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#export_header" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> &#8211; The prefix of the variables to export</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Export the variables related to an header-only
+library</p>
+<p>Use at the end of <tt class="docutils literal"><span class="pre">foo-config.cmake</span></tt></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">clean</span><span class="p">(</span><span class="s">FOO</span><span class="p">)</span>
+<span class="nb">fpath</span><span class="p">(</span><span class="s">FOO</span> <span class="s">foo/foo.h</span><span class="p">)</span>
+<span class="nb">export_header</span><span class="p">(</span><span class="s">FOO</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="option.html" title="Using options">Using options</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">qiBuild CMake API</a>
+   |
+    <a href="flags.html" title="Handling compile flags">Handling compile flags</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">qiBuild reference documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../man/index.html">qibuild man Pages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html">qiBuild CMake API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../cmake_api_syntax.html">CMake API syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="target.html">Functions to create targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stage.html">Staging targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html">Installing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="submodule.html">Using submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="option.html">Using options</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Functions to find libaries and include directories</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html">Handling compile flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="swig/python.html">Python wrapper for swig</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cfg/index.html">Configuration files syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">qiBuild Python documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Functions to find libaries and include directories</a><ul>
+<li><a class="reference internal" href="#clean">clean</a></li>
+<li><a class="reference internal" href="#fpath">fpath</a></li>
+<li><a class="reference internal" href="#flib">flib</a></li>
+<li><a class="reference internal" href="#fprogram">fprogram</a></li>
+<li><a class="reference internal" href="#export-lib">export_lib</a></li>
+<li><a class="reference internal" href="#export-lib-pkgconfig">export_lib_pkgconfig</a></li>
+<li><a class="reference internal" href="#export-bin">export_bin</a></li>
+<li><a class="reference internal" href="#export-header">export_header</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="option.html" title="Using options">previous</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="flags.html" title="Handling compile flags">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

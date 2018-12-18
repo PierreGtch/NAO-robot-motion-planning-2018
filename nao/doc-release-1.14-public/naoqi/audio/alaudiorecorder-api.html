@@ -1,0 +1,282 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALAudioRecorder API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="ALAudioRecorder" href="alaudiorecorder.html" />
+    <link rel="next" title="ALAudioSourceLocalization" href="alaudiosourcelocalization.html" />
+    <link rel="prev" title="ALAudioRecorder" href="alaudiorecorder.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="alaudiorecorder.html" title="ALAudioRecorder">previous</a>
+     |
+    <a href="alaudiorecorder.html" title="ALAudioRecorder" accesskey="U">up</a>
+   |
+    <a href="alaudiosourcelocalization.html" title="ALAudioSourceLocalization">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-audio-alaudiorecorder-api">
+            
+  <div class="section" id="alaudiorecorder-api">
+<span id="id1"></span><h1>ALAudioRecorder API<a class="headerlink" href="#alaudiorecorder-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-audio"><em>NAOqi Audio</em></a> - <a class="reference internal" href="alaudiorecorder.html#alaudiorecorder"><em>Overview</em></a> | API</p>
+<hr class="docutils" />
+<p>Namespace : <strong>AL</strong></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alproxies/alaudiorecorderproxy.h&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<p>As any module, this module inherits methods from <a class="reference internal" href="../core/almodule-api.html#almodule-api"><em>ALModule API</em></a>.
+It also has the following specific methods:</p>
+<dl class="class">
+<dt id="ALAudioRecorderProxy">
+<em class="property">class </em><tt class="descname">ALAudioRecorderProxy</tt><a class="headerlink" href="#ALAudioRecorderProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALAudioRecorderProxy::startMicrophonesRecording__ssCR.ssCR.iCR.AL::ALValueCR" title="ALAudioRecorderProxy::startMicrophonesRecording"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALAudioRecorderProxy::startMicrophonesRecording()</span></tt></a></li>
+<li><a class="reference internal" href="#ALAudioRecorderProxy::stopMicrophonesRecording" title="ALAudioRecorderProxy::stopMicrophonesRecording"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALAudioRecorderProxy::stopMicrophonesRecording()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ALAudioRecorderProxy::startMicrophonesRecording__ssCR.ssCR.iCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALAudioRecorderProxy::</tt><tt class="descname">startMicrophonesRecording</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>filename</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>type</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>samplerate</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>channels</em><big>)</big><a class="headerlink" href="#ALAudioRecorderProxy::startMicrophonesRecording__ssCR.ssCR.iCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method launches the recording of the audio signal measured by the microphones formated as specified. The resulting recording is written in the specified file.</p>
+<p>Note that these recording capabilities are currently limited to the following formats:</p>
+<ul class="simple">
+<li>four channels 48000Hz in OGG.</li>
+<li>four channels 48000Hz in WAV uncompressed.</li>
+<li>one channels (front, rear, left or right), 16000Hz, in OGG.</li>
+<li>one channels (front, rear, left or right), 16000Hz, in WAV.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> &#8211; Absolute Path of the file</li>
+<li><strong>type</strong> &#8211; &#8220;wav&#8221; or &#8220;ogg&#8221;</li>
+<li><strong>samplerate</strong> &#8211; Requested sample rate</li>
+<li><strong>channels</strong> &#8211; Requested channels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/alaudiorecorderproxy.h&gt;</span>
+<span class="cp">#include &lt;qi/os.hpp&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: alaudiorecorder_startrecording pIp&quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">pIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALAudioRecorderProxy</span> <span class="n">proxy</span><span class="p">(</span><span class="n">pIp</span><span class="p">);</span>
+
+  <span class="c1">/// Configures the channels that need to be recorded.</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">channels</span><span class="p">;</span>
+  <span class="n">channels</span><span class="p">.</span><span class="n">arrayPush</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">//Left</span>
+  <span class="n">channels</span><span class="p">.</span><span class="n">arrayPush</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">//Right</span>
+  <span class="n">channels</span><span class="p">.</span><span class="n">arrayPush</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//Front</span>
+  <span class="n">channels</span><span class="p">.</span><span class="n">arrayPush</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">//Rear</span>
+
+  <span class="c1">/// Starts the recording of NAO&#39;s front microphone at 16000Hz</span>
+  <span class="c1">/// in the specified wav file</span>
+  <span class="n">proxy</span><span class="p">.</span><span class="n">startMicrophonesRecording</span><span class="p">(</span><span class="s">&quot;/home/nao/test.wav&quot;</span><span class="p">,</span> <span class="s">&quot;wav&quot;</span><span class="p">,</span> <span class="mi">16000</span><span class="p">,</span> <span class="n">channels</span><span class="p">);</span>
+
+  <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+
+  <span class="c1">/// Stops the recording and close the file after 10 seconds.</span>
+  <span class="n">proxy</span><span class="p">.</span><span class="n">stopMicrophonesRecording</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALAudioRecorderProxy::stopMicrophonesRecording">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALAudioRecorderProxy::</tt><tt class="descname">stopMicrophonesRecording</tt><big>(</big><big>)</big><a class="headerlink" href="#ALAudioRecorderProxy::stopMicrophonesRecording" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method stops the recording of the signal collected by the microphones started
+with <a class="reference internal" href="#ALAudioRecorderProxy::startMicrophonesRecording__ssCR.ssCR.iCR.AL::ALValueCR" title="ALAudioRecorderProxy::startMicrophonesRecording"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALAudioRecorderProxy::startMicrophonesRecording()</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="alaudiorecorder.html" title="ALAudioRecorder">ALAudioRecorder</a>
+     |
+    <a href="alaudiorecorder.html" title="ALAudioRecorder" accesskey="U">ALAudioRecorder</a>
+   |
+    <a href="alaudiosourcelocalization.html" title="ALAudioSourceLocalization">ALAudioSourceLocalization</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Audio</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="alaudiodevice.html">ALAudioDevice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alaudioplayer.html">ALAudioPlayer</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="alaudiorecorder.html">ALAudioRecorder</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALAudioRecorder API</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="alaudiosourcelocalization.html">ALAudioSourceLocalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alsounddetection.html">ALSoundDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alspeechrecognition.html">ALSpeechRecognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="altexttospeech.html">ALTextToSpeech</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALAudioRecorder API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="alaudiorecorder.html" title="ALAudioRecorder">previous</a>
+     |
+    <a href="alaudiorecorder.html" title="ALAudioRecorder" accesskey="U">up</a>
+   |
+    <a href="alaudiosourcelocalization.html" title="ALAudioSourceLocalization">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

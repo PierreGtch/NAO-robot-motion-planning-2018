@@ -1,0 +1,216 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qiBuild design &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../index.html" />
+    <link rel="next" title="qiBuild CMake framework design" href="cmake/index.html" />
+    <link rel="prev" title="Python coding guide" href="../contrib/python/coding_guide.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../search.html">Search</a>
+         |
+        <a title="Index" href="../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../contrib/python/coding_guide.html" title="Python coding guide">previous</a>
+     |
+    <a title="qiBuild 1.14.5 documentation" href="../index.html" accesskey="U">up</a>
+   |
+    <a href="cmake/index.html" title="qiBuild CMake framework design">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="design-index">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="qibuild-design">
+<span id="id1"></span><h1>qiBuild design<a class="headerlink" href="#qibuild-design" title="Permalink to this headline">¶</a></h1>
+<p>qiBuild source code is divide into two loosely-coupled components.</p>
+<div class="section" id="qibuild-cmake-framework">
+<h2>qiBuild CMake framework<a class="headerlink" href="#qibuild-cmake-framework" title="Permalink to this headline">¶</a></h2>
+<p>The CMake framework is composed of two parts:</p>
+<ul class="simple">
+<li>A bunch of files containing nice wrappers for CMake functions,
+aim to simplify authoring of CMakeLists files, which
+constitutes the <a class="reference internal" href="../ref/cmake/api.html#qibuild-cmake-api"><em>qiBuild CMake API</em></a></li>
+<li>A set of <cite>-config.cmake</cite> files, written because upstream
+CMake modules files are missing or not correct.
+You can learn about about this config files by following
+the <a class="reference internal" href="../guide/cmake/writing_a_config_cmake.html#writing-a-config-cmake"><em>Writing a custom -config.cmake module file</em></a> tutorial.</li>
+</ul>
+<p>But of course, the main feature of the qiBuild CMake
+framework is to allow you to easily manage dependencies
+between project.</p>
+<p>For a more detailed description of how this works,
+please read the <a class="reference internal" href="cmake/index.html#qibuild-cmake-design"><em>qiBuild CMake framework design</em></a> section.</p>
+</div>
+<div class="section" id="qibuild-command-line-tools">
+<h2>qiBuild command line tools<a class="headerlink" href="#qibuild-command-line-tools" title="Permalink to this headline">¶</a></h2>
+<p>First note that the qibuild command line tools are absolutely
+not necessary use the qiBuild CMake framework.</p>
+<p>The qibuild tools are all written in Python.</p>
+<p>The <a class="reference internal" href="../guide/porting_to_qibuild.html#porting-to-qibuild"><em>Porting a CMake project to qiBuild</em></a> guide never uses the qibuild command
+line, for instance.</p>
+<p>The coupling between the Python command line tools and the CMake
+framework is very loose.</p>
+<p>qibuild command line only generates small bits of CMake code:</p>
+<ul class="simple">
+<li>A <cite>dependencies.cmake</cite> in the build directory, which is
+only useful if your project depends on library not found on
+your system, or if the qibuild CMake framework is not
+installed on your system.
+(And this file is simply NOT included if it does not exist)</li>
+<li>A CMake toolchain file when using toolchains. (more on this later)</li>
+</ul>
+<p>For a more detailed description of the qibuild features
+and how the are implemented, please read the <a class="reference internal" href="python/index.html#qibuild-python-design"><em>qiBuild Python framework design</em></a> section.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../contrib/python/coding_guide.html" title="Python coding guide">Python coding guide</a>
+     |
+    <a title="qiBuild 1.14.5 documentation" href="../index.html" accesskey="U">up</a>
+   |
+    <a href="cmake/index.html" title="qiBuild CMake framework design">qiBuild CMake framework design</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">qiBuild design</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">qiBuild design</a><ul>
+<li><a class="reference internal" href="#qibuild-cmake-framework">qiBuild CMake framework</a></li>
+<li><a class="reference internal" href="#qibuild-command-line-tools">qiBuild command line tools</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../contrib/python/coding_guide.html" title="Python coding guide">previous</a>
+     |
+    <a title="qiBuild 1.14.5 documentation" href="../index.html" accesskey="U">up</a>
+   |
+    <a href="cmake/index.html" title="qiBuild CMake framework design">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

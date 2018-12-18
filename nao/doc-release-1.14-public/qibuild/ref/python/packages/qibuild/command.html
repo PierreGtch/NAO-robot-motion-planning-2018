@@ -1,0 +1,336 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qibuild.command - Launch processes &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="qibuild modules" href="index.html" />
+    <link rel="next" title="qibuild.config – Managing qiBuild config files" href="config.html" />
+    <link rel="prev" title="qibuild.envsetter – controlling environment variables" href="envsetter.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="envsetter.html" title="qibuild.envsetter &amp;#8211; controlling environment variables">previous</a>
+     |
+    <a href="index.html" title="qibuild modules" accesskey="U">up</a>
+   |
+    <a href="config.html" title="qibuild.config &amp;#8211; Managing qiBuild config files">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="ref-python-packages-qibuild-command">
+            
+  <div class="section" id="module-qibuild.command">
+<span id="qibuild-command-launch-processes"></span><h1>qibuild.command - Launch processes<a class="headerlink" href="#module-qibuild.command" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="calling-process">
+<h2>Calling process<a class="headerlink" href="#calling-process" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qibuild.command.check_is_in_path">
+<tt class="descclassname">qibuild.command.</tt><tt class="descname">check_is_in_path</tt><big>(</big><em>executable</em>, <em>build_env=None</em><big>)</big><a class="headerlink" href="#qibuild.command.check_is_in_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the given executable is to be found in %PATH%</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qibuild.command.find_program">
+<tt class="descclassname">qibuild.command.</tt><tt class="descname">find_program</tt><big>(</big><em>executable</em>, <em>env=None</em><big>)</big><a class="headerlink" href="#qibuild.command.find_program" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the full path of an executable by
+looking at PATH environment variable
+(and PATHEXT on windows)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None if program was not found,
+the full path to executable otherwize</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="qibuild.command.call">
+<tt class="descclassname">qibuild.command.</tt><tt class="descname">call</tt><big>(</big><em>cmd</em>, <em>cwd=None</em>, <em>env=None</em>, <em>ignore_ret_code=False</em><big>)</big><a class="headerlink" href="#qibuild.command.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a command line.</p>
+<dl class="docutils">
+<dt>If ignore_ret_code is False:</dt>
+<dd>raise CommandFailedException if returncode is None.</dd>
+<dt>Else:</dt>
+<dd>simply returns the returncode of the process</dd>
+</dl>
+<p>Note: first arg of the cmd is assumed to be something
+inside %PATH%. (or in env[PATH] if env is not None)</p>
+<p>Note: the shell= argument of the subprocess.Popen
+call will always be False.</p>
+<dl class="docutils">
+<dt>can raise:</dt>
+<dd><ul class="first last simple">
+<li>CommandFailedException if ignore_ret_code is False
+and returncode is non zero</li>
+<li>NotInPath  if first arg of cmd is not in %PATH%</li>
+<li>And a normal exception if cwd is given and is not
+an existing directory.</li>
+</ul>
+</dd>
+</dl>
+<p>If sys.stdout or sys.stderr are not a tty, only write
+the last 300 lines of the process to sys.stdout if the
+returncode is not zero, else write everything.</p>
+<p>Note: this trick with sys.stderr, sys.stdout and subprocess
+does not work on windows with python &lt; 2.7, so it is simply
+disabled, and you have a normal behavior instead.</p>
+</dd></dl>
+
+<div class="section" id="notes-about-call">
+<h3>Notes about <a class="reference internal" href="#qibuild.command.call" title="qibuild.command.call"><tt class="xref py py-func docutils literal"><span class="pre">call()</span></tt></a><a class="headerlink" href="#notes-about-call" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="finding-the-executable-to-run">
+<h4>Finding the executable to run<a class="headerlink" href="#finding-the-executable-to-run" title="Permalink to this headline">¶</a></h4>
+<p>When using <a class="reference internal" href="#qibuild.command.call" title="qibuild.command.call"><tt class="xref py py-func docutils literal"><span class="pre">call(cmd,</span> <span class="pre">...)</span></tt></a>,
+<a class="reference internal" href="#qibuild.command.check_is_in_path" title="qibuild.command.check_is_in_path"><tt class="xref py py-func docutils literal"><span class="pre">check_is_in_path()</span></tt></a> is
+always call with <tt class="docutils literal"><span class="pre">cmd[0]</span></tt> as argument, then replaced with the result
+of <a class="reference internal" href="#qibuild.command.find_program" title="qibuild.command.find_program"><tt class="xref py py-func docutils literal"><span class="pre">find_program()</span></tt></a>.</p>
+<p>This way, on Windows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">qibuild</span><span class="o">.</span><span class="n">command</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&quot;cmake&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>works as soon as <tt class="docutils literal"><span class="pre">cmake.exe</span></tt> is in <tt class="docutils literal"><span class="pre">PATH</span></tt></p>
+</div>
+<div class="section" id="behavior">
+<h4>Behavior<a class="headerlink" href="#behavior" title="Permalink to this headline">¶</a></h4>
+<p><cite>subprocess.Popen</cite> is always called with <tt class="docutils literal"><span class="pre">shell=False</span></tt>, for security
+reasons.</p>
+<p>Unless explicitly told not to, <a class="reference internal" href="#qibuild.command.CommandFailedException" title="qibuild.command.CommandFailedException"><tt class="xref py py-class docutils literal"><span class="pre">CommandFailedException</span></tt></a> is raised
+when the return code of the command is not zero.</p>
+</div>
+</div>
+</div>
+<div class="section" id="running-process-in-the-background">
+<h2>Running process in the background<a class="headerlink" href="#running-process-in-the-background" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qibuild.command.call_background">
+<tt class="descclassname">qibuild.command.</tt><tt class="descname">call_background</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#qibuild.command.call_background" title="Permalink to this definition">¶</a></dt>
+<dd><p>To be used in a &#8220;with&#8221; statement:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">call_background</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+   <span class="n">do_stuff</span><span class="p">()</span>
+
+<span class="n">do_other_stuff</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Process is run in the background, then do_stuff()
+is called.</p>
+<p>By the time you are executing do_other_stuff(),
+you know that the process has been killed,
+better yet, if an exception has occurred during
+do_stuff, this exception is re-raised <em>after</em>
+the process has been killed.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="qibuild.command.ProcessThread">
+<em class="property">class </em><tt class="descclassname">qibuild.command.</tt><tt class="descname">ProcessThread</tt><big>(</big><em>cmd</em>, <em>name=None</em>, <em>cwd=None</em>, <em>env=None</em><big>)</big><a class="headerlink" href="#qibuild.command.ProcessThread" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple way to run commands.</p>
+<p>The thread will terminate when the command terminates</p>
+<p>The full log is available in self.out, and the subprocess.Popen
+object in self.process</p>
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="qibuild.command.CommandFailedException">
+<em class="property">class </em><tt class="descclassname">qibuild.command.</tt><tt class="descname">CommandFailedException</tt><a class="headerlink" href="#qibuild.command.CommandFailedException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="envsetter.html" title="qibuild.envsetter &amp;#8211; controlling environment variables">qibuild.envsetter &#8211; controlling environment variables</a>
+     |
+    <a href="index.html" title="qibuild modules" accesskey="U">qibuild modules</a>
+   |
+    <a href="config.html" title="qibuild.config &amp;#8211; Managing qiBuild config files">qibuild.config &#8211; Managing qiBuild config files</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">qiBuild reference documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../man/index.html">qibuild man Pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cmake/api.html">qiBuild CMake API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cfg/index.html">Configuration files syntax</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">qiBuild Python documentation</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">qiBuild Python packages documentation</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">qibuild modules</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="toc.html">qibuild.toc &#8211; TOC means Obvious Compilation</a></li>
+<li class="toctree-l5"><a class="reference internal" href="project.html">qibuild.project &#8211; Managing <tt class="docutils literal"><span class="pre">projects</span></tt></a></li>
+<li class="toctree-l5"><a class="reference internal" href="worktree.html">qibuild.worktree &#8211; Using a <tt class="docutils literal"><span class="pre">worktree</span></tt></a></li>
+<li class="toctree-l5"><a class="reference internal" href="dependencies_solver.html">qibuild.dependencies_solver &#8211; Resolving dependencies</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cmdparse.html">qibuild.cmdparse &#8211; Parsing command line</a></li>
+<li class="toctree-l5"><a class="reference internal" href="parsers.html">qibuild.parsers &#8211; Parsers for qibuild actions</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cmake.html">qibuild.cmake - CMake tools</a></li>
+<li class="toctree-l5"><a class="reference internal" href="build.html">qibuild.build - Build tools</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ctest.html">qibuild.ctest &#8211; Implementation of CTest in Python</a></li>
+<li class="toctree-l5"><a class="reference internal" href="envsetter.html">qibuild.envsetter &#8211; controlling environment variables</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">qibuild.command - Launch processes</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="config.html">qibuild.config &#8211; Managing qiBuild config files</a></li>
+<li class="toctree-l5"><a class="reference internal" href="archive.html">qibuild.archive &#8211; Manage .tar.gz and .zip files</a></li>
+<li class="toctree-l5"><a class="reference internal" href="sh.html">qibuild.sh &#8211; Common filesystem operations</a></li>
+<li class="toctree-l5"><a class="reference internal" href="log.html">qibuild.log &#8211; Logging tools</a></li>
+<li class="toctree-l5"><a class="reference internal" href="interact.html">qibuild.interact &#8211; Interacting with the user</a></li>
+<li class="toctree-l5"><a class="reference internal" href="wizard.html">qibuild.wizard &#8211; Configuration wizards</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../qitoolchain/index.html">qitoolchain modules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../qisrc/index.html">qisrc modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">qibuild.command - Launch processes</a><ul>
+<li><a class="reference internal" href="#calling-process">Calling process</a><ul>
+<li><a class="reference internal" href="#notes-about-call">Notes about <tt class="docutils literal"><span class="pre">call()</span></tt></a><ul>
+<li><a class="reference internal" href="#finding-the-executable-to-run">Finding the executable to run</a></li>
+<li><a class="reference internal" href="#behavior">Behavior</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#running-process-in-the-background">Running process in the background</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="envsetter.html" title="qibuild.envsetter &amp;#8211; controlling environment variables">previous</a>
+     |
+    <a href="index.html" title="qibuild modules" accesskey="U">up</a>
+   |
+    <a href="config.html" title="qibuild.config &amp;#8211; Managing qiBuild config files">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

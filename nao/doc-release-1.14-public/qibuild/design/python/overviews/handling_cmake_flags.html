@@ -1,0 +1,629 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Handling CMake flags &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="qiBuild Python framework design" href="../index.html" />
+    <link rel="next" title="Parsing toolchain feeds" href="parsing_toolchain_feeds.html" />
+    <link rel="prev" title="Handling build configurations" href="handling_build_configurations.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="handling_build_configurations.html" title="Handling build configurations">previous</a>
+     |
+    <a href="../index.html" title="qiBuild Python framework design" accesskey="U">up</a>
+   |
+    <a href="parsing_toolchain_feeds.html" title="Parsing toolchain feeds">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="design-python-overviews-handling_cmake_flags">
+            
+  <div class="section" id="handling-cmake-flags">
+<span id="id1"></span><h1>Handling CMake flags<a class="headerlink" href="#handling-cmake-flags" title="Permalink to this headline">¶</a></h1>
+<p>For this overview, we will assume we have:</p>
+<ul class="simple">
+<li>A <tt class="docutils literal"><span class="pre">foo-sdk</span></tt> <a class="reference internal" href="../../cmake/index.html#term-toolchain"><em class="xref std std-term">toolchain</em></a> containing a <a class="reference internal" href="../../cmake/index.html#term-package"><em class="xref std std-term">packages</em></a>,
+named <tt class="docutils literal"><span class="pre">world</span></tt></li>
+<li>A <a class="reference internal" href="../index.html#term-worktree"><em class="xref std std-term">worktree</em></a> containing two <a class="reference internal" href="../index.html#term-project"><em class="xref std std-term">projects</em></a>,
+the <tt class="docutils literal"><span class="pre">world</span></tt> project (sources of the <tt class="docutils literal"><span class="pre">world</span></tt> packages), and
+an <tt class="docutils literal"><span class="pre">hello</span></tt> project, which depends on <tt class="docutils literal"><span class="pre">world</span></tt></li>
+</ul>
+<p>This overview guides you through all what happens from the moment you run</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild configure --worktree /path/to/worktree -c foo-sdk --release -DWITH_EGGS<span class="o">=</span>ON hello
+</pre></div>
+</div>
+<p>To every cmake code that is generated, and what CMake flags are passed.</p>
+<div class="section" id="command-line-parsing">
+<h2>Command line parsing<a class="headerlink" href="#command-line-parsing" title="Permalink to this headline">¶</a></h2>
+<p>This is done by <a class="reference internal" href="../../../ref/python/packages/qibuild/cmdparse.html#qibuild.cmdparse.root_command_main" title="qibuild.cmdparse.root_command_main"><tt class="xref py py-func docutils literal"><span class="pre">qibuild.cmdparse.root_command_main()</span></tt></a> from
+<tt class="docutils literal"><span class="pre">bin/qibuild</span></tt> script.</p>
+<p>We look for every module in <tt class="docutils literal"><span class="pre">qibuild.actions</span></tt>, and find the <tt class="docutils literal"><span class="pre">configure.py</span></tt> module.</p>
+<p>Then, we create a <tt class="docutils literal"><span class="pre">argparse.ArgumentParser</span></tt> parser, and run <tt class="docutils literal"><span class="pre">qibuild.configure.configure_parser</span></tt>
+on it.</p>
+<p>We parse the command line arguments using this parser, and we now have a <tt class="docutils literal"><span class="pre">argparse.NameSpace</span></tt>
+object we can pass to <tt class="docutils literal"><span class="pre">qibuild.configure.do</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in qibuild.actions.configure</span>
+
+<span class="k">def</span> <span class="nf">configure_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+   <span class="c"># Parse the -c and --worktree option</span>
+   <span class="n">qibuild</span><span class="o">.</span><span class="n">parsers</span><span class="o">.</span><span class="n">toc_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+   <span class="c"># Parse the --release and -D options</span>
+   <span class="n">qibuild</span><span class="o">.</span><span class="n">parsers</span><span class="o">.</span><span class="n">build_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+   <span class="c"># Parse the [hello] list of projects</span>
+   <span class="n">qibuild</span><span class="o">.</span><span class="n">parsers</span><span class="o">.</span><span class="n">project_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+
+   <span class="c"># In this point we have:</span>
+   <span class="n">arsg</span><span class="o">.</span><span class="n">work_tree</span> <span class="o">=</span> <span class="s">&quot;/path/to/worktree&quot;</span>
+   <span class="n">args</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="s">&quot;foo-sdk&quot;</span>
+   <span class="n">args</span><span class="o">.</span><span class="n">build_type</span> <span class="o">=</span> <span class="s">&quot;release&quot;</span>
+   <span class="n">args</span><span class="o">.</span><span class="n">project_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;hello&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-the-toc-object">
+<h2>Building the toc object<a class="headerlink" href="#building-the-toc-object" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in qibuild.actions.configure</span>
+
+<span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+
+    <span class="n">toc</span> <span class="o">=</span> <span class="n">qibuild</span><span class="o">.</span><span class="n">toc_open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">worktree</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../../../ref/python/packages/qibuild/toc.html#qibuild.toc.Toc" title="qibuild.toc.Toc"><tt class="xref py py-class docutils literal"><span class="pre">Toc</span></tt></a> object is built by the <a class="reference internal" href="../../../ref/python/packages/qibuild/toc.html#qibuild.toc.toc_open" title="qibuild.toc.toc_open"><tt class="xref py py-func docutils literal"><span class="pre">qibuild.toc.toc_open()</span></tt></a>
+function.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in qibuild.toc.toc_open</span>
+
+<span class="k">def</span> <span class="nf">toc_open</span><span class="p">(</span><span class="n">worktree</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+
+    <span class="c"># Lots of code like:</span>
+    <span class="n">cmake_flags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s">&#39;cmake_flags&#39;</span><span class="p">):</span>
+      <span class="n">cmake_flags</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">cmake_flags</span>
+
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">Toc</span><span class="p">(</span><span class="n">work_tree</span><span class="p">,</span>
+           <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+           <span class="n">build_type</span><span class="o">=</span><span class="n">build_type</span><span class="p">,</span>
+           <span class="n">cmake_flags</span><span class="o">=</span><span class="n">cmake_flags</span><span class="p">,</span>
+           <span class="n">cmake_generator</span><span class="o">=</span><span class="n">cmake_generator</span><span class="p">,</span>
+           <span class="n">path_hints</span><span class="o">=</span><span class="n">path_hints</span><span class="p">,</span>
+           <span class="n">qibuild_cfg</span><span class="o">=</span><span class="n">qibuild_cfg</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">active_projects</span><span class="p">,</span> <span class="n">single</span><span class="p">)</span> <span class="o">=</span>  <span class="n">_projects_from_args</span><span class="p">(</span><span class="n">toc</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="n">toc</span><span class="o">.</span><span class="n">active_projects</span> <span class="o">=</span> <span class="n">active_projects</span>
+</pre></div>
+</div>
+<p>Note how the <tt class="docutils literal"><span class="pre">argparse.NameSpace</span></tt> object is exploded to become explicit keyword arguments
+to the Toc constructor.</p>
+<p>This decouples the <tt class="docutils literal"><span class="pre">Toc</span></tt> initialization from the command line parsing, which is a good
+thing.</p>
+<p>You may wonder why we we set the <tt class="docutils literal"><span class="pre">toc.active_projects</span></tt> here and not it Toc ctor.
+Well, that&#8217;s an other story, so more on this later.</p>
+<p>Back to the <a class="reference internal" href="../../../ref/python/packages/qibuild/toc.html#qibuild.toc.Toc.__init__" title="qibuild.toc.Toc.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">toc()</span></tt></a> call.</p>
+<p>Toc constructor does a <em>lot</em> of stuff (this comes from the fact that the Toc class is huge).</p>
+<p>But basically we need to</p>
+<ul class="simple">
+<li>Have sane defaults  (for instance &#8216;Unix Makefiles&#8217; for the <tt class="docutils literal"><span class="pre">cmake_generator</span></tt>).</li>
+<li>Possibly overwrite these defaults from various config files (the global <tt class="docutils literal"><span class="pre">qibuild.xml</span></tt>
+config file, the local <tt class="docutils literal"><span class="pre">.qi/qibuild.xml</span></tt>, the custom cmake file in
+<tt class="docutils literal"><span class="pre">.qi/foo-sdk.cmake</span></tt>)</li>
+<li>Possibly overwrite these with command line options</li>
+</ul>
+<p>Excerpt:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Toc</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cmake_flags</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cmake_generator</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+        <span class="c"># Set the active configuration.</span>
+        <span class="c"># Reading the default config name, merging the default and global</span>
+        <span class="c"># config file, and getting the default config to use from the config</span>
+        <span class="c"># files is done by the qibuild.config.QiBuildConfig class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">qibuid</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">QiBuildConfig</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">active_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">active_config</span>
+
+        <span class="c"># Set cmake generator if user has not set it in Toc ctor:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmake_generator</span> <span class="o">=</span> <span class="n">cmake_generator</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmake_generator</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmake_generator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">cmake</span><span class="o">.</span><span class="n">generator</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmake_generator</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cmake_generator</span> <span class="o">=</span> <span class="s">&quot;Unix Makefiles&quot;</span>
+</pre></div>
+</div>
+<p>For the cmake flags it is a bit more complicated.</p>
+<p>The flags passed on the command line are kept in <tt class="docutils literal"><span class="pre">self.user_cmake_flags</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Toc</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmake_flags</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cmake_generator</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">cmake_flags</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_cmake_flags</span> <span class="o">=</span> <span class="n">cmake_flags</span><span class="p">[:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_cmake_flags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Here, <tt class="docutils literal"><span class="pre">toc.user_cmake_flags</span></tt> will be <tt class="docutils literal"><span class="pre">[&quot;SPAM=EGGS&quot;]</span></tt>.</p>
+<p>And then the computation of the exact cmake flags to use is done
+inside the <cite>qibuild.project.Project</cite> class.</p>
+</div>
+<div class="section" id="computation-of-projects-cmake-flags">
+<h2>Computation of projects cmake flags<a class="headerlink" href="#computation-of-projects-cmake-flags" title="Permalink to this headline">¶</a></h2>
+<p>This is done by the <a class="reference internal" href="../../../ref/python/packages/qibuild/project.html#qibuild.project.update_project" title="qibuild.project.update_project"><tt class="xref py py-func docutils literal"><span class="pre">qibuild.project.update_project()</span></tt></a> function during
+the Toc construction</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in qibuild.toc</span>
+
+<span class="k">class</span> <span class="nc">Toc</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmake_flags</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cmake_generator</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_projects</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">update_projects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">project</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">projects</span><span class="p">:</span>
+            <span class="n">qibuild</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">update_project</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+
+<span class="c"># in qibuild.project</span>
+
+
+<span class="k">def</span> <span class="nf">update_project</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">toc</span><span class="p">):</span>
+
+    <span class="c"># Handle custom global build directory containing all projects</span>
+    <span class="n">singlebdir</span> <span class="o">=</span> <span class="n">toc</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">local</span><span class="o">.</span><span class="n">build</span><span class="o">.</span><span class="n">build_dir</span>
+
+    <span class="n">project</span><span class="o">.</span><span class="n">build_directory</span> <span class="o">=</span> <span class="o">...</span>
+
+
+    <span class="k">if</span> <span class="n">toc</span><span class="o">.</span><span class="n">build_type</span><span class="p">:</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">cmake_flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;CMAKE_BUILD_TYPE=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">toc</span><span class="o">.</span><span class="n">build_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()))</span>
+
+    <span class="c"># add cmake flags</span>
+    <span class="k">if</span> <span class="n">toc</span><span class="o">.</span><span class="n">user_cmake_flags</span><span class="p">:</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">cmake_flags</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">toc</span><span class="o">.</span><span class="n">user_cmake_flags</span><span class="p">)</span>
+
+    <span class="c"># add the toolchain file:</span>
+    <span class="k">if</span> <span class="n">toc</span><span class="o">.</span><span class="n">toolchain</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">tc_file</span> <span class="o">=</span> <span class="n">toc</span><span class="o">.</span><span class="n">toolchain</span><span class="o">.</span><span class="n">toolchain_file</span>
+        <span class="n">toolchain_path</span> <span class="o">=</span> <span class="n">qibuild</span><span class="o">.</span><span class="n">sh</span><span class="o">.</span><span class="n">to_posix_path</span><span class="p">(</span><span class="n">tc_file</span><span class="p">)</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">cmake_flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;CMAKE_TOOLCHAIN_FILE=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">toolchain_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For instance, because of the <tt class="docutils literal"><span class="pre">--release</span></tt> command line option, we have
+to set <tt class="docutils literal"><span class="pre">-DCMAKE_BUILD_TYPE=RELEASE</span></tt>.</p>
+<p>And because we are using the <tt class="docutils literal"><span class="pre">foo-sdk</span></tt> toolchain, we have to set
+<tt class="docutils literal"><span class="pre">-DCMAKE_TOOLCHAIN_FILE=/path/to/generated/toolchain.cmake</span></tt>,
+because we have to use the toolchain file generated by <tt class="docutils literal"><span class="pre">qitoolchain</span></tt>.</p>
+<p>(More on this on the following section)</p>
+</div>
+<div class="section" id="generation-of-cmake-code">
+<h2>Generation of CMake code<a class="headerlink" href="#generation-of-cmake-code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="toolchain-cmake-file-generation">
+<h3>Toolchain.cmake file generation<a class="headerlink" href="#toolchain-cmake-file-generation" title="Permalink to this headline">¶</a></h3>
+<p>This occurs because the <tt class="docutils literal"><span class="pre">-c</span></tt> option given as parameter
+on the command line matches a known toolchain.</p>
+<p>The first one is generated during the toc initialization</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Toc</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+
+            <span class="n">toolchain</span> <span class="o">=</span> <span class="n">qitoolchain</span><span class="o">.</span><span class="n">Toolchain</span><span class="p">(</span><span class="n">active_config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>During the qitoolchain.Toolchain constructor, we go through the list of packages
+to make sure we set CMAKE_FIND_ROOT_PATH correctly</p>
+<p>If our case, there is a <tt class="docutils literal"><span class="pre">world</span></tt> package in the <tt class="docutils literal"><span class="pre">foo-sdk</span></tt> toolchain, so
+the file will look like</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">list</span><span class="p">(</span><span class="s">INSERT</span> <span class="s">CMAKE_FIND_ROOT_PATH</span> <span class="s">0</span> <span class="s2">&quot;/path/to/world/package&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generating-the-dependencies-cmake-file">
+<h3>Generating the dependencies.cmake file<a class="headerlink" href="#generating-the-dependencies-cmake-file" title="Permalink to this headline">¶</a></h3>
+<p>Here we need <tt class="docutils literal"><span class="pre">hello</span></tt> to be able to find the <tt class="docutils literal"><span class="pre">world</span></tt></p>
+<p>First case:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild configure hello
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">hello</span></tt> must use the <tt class="docutils literal"><span class="pre">world-config.cmake</span></tt> from the <tt class="docutils literal"><span class="pre">world</span></tt> package</p>
+<p>Second case:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild configure world hello
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">hello</span></tt> must use the <tt class="docutils literal"><span class="pre">world-config.cmake</span></tt> from <tt class="docutils literal"><span class="pre">src/world/build/sdk/</span></tt>.</p>
+<p>In the first case, the toolchain file is enough, so everything works fine,
+but in the second case, we have to tell cmake it should insert
+<tt class="docutils literal"><span class="pre">/path/to/worktree/world/build/sdk</span></tt>
+at the beginning of <tt class="docutils literal"><span class="pre">CMAKE_FIND_ROOT_PATH</span></tt></p>
+<p>So, let&#8217;s what happens there in the two cases.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># qibuild.toc</span>
+
+
+<span class="k">def</span> <span class="nf">toc_open</span><span class="p">(</span><span class="n">work_tree</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+
+    <span class="c"># args.projects contains [&quot;world&quot;, &quot;hello&quot;], in the second case,</span>
+    <span class="c"># and just [&quot;hello&quot;] in the first case.</span>
+    <span class="c"># after command line parsing</span>
+    <span class="p">(</span><span class="n">active_projects</span><span class="p">,</span> <span class="n">single</span><span class="p">)</span> <span class="o">=</span>  <span class="n">_projects_from_args</span><span class="p">(</span><span class="n">toc</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+    <span class="n">toc</span><span class="o">.</span><span class="n">active_projects</span> <span class="o">=</span> <span class="n">active_projects</span>
+
+
+<span class="k">def</span> <span class="nf">_projects_from_args</span><span class="p">(</span><span class="n">toc</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cases handled:</span>
+<span class="sd">      - nothing specified: get the project from the cwd</span>
+<span class="sd">      - args.single: do not resolve dependencies</span>
+<span class="sd">      - args.all: return all projects</span>
+<span class="sd">    Returns a tuple (project_names, single):</span>
+<span class="sd">        project_names: the actual list for project</span>
+<span class="sd">        single: user specified --single</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">....</span>
+</pre></div>
+</div>
+<p>Here <tt class="docutils literal"><span class="pre">toc.active_projects</span></tt> will be set to <tt class="docutils literal"><span class="pre">[&quot;hello&quot;]</span></tt> in the first
+case, but to <tt class="docutils literal"><span class="pre">[&quot;world&quot;,</span> <span class="pre">&quot;hello&quot;]</span></tt> in the second case.</p>
+<p>Note that <tt class="docutils literal"><span class="pre">_projects_from_args</span></tt> also handles the case where no project name is given
+at all, for instance when you run <tt class="docutils literal"><span class="pre">cd</span> <span class="pre">hello;</span> <span class="pre">qibuild</span> <span class="pre">configure</span></tt>, and the project
+name is guessed from the current working directory.</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="../../../ref/python/packages/qibuild/worktree.html#qibuild.worktree.search_current_project_root" title="qibuild.worktree.search_current_project_root"><tt class="xref py py-meth docutils literal"><span class="pre">qibuild.worktree.search_current_project_root()</span></tt></a></li>
+</ul>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># qibuild.actions.configure</span>
+
+<span class="n">toc</span> <span class="o">=</span> <span class="n">toc_open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">work_tree</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+
+<span class="c"># Note how toc.active_projects has been set</span>
+<span class="c"># (to [&#39;world&#39;, &#39;hello&#39;], but no dependency resolution</span>
+<span class="c"># has still occurred, because we need to know about the packages</span>
+<span class="c"># in the toolchain, the names of the projects in the work tree,</span>
+<span class="c"># and so on.</span>
+<span class="p">(</span><span class="n">project_names</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">toc</span><span class="o">.</span><span class="n">resolve_deps</span><span class="p">()</span>
+
+
+<span class="c"># qibuild.toc</span>
+
+<span class="k">class</span> <span class="nc">Toc</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">resolve_deps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># use a DependenciesSolver with self.projects, self.packages</span>
+        <span class="c"># and self.active_projects</span>
+        <span class="n">dep_solver</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="k">return</span> <span class="n">dep_solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So <tt class="docutils literal"><span class="pre">toc.resolve_deps()</span></tt> is <tt class="docutils literal"><span class="pre">[&quot;hello&quot;]</span></tt>  in the first case, because the <tt class="docutils literal"><span class="pre">DependenciesSolver</span></tt>
+saw the &#8216;world&#8217; dependency was provided by a package, and <tt class="docutils literal"><span class="pre">[&quot;world&quot;,</span> <span class="pre">&quot;hello&quot;]</span></tt>
+in the second case because of the <tt class="docutils literal"><span class="pre">active_projects</span></tt> argument passed to the <tt class="docutils literal"><span class="pre">DependenciesSolver</span></tt></p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><tt class="xref py py-class docutils literal"><span class="pre">DependenciesSolver</span></tt></li>
+</ul>
+</div>
+<p>But the <tt class="docutils literal"><span class="pre">dependencies.cmake</span></tt> is different too.</p>
+<p>Here is the relevant pieces of Python code</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># qibuild.actions.configure</span>
+
+<span class="n">projects</span> <span class="o">=</span> <span class="p">[</span><span class="n">toc</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">project_names</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">project</span> <span class="ow">in</span> <span class="n">projects</span><span class="p">:</span>
+    <span class="n">toc</span><span class="o">.</span><span class="n">configure_project</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+
+
+<span class="c"># qibuild.toc</span>
+
+<span class="k">class</span> <span class="nc">Toc</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">configure_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">):</span>
+        <span class="n">qibuild</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">bootstrap_project</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+
+<span class="c"># qibuild.project.bootstrap_project</span>
+
+<span class="k">def</span> <span class="nf">bootstrap_project</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">toc</span><span class="p">):</span>
+
+  <span class="n">config</span> <span class="o">=</span> <span class="n">toc</span><span class="o">.</span><span class="n">active_config</span>
+  <span class="k">if</span> <span class="n">config</span><span class="p">:</span>
+      <span class="n">local_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">toc</span><span class="o">.</span><span class="n">work_tree</span><span class="p">,</span> <span class="s">&quot;.qi&quot;</span><span class="p">)</span>
+      <span class="n">local_cmake</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local_dir</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.cmake&quot;</span> <span class="o">%</span> <span class="n">config</span><span class="p">)</span>
+
+  <span class="n">sdk_dirs</span> <span class="o">=</span> <span class="n">toc</span><span class="o">.</span><span class="n">get_sdk_dirs</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note how we use the <tt class="docutils literal"><span class="pre">toc.resolve_deps</span></tt> in the <tt class="docutils literal"><span class="pre">action</span></tt>, to be sure to run
+<tt class="docutils literal"><span class="pre">toc.configure_project</span></tt> on only the necessary projects.</p>
+<p>Note also how we use the toc object in <tt class="docutils literal"><span class="pre">bootstrap_project</span></tt> to
+to find the list of SDK and make sure the dependencies.cmake file
+contains:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">list</span><span class="p">(</span><span class="s">INSERT</span> <span class="s">0</span> <span class="s">CMAKE_FIND_ROOT_PATH</span> <span class="s">/path/to/world/sdk</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Last but not least, we also use the toc object to find the custom cmake file
+(see <a class="reference internal" href="#parsing-custom-cmake-file"><em>Parsing custom cmake file</em></a>), and make sure the <tt class="docutils literal"><span class="pre">dependencies.cmake</span></tt>
+file contains:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">include</span><span class="p">(</span><span class="s">/path/to/worktree/&lt;config&gt;.cmake</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="why-does-it-work">
+<h2>Why does it work ?<a class="headerlink" href="#why-does-it-work" title="Permalink to this headline">¶</a></h2>
+<p>This works if <tt class="docutils literal"><span class="pre">world</span></tt> was created with</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">world</span><span class="p">)</span>
+<span class="nb">qi_stage_lib</span><span class="p">(</span><span class="s">world</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This way we can know that <tt class="docutils literal"><span class="pre">world-config.cmake</span></tt> will be in
+<tt class="docutils literal"><span class="pre">src/world/build/sdk/cmake/world-config.cmake</span></tt>.</p>
+<p>So, we are able to generate a <tt class="docutils literal"><span class="pre">dependencies.cmake</span></tt> in <tt class="docutils literal"><span class="pre">hello/build/</span></tt> looking like</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">list</span><span class="p">(</span><span class="s">INSERT</span> <span class="s">0</span> <span class="s">CMAKE_FIND_ROOT_PATH</span> <span class="s2">&quot;src/world/build/sdk&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also, the <tt class="docutils literal"><span class="pre">hello</span></tt> CMakeList.txt must contains</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">find_package</span><span class="p">(</span><span class="s">qibuild</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And inside <tt class="docutils literal"><span class="pre">qibuild-config.cmake</span></tt> we have</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">if</span><span class="p">(</span><span class="s">EXISTS</span> <span class="o">${</span><span class="nv">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="s">/dependencies.cmake</span><span class="p">)</span>
+  <span class="nb">include</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="s">/dependencies.cmake</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-the-list-of-sdk-dirs">
+<h2>Getting the list of SDK dirs<a class="headerlink" href="#getting-the-list-of-sdk-dirs" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s have a closer look at this function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># qibuild.toc</span>
+
+<span class="k">class</span> <span class="nc">Toc</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">get_sdk_dirs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">):</span>
+
+        <span class="n">dep_solver</span> <span class="o">=</span> <span class="n">DependenciesSolver</span><span class="p">(</span>
+            <span class="n">projects</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">projects</span><span class="p">,</span>
+            <span class="n">packages</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">packages</span><span class="p">,</span>
+            <span class="n">active_projects</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">active_projects</span><span class="p">)</span>
+
+        <span class="p">(</span><span class="n">r_project_names</span><span class="p">,</span> <span class="n">_package_names</span><span class="p">,</span> <span class="n">not_found</span><span class="p">)</span> <span class="o">=</span> <span class="n">dep_solver</span><span class="o">.</span><span class="n">solve</span><span class="p">([</span><span class="n">project_name</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">project_name</span> <span class="ow">in</span> <span class="n">r_project_names</span><span class="p">:</span>
+            <span class="n">project</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+            <span class="n">dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">get_sdk_dir</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">dirs</span>
+</pre></div>
+</div>
+<p>The dependencies have been already solved in the <tt class="docutils literal"><span class="pre">configure</span></tt> action, so
+why do we use an <strong>other</strong> dependency solver here?</p>
+<p>Two reasons:</p>
+<div class="section" id="first-pathological-case">
+<h3>First pathological case<a class="headerlink" href="#first-pathological-case" title="Permalink to this headline">¶</a></h3>
+<p>Assume you have no <tt class="docutils literal"><span class="pre">world</span></tt> package, but you run</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">qibuild configure -s</span>
+</pre></div>
+</div>
+<p>from <tt class="docutils literal"><span class="pre">hello</span></tt> source tree.</p>
+<p>Here is what is going to happen:</p>
+<p><tt class="docutils literal"><span class="pre">_projects_from_args</span></tt> will use the current working directory to find that
+the project name is <tt class="docutils literal"><span class="pre">[&quot;hello&quot;]</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">toc.use_deps</span></tt> will be set to False, because of the <tt class="docutils literal"><span class="pre">--single</span></tt> option,
+so  <tt class="docutils literal"><span class="pre">toc.resolve_deps</span></tt> will only return <tt class="docutils literal"><span class="pre">[&quot;hello&quot;]</span></tt>, although qibuild knows
+that there is a <tt class="docutils literal"><span class="pre">world</span></tt> project on which <tt class="docutils literal"><span class="pre">hello</span></tt> depends.</p>
+<p>but, when solving deps inside <tt class="docutils literal"><span class="pre">toc.get_sdk_dirs</span></tt>, we will still find the
+<tt class="docutils literal"><span class="pre">world</span></tt> dependency, and the <tt class="docutils literal"><span class="pre">dependencies.cmake</span></tt> will still be generated
+correctly.</p>
+</div>
+<div class="section" id="second-pathological-case">
+<h3>Second pathological case<a class="headerlink" href="#second-pathological-case" title="Permalink to this headline">¶</a></h3>
+<p>Assume you have a <tt class="docutils literal"><span class="pre">hello</span></tt> package that depends on the <tt class="docutils literal"><span class="pre">world</span></tt> package
+that itself depends on the <tt class="docutils literal"><span class="pre">foo</span></tt> package.</p>
+<p>The <tt class="docutils literal"><span class="pre">dependencies.cmake</span></tt> (will be different for the three projects:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="c"># hello/build/dependencies.cmake</span>
+
+<span class="nb">list</span><span class="p">(</span><span class="s">INSTERT</span> <span class="s">0</span> <span class="s">CMAKE_FIND_ROOT_PATH</span> <span class="s">world/build/sdk</span><span class="p">)</span>
+<span class="nb">list</span><span class="p">(</span><span class="s">INSTERT</span> <span class="s">0</span> <span class="s">CMAKE_FIND_ROOT_PATH</span> <span class="s">foo/build/sdk</span><span class="p">)</span>
+
+<span class="c"># world/build/dependencies.cmake</span>
+<span class="nb">list</span><span class="p">(</span><span class="s">INSTERT</span> <span class="s">0</span> <span class="s">CMAKE_FIND_ROOT_PATH</span> <span class="s">foo/build/sdk</span><span class="p">)</span>
+
+<span class="c"># foo/build/dependencies.cmake</span>
+<span class="c"># nothing</span>
+</pre></div>
+</div>
+<p>That&#8217;s why the <tt class="docutils literal"><span class="pre">toc.get_sdk_dirs</span></tt> is called by each project.</p>
+</div>
+</div>
+<div class="section" id="parsing-custom-cmake-file">
+<span id="id2"></span><h2>Parsing custom cmake file<a class="headerlink" href="#parsing-custom-cmake-file" title="Permalink to this headline">¶</a></h2>
+<p>The &#8216;custom cmake file&#8217; in a cmake file you can use to add additional CMake code to
+all your projects.</p>
+<p>This is mainly useful when you do continuous integration and releases.</p>
+<p>For instance, we you just need to compile the <tt class="docutils literal"><span class="pre">hello</span></tt> project, you have
+nothing to do.</p>
+<p>But you may want to set <tt class="docutils literal"><span class="pre">-DCOVERAGE=TRUE</span></tt> for your nightly builds, or something
+like that.</p>
+<p>You cannot use the <tt class="docutils literal"><span class="pre">qiproject.xml</span></tt> to set <tt class="docutils literal"><span class="pre">-DCOVERABE=TRUE</span></tt>, because you
+only want to use those flags on certain occasions.</p>
+<p>Note that sometimes you can even have complete piece of CMake code:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="c"># Remove warnings about missing .pd on Visual Studio:</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">_orig_flags</span> <span class="o">${</span><span class="nv">CMAKE_CXX_FLAGS_DEBUG</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">string</span><span class="p">(</span><span class="s">REPLACE</span> <span class="s2">&quot;/Zi&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s">_package_debug_flags</span> <span class="s2">&quot;${CMAKE_CXX_FLAGS_DEBUG}&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS_DEBUG</span> <span class="o">${</span><span class="nv">_package_debug_flags</span><span class="o">}</span> <span class="s">CACHE</span> <span class="s">INTERNAL</span> <span class="s2">&quot;&quot;</span> <span class="s">FORCE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So the convention is that you put you custom cmake code in <tt class="docutils literal"><span class="pre">.qi/&lt;config&gt;.cmake</span></tt>.</p>
+<p>The <tt class="docutils literal"><span class="pre">&lt;config&gt;</span></tt> should be the name of a toolchain, or the value of the
+<tt class="docutils literal"><span class="pre">-c</span></tt> option.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="handling_build_configurations.html" title="Handling build configurations">Handling build configurations</a>
+     |
+    <a href="../index.html" title="qiBuild Python framework design" accesskey="U">qiBuild Python framework design</a>
+   |
+    <a href="parsing_toolchain_feeds.html" title="Parsing toolchain feeds">Parsing toolchain feeds</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Handling CMake flags</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Handling CMake flags</a><ul>
+<li><a class="reference internal" href="#command-line-parsing">Command line parsing</a></li>
+<li><a class="reference internal" href="#building-the-toc-object">Building the toc object</a></li>
+<li><a class="reference internal" href="#computation-of-projects-cmake-flags">Computation of projects cmake flags</a></li>
+<li><a class="reference internal" href="#generation-of-cmake-code">Generation of CMake code</a><ul>
+<li><a class="reference internal" href="#toolchain-cmake-file-generation">Toolchain.cmake file generation</a></li>
+<li><a class="reference internal" href="#generating-the-dependencies-cmake-file">Generating the dependencies.cmake file</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#why-does-it-work">Why does it work ?</a></li>
+<li><a class="reference internal" href="#getting-the-list-of-sdk-dirs">Getting the list of SDK dirs</a><ul>
+<li><a class="reference internal" href="#first-pathological-case">First pathological case</a></li>
+<li><a class="reference internal" href="#second-pathological-case">Second pathological case</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#parsing-custom-cmake-file">Parsing custom cmake file</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="handling_build_configurations.html" title="Handling build configurations">previous</a>
+     |
+    <a href="../index.html" title="qiBuild Python framework design" accesskey="U">up</a>
+   |
+    <a href="parsing_toolchain_feeds.html" title="Parsing toolchain feeds">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

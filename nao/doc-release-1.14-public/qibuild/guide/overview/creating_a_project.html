@@ -1,0 +1,237 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Creating a new project &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="qiBuild overview" href="index.html" />
+    <link rel="next" title="Configuring a project" href="configuring_a_project.html" />
+    <link rel="prev" title="qiBuild overview" href="index.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="index.html" title="qiBuild overview">previous</a>
+     |
+    <a href="index.html" title="qiBuild overview" accesskey="U">up</a>
+   |
+    <a href="configuring_a_project.html" title="Configuring a project">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="guide-overview-creating_a_project">
+            
+  <div class="section" id="creating-a-new-project">
+<span id="qibuild-create-project"></span><h1>Creating a new project<a class="headerlink" href="#creating-a-new-project" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial, we will simply create a new project</p>
+<p>Navigate to your <a class="reference internal" href="../../design/python/index.html#term-worktree"><em class="xref std std-term">worktree</em></a> and type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild create foo
+</pre></div>
+</div>
+<p>Remember, for this to work on windows, you should have:</p>
+<ul class="simple">
+<li>Run install-qibuild.bat</li>
+<li>Put <tt class="docutils literal"><span class="pre">C:\Python27</span></tt> and <tt class="docutils literal"><span class="pre">c:\Python27\Scripts</span></tt> in your <tt class="docutils literal"><span class="pre">%PATH%</span></tt>.</li>
+</ul>
+<p>This will create a new project in <tt class="docutils literal"><span class="pre">QI_WORK_TREE/foo</span></tt></p>
+<p>Let us have a look at what has been generated:</p>
+<div class="highlight-python"><pre>foo
+|__  qiproject.xml
+|__  CMakeLists.txt
+|__  main.cpp
+|__  test.cpp</pre>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">main.cpp</span></tt> is just a standard &#8220;Hello World&#8221;</li>
+<li><tt class="docutils literal"><span class="pre">test.cpp</span></tt> is a simple test: you use automatic testing, don&#8217;t you?</li>
+<li><tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> : this is a script file that will be read by CMake to generate
+makefiles, or Visual Studio solutions.</li>
+<li><tt class="docutils literal"><span class="pre">qproject.xml</span></tt> : this file MUST be present for qiBuild to know how to build
+the <tt class="docutils literal"><span class="pre">foo</span></tt> project.</li>
+</ul>
+<p>If you already have source code somewhere, all you have to do is to:</p>
+<ul>
+<li><p class="first">create a <tt class="docutils literal"><span class="pre">qiproject.xml</span></tt> looking like</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">&quot;foo&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">(optional, if you want to use qi_ functions...): include <tt class="docutils literal"><span class="pre">find_package(qibuild)</span></tt>
+somewhere after the call to <tt class="docutils literal"><span class="pre">project()</span></tt></p>
+</li>
+</ul>
+<p>You can do this by running</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild convert
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">&#8216;qibuild convert&#8217; will check that your root <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> is correct,
+please read the messages carefully</p>
+</div>
+<p>In any case, the root <tt class="docutils literal"><span class="pre">CMakeLists.txt</span></tt> should look like:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.8</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">my_project</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">qibuild</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">project()</span></tt> call is mandatory for qibuild to work when using
+Visual Studio, the <tt class="docutils literal"><span class="pre">find_package(qibuild)</span></tt> call must be right
+after <tt class="docutils literal"><span class="pre">project()</span></tt>, otherwise you can have trouble when using a toolchain file.</p>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="index.html" title="qiBuild overview">qiBuild overview</a>
+     |
+    <a href="index.html" title="qiBuild overview" accesskey="U">qiBuild overview</a>
+   |
+    <a href="configuring_a_project.html" title="Configuring a project">Configuring a project</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">qiBuild Programming guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">qiBuild overview</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">Creating a new project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuring_a_project.html">Configuring a project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building_a_project.html">Building a project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="testing_a_project.html">Testing a project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packaging_a_project.html">Packaging a project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="managing_deps.html">Managing dependencies between projects</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cmake/index.html">Using qiBuild CMake API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../porting_to_qibuild.html">Porting a CMake project to qiBuild</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../using_toolchains.html">Using toolchains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_configs.html">Mananing build configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../how_to_write_a_library.html">How to write a library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extending_qibuild_actions.html">Extending qiBuild actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tips_and_tricks.html">qiBuild tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="index.html" title="qiBuild overview">previous</a>
+     |
+    <a href="index.html" title="qiBuild overview" accesskey="U">up</a>
+   |
+    <a href="configuring_a_project.html" title="Configuring a project">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

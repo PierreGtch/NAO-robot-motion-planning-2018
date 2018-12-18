@@ -1,0 +1,571 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALSpeechRecognition API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="ALSpeechRecognition" href="alspeechrecognition.html" />
+    <link rel="next" title="ALTextToSpeech" href="altexttospeech.html" />
+    <link rel="prev" title="ALSpeechRecognition" href="alspeechrecognition.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="alspeechrecognition.html" title="ALSpeechRecognition">previous</a>
+     |
+    <a href="alspeechrecognition.html" title="ALSpeechRecognition" accesskey="U">up</a>
+   |
+    <a href="altexttospeech.html" title="ALTextToSpeech">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-audio-alspeechrecognition-api">
+            
+  <div class="section" id="alspeechrecognition-api">
+<span id="id1"></span><h1>ALSpeechRecognition API<a class="headerlink" href="#alspeechrecognition-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-audio"><em>NAOqi Audio</em></a> - <a class="reference internal" href="alspeechrecognition.html#alspeechrecognition"><em>Overview</em></a> | API</p>
+<hr class="docutils" />
+<p>Namespace : <strong>AL</strong></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alproxies/alspeechrecognitionproxy.h&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<p>As any module, this module inherits methods from <a class="reference internal" href="../core/almodule-api.html#almodule-api"><em>ALModule API</em></a>.
+It also has the following specific methods:</p>
+<dl class="class">
+<dt id="ALSpeechRecognitionProxy">
+<em class="property">class </em><tt class="descname">ALSpeechRecognitionProxy</tt><a class="headerlink" href="#ALSpeechRecognitionProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::getAvailableLanguages" title="ALSpeechRecognitionProxy::getAvailableLanguages"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::getAvailableLanguages()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::getLanguage" title="ALSpeechRecognitionProxy::getLanguage"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::getLanguage()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::getParameter__ssCR" title="ALSpeechRecognitionProxy::getParameter"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::getParameter()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::getPhoneticTranscription__ssCR" title="ALSpeechRecognitionProxy::getPhoneticTranscription"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::getPhoneticTranscription()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::loadVocabulary__ssCR" title="ALSpeechRecognitionProxy::loadVocabulary"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::loadVocabulary()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::setAudioExpression__bCR" title="ALSpeechRecognitionProxy::setAudioExpression"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::setAudioExpression()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::setLanguage__ssCR" title="ALSpeechRecognitionProxy::setLanguage"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::setLanguage()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::setParameter__ssCR.floatCR" title="ALSpeechRecognitionProxy::setParameter"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::setParameter()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::setVisualExpression__bCR" title="ALSpeechRecognitionProxy::setVisualExpression"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::setVisualExpression()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::setVocabulary__std::vector:ss:CR.bCR" title="ALSpeechRecognitionProxy::setVocabulary"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::setVocabulary()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::setWordListAsVocabulary__std::vector:ss:CR" title="ALSpeechRecognitionProxy::setWordListAsVocabulary"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::setWordListAsVocabulary()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::subscribe__ssCR" title="ALSpeechRecognitionProxy::subscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::subscribe()</span></tt></a></li>
+<li><a class="reference internal" href="#ALSpeechRecognitionProxy::unsubscribe__ssCR" title="ALSpeechRecognitionProxy::unsubscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::unsubscribe()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="event-list">
+<h2>Event list<a class="headerlink" href="#event-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="#WordRecognized" title="WordRecognized"><tt class="xref naoqi naoqi-event docutils literal"><span class="pre">WordRecognized()</span></tt></a></li>
+<li><a class="reference internal" href="#LastWordRecognized" title="LastWordRecognized"><tt class="xref naoqi naoqi-event docutils literal"><span class="pre">LastWordRecognized()</span></tt></a></li>
+<li><a class="reference internal" href="#SpeechDetected" title="SpeechDetected"><tt class="xref naoqi naoqi-event docutils literal"><span class="pre">SpeechDetected()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::getAvailableLanguages">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">getAvailableLanguages</tt><big>(</big><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::getAvailableLanguages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of the languages currently installed on the robot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of installed languages.<p>Example:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[&#39;English&#39;, &#39;French&#39;]</span>
+</pre></div>
+</div>
+<p>For the complete list of language codes, see: <a class="reference internal" href="../../family/robots/languages.html#language-codes"><em>Available languages</em></a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::getLanguage">
+<a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">getLanguage</tt><big>(</big><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::getLanguage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the language currently used by the speech recognition system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Current language used by the speech recognition engine.<p>Example:</p>
+<div class="highlight-ini"><pre>'French'</pre>
+</div>
+<p>For the complete list of language codes, see: <a class="reference internal" href="../../family/robots/languages.html#language-codes"><em>Available languages</em></a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::getParameter__ssCR">
+<a class="reference internal" href="../stdtypes.html#float" title="float">float</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">getParameter</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>parameter</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::getParameter__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a parameter of the speech recognition engine.</p>
+<p>Note that when the ASR engine language is set to Chinese, no parameter can be retrieved.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>parameter</strong> &#8211; Name of the parameter</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Value of the parameter</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::getPhoneticTranscription__ssCR">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">getPhoneticTranscription</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>word</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::getPhoneticTranscription__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.12: </span>This method is not available on NAO V4 (ATOM).<p>This function allows you to get the phonetic transcription(s) used by the speech recognition engine
+when it is asked to recognize a word.
+Note that when the ASR engine language is set to Chinese or Japanese, no phonetic transcription can be retrieved.</p>
+</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>word</strong> &#8211; Word to phoneticize</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Phonetic transcription(s) of the word</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::loadVocabulary__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">loadVocabulary</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>vocabulary</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::loadVocabulary__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.12: </span>This method is not available on NAO V4 (ATOM).<p>Loads the vocabulary to recognize contained in a .lxd file (ACAPELA grammar file format).
+This method is not available with the ASR engine language set to Chinese or Japanese.</p>
+</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vocabulary</strong> &#8211; Name of the .lxd file containing the vocabulary</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On NAO V3 (GEODE), in Japanese and Chinese this method is inactive.</p>
+</div>
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::setAudioExpression__bCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">setAudioExpression</tt><big>(</big><a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>setOrNot</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::setAudioExpression__bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>When set to True, a &#8220;bip&#8221; is played at the beginning of the recognition process,
+and another &#8220;bip&#8221; is played at the end of the process. This is a useful
+indication to let the user know when it is appropriate to speak.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>setOrNot</strong> &#8211; Enable (true) or disable it (false)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::setLanguage__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">setLanguage</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>language</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::setLanguage__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the language currently used by the speech recognition system. Note that each NAOqi
+restart will however reset that setting to the default language that can be set
+on NAO’s web page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>language</strong> &#8211; <p>Code of one of the available languages.</p>
+<p>Example:</p>
+<div class="highlight-ini"><pre>'French'</pre>
+</div>
+<p>For the complete list of language codes, see: <a class="reference internal" href="../../family/robots/languages.html#language-codes"><em>Available languages</em></a>.</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::setParameter__ssCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">setParameter</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>parameter</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>value</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::setParameter__ssCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets parameters of the speech recognition engine. For now the only parameter that can be set is the sensitivity [0 - 1]
+of the voice activity detector used by the engine.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameter</strong> &#8211; Name of the parameter.</li>
+<li><strong>value</strong> &#8211; Value of the parameter.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On NAO V3 (GEODE), the &#8220;sensitivity&#8221; parameter is not available.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::setVisualExpression__bCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">setVisualExpression</tt><big>(</big><a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>setOrNot</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::setVisualExpression__bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables or disables the LEDs animations showing the state of the recognition engine during the recognition process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>setOrNot</strong> &#8211; Enable (true) or disable it (false).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::setVocabulary__std::vector:ss:CR.bCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">setVocabulary</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>vocabulary</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>enableWordSpotting</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::setVocabulary__std::vector:ss:CR.bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the list of words/phrases (vocabulary) that should be recognized by the speech recognition engine. If word spotting is disabled (default),
+the engine expects to hear one of the specified words, nothing more, nothing less. If enabled, the specified words can be pronounced in the middle of a whole speech stream,
+the engine will try to spot them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vocabulary</strong> &#8211; List of words that should be recognized</li>
+<li><strong>enableWordSpotting</strong> &#8211; Enable (true) or disable it (false)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>On NAO V3 (GEODE) the following differences apply:</p>
+<ul class="last simple">
+<li>the &#8220;word spotting&#8221; option is inactive</li>
+<li>In Japanese, only single words are recognized (and not phrases)</li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::setWordListAsVocabulary__std::vector:ss:CR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">setWordListAsVocabulary</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>vocabulary</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::setWordListAsVocabulary__std::vector:ss:CR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the list of words/phrases (vocabulary) that should be recognized by the speech recognition engine.
+To enable &#8220;word spotting&#8221;, please use <a class="reference internal" href="#ALSpeechRecognitionProxy::setVocabulary__std::vector:ss:CR.bCR" title="ALSpeechRecognitionProxy::setVocabulary"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::setVocabulary()</span></tt></a> instead.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vocabulary</strong> &#8211; List of words that should be recognized</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::subscribe__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">subscribe</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::subscribe__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribes to <em>ALSpeechRecognition</em>.
+This causes the module to start writing information to <em>ALMemory</em> in <em>&#8220;WordRecognized&#8221;</em>.
+This can be accessed in <em>ALMemory</em> using <a class="reference internal" href="../core/almemory-api.html#ALMemoryProxy::getData__ssCR" title="ALMemoryProxy::getData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getData()</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Name to identify the subscriber</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALSpeechRecognitionProxy::unsubscribe__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALSpeechRecognitionProxy::</tt><tt class="descname">unsubscribe</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALSpeechRecognitionProxy::unsubscribe__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsubscribes to <em>ALSpeechRecognition</em>.
+This causes the module to stop writing information to <em>ALMemory</em> in <em>&#8220;WordRecognized&#8221;</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Name to identify the subscriber (as used in <a class="reference internal" href="#ALSpeechRecognitionProxy::subscribe__ssCR" title="ALSpeechRecognitionProxy::subscribe"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::subscribe()</span></tt></a>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<dl class="event">
+<dt id="WordRecognized">
+<div class="line">Event: <tt class="descname">&quot;WordRecognized&quot;</tt></div>
+callback<big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> eventName</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a><em> value</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> subscriberIdentifier</em><big>)</big><a class="headerlink" href="#WordRecognized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when one of the specified words with <a class="reference internal" href="#ALSpeechRecognitionProxy::setWordListAsVocabulary__std::vector:ss:CR" title="ALSpeechRecognitionProxy::setWordListAsVocabulary"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::setWordListAsVocabulary()</span></tt></a> has been recognized.
+When no word is currently recognized, this value is reinitialized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> (<em>std::string</em>) &#8211; &#8220;WordRecognized&#8221;</li>
+<li><strong>value</strong> &#8211; Recognized words infos. Please refer to <a class="reference internal" href="alspeechrecognition.html#alspeechrecognition"><em>ALSpeechRecognition</em></a> for details.</li>
+<li><strong>subscriberIdentifier</strong> (<em>std::string</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="event">
+<dt id="LastWordRecognized">
+<div class="line">Event: <tt class="descname">&quot;LastWordRecognized&quot;</tt></div>
+callback<big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> eventName</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a><em> value</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> subscriberIdentifier</em><big>)</big><a class="headerlink" href="#LastWordRecognized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when one of the specified words with <a class="reference internal" href="#ALSpeechRecognitionProxy::setWordListAsVocabulary__std::vector:ss:CR" title="ALSpeechRecognitionProxy::setWordListAsVocabulary"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALSpeechRecognitionProxy::setWordListAsVocabulary()</span></tt></a> has been recognized.
+This value is kept unchanged until a new word has been recognized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> (<em>std::string</em>) &#8211; &#8220;LastWordRecognized&#8221;</li>
+<li><strong>value</strong> &#8211; Last recognized words infos. Please refer to <a class="reference internal" href="alspeechrecognition.html#alspeechrecognition"><em>ALSpeechRecognition</em></a> for details.</li>
+<li><strong>subscriberIdentifier</strong> (<em>std::string</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="event">
+<dt id="SpeechDetected">
+<div class="line">Event: <tt class="descname">&quot;SpeechDetected&quot;</tt></div>
+callback<big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> eventName</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a><em> value</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> subscriberIdentifier</em><big>)</big><a class="headerlink" href="#SpeechDetected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when the automatic speech recognition engine has detected a voice activity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> (<em>std::string</em>) &#8211; &#8220;SpeechDetected&#8221;</li>
+<li><strong>value</strong> &#8211; True if voice activity detected.</li>
+<li><strong>subscriberIdentifier</strong> (<em>std::string</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="alspeechrecognition.html" title="ALSpeechRecognition">ALSpeechRecognition</a>
+     |
+    <a href="alspeechrecognition.html" title="ALSpeechRecognition" accesskey="U">ALSpeechRecognition</a>
+   |
+    <a href="altexttospeech.html" title="ALTextToSpeech">ALTextToSpeech</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Audio</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="alaudiodevice.html">ALAudioDevice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alaudioplayer.html">ALAudioPlayer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alaudiorecorder.html">ALAudioRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alaudiosourcelocalization.html">ALAudioSourceLocalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alsounddetection.html">ALSoundDetection</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="alspeechrecognition.html">ALSpeechRecognition</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALSpeechRecognition API</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="altexttospeech.html">ALTextToSpeech</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALSpeechRecognition API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+<li><a class="reference internal" href="#event-list">Event list</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+<li><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="alspeechrecognition.html" title="ALSpeechRecognition">previous</a>
+     |
+    <a href="alspeechrecognition.html" title="ALSpeechRecognition" accesskey="U">up</a>
+   |
+    <a href="altexttospeech.html" title="ALTextToSpeech">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,349 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALMemory &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Core" href="index.html" />
+    <link rel="next" title="ALMemory API" href="almemory-api.html" />
+    <link rel="prev" title="NetworkInfo-IPInfo" href="../connectionmanager/ipinfo.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../connectionmanager/ipinfo.html" title="NetworkInfo-IPInfo">previous</a>
+     |
+    <a href="index.html" title="NAOqi Core" accesskey="U">up</a>
+   |
+    <a href="almemory-api.html" title="ALMemory API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-core-almemory">
+            
+  <div class="section" id="almemory">
+<span id="id1"></span><h1>ALMemory<a class="headerlink" href="#almemory" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-core"><em>NAOqi Core</em></a> - Overview | <a class="reference internal" href="almemory-api.html#almemory-api"><em>API</em></a></p>
+<hr class="docutils" />
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p><strong>ALMemory</strong> provides a centralized memory that can be used to store and retrieve
+named values. It also acts as a hub for the distribution of event notifications.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>ALMemory is a mutexed and unordered boost map. The map contains variant (ALValue).</p>
+<p>Mutex are read/write mutex and for performance, can protect:</p>
+<ul class="simple">
+<li>The map</li>
+<li>A value</li>
+<li>The value history (only for events)</li>
+</ul>
+<p>For example:</p>
+<ul class="simple">
+<li>Remove a data blocks all readers/writers.</li>
+<li>Insert an existing data only blocks the modified data.</li>
+<li>Read data blocks only writers of read data.</li>
+</ul>
+<p>The notifications are managed by a threadpool (in local) or by a unique notification
+thread (in remote).</p>
+</div>
+<div class="section" id="event-and-microevent">
+<span id="event-micro-event"></span><h2>Event and MicroEvent<a class="headerlink" href="#event-and-microevent" title="Permalink to this headline">¶</a></h2>
+<p>Event is a MicroEvent which store his history into ALMemory. They are basically the same, but MicroEvent is faster.</p>
+<p>You can access to event history using <a class="reference internal" href="almemory-api.html#ALMemoryProxy::getEventHistory__ssCR" title="ALMemoryProxy::getEventHistory"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getEventHistory()</span></tt></a>.</p>
+<p>Furthermore Module can autostart when someone subscribe to an Event. This feature is accessible using <a class="reference internal" href="almemory-api.html#ALMemoryProxy::declareEvent__ssCR" title="ALMemoryProxy::declareEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::declareEvent()</span></tt></a> with two parameters.</p>
+</div>
+<div class="section" id="performances-and-limitations">
+<h2>Performances and Limitations<a class="headerlink" href="#performances-and-limitations" title="Permalink to this headline">¶</a></h2>
+<p>ALMemory is thread safe for normal operations. Reader and writer can access
+variable at the same moment except when you use <a class="reference internal" href="almemory-api.html#ALMemoryProxy::getDataPtr__ssCR" title="ALMemoryProxy::getDataPtr"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getDataPtr()</span></tt></a>.</p>
+<p>AMD Geode performance:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="51%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">Performance</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>10 insertData</td>
+<td>0.01 ms</td>
+</tr>
+<tr class="row-odd"><td>10 raiseMicroEvent</td>
+<td>0.015ms</td>
+</tr>
+<tr class="row-even"><td>10 raiseEvent</td>
+<td>0.02 ms</td>
+</tr>
+<tr class="row-odd"><td>10 python insertData</td>
+<td>1.0  ms</td>
+</tr>
+</tbody>
+</table>
+<p>ALMemory can store and retrieve variant (ALValue):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="21%" />
+<col width="33%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">type</th>
+<th class="head">C++</th>
+<th class="head">Python</th>
+<th class="head">Java</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>integer</td>
+<td>int</td>
+<td>Python integer</td>
+<td>int</td>
+</tr>
+<tr class="row-odd"><td>boolean</td>
+<td>bool</td>
+<td>Python boolean</td>
+<td>Boolean</td>
+</tr>
+<tr class="row-even"><td>float</td>
+<td>float</td>
+<td>Python float</td>
+<td>Float</td>
+</tr>
+<tr class="row-odd"><td>List</td>
+<td>vector&lt;ALValue&gt;</td>
+<td>[]</td>
+<td>Java array []</td>
+</tr>
+<tr class="row-even"><td>String</td>
+<td>std::string</td>
+<td>Python string</td>
+<td>String</td>
+</tr>
+<tr class="row-odd"><td>Binary</td>
+<td>ALValue</td>
+<td>String</td>
+<td>byte[]</td>
+</tr>
+<tr class="row-even"><td>Variant</td>
+<td>ALValue</td>
+<td>Use python type</td>
+<td>jnaoqi Variant</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>To access to a value stored in ALMemory, use <a class="reference internal" href="almemory-api.html#ALMemoryProxy::getDataPtr__ssCR" title="ALMemoryProxy::getDataPtr"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getDataPtr()</span></tt></a>
+and <a class="reference internal" href="almemory-api.html#ALMemoryProxy::getData__ssCR" title="ALMemoryProxy::getData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getData()</span></tt></a>.</p>
+<ul>
+<li><p class="first"><a class="reference internal" href="almemory-api.html#ALMemoryProxy::getDataPtr__ssCR" title="ALMemoryProxy::getDataPtr"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getDataPtr()</span></tt></a> provides fast pointer access.</p>
+<p><strong>Warning</strong>: it&#8217;s not thread safe nor atomic.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="almemory-api.html#ALMemoryProxy::getData__ssCR" title="ALMemoryProxy::getData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getData()</span></tt></a> provides thread safe access.</p>
+<p>It can be used either when your module is local or remote.</p>
+</li>
+</ul>
+<p>To store values in the memory, use <a class="reference internal" href="almemory-api.html#ALMemoryProxy::insertData__ssCR.iCR" title="ALMemoryProxy::insertData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::insertData()</span></tt></a>.</p>
+<p>To subscribe to events, use the following functions:</p>
+<ul class="simple">
+<li><a class="reference internal" href="almemory-api.html#ALMemoryProxy::subscribeToMicroEvent__ssCR.ssCR.ssCR.ssCR" title="ALMemoryProxy::subscribeToMicroEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::subscribeToMicroEvent()</span></tt></a> subscribe to a microevent.</li>
+<li><a class="reference internal" href="almemory-api.html#ALMemoryProxy::subscribeToEvent__ssCR.ssCR.ssCR" title="ALMemoryProxy::subscribeToEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::subscribeToEvent()</span></tt></a> subscribe to an event.</li>
+</ul>
+<p>To generate events, use the following functions:</p>
+<ul class="simple">
+<li><a class="reference internal" href="almemory-api.html#ALMemoryProxy::raiseMicroEvent__ssCR.AL::ALValueCR" title="ALMemoryProxy::raiseMicroEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::raiseMicroEvent()</span></tt></a>:  inserts a value and notifies subscribers.</li>
+<li><a class="reference internal" href="almemory-api.html#ALMemoryProxy::raiseEvent__ssCR.AL::ALValueCR" title="ALMemoryProxy::raiseEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::raiseEvent()</span></tt></a>:  inserts a value, notifies subscribers,
+stores value history and timestamp (internal).</li>
+<li><a class="reference internal" href="almemory-api.html#ALMemoryProxy::declareEvent__ssCR" title="ALMemoryProxy::declareEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::declareEvent()</span></tt></a>:  links a module to a variable.
+If a module subscribes to variable, the module starts his process once.
+For example, subscribe to <tt class="docutils literal"><span class="pre">FaceDetected</span></tt> automatically starts the module
+<strong>ALFaceDetection</strong>. If all subscribers unsubscribe, the module stops.</li>
+</ul>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>Look at the following examples for details:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../../dev/cpp/examples/core/events/events.html#cpp-tutos-create-events"><em>Creating and reacting to events in C++</em></a></li>
+<li><a class="reference internal" href="../../dev/python/reacting_to_events.html#python-reacting-to-events"><em>Reacting to events in Python</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../connectionmanager/ipinfo.html" title="NetworkInfo-IPInfo">NetworkInfo-IPInfo</a>
+     |
+    <a href="index.html" title="NAOqi Core" accesskey="U">NAOqi Core</a>
+   |
+    <a href="almemory-api.html" title="ALMemory API">ALMemory API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Core</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albehaviormanager.html">ALBehaviorManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../connectionmanager/index.html">ALConnectionManager</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">ALMemory</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="almemory-api.html">ALMemory API</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="almodule.html">ALModule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alpreferences.html">ALPreferences</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alresourcemanager.html">ALResourceManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allauncher.html">ALLauncher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="albonjour.html">ALBonjour</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allogger.html">ALLogger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="extractors.html">Extractors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALMemory</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li><a class="reference internal" href="#event-and-microevent">Event and MicroEvent</a></li>
+<li><a class="reference internal" href="#performances-and-limitations">Performances and Limitations</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../connectionmanager/ipinfo.html" title="NetworkInfo-IPInfo">previous</a>
+     |
+    <a href="index.html" title="NAOqi Core" accesskey="U">up</a>
+   |
+    <a href="almemory-api.html" title="ALMemory API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

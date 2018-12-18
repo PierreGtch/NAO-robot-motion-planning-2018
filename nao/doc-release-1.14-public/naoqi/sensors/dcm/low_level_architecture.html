@@ -1,0 +1,2594 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Low level architecture &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="DCM" href="../dcm.html" />
+    <link rel="next" title="Architecture of the pref file Device.xml / of key/values in ALMemory" href="pref_file_architecture.html" />
+    <link rel="prev" title="Upper level architecture" href="upper_level_architecture.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="upper_level_architecture.html" title="Upper level architecture">previous</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="pref_file_architecture.html" title="Architecture of the pref file Device.xml / of key/values in ALMemory">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-sensors-dcm-low_level_architecture">
+            
+  <div class="section" id="low-level-architecture">
+<h1>Low level architecture<a class="headerlink" href="#low-level-architecture" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../dcm.html#dcm"><em>Overview</em></a> | <a class="reference internal" href="../dcm-api.html#dcm-api"><em>API</em></a>  | <a class="reference internal" href="../dcm-tuto.html#dcm-tuto"><em>Tutorial</em></a></p>
+</div>
+<hr class="docutils" />
+<div class="section" id="presentation">
+<h2>Presentation<a class="headerlink" href="#presentation" title="Permalink to this headline">¶</a></h2>
+<p>In order to understand the use of the DCM, we need an overview of
+all the devices in the robot.</p>
+<p>Electronics architecture:</p>
+<img alt="../../../_images/dcm_electronic_arch.png" src="../../../_images/dcm_electronic_arch.png" />
+</div>
+<div class="section" id="device-and-subdevice-definitions">
+<h2>Device and subDevice definitions<a class="headerlink" href="#device-and-subdevice-definitions" title="Permalink to this headline">¶</a></h2>
+<p><strong>Devices</strong> and <strong>subDevices</strong> are abstract definitions of objects used by
+the <strong>DCM</strong>.</p>
+<ul>
+<li><p class="first"><strong>Devices</strong> are <strong>subDevice</strong> controllers. The <strong>DCM</strong> communicates with
+them.</p>
+<p>They are mainly electronic boards in the robot, with their
+micro-controller.
+Each device is defined by a bus type and an
+address on this bus. It also has an unique name and a
+type.</p>
+</li>
+<li><p class="first">A <strong>subDevice</strong> is mainly an <strong>actuator</strong> or a <strong>sensor</strong> controlled by a
+device.</p>
+<p>A <strong>subDevice</strong> is defined by its device, a subDevice
+type, and a subDevice number. This number is used because there is
+often more than one subDevice of the same type controlled by the one
+same device (for example a board with 3 LEDs). It starts at 1 (not 0)
+and increments.
+Each subDevice has a unique name
+(different from the Device one). This name is used for the
+communication with the upper level.</p>
+</li>
+</ul>
+<p>Both <strong>devices</strong> and <strong>subDevices</strong> have a series of keys with a unique
+value (usually a float, but it could be int, boolean or string) for each
+of the keys. <strong>Keys</strong> are for example &#8220;Value&#8221; (the main value), &#8220;Min&#8221;,
+&#8220;Max&#8221;, &#8220;Gain&#8221;, &#8220;Offset&#8221;, &#8220;Error&#8221;... There are some mandatory keys for
+devices and subDevices, but there could be many others, depending on the
+subDevice or the Device type.</p>
+<p>If you add a prefix with the subDevice or Device name and the
+specific key name, you&#8217;ll have the string name of the subDevice key
+directly stored in <strong>ALMemory</strong> or the string name that you can send to the
+<strong>DCM</strong> for actuator change.</p>
+<div class="section" id="led-example">
+<h3>LED example:<a class="headerlink" href="#led-example" title="Permalink to this headline">¶</a></h3>
+<p>&#8220;Face/Led/Red/Right/0Deg/Actuator&#8221;: This is the name of one of
+the LED actuator, the red LED near the right eyes at 0 angle.</p>
+<p>This LED has a main value key named &#8220;Value&#8221;, this is a float
+from 0.0 (no light) to 1.0 (full light).</p>
+<p>If you add the prefix, that is for subDevice
+:&#8221;Device/SubDeviceList/&#8221;, you have the complete key name:
+&#8220;Device/SubDeviceList/Face/Led/Red/Right/0Deg/Actuator/Value&#8221;</p>
+<p>In ALMemory this is the key name that you can use to get the
+current LED value.</p>
+<p>You can also use this name to send a timed-command value to the
+DCM for this actuator (for this precise use, the prefix is not
+mandatory).</p>
+</div>
+<div class="section" id="joint-sensor-example">
+<h3>Joint sensor example:<a class="headerlink" href="#joint-sensor-example" title="Permalink to this headline">¶</a></h3>
+<p>&#8220;LShoulderPitch/Position/Sensor&#8221;: This is the name of one of
+the joint angle sensor (Left shoulder pitch).</p>
+<p>This joint has a main value key named &#8220;Value&#8221;, this is a float
+that is the angle in radian.</p>
+<p>If you add the prefix, that is for subDevice:&#8221;Device/SubDeviceList/&#8221;,
+you have the complete key name:
+&#8220;Device/SubDeviceList/LShoulderPitch/Position/Sensor/Value&#8221;</p>
+<p>In ALMemory this is the key name that you can use to get the
+current joint position value.</p>
+<p>The joint sensor has also other key like &#8220;SensorType&#8221; (
+&#8220;Device/SubDeviceList/LShoulderPitch/Position/Sensor/SensorType&#8221;).
+This is a configuration key that describes the kind of sensor for this
+joint, used then by motorboard. It&#8217;s not a good idea to change
+it!</p>
+<p>You&#8217;ll see in next chapters the Device and subDevices names and
+all their possible keys.</p>
+<p>The upper level usually communicates through the DCM with
+subdevices names (sensors / actuators) and seldom with devices names.
+But you can get useful information from devices (specific errors, ACK /
+NACK...).</p>
+<img alt="../../../_images/dcm_virtual_comm.png" src="../../../_images/dcm_virtual_comm.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This scheme is a virtual point of view. Hardware buses are not
+shown.</p>
+</div>
+</div>
+</div>
+<div class="section" id="list-of-communication-buses">
+<h2>List of communication buses<a class="headerlink" href="#list-of-communication-buses" title="Permalink to this headline">¶</a></h2>
+<p>Here is the list of possible communication buses for devices:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Devices</th>
+<th class="head">Bus</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>MotherBoard</td>
+<td>A virtual bus for devices in the motherboard.</td>
+</tr>
+<tr class="row-odd"><td>MotherBoardI2C</td>
+<td>I2C bus into the head</td>
+</tr>
+<tr class="row-even"><td>Chest</td>
+<td>A virtual bus for devices in the chest.</td>
+</tr>
+<tr class="row-odd"><td>ChestI2C</td>
+<td>I2C bus into the robot body.</td>
+</tr>
+<tr class="row-even"><td>RS485Down</td>
+<td>RS485 bus for all boards in legs.</td>
+</tr>
+<tr class="row-odd"><td>RS485Up</td>
+<td>RS485 bus for all boards in arms/neck.</td>
+</tr>
+<tr class="row-even"><td>LeftHandI2C</td>
+<td>Not implemented</td>
+</tr>
+<tr class="row-odd"><td>RightHandI2C</td>
+<td>Not implemented</td>
+</tr>
+</tbody>
+</table>
+<p>This is only useful if you want to understand the preference (configuration) file.</p>
+</div>
+<div class="section" id="type-of-device">
+<h2>Type of device<a class="headerlink" href="#type-of-device" title="Permalink to this headline">¶</a></h2>
+<p>Here is the list of possible devices:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Device</th>
+<th class="head">Is ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>MotherBoard</td>
+<td>The main CPU board in the head with the Geode processor.</td>
+</tr>
+<tr class="row-odd"><td>ChestBoard</td>
+<td>The chest board with the ARM processor.</td>
+</tr>
+<tr class="row-even"><td>MotorBoard</td>
+<td>All motor board in the robot that control joints,
+except for foot and hand. They are specific.</td>
+</tr>
+<tr class="row-odd"><td>MotorBoardHand</td>
+<td>Motor board for the hands. Right now strictly equivalent to MotorBoard.</td>
+</tr>
+<tr class="row-even"><td>MotorBoardFoot</td>
+<td>Motor board for the foots. Since the first released version of NAO,
+these boards do not manage motors anymore.</td>
+</tr>
+<tr class="row-odd"><td>TouchBoard</td>
+<td>The board with capacitive sensors at the top of the head.</td>
+</tr>
+<tr class="row-even"><td>FaceBoard</td>
+<td>The board around the eyes of the robot, with LEDs and IR.</td>
+</tr>
+<tr class="row-odd"><td>USBoard</td>
+<td>The board with the ultrasonic sensors.</td>
+</tr>
+<tr class="row-even"><td>InertialSensor</td>
+<td>The board with the accelerometer / gyrometer sensors.</td>
+</tr>
+<tr class="row-odd"><td>EarLeds</td>
+<td>The board that controls LEDs in both ears.</td>
+</tr>
+<tr class="row-even"><td>Battery</td>
+<td>The board inside the battery.</td>
+</tr>
+</tbody>
+</table>
+<p>This is only useful if you want to understand the preference (configuration) file.</p>
+</div>
+<div class="section" id="type-of-subdevice">
+<h2>Type of subdevice<a class="headerlink" href="#type-of-subdevice" title="Permalink to this headline">¶</a></h2>
+<p>Here is the list of possible subDevices:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="18%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">SubDevice</th>
+<th class="head">Is ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="6">Actuators</td>
+<td>Joint</td>
+<td>the actuator that allows you to control the angle of one
+robot joint.</td>
+</tr>
+<tr class="row-odd"><td>JointHardness</td>
+<td>an actuator that controls the percentage
+of the total power sent to the motor to control the joint. It&#8217;s 0% at the
+beginning and 100% at normal use (the value is from 0.0 to 1.0). Use this
+to have smooth increase/decrease of joint control.
+Hardness is defined as stiffness in motion.</td>
+</tr>
+<tr class="row-even"><td>Led</td>
+<td>a basic LED (one color) where you can control the value from 0 to
+100% (0.0 to 1.0).</td>
+</tr>
+<tr class="row-odd"><td>Power</td>
+<td>not implemented</td>
+</tr>
+<tr class="row-even"><td>Charge</td>
+<td>not implemented</td>
+</tr>
+<tr class="row-odd"><td>UsSend</td>
+<td>an actuator that allows you to send an ultrasonic wave, waiting for
+the sensor result.</td>
+</tr>
+<tr class="row-even"><td rowspan="13">Sensors</td>
+<td>JointPosition</td>
+<td>the sensor value for the angle position of one robot joint.</td>
+</tr>
+<tr class="row-odd"><td>Current</td>
+<td>the electric current for one motor of a specific joint.</td>
+</tr>
+<tr class="row-even"><td>FSR</td>
+<td>the weight on the FSR sensor (or on all the foot)</td>
+</tr>
+<tr class="row-odd"><td>CenterOfPressure</td>
+<td>the position of the force applied on one foot.</td>
+</tr>
+<tr class="row-even"><td>Touch</td>
+<td>state of capacitive proximity switch (press = 1.0 or release = 0.0)</td>
+</tr>
+<tr class="row-odd"><td>ChestState</td>
+<td>not implemented</td>
+</tr>
+<tr class="row-even"><td>USReceived</td>
+<td>the ultrasonic distance sensor result. Received after a wave is
+sent with the UsSend actuator.</td>
+</tr>
+<tr class="row-odd"><td>Accelerometer</td>
+<td>the result of one accelerometer axis (acceleration).</td>
+</tr>
+<tr class="row-even"><td>Gyrometer</td>
+<td>the result of one gyrometer axis (rotation speed).</td>
+</tr>
+<tr class="row-odd"><td>Angle</td>
+<td>an angle of the robot, returned by the inertial board.</td>
+</tr>
+<tr class="row-even"><td>Temperature</td>
+<td>temperature result for each motor (simulation) or the battery (sensor).</td>
+</tr>
+<tr class="row-odd"><td>Switch</td>
+<td>switch state (press = 0.0 or release = 1.0) for chest button or foot
+bumpers.</td>
+</tr>
+<tr class="row-even"><td>Battery</td>
+<td>the battery state sensor (mainly charge).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="list-of-devices">
+<h2>List of devices<a class="headerlink" href="#list-of-devices" title="Permalink to this headline">¶</a></h2>
+<p>This is all device name/type/busNumber on the robot. They are
+mainly electronic boards.</p>
+<img alt="../../../_images/dcm_devices.png" src="../../../_images/dcm_devices.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The HeadBoard and the Battery can have the same address as they
+are not on the same bus.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">New Sanyo battery has I2C address 52.</p>
+</div>
+</div>
+<div class="section" id="joint-names">
+<h2>Joint names<a class="headerlink" href="#joint-names" title="Permalink to this headline">¶</a></h2>
+<p>Here is the list of all joint names.</p>
+<p>These names are used for all joints subDevices. A motorBoard
+controls one or two joints.</p>
+<img alt="../../../_images/hardware_jointname.jpg" src="../../../_images/hardware_jointname.jpg" style="width: 600px; height: 349px;" />
+</div>
+<div class="section" id="list-of-subdevices">
+<h2>List of subDevices<a class="headerlink" href="#list-of-subdevices" title="Permalink to this headline">¶</a></h2>
+<p>Here is the list of all the subDevices of the robot.</p>
+<p>The number is the subDevice Number. This is not useful, unless you
+want to understand the preference (configuration) file.</p>
+<p>In ALMemory, the name of these subDevices are prefixed by
+&#8220;Device/SubDeviceList/&#8221;.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is only the subDevice list. For all keys and meaning of
+values, see <a class="reference internal" href="pref_file_architecture.html#almemory-keys"><em>Description of the mandatory and specific ALMemory keys for each subDevice type</em></a>.</p>
+</div>
+<img alt="../../../_images/dcm_nao_arbre.png" src="../../../_images/dcm_nao_arbre.png" style="width: 346px; height: 542px;" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="4">For more details, see ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="#subdevice01"><em>1. touchBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice07"><em>7. ChestBoard, and Battery</em></a></td>
+<td><a class="reference internal" href="#subdevice13"><em>13. LeftHandBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice18"><em>18. LeftThighBoard</em></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#subdevice02"><em>2. EarLeds - Right</em></a></td>
+<td><a class="reference internal" href="#subdevice08"><em>8. USBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice14"><em>14. RightHandBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice19"><em>19. RightThighBoard</em></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#subdevice03"><em>3. EarLeds - Left</em></a></td>
+<td><a class="reference internal" href="#subdevice09"><em>9. LeftShoulderBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice15"><em>15. HipBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice20"><em>20. LeftShinBoard</em></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#subdevice04"><em>4. FaceBoard - Right</em></a></td>
+<td><a class="reference internal" href="#subdevice10"><em>10. RightShoulderBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice16"><em>16. LeftHipBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice21"><em>21. RightShinBoard</em></a></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#subdevice05"><em>5. FaceBoard - Left</em></a></td>
+<td><a class="reference internal" href="#subdevice11"><em>11. LeftArmBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice17"><em>17. RightHipBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice22"><em>22. LeftFootBoard</em></a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#subdevice06"><em>6. HeadBoard</em></a></td>
+<td><a class="reference internal" href="#subdevice12"><em>12. RightArmBoard</em></a></td>
+<td>&nbsp;</td>
+<td><a class="reference internal" href="#subdevice23"><em>23. RightFootBoard</em></a></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="touchboard">
+<span id="subdevice01"></span><h3>1. touchBoard<a class="headerlink" href="#touchboard" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the touchBoard device (only on Academics Edition).</p>
+<p>There are 3 tactile sensors on the head, each return 0 or 1 if a
+finger is coming near. It may react differently if the battery is
+connected to its charger. There are also 12 blue LEDs.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="69%" />
+<col width="14%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Head/Touch/Front/Sensor</td>
+<td>Touch</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>Head/Touch/Rear/Sensor</td>
+<td>Touch</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>Head/Touch/Middle/Sensor</td>
+<td>Touch</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>Head/Led/Rear/Left/0/Actuator</td>
+<td>Led</td>
+<td>4</td>
+</tr>
+<tr class="row-even"><td>Head/Led/Rear/Left/1/Actuator</td>
+<td>Led</td>
+<td>5</td>
+</tr>
+<tr class="row-odd"><td>Head/Led/Rear/Left/2/Actuator</td>
+<td>Led</td>
+<td>6</td>
+</tr>
+<tr class="row-even"><td>Head/Led/Rear/Right/2/Actuator</td>
+<td>Led</td>
+<td>7</td>
+</tr>
+<tr class="row-odd"><td>Head/Led/Rear/Right/1/Actuator</td>
+<td>Led</td>
+<td>8</td>
+</tr>
+<tr class="row-even"><td>Head/Led/Rear/Right/0/Actuator</td>
+<td>Led</td>
+<td>9</td>
+</tr>
+<tr class="row-odd"><td>Head/Led/Middle/Right/0/Actuator</td>
+<td>Led</td>
+<td>10</td>
+</tr>
+<tr class="row-even"><td>Head/Led/Front/Right/0/Actuator</td>
+<td>Led</td>
+<td>11</td>
+</tr>
+<tr class="row-odd"><td>Head/Led/Front/Right/1/Actuator</td>
+<td>Led</td>
+<td>12</td>
+</tr>
+<tr class="row-even"><td>Head/Led/Front/Left/1/Actuator</td>
+<td>Led</td>
+<td>13</td>
+</tr>
+<tr class="row-odd"><td>Head/Led/Front/Left/0/Actuator</td>
+<td>Led</td>
+<td>14</td>
+</tr>
+<tr class="row-even"><td>Head/Led/Middle/Left/0/Actuator</td>
+<td>Led</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="earleds-right">
+<span id="subdevice02"></span><h3>2. EarLeds - Right<a class="headerlink" href="#earleds-right" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the device EarLeds.</p>
+<p>There are 10 blue LEDs on each ear of the robot. Their name has
+left/right info and an angle 0° is toward up. &lt;180° are toward the
+front of the robot (angles are approximate)</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="70%" />
+<col width="13%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Ears/Led/Right/0Deg/Actuator</td>
+<td>Led</td>
+<td>15</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Right/36Deg/Actuator</td>
+<td>Led</td>
+<td>14</td>
+</tr>
+<tr class="row-even"><td>Ears/Led/Right/72Deg/Actuator</td>
+<td>Led</td>
+<td>13</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Right/108Deg/Actuator</td>
+<td>Led</td>
+<td>12</td>
+</tr>
+<tr class="row-even"><td>Ears/Led/Right/144Deg/Actuator</td>
+<td>Led</td>
+<td>11</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Right/180Deg/Actuator</td>
+<td>Led</td>
+<td>20</td>
+</tr>
+<tr class="row-even"><td>Ears/Led/Right/216Deg/Actuator</td>
+<td>Led</td>
+<td>19</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Right/252Deg/Actuator</td>
+<td>Led</td>
+<td>18</td>
+</tr>
+<tr class="row-even"><td>Ears/Led/Right/288Deg/Actuator</td>
+<td>Led</td>
+<td>17</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Right/324Deg/Actuator</td>
+<td>Led</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="earleds-left">
+<span id="subdevice03"></span><h3>3. EarLeds - Left<a class="headerlink" href="#earleds-left" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the device EarLeds.</p>
+<p>There are 10 blue LEDs on each ear of the robot. Their name has
+left/right info and an angle 0° is toward up. &lt;180° are toward the
+front of the robot (angles are approximate)</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="69%" />
+<col width="13%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Ears/Led/Left/0Deg/Actuator</td>
+<td>Led</td>
+<td>5</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Left/36Deg/Actuator</td>
+<td>Led</td>
+<td>6</td>
+</tr>
+<tr class="row-even"><td>Ears/Led/Left/72Deg/Actuator</td>
+<td>Led</td>
+<td>7</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Left/108Deg/Actuator</td>
+<td>Led</td>
+<td>8</td>
+</tr>
+<tr class="row-even"><td>Ears/Led/Left/144Deg/Actuator</td>
+<td>Led</td>
+<td>9</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Left/180Deg/Actuator</td>
+<td>Led</td>
+<td>10</td>
+</tr>
+<tr class="row-even"><td>Ears/Led/Left/216Deg/Actuator</td>
+<td>Led</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Left/252Deg/Actuator</td>
+<td>Led</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>Ears/Led/Left/288Deg/Actuator</td>
+<td>Led</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>Ears/Led/Left/324Deg/Actuator</td>
+<td>Led</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="faceboard-right">
+<span id="subdevice04"></span><h3>4. FaceBoard - Right<a class="headerlink" href="#faceboard-right" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the device FaceBoard.</p>
+<p>There are 8 red, 8 green, and 8 blue LEDs on each eyes.</p>
+<p>Their name has left/right info and an angle. 0 is toward up.
+&lt;180° are toward the right side of the robot</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="72%" />
+<col width="12%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Face/Led/Red/Right/0Deg/Actuator</td>
+<td>Led</td>
+<td>15</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Red/Right/45Deg/Actuator</td>
+<td>Led</td>
+<td>16</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Red/Right/90Deg/Actuator</td>
+<td>Led</td>
+<td>9</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Red/Right/135Deg/Actuator</td>
+<td>Led</td>
+<td>10</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Red/Right/180Deg/Actuator</td>
+<td>Led</td>
+<td>11</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Red/Right/225Deg/Actuator</td>
+<td>Led</td>
+<td>12</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Red/Right/270Deg/Actuator</td>
+<td>Led</td>
+<td>13</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Red/Right/315Deg/Actuator</td>
+<td>Led</td>
+<td>14</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="73%" />
+<col width="12%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Face/Led/Green/Right/0Deg/Actuator</td>
+<td>Led</td>
+<td>31</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Green/Right/45Deg/Actuator</td>
+<td>Led</td>
+<td>32</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Green/Right/90Deg/Actuator</td>
+<td>Led</td>
+<td>25</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Green/Right/135Deg/Actuator</td>
+<td>Led</td>
+<td>26</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Green/Right/180Deg/Actuator</td>
+<td>Led</td>
+<td>27</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Green/Right/225Deg/Actuator</td>
+<td>Led</td>
+<td>28</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Green/Right/270Deg/Actuator</td>
+<td>Led</td>
+<td>29</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Green/Right/315Deg/Actuator</td>
+<td>Led</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="73%" />
+<col width="12%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Face/Led/Blue/Right/0Deg/Actuator</td>
+<td>Led</td>
+<td>47</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Blue/Right/45Deg/Actuator</td>
+<td>Led</td>
+<td>48</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Blue/Right/90Deg/Actuator</td>
+<td>Led</td>
+<td>41</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Blue/Right/135Deg/Actuator</td>
+<td>Led</td>
+<td>42</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Blue/Right/180Deg/Actuator</td>
+<td>Led</td>
+<td>43</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Blue/Right/225Deg/Actuator</td>
+<td>Led</td>
+<td>44</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Blue/Right/270Deg/Actuator</td>
+<td>Led</td>
+<td>45</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Blue/Right/315Deg/Actuator</td>
+<td>Led</td>
+<td>46</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="faceboard-left">
+<span id="subdevice05"></span><h3>5. FaceBoard - Left<a class="headerlink" href="#faceboard-left" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the device FaceBoard.</p>
+<p>There are 8 red, 8 green, and 8 blue LEDs on each eye.</p>
+<p>Their name has left/right info and an angle. 0 is toward up.
+&lt;180° are toward the right side of the robot.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="71%" />
+<col width="12%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Face/Led/Red/Left/0Deg/Actuator</td>
+<td>Led</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Red/Left/45Deg/Actuator</td>
+<td>Led</td>
+<td>4</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Red/Left/90Deg/Actuator</td>
+<td>Led</td>
+<td>5</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Red/Left/135Deg/Actuator</td>
+<td>Led</td>
+<td>6</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Red/Left/180Deg/Actuator</td>
+<td>Led</td>
+<td>7</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Red/Left/225Deg/Actuator</td>
+<td>Led</td>
+<td>8</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Red/Left/270Deg/Actuator</td>
+<td>Led</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Red/Left/315Deg/Actuator</td>
+<td>Led</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="73%" />
+<col width="12%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Face/Led/Green/Left/0Deg/Actuator</td>
+<td>Led</td>
+<td>19</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Green/Left/45Deg/Actuator</td>
+<td>Led</td>
+<td>20</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Green/Left/90Deg/Actuator</td>
+<td>Led</td>
+<td>21</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Green/Left/135Deg/Actuator</td>
+<td>Led</td>
+<td>22</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Green/Left/180Deg/Actuator</td>
+<td>Led</td>
+<td>23</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Green/Left/225Deg/Actuator</td>
+<td>Led</td>
+<td>24</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Green/Left/270Deg/Actuator</td>
+<td>Led</td>
+<td>17</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Green/Left/315Deg/Actuator</td>
+<td>Led</td>
+<td>18</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="72%" />
+<col width="12%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Face/Led/Blue/Left/0Deg/Actuator</td>
+<td>Led</td>
+<td>35</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Blue/Left/45Deg/Actuator</td>
+<td>Led</td>
+<td>36</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Blue/Left/90Deg/Actuator</td>
+<td>Led</td>
+<td>37</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Blue/Left/135Deg/Actuator</td>
+<td>Led</td>
+<td>38</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Blue/Left/180Deg/Actuator</td>
+<td>Led</td>
+<td>39</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Blue/Left/225Deg/Actuator</td>
+<td>Led</td>
+<td>40</td>
+</tr>
+<tr class="row-even"><td>Face/Led/Blue/Left/270Deg/Actuator</td>
+<td>Led</td>
+<td>33</td>
+</tr>
+<tr class="row-odd"><td>Face/Led/Blue/Left/315Deg/Actuator</td>
+<td>Led</td>
+<td>34</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="headboard">
+<span id="subdevice06"></span><h3>6. HeadBoard<a class="headerlink" href="#headboard" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the device HeadBoard.</p>
+<p>There are here two joints, with all their
+actuators/sensors:</p>
+<p>Joint HeadPitch:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>HeadPitch/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>HeadPitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>HeadPitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>HeadPitch/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>HeadPitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Joint HeadYaw:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="58%" />
+<col width="27%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>HeadYaw/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>HeadYaw/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>HeadYaw/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>HeadYaw/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>HeadYaw/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="chestboard-and-battery">
+<span id="subdevice07"></span><h3>7. ChestBoard, and Battery<a class="headerlink" href="#chestboard-and-battery" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the device ChestBoard, and the Battery.</p>
+<p>The ChestBoard has many subDevices: 3 LEDs, battery,
+button.</p>
+<p>There are here two joints, with all their
+actuators/sensors.</p>
+<p>LEDs:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="69%" />
+<col width="13%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ChestBoard/Led/Red/Actuator</td>
+<td>Led</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>ChestBoard/Led/Green/Actuator</td>
+<td>Led</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>ChestBoard/Led/Blue/Actuator</td>
+<td>Led</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Power/status:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="70%" />
+<col width="13%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ChestBoard/Power/Actuator</td>
+<td>Led</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>ChestBoard/ChestState/Actuator</td>
+<td>Led</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is not implemented yet.</p>
+</div>
+<p>Button:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="62%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ChestBoard/Button/Sensor</td>
+<td>Switch</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>The Battery Device has 3 subDevices:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="25%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Battery/Charge/Sensor</td>
+<td>Battery</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>Battery/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>Battery/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Temperature subdevice is not implemented yet, except in the new Sanyo battery.</p>
+</div>
+</div>
+<div class="section" id="usboard">
+<span id="subdevice08"></span><h3>8. USBoard<a class="headerlink" href="#usboard" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the USBoard device.</p>
+<p>There is an actuator to send an ultrasonic wave, and a sensor
+for the result.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="32%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>US/Actuator</td>
+<td>UsSend</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>US/Sensor</td>
+<td>USReceived</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>US/Left/Sensor</td>
+<td>USReceived</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>US/Right/Sensor</td>
+<td>USReceived</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>SubDevices linked to the InertialSensor device:</p>
+<p>The inertial sensor board has a 3 axes accelerometer and a 2
+axis Gyrometer. It also returns a computed angle, computed with an
+internal algorithm.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="28%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>InertialSensor/AccX/Sensor</td>
+<td>Accelerometer</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>InertialSensor/AccY/Sensor</td>
+<td>Accelerometer</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>InertialSensor/AccZ/Sensor</td>
+<td>Accelerometer</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>InertialSensor/GyrX/Sensor</td>
+<td>Gyrometer</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>InertialSensor/GyrY/Sensor</td>
+<td>Gyrometer</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>InertialSensor/GyrRef/Sensor</td>
+<td>Gyrometer</td>
+<td>3</td>
+</tr>
+<tr class="row-even"><td>InertialSensor/AngleX/Sensor</td>
+<td>Angle</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>InertialSensor/AngleY/Sensor</td>
+<td>Angle</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These 2 last subDevices are now implemented.</p>
+</div>
+</div>
+<div class="section" id="leftshoulderboard">
+<span id="subdevice09"></span><h3>9. LeftShoulderBoard<a class="headerlink" href="#leftshoulderboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the LeftShoulderBoard devices.</p>
+<p>There are here two joints, with all their
+actuators/sensors.</p>
+<p>LShoulderPitch joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="24%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LShoulderPitch/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LShoulderPitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LShoulderPitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LShoulderPitch/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LShoulderPitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>LShoulderRoll joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="62%" />
+<col width="25%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LShoulderRoll/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LShoulderRoll/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LShoulderRoll/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LShoulderRoll/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LShoulderRoll/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rightshoulderboard">
+<span id="subdevice10"></span><h3>10. RightShoulderBoard<a class="headerlink" href="#rightshoulderboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the RightShoulderBoard device.</p>
+<p>There are here two joints, with all their
+actuators/sensors.</p>
+<p>RShoulderPitch joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="24%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RShoulderPitch/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RShoulderPitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RShoulderPitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RShoulderPitch/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RShoulderPitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>RShoulderRoll joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="62%" />
+<col width="25%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RShoulderRoll/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RShoulderRoll/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RShoulderRoll/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RShoulderRoll/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RShoulderRoll/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="leftarmboard">
+<span id="subdevice11"></span><h3>11. LeftArmBoard<a class="headerlink" href="#leftarmboard" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the LeftArmBoard device.</p>
+<p>There are here two joints, with all their
+actuators/sensors.</p>
+<p>LElbowRoll joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LElbowRoll/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LElbowRoll/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LElbowRoll/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LElbowRoll/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LElbowRoll/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>LElbowYaw joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LElbowYaw/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LElbowYaw/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LElbowYaw/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LElbowYaw/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LElbowYaw/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rightarmboard">
+<span id="subdevice12"></span><h3>12. RightArmBoard<a class="headerlink" href="#rightarmboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the RightArmBoard device.</p>
+<p>There are here two joints, with all their
+actuators/sensors.</p>
+<p>RElbowRoll joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RElbowRoll/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RElbowRoll/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RElbowRoll/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RElbowRoll/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RElbowRoll/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>RElbowYaw joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RElbowYaw/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RElbowYaw/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RElbowYaw/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RElbowYaw/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RElbowYaw/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="lefthandboard">
+<span id="subdevice13"></span><h3>13. LeftHandBoard<a class="headerlink" href="#lefthandboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the LeftHandBoard devices.</p>
+<p>There are here two joints, with all their
+actuators/sensors.</p>
+<p>LWristYaw joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LWristYaw/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LWristYaw/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LWristYaw/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LWristYaw/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LWristYaw/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>LHand joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="28%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LHand/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LHand/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LHand/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LHand/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LHand/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>Capacitive sensors:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="59%" />
+<col width="24%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LHand/Touch/Back/Sensor</td>
+<td>TouchHand</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>LHand/Touch/Left/Sensor/</td>
+<td>TouchHand</td>
+<td>4</td>
+</tr>
+<tr class="row-even"><td>LHand/Touch/Right/Sensor/</td>
+<td>TouchHand</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="righthandboard">
+<span id="subdevice14"></span><h3>14. RightHandBoard<a class="headerlink" href="#righthandboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the RightHandBoard device.</p>
+<p>There are here two joints, with all their
+actuators/sensors.</p>
+<p>RWristYaw joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RWristYaw/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RWristYaw/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RWristYaw/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RWristYaw/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RWristYaw/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>RHand joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="28%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RHand/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RHand/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RHand/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RHand/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RHand/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>Capacitive sensors:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="59%" />
+<col width="24%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RHand/Touch/Back/Sensor</td>
+<td>TouchHand</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>RHand/Touch/Left/Sensor/</td>
+<td>TouchHand</td>
+<td>4</td>
+</tr>
+<tr class="row-even"><td>RHand/Touch/Right/Sensor/</td>
+<td>TouchHand</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="hipboard">
+<span id="subdevice15"></span><h3>15. HipBoard<a class="headerlink" href="#hipboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the <strong>LeftHipBoard</strong> device.</p>
+<p>There is here one joint, and its actuators/sensors.</p>
+<p>LHipYawPitch and RHipYawPitch share the same motor so they move simultaneously
+and symmetrically.</p>
+<p>LHipYawPitch joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="62%" />
+<col width="25%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LHipYawPitch/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LHipYawPitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LHipYawPitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LHipYawPitch/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LHipYawPitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="lefthipboard">
+<span id="subdevice16"></span><h3>16. LeftHipBoard<a class="headerlink" href="#lefthipboard" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the LeftHipBoard device.</p>
+<p>There is here one joint, and its actuators/sensors.</p>
+<p>LHipRoll joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="59%" />
+<col width="27%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LHipRoll/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LHipRoll/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LHipRoll/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LHipRoll/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LHipRoll/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="righthipboard">
+<span id="subdevice17"></span><h3>17. RightHipBoard<a class="headerlink" href="#righthipboard" title="Permalink to this headline">¶</a></h3>
+<p>subDevices linked to the RightHipBoard device.</p>
+<p>There is here one joint, and its actuators/sensors.</p>
+<p>RHipRoll joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="59%" />
+<col width="27%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RHipRoll/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RHipRoll/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RHipRoll/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RHipRoll/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RHipRoll/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="leftthighboard">
+<span id="subdevice18"></span><h3>18. LeftThighBoard<a class="headerlink" href="#leftthighboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the LeftThighBoard device.</p>
+<p>There are here two joints, with all their
+actuators/sensors.</p>
+<p>LHipPitch joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LHipPitch/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LHipPitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LHipPitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LHipPitch/ElectricCurrent/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LHipPitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>LKneePitch joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LKneePitch/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LKneePitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LKneePitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LKneePitch/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LKneePitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rightthighboard">
+<span id="subdevice19"></span><h3>19. RightThighBoard<a class="headerlink" href="#rightthighboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the RightThighBoard device.</p>
+<p>There are here two joints, with all their
+actuators/sensors.</p>
+<p>RHipPitch joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RHipPitch/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RHipPitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RHipPitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RHipPitch/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RHipPitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>RKneePitch joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RKneePitch/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RKneePitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RKneePitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RKneePitch/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RKneePitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="leftshinboard">
+<span id="subdevice20"></span><h3>20. LeftShinBoard<a class="headerlink" href="#leftshinboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the LeftShinBoard device.</p>
+<p>There are here two joints, and its actuators/sensors.</p>
+<p>LAnklePitch Joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="61%" />
+<col width="25%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LAnklePitch/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LAnklePitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LAnklePitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LAnklePitch/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>LAnklePitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>LAnkleRoll joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LAnkleRoll/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LAnkleRoll/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LAnkleRoll/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>LAnkleRoll/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LAnkleRoll/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rightshinboard">
+<span id="subdevice21"></span><h3>21. RightShinBoard<a class="headerlink" href="#rightshinboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the RightShinBoard device.</p>
+<p>There is here one joint, and its actuators/sensors.</p>
+<p>RAnklePitch joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="61%" />
+<col width="25%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RAnklePitch/Position/Actuator</td>
+<td>Joint</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RAnklePitch/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RAnklePitch/Position/Sensor</td>
+<td>jointPosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RAnklePitch/ElectricCurrent/Sensor</td>
+<td>Current</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>RAnklePitch/Temperature/Sensor</td>
+<td>Temperature</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>RAnkleRoll joint:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="26%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RAnkleRoll/Position/Actuator</td>
+<td>Joint</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RAnkleRoll/Hardness/Actuator</td>
+<td>JointHardness</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RAnkleRoll/Position/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>RAnkleRoll/ElectricCurrent/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RAnkleRoll/Temperature/Sensor</td>
+<td>jointPosition</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="leftfootboard">
+<span id="subdevice22"></span><h3>22. LeftFootBoard<a class="headerlink" href="#leftfootboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the LeftFootBoard device.</p>
+<p>There are 3 LEDs, 2 bumpers, 4 FSR sensors, 1 Total Weight (sum
+of all FSR), and 2 center of pressure.</p>
+<p>LEDs:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="65%" />
+<col width="15%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LFoot/Led/Red/Actuator</td>
+<td>Led</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LFoot/Led/Green/Actuator</td>
+<td>Led</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LFoot/Led/Blue/Actuator</td>
+<td>Led</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Bumpers:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LFoot/Bumper/Left/Sensor</td>
+<td>Switch</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LFoot/Bumper/Right/Sensor</td>
+<td>Switch</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>FSRs:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="67%" />
+<col width="14%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LFoot/FSR/FrontLeft/Sensor</td>
+<td>FSR</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LFoot/FSR/FrontRight/Sensor</td>
+<td>FSR</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>LFoot/FSR/RearLeft/Sensor</td>
+<td>FSR</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>LFoot/FSR/RearRight/Sensor</td>
+<td>FSR</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>Total Weight of FSR:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="68%" />
+<col width="14%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LFoot/FSR/TotalWeight/Sensor</td>
+<td>FSR</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>Center of Pressure:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="54%" />
+<col width="34%" />
+<col width="12%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LFoot/FSR/CenterOfPressure/X/Sensor</td>
+<td>CenterOfForcePosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>LFoot/FSR/CenterOfPressure/Y/Sensor</td>
+<td>CenterOfForcePosition</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rightfootboard">
+<span id="subdevice23"></span><h3>23. RightFootBoard<a class="headerlink" href="#rightfootboard" title="Permalink to this headline">¶</a></h3>
+<p>SubDevices linked to the RightFootBoard device.</p>
+<p>There are 3 LEDs, 2 bumpers, 4 FSR sensors, 1 Total Weight (sum
+of all FSR), and 2 center of pressure.</p>
+<p>LEDs:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="65%" />
+<col width="15%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RFoot/Led/Red/Actuator</td>
+<td>Led</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RFoot/Led/Green/Actuator</td>
+<td>Led</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RFoot/Led/Blue/Actuator</td>
+<td>Led</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Bumpers:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RFoot/Bumper/Left/Sensor</td>
+<td>Switch</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RFoot/Bumper/Right/Sensor</td>
+<td>Switch</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>FSRs:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="67%" />
+<col width="14%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RFoot/FSR/FrontLeft/Sensor</td>
+<td>FSR</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RFoot/FSR/FrontRight/Sensor</td>
+<td>FSR</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>RFoot/FSR/RearLeft/Sensor</td>
+<td>FSR</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>RFoot/FSR/RearRight/Sensor</td>
+<td>FSR</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>Total Weight of FSR:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="68%" />
+<col width="14%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RFoot/FSR/TotalWeight/Sensor</td>
+<td>FSR</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>Center of Pressure:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="54%" />
+<col width="34%" />
+<col width="12%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RFoot/FSR/CenterOfPressure/X/Sensor</td>
+<td>CenterOfForcePosition</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>RFoot/FSR/CenterOfPressure/Y/Sensor</td>
+<td>CenterOfForcePosition</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="upper_level_architecture.html" title="Upper level architecture">Upper level architecture</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">DCM</a>
+   |
+    <a href="pref_file_architecture.html" title="Architecture of the pref file Device.xml / of key/values in ALMemory">Architecture of the pref file Device.xml / of key/values in ALMemory</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../dcm.html">DCM</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../dcm-api.html">DCM API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../dcm-tuto.html">DCM Tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../dcm-tuto.html#dcm-bound-methods">DCM bound methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="upper_level_architecture.html">Upper level architecture</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Low level architecture</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pref_file_architecture.html">Architecture of the pref file Device.xml / of key/values in ALMemory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pref_subpref_files.html">Pref files and sub pref files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm_architecture.html">DCM architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm_synchro_methods.html">DCM Synchronization methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Low level architecture</a><ul>
+<li><a class="reference internal" href="#presentation">Presentation</a></li>
+<li><a class="reference internal" href="#device-and-subdevice-definitions">Device and subDevice definitions</a><ul>
+<li><a class="reference internal" href="#led-example">LED example:</a></li>
+<li><a class="reference internal" href="#joint-sensor-example">Joint sensor example:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#list-of-communication-buses">List of communication buses</a></li>
+<li><a class="reference internal" href="#type-of-device">Type of device</a></li>
+<li><a class="reference internal" href="#type-of-subdevice">Type of subdevice</a></li>
+<li><a class="reference internal" href="#list-of-devices">List of devices</a></li>
+<li><a class="reference internal" href="#joint-names">Joint names</a></li>
+<li><a class="reference internal" href="#list-of-subdevices">List of subDevices</a><ul>
+<li><a class="reference internal" href="#touchboard">1. touchBoard</a></li>
+<li><a class="reference internal" href="#earleds-right">2. EarLeds - Right</a></li>
+<li><a class="reference internal" href="#earleds-left">3. EarLeds - Left</a></li>
+<li><a class="reference internal" href="#faceboard-right">4. FaceBoard - Right</a></li>
+<li><a class="reference internal" href="#faceboard-left">5. FaceBoard - Left</a></li>
+<li><a class="reference internal" href="#headboard">6. HeadBoard</a></li>
+<li><a class="reference internal" href="#chestboard-and-battery">7. ChestBoard, and Battery</a></li>
+<li><a class="reference internal" href="#usboard">8. USBoard</a></li>
+<li><a class="reference internal" href="#leftshoulderboard">9. LeftShoulderBoard</a></li>
+<li><a class="reference internal" href="#rightshoulderboard">10. RightShoulderBoard</a></li>
+<li><a class="reference internal" href="#leftarmboard">11. LeftArmBoard</a></li>
+<li><a class="reference internal" href="#rightarmboard">12. RightArmBoard</a></li>
+<li><a class="reference internal" href="#lefthandboard">13. LeftHandBoard</a></li>
+<li><a class="reference internal" href="#righthandboard">14. RightHandBoard</a></li>
+<li><a class="reference internal" href="#hipboard">15. HipBoard</a></li>
+<li><a class="reference internal" href="#lefthipboard">16. LeftHipBoard</a></li>
+<li><a class="reference internal" href="#righthipboard">17. RightHipBoard</a></li>
+<li><a class="reference internal" href="#leftthighboard">18. LeftThighBoard</a></li>
+<li><a class="reference internal" href="#rightthighboard">19. RightThighBoard</a></li>
+<li><a class="reference internal" href="#leftshinboard">20. LeftShinBoard</a></li>
+<li><a class="reference internal" href="#rightshinboard">21. RightShinBoard</a></li>
+<li><a class="reference internal" href="#leftfootboard">22. LeftFootBoard</a></li>
+<li><a class="reference internal" href="#rightfootboard">23. RightFootBoard</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="upper_level_architecture.html" title="Upper level architecture">previous</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="pref_file_architecture.html" title="Architecture of the pref file Device.xml / of key/values in ALMemory">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

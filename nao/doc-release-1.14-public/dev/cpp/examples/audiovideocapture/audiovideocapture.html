@@ -1,0 +1,689 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capturing audio and video &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="C++ Examples" href="../../examples.html" />
+    <link rel="next" title="Using OpenCV" href="../vision/opencv.html" />
+    <link rel="prev" title="Fast getting and setting joint angles" href="../sensors/fastgetsetdcm/fastgetsetexample.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../sensors/fastgetsetdcm/fastgetsetexample.html" title="Fast getting and setting joint angles">previous</a>
+     |
+    <a href="../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../vision/opencv.html" title="Using OpenCV">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-cpp-examples-audiovideocapture-audiovideocapture">
+            
+  <div class="section" id="capturing-audio-and-video">
+<span id="cpp-examples-audiovideocapture"></span><h1>Capturing audio and video<a class="headerlink" href="#capturing-audio-and-video" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../../../example-index.html#example-index"><em>&lt;&lt; return to examples index</em></a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><strong>AVCaptureRemote</strong> module shows how to capture simultaneously audio and video.</p>
+<p>This a <strong>remote module</strong>.</p>
+</div>
+<div class="section" id="downloads">
+<h2>Downloads<a class="headerlink" href="#downloads" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="whole-module">
+<h3>Whole module<a class="headerlink" href="#whole-module" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../_downloads/audiovideocapture.zip"><tt class="xref download docutils literal"><span class="pre">audiovideocapture.zip</span></tt></a></p>
+</div>
+<div class="section" id="header-avcaptureremote-h">
+<h3>Header: avcaptureremote.h<a class="headerlink" href="#header-avcaptureremote-h" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../_downloads/avcaptureremote.h"><tt class="xref download docutils literal"><span class="pre">avcaptureremote.h</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * @author Victor Paleologue</span>
+<span class="cm"> */</span>
+
+<span class="cp">#ifndef AVCAPTURE_AVCAPTUREREMOTE_H</span>
+<span class="cp">#define AVCAPTURE_AVCAPTUREREMOTE_H</span>
+
+<span class="cp">#include &lt;string&gt;</span>
+<span class="cp">#include &lt;alcommon/almodule.h&gt;</span>
+<span class="cp">#include &lt;alaudio/alsoundextractor.h&gt;</span>
+<span class="cp">#include &lt;alproxies/alvideodeviceproxy.h&gt;</span>
+<span class="cp">#include &lt;pthread.h&gt;</span>
+
+<span class="k">namespace</span> <span class="n">AL</span>
+<span class="p">{</span>
+  <span class="k">class</span> <span class="nc">ALBroker</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Remote module for synchronized audio and video capture.</span>
+<span class="cm"> */</span>
+<span class="k">class</span> <span class="nc">AVCaptureRemote</span> <span class="o">:</span> <span class="k">public</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALSoundExtractor</span>
+<span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="cm">/**</span>
+<span class="cm">     * Default Constructor for modules.</span>
+<span class="cm">     * @param broker the broker to which the module should register.</span>
+<span class="cm">     * @param name the boadcasted name of the module.</span>
+<span class="cm">     */</span>
+    <span class="n">AVCaptureRemote</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALBroker</span><span class="o">&gt;</span> <span class="n">broker</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">);</span>
+
+    <span class="c1">/// Destructor.</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">AVCaptureRemote</span><span class="p">();</span>
+
+    <span class="kt">void</span> <span class="n">init</span><span class="p">();</span>
+
+    <span class="c1">/// Are we currently capturing ?</span>
+    <span class="c1">/// @return whether we started capturing</span>
+    <span class="kt">bool</span> <span class="n">isCapturing</span><span class="p">();</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Start capture.</span>
+<span class="cm">     * @param audio Set to true to start audio.</span>
+<span class="cm">     * @param video  The method will return this parameter</span>
+<span class="cm">     */</span>
+    <span class="kt">void</span> <span class="n">startCapture</span><span class="p">(</span><span class="k">const</span> <span class="kt">bool</span><span class="o">&amp;</span> <span class="n">audio</span><span class="p">,</span> <span class="k">const</span> <span class="kt">bool</span><span class="o">&amp;</span> <span class="n">video</span><span class="p">);</span>
+
+    <span class="c1">/// Stop capture.</span>
+    <span class="kt">void</span> <span class="n">stopCapture</span><span class="p">();</span>
+
+    <span class="c1">// Audio processing =======================================================</span>
+<span class="k">protected</span><span class="o">:</span>
+    <span class="c1">/// Are we currently capturing audio ?</span>
+    <span class="kt">bool</span> <span class="n">fCapturingAudio</span><span class="p">;</span>
+
+    <span class="c1">/// Start audio capture.</span>
+    <span class="kt">void</span> <span class="n">xStartAudio</span><span class="p">();</span>
+
+    <span class="c1">/// Stop audio capture.</span>
+    <span class="kt">void</span> <span class="n">xStopAudio</span><span class="p">();</span>
+
+    <span class="c1">/// The maximum number of samples provided by ALAudioDevice.</span>
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">kMaxNofSamples</span><span class="p">;</span>
+
+    <span class="c1">/// Our output buffer, allocated once.</span>
+    <span class="n">AL_SOUND_FORMAT</span><span class="o">*</span> <span class="n">fAudioBuffer</span><span class="p">;</span>
+
+<span class="k">public</span><span class="o">:</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Remote callback from ALAudioDevice providing sound buffers.</span>
+<span class="cm">     * @param pNbOfInputChannels number of audio channels provided here.</span>
+<span class="cm">     * @param pNbrSamples length of the audio buffer in samples.</span>
+<span class="cm">     * @param pDataInterleaved raw interleaved audio buffer.</span>
+<span class="cm">	 * @param pTimeStamp The time stamp of the audio buffer</span>
+<span class="cm">     */</span>
+    <span class="kt">void</span> <span class="n">process</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">pNbOfInputChannels</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">pNbrSamples</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">AL_SOUND_FORMAT</span> <span class="o">*</span><span class="n">pDataInterleaved</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="o">&amp;</span><span class="n">pTimeStamp</span><span class="p">);</span>
+
+<span class="k">private</span><span class="o">:</span>
+    <span class="c1">// Video processing =======================================================</span>
+    <span class="c1">/// Are we currently capturing video ?</span>
+    <span class="kt">bool</span> <span class="n">fCapturingVideo</span><span class="p">;</span>
+
+    <span class="c1">/// Start video capture.</span>
+    <span class="kt">void</span> <span class="n">xStartVideo</span><span class="p">();</span>
+
+    <span class="c1">/// Stop video capture.</span>
+    <span class="kt">void</span> <span class="n">xStopVideo</span><span class="p">();</span>
+
+    <span class="c1">/// Proxy to video device.</span>
+    <span class="n">AL</span><span class="o">::</span><span class="n">ALVideoDeviceProxy</span> <span class="n">fALVideoDevice</span><span class="p">;</span>
+
+    <span class="c1">/// Video subscriber id.</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">fVideoSubscriberId</span><span class="p">;</span>
+
+    <span class="c1">/// Video framerate.</span>
+    <span class="kt">int</span> <span class="n">fFramerate</span><span class="p">;</span>
+
+    <span class="c1">/// Video thread object.</span>
+    <span class="n">pthread_t</span> <span class="n">fVideoThread</span><span class="p">;</span>
+
+    <span class="c1">/// Video acquisition loop.</span>
+    <span class="c1">/// @param pArg user data, here the module instance.</span>
+    <span class="c1">/// @return Thread return value</span>
+    <span class="k">static</span> <span class="kt">void</span><span class="o">*</span> <span class="n">xVideoThread</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">pArg</span><span class="p">);</span>
+	
+	  <span class="c1">/// Get the time in Us</span>
+	  <span class="c1">/// @return time in Us</span>
+	  <span class="k">static</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">xGetTime</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="cp">#endif  </span><span class="c1">// AVCAPTURE_AVCAPTUREREMOTE_H</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="source-avcaptureremote-cpp">
+<h3>Source: avcaptureremote.cpp<a class="headerlink" href="#source-avcaptureremote-cpp" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../_downloads/avcaptureremote.cpp"><tt class="xref download docutils literal"><span class="pre">avcaptureremote.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * @author Aldebaran Robotics</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &quot;avcaptureremote.h&quot;</span>
+
+<span class="cp">#include &lt;qi/os.hpp&gt;</span>
+<span class="cp">#include &lt;alvalue/alvalue.h&gt;</span>
+<span class="cp">#include &lt;alcommon/alproxy.h&gt;</span>
+<span class="cp">#include &lt;alcommon/albroker.h&gt;</span>
+<span class="cp">#include &lt;alvision/alvisiondefinitions.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">kMaxNofSamples</span> <span class="o">=</span> <span class="mi">16384</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Constructor for AVCaptureRemote object</span>
+<span class="cm"> * @param broker The parent broker</span>
+<span class="cm"> * @param name The name of the module</span>
+<span class="cm"> */</span>
+<span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">AVCaptureRemote</span><span class="p">(</span>
+  <span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALBroker</span><span class="o">&gt;</span> <span class="n">broker</span><span class="p">,</span>
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">)</span>
+<span class="o">:</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALSoundExtractor</span><span class="p">(</span><span class="n">broker</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">,</span> <span class="n">fCapturingAudio</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="p">,</span> <span class="n">fAudioBuffer</span><span class="p">(</span><span class="k">new</span> <span class="n">AL_SOUND_FORMAT</span><span class="p">[</span><span class="n">kMaxNofSamples</span><span class="p">])</span>
+<span class="p">,</span> <span class="n">fCapturingVideo</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="p">,</span> <span class="n">fALVideoDevice</span><span class="p">(</span><span class="n">broker</span><span class="p">)</span>
+<span class="p">,</span> <span class="n">fVideoSubscriberId</span><span class="p">()</span>
+<span class="p">,</span> <span class="n">fFramerate</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="p">,</span> <span class="n">fVideoThread</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">setModuleDescription</span><span class="p">(</span><span class="s">&quot;Captures audio and video.&quot;</span><span class="p">);</span>
+
+  <span class="n">functionName</span><span class="p">(</span><span class="s">&quot;isCapturing&quot;</span><span class="p">,</span> <span class="s">&quot;AVCaptureRemote&quot;</span><span class="p">,</span> <span class="s">&quot;Says if the capture was started.&quot;</span><span class="p">);</span>
+  <span class="n">setReturn</span><span class="p">(</span><span class="s">&quot;capturing&quot;</span><span class="p">,</span> <span class="s">&quot;Whether capture was started.&quot;</span><span class="p">);</span>
+  <span class="n">BIND_METHOD</span><span class="p">(</span><span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">isCapturing</span><span class="p">);</span>
+
+  <span class="n">functionName</span><span class="p">(</span><span class="s">&quot;startCapture&quot;</span><span class="p">,</span> <span class="s">&quot;AVCaptureRemote&quot;</span><span class="p">,</span> <span class="s">&quot;Starts audiovisual capture.&quot;</span><span class="p">);</span>
+  <span class="n">addParam</span><span class="p">(</span><span class="s">&quot;audio&quot;</span><span class="p">,</span> <span class="s">&quot;Whether to enable audio capture.&quot;</span><span class="p">);</span>
+  <span class="n">addParam</span><span class="p">(</span><span class="s">&quot;video&quot;</span><span class="p">,</span> <span class="s">&quot;Whether to enable video capture.&quot;</span><span class="p">);</span>
+  <span class="n">BIND_METHOD</span><span class="p">(</span><span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">startCapture</span><span class="p">);</span>
+
+  <span class="n">functionName</span><span class="p">(</span><span class="s">&quot;stopCapture&quot;</span><span class="p">,</span> <span class="s">&quot;AVCaptureRemote&quot;</span><span class="p">,</span> <span class="s">&quot;Stops audiovisual capture.&quot;</span><span class="p">);</span>
+  <span class="n">BIND_METHOD</span><span class="p">(</span><span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">stopCapture</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">AVCaptureRemote</span><span class="o">::~</span><span class="n">AVCaptureRemote</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">stopCapture</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">fAudioBuffer</span><span class="o">!=</span><span class="nb">NULL</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">delete</span> <span class="p">[]</span> <span class="n">fAudioBuffer</span><span class="p">;</span>
+    <span class="n">fAudioBuffer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">init</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">startCapture</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">isCapturing</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="n">fCapturingAudio</span> <span class="o">||</span> <span class="n">fCapturingVideo</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">startCapture</span><span class="p">(</span><span class="k">const</span> <span class="kt">bool</span><span class="o">&amp;</span> <span class="n">audio</span><span class="p">,</span>
+                                   <span class="k">const</span> <span class="kt">bool</span><span class="o">&amp;</span> <span class="n">video</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">isCapturing</span><span class="p">())</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Capture already started.&quot;</span><span class="p">);</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">audio</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">video</span><span class="p">)</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">invalid_argument</span><span class="p">(</span><span class="s">&quot;Cannot start capture: no audio nor video !&quot;</span><span class="p">);</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">audio</span><span class="p">)</span>
+    <span class="n">xStartAudio</span><span class="p">();</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
+    <span class="n">xStartVideo</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">stopCapture</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">fCapturingAudio</span><span class="p">)</span>
+    <span class="n">xStopAudio</span><span class="p">();</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">fCapturingVideo</span><span class="p">)</span>
+    <span class="n">xStopVideo</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// Audio ======================================================================</span>
+<span class="kt">void</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">xStartAudio</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="n">audioDevice</span><span class="o">-&gt;</span><span class="n">callVoid</span><span class="p">(</span><span class="s">&quot;setClientPreferences&quot;</span><span class="p">,</span>
+                          <span class="n">getName</span><span class="p">(),</span>                <span class="c1">//Name of this module</span>
+                          <span class="mi">48000</span><span class="p">,</span>                    <span class="c1">//48000 Hz requested</span>
+                          <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">AL</span><span class="o">::</span><span class="n">ALLCHANNELS</span><span class="p">,</span>     <span class="c1">//4 Channels requested</span>
+                          <span class="mi">0</span>                         <span class="c1">//Deinterleaving not requested</span>
+                          <span class="p">);</span>
+
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">startDetection</span><span class="p">();</span>
+    <span class="n">fCapturingAudio</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">catch</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">exception</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Cannot subscribe audio: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">fCapturingAudio</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">xStopAudio</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">stopDetection</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">catch</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">exception</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Cannot unsubscribe audio.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">fCapturingAudio</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">process</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">pNbOfInputChannels</span><span class="p">,</span>
+                              <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">pNbrSamples</span><span class="p">,</span>
+                              <span class="k">const</span> <span class="n">AL_SOUND_FORMAT</span> <span class="o">*</span><span class="n">pDataInterleaved</span><span class="p">,</span>
+                              <span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="o">&amp;</span><span class="n">pTimeStamp</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// Add your code for sound processing here</span>
+  <span class="c1">// Input is a 4-channels raw 16-bit-integer buffer at 48kHz.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">xGetTime</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;:audio&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span><span class="p">;</span>
+  <span class="c1">// Example: deinterleaving operation.</span>
+  <span class="c1">// 1: left microphone</span>
+  <span class="c1">// 2: right microphone</span>
+  <span class="c1">// 3: front microphone</span>
+  <span class="c1">// 4: rear microphone</span>
+  <span class="kt">unsigned</span> <span class="n">keptChannel</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="n">nofSkippedChannels</span> <span class="o">=</span> <span class="n">pNbOfInputChannels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="k">const</span> <span class="n">AL_SOUND_FORMAT</span> <span class="o">*</span><span class="n">iterAudioDataSource</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">AL_SOUND_FORMAT</span> <span class="o">*</span><span class="n">iterAudioDataSourceEnd</span><span class="p">;</span>
+  <span class="n">AL_SOUND_FORMAT</span> <span class="o">*</span><span class="n">iterAudioDataSelectedChannel</span><span class="p">;</span>
+
+  <span class="n">iterAudioDataSource</span> <span class="o">=</span> <span class="n">pDataInterleaved</span> <span class="o">+</span> <span class="n">keptChannel</span><span class="p">;</span>
+  <span class="n">iterAudioDataSourceEnd</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">pDataInterleaved</span><span class="p">[</span><span class="n">pNbrSamples</span><span class="o">*</span><span class="n">pNbOfInputChannels</span><span class="p">]);</span>
+  <span class="n">iterAudioDataSelectedChannel</span> <span class="o">=</span> <span class="n">fAudioBuffer</span><span class="p">;</span>
+
+  <span class="k">while</span><span class="p">(</span><span class="n">iterAudioDataSource</span> <span class="o">&lt;</span> <span class="n">iterAudioDataSourceEnd</span> <span class="o">-</span> <span class="p">(</span><span class="n">pNbOfInputChannels</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+  <span class="p">{</span>
+    <span class="p">(</span><span class="o">*</span><span class="n">iterAudioDataSelectedChannel</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">iterAudioDataSource</span><span class="p">);</span>
+    <span class="n">iterAudioDataSelectedChannel</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">iterAudioDataSource</span> <span class="o">+=</span> <span class="n">nofSkippedChannels</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Now do what you want with fAudioBuffer</span>
+<span class="p">}</span>
+
+<span class="c1">// Video ======================================================================</span>
+<span class="kt">void</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">xStartVideo</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="n">fVideoSubscriberId</span> <span class="o">=</span> <span class="n">fALVideoDevice</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span>
+        <span class="n">getName</span><span class="p">(),</span> <span class="n">AL</span><span class="o">::</span><span class="n">kQQVGA</span><span class="p">,</span> <span class="n">AL</span><span class="o">::</span><span class="n">kRGBColorSpace</span><span class="p">,</span> <span class="n">fFramerate</span><span class="p">);</span>
+    <span class="n">fCapturingVideo</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fVideoThread</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xVideoThread</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">catch</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">exception</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Cannot subscribe to video: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">fCapturingVideo</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">xStopVideo</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">void</span><span class="o">*</span> <span class="n">lReturn</span><span class="p">;</span>
+  <span class="n">fCapturingVideo</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="n">pthread_join</span><span class="p">(</span><span class="n">fVideoThread</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">lReturn</span><span class="p">);</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="n">fALVideoDevice</span><span class="p">.</span><span class="n">unsubscribe</span><span class="p">(</span><span class="n">fVideoSubscriberId</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">catch</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">exception</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Cannot unsubscribe from video: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="o">*</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">xVideoThread</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">pArg</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">AVCaptureRemote</span><span class="o">*</span> <span class="n">lThis</span> <span class="o">=</span> <span class="p">(</span><span class="n">AVCaptureRemote</span><span class="o">*</span><span class="p">)</span><span class="n">pArg</span><span class="p">;</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="n">lImage</span><span class="p">;</span>
+  <span class="n">lImage</span><span class="p">.</span><span class="n">arraySetSize</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span>
+
+  <span class="c1">// Time measurement</span>
+  <span class="kt">long</span> <span class="kt">long</span> <span class="n">lLastBufferTime</span> <span class="o">=</span> <span class="n">xGetTime</span><span class="p">();</span>
+
+  <span class="c1">// Buffer duration depends on framerate</span>
+  <span class="kt">long</span> <span class="kt">long</span> <span class="n">lDuration</span> <span class="o">=</span> <span class="mi">1000000000</span> <span class="o">/</span> <span class="n">lThis</span><span class="o">-&gt;</span><span class="n">fFramerate</span><span class="p">;</span> <span class="c1">// in nanoseconds</span>
+
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">lThis</span><span class="o">-&gt;</span><span class="n">fCapturingVideo</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">if</span><span class="p">((</span><span class="n">xGetTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">lLastBufferTime</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">lDuration</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">msleep</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="c1">// Get an image and its metadata from video device</span>
+      <span class="n">lImage</span> <span class="o">=</span> <span class="n">lThis</span><span class="o">-&gt;</span><span class="n">fALVideoDevice</span><span class="p">.</span><span class="n">getImageRemote</span><span class="p">(</span><span class="n">lThis</span><span class="o">-&gt;</span><span class="n">fVideoSubscriberId</span><span class="p">);</span>
+
+      <span class="c1">// Do what you want with your video here</span>
+      <span class="c1">// Input requested was RGB</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">xGetTime</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;:video&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+      <span class="c1">//    // You can get some information about the image.</span>
+      <span class="c1">//    int width = (int) image[0];</span>
+      <span class="c1">//    int height = (int) image[1];</span>
+      <span class="c1">//    int nbLayers = (int) image[2];</span>
+      <span class="c1">//    int colorSpace = (int) image[3];</span>
+      <span class="c1">//    long long timeStamp = ((long long)image[4])*1000000LL + (long long)image[5];</span>
+      <span class="c1">//    // image[4] is the number of seconds, image[5] the number of microseconds</span>
+
+      <span class="c1">//    // You can get the pointer to the image data and its size</span>
+      <span class="c1">//    const char* dataPointer =  static_cast&lt;const char*&gt;(image[6].GetBinary());</span>
+      <span class="c1">//    int size = image[6].getSize();</span>
+
+      <span class="c1">// Releasing the image for video device</span>
+      <span class="n">lThis</span><span class="o">-&gt;</span><span class="n">fALVideoDevice</span><span class="p">.</span><span class="n">releaseImage</span><span class="p">(</span><span class="n">lThis</span><span class="o">-&gt;</span><span class="n">fVideoSubscriberId</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">catch</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">exception</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Video loop stopped, reason: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">lThis</span><span class="o">-&gt;</span><span class="n">fCapturingVideo</span><span class="p">)</span>
+      <span class="n">lThis</span><span class="o">-&gt;</span><span class="n">xStopVideo</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">long</span> <span class="kt">long</span> <span class="n">AVCaptureRemote</span><span class="o">::</span><span class="n">xGetTime</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">timeval</span> <span class="n">lTimeStruct</span><span class="p">;</span>
+  <span class="n">qi</span><span class="o">::</span><span class="n">os</span><span class="o">::</span><span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lTimeStruct</span><span class="p">);</span>
+  <span class="kt">long</span> <span class="kt">long</span> <span class="n">lTime</span> <span class="o">=</span> <span class="p">(</span><span class="kt">long</span> <span class="kt">long</span><span class="p">)</span><span class="n">lTimeStruct</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">*</span> <span class="mi">1000000</span><span class="p">;</span> <span class="c1">// Seconds</span>
+  <span class="n">lTime</span> <span class="o">+=</span> <span class="p">(</span><span class="kt">long</span> <span class="kt">long</span><span class="p">)</span><span class="n">lTimeStruct</span><span class="p">.</span><span class="n">tv_usec</span><span class="p">;</span>                   <span class="c1">// Microseconds</span>
+  <span class="k">return</span> <span class="n">lTime</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="main-main-cpp">
+<h3>Main: main.cpp<a class="headerlink" href="#main-main-cpp" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../_downloads/main4.cpp"><tt class="xref download docutils literal"><span class="pre">avcapturemain.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * \section Author</span>
+<span class="cm"> * @author Victor Paleologue</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include &lt;signal.h&gt;</span>
+<span class="cp">#include &lt;alcommon/albroker.h&gt;</span>
+<span class="cp">#include &lt;alcommon/almodule.h&gt;</span>
+<span class="cp">#include &lt;alcommon/albrokermanager.h&gt;</span>
+<span class="cp">#include &lt;alcommon/altoolsmain.h&gt;</span>
+<span class="cp">#include &quot;avcaptureremote.h&quot;</span>
+
+<span class="cp">#ifdef AVCAPTURE_IS_REMOTE</span>
+<span class="cp"># define ALCALL</span>
+<span class="cp">#else</span>
+<span class="cp"># ifdef _WIN32</span>
+<span class="cp">#  define ALCALL __declspec(dllexport)</span>
+<span class="cp"># else</span>
+<span class="cp">#  define ALCALL</span>
+<span class="cp"># endif</span>
+<span class="cp">#endif</span>
+
+<span class="n">ALCALL</span> <span class="kt">int</span> <span class="n">_createModule</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">AL</span><span class="o">::</span><span class="n">ALBroker</span><span class="o">&gt;</span> <span class="n">pBroker</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// init broker with the main broker instance</span>
+  <span class="c1">// from the parent executable</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALBrokerManager</span><span class="o">::</span><span class="n">setInstance</span><span class="p">(</span><span class="n">pBroker</span><span class="o">-&gt;</span><span class="n">fBrokerManager</span><span class="p">.</span><span class="n">lock</span><span class="p">());</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALBrokerManager</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">addBroker</span><span class="p">(</span><span class="n">pBroker</span><span class="p">);</span>
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALModule</span><span class="o">::</span><span class="n">createModule</span><span class="o">&lt;</span><span class="n">AVCaptureRemote</span><span class="o">&gt;</span><span class="p">(</span><span class="n">pBroker</span><span class="p">,</span> <span class="s">&quot;AVCaptureRemote&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">ALCALL</span> <span class="kt">int</span> <span class="n">_closeModule</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="cp">#ifdef AVCAPTURE_IS_REMOTE</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+  <span class="c1">// pointer to createModule</span>
+  <span class="n">TMainType</span> <span class="n">sig</span><span class="p">;</span>
+  <span class="n">sig</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">_createModule</span><span class="p">;</span>
+
+  <span class="c1">// call main</span>
+  <span class="n">ALTools</span><span class="o">::</span><span class="n">mainFunction</span><span class="p">(</span><span class="s">&quot;AVCapture&quot;</span><span class="p">,</span> <span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="n">sig</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cmakelists-txt">
+<h3>CMakeLists.txt<a class="headerlink" href="#cmakelists-txt" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../../../../_downloads/CMakeLists4.txt"><tt class="xref download docutils literal"><span class="pre">CMakeLists.txt</span></tt></a></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.6.4</span> <span class="s">FATAL_ERROR</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">audiovideocapture</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">qibuild</span><span class="p">)</span>
+
+<span class="nb">option</span><span class="p">(</span><span class="s">AVCAPTURE_IS_REMOTE</span>
+  <span class="s2">&quot;module is compiled as a remote module (ON or OFF)&quot;</span>
+  <span class="s">ON</span><span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span><span class="s">_srcs</span>
+  <span class="s">main.cpp</span>
+  <span class="s">avcaptureremote.h</span>
+  <span class="s">avcaptureremote.cpp</span>
+<span class="p">)</span>
+
+<span class="nb">if</span><span class="p">(</span><span class="s">AVCAPTURE_IS_REMOTE</span><span class="p">)</span>
+  <span class="nb">add_definitions</span><span class="p">(</span><span class="s2">&quot; -DAVCAPTURE_IS_REMOTE &quot;</span><span class="p">)</span>
+  <span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">avcapture</span> <span class="o">${</span><span class="nv">_srcs</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">else</span><span class="p">()</span>
+  <span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">avcapture</span> <span class="s">SHARED</span> <span class="o">${</span><span class="nv">_srcs</span><span class="o">}</span> <span class="s">SUBFOLDER</span> <span class="s">naoqi</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">qi_use_lib</span><span class="p">(</span><span class="s">avcapture</span> <span class="s">ALCOMMON</span> <span class="s">ALAUDIO</span> <span class="s">ALVISION</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../sensors/fastgetsetdcm/fastgetsetexample.html" title="Fast getting and setting joint angles">Fast getting and setting joint angles</a>
+     |
+    <a href="../../examples.html" title="C++ Examples" accesskey="U">C++ Examples</a>
+   |
+    <a href="../vision/opencv.html" title="Using OpenCV">Using OpenCV</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html">Cpp</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../install_guide.html">C++ SDK Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tutorials.html">C++ Tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../examples.html">C++ Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../core/events/events.html">Creating events</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../core/sayhelloworld/sayhelloworld.html">Say Hello World</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../core/helloworld/index.html">Creating a simple remote module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../core/helloworld/example.html">Example: HelloWorld module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../core/custommain/custom_main.html">Creating a custom main</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../motion/movehead/movehead.html">Moving NAO&#8217;s head</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/bumper/index.html">Reacting to an event: bumper</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/bumper/example.html">Example code: Bumper module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/bumper/principle.html">Principle</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/leds/leds.html">Control the LEDs</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/fastgetsetdcm/fastgetsetexample.html">Fast getting and setting joint angles</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">Capturing audio and video</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/opencv.html">Using OpenCV</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/optimizedimage/optimizedimage.html">Optimized access to images</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/img2arv/img2arv.html">img2arv example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/arv2avi/arv2avi.html">arv2avi example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/getimage/getimage.html">Getting an image</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/genericvideomodule/genericvideomodule.html">Generic video module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/onfacedetection/onfacedetection.html">Reacting to a vision event: face detected</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../vision/alvisualcompass/alvisualcompass.html">Using ALVisualCompass</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/soundplayback/soundplayback.html">Sound playback</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/speechbasedreaction/speechbasedreaction.html">Speech based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/soundbasedreaction/soundbasedreaction.html">Sound based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/soundbasedreaction/onloudnoise.html">Reacting to an audio event: loud noise</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/soundprocessing/soundprocessing.html">Sound processing</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../tips-and-tricks.html">C++ Tips and tricks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tools/gdb-on-nao.html">Debugging C/C++ on the robot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../python/index.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Capturing audio and video</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#downloads">Downloads</a><ul>
+<li><a class="reference internal" href="#whole-module">Whole module</a></li>
+<li><a class="reference internal" href="#header-avcaptureremote-h">Header: avcaptureremote.h</a></li>
+<li><a class="reference internal" href="#source-avcaptureremote-cpp">Source: avcaptureremote.cpp</a></li>
+<li><a class="reference internal" href="#main-main-cpp">Main: main.cpp</a></li>
+<li><a class="reference internal" href="#cmakelists-txt">CMakeLists.txt</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../sensors/fastgetsetdcm/fastgetsetexample.html" title="Fast getting and setting joint angles">previous</a>
+     |
+    <a href="../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="../vision/opencv.html" title="Using OpenCV">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

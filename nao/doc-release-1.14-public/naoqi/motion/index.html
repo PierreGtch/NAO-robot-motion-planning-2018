@@ -1,0 +1,324 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NAOqi Motion &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi modules APIs" href="../index.html" />
+    <link rel="next" title="ALMotion API" href="almotion-api.html" />
+    <link rel="prev" title="ALModule API" href="../core/almodule-api.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../core/almodule-api.html" title="ALModule API">previous</a>
+     |
+    <a href="../index.html" title="NAOqi modules APIs" accesskey="U">up</a>
+   |
+    <a href="almotion-api.html" title="ALMotion API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-index">
+            
+  <div class="section" id="almotion">
+<span id="naoqi-motion"></span><span id="id1"></span><h1>NAOqi Motion<a class="headerlink" href="#almotion" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>Overview | <a class="reference internal" href="almotion-api.html#almotion-api"><em>API</em></a> | <a class="reference internal" href="advanced.html#advanced"><em>Advanced</em></a></p>
+<hr class="docutils" />
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li>Control: <a class="reference internal" href="control-stiffness.html#control-stiffness"><em>Stiffness</em></a>, <a class="reference internal" href="control-joint.html#control-joint"><em>Joint</em></a>,
+<a class="reference internal" href="control-walk.html#control-walk"><em>Locomotion</em></a>, <a class="reference internal" href="control-cartesian.html#control-cartesian"><em>Cartesian</em></a>,
+<a class="reference internal" href="control-wholebody.html#control-wholebody"><em>Whole body</em></a></li>
+<li>Reflexes: <a class="reference internal" href="reflexes-collision-avoidance.html#reflexes-collision-avoidance"><em>Self-collision avoidance</em></a>, <a class="reference internal" href="reflexes-fall-manager.html#reflexes-fall-manager"><em>Fall manager</em></a>,
+<a class="reference internal" href="reflexes-smart-stiffness.html#reflexes-smart-stiffness"><em>Smart Stiffness</em></a></li>
+<li>Tools: <a class="reference internal" href="tools-general.html#tools-general"><em>General tools</em></a>, <a class="reference internal" href="tools-motion-task.html#tools-motion-task"><em>Motion task</em></a></li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">The <strong>ALMotion</strong> module provides methods which facilitate making <strong>NAO</strong> move.</div>
+<div class="line">It contains four major groups of methods for controlling the:</div>
+</div>
+<ul class="simple">
+<li>joint stiffness (basically motor On-Off): see <a class="reference internal" href="control-stiffness.html#control-stiffness"><em>Stiffness control</em></a>,</li>
+<li>joint position (interpolation, reactive control): see <a class="reference internal" href="control-joint.html#control-joint"><em>Joint control</em></a>,</li>
+<li>walk (distance and velocity control, world position and so on): see <a class="reference internal" href="control-walk.html#control-walk"><em>Locomotion control</em></a>,</li>
+<li>robot effector in the Cartesian space
+(inverse kinematics, whole body constraints): see <a class="reference internal" href="control-cartesian.html#control-cartesian"><em>Cartesian control</em></a>.</li>
+</ul>
+<p>The <strong>ALMotion</strong> module implements also some &#8220;reflexes&#8221; such as <a class="reference internal" href="reflexes-collision-avoidance.html#reflexes-collision-avoidance"><em>Self-collision avoidance</em></a>,
+<a class="reference internal" href="reflexes-fall-manager.html#reflexes-fall-manager"><em>Fall manager</em></a> and <a class="reference internal" href="reflexes-smart-stiffness.html#reflexes-smart-stiffness"><em>Smart Stiffness</em></a>.</p>
+<p>This module gives also access to useful information about the robot hardware, such
+as the number of joints, their name, limits, the available sensors and so on.
+See <a class="reference internal" href="tools-general.html#tools-general"><em>General tools</em></a> section.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p><strong>ALMotion</strong> runs at 50Hz (cycle of 20ms).</p>
+<p>In <strong>ALMotion</strong>, every time you call an API to request a motion, a
+&#8220;motion task&#8221; is created to handle the job. See <a class="reference internal" href="tools-motion-task.html#tools-motion-task"><em>Motion task</em></a> to
+learn how to manage these tasks.</p>
+<p>The reflexes are activated by default and could modify your robot&#8217;s behavior.
+More specifically, they will alter the motion to avoid self collision
+(see <a class="reference internal" href="reflexes-collision-avoidance.html#reflexes-collision-avoidance"><em>Self-collision avoidance</em></a>), or adjust the stiffness to spare
+power when the robot is not moving (see <a class="reference internal" href="reflexes-smart-stiffness.html#reflexes-smart-stiffness"><em>Smart Stiffness</em></a>) or trigger
+a specific task when a fall is detected (see <a class="reference internal" href="reflexes-fall-manager.html#reflexes-fall-manager"><em>Fall manager</em></a>).</p>
+</div>
+<div class="section" id="performance-and-limitations">
+<h2>Performance and Limitations<a class="headerlink" href="#performance-and-limitations" title="Permalink to this headline">¶</a></h2>
+<p><strong>Performance</strong></p>
+<p><strong>ALMotion</strong> is a core module. As it manages some reflexes and updates the
+model every cycle, the module consumes a constant CPU. This consumption could
+increase during special tasks like walk.</p>
+<p>The table below gives you some hints of <strong>ALMotion</strong> CPU consumption.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="19%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Task \ Processor</th>
+<th class="head">Geode</th>
+<th class="head">Atom (NAO V4)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>update Model</td>
+<td>8%</td>
+<td>3%</td>
+</tr>
+<tr class="row-odd"><td>walking</td>
+<td>25%</td>
+<td>10.8%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Essential information to deal with <strong>ALMotion</strong>:</p>
+<div class="section" id="axis-definition">
+<h3>Axis definition<a class="headerlink" href="#axis-definition" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>X</strong> axis is positive toward NAO&#8217;s front, the <strong>Y</strong> from right to
+left and the <strong>Z</strong> is vertical.</p>
+<img alt="../../_images/hardware_inertialunit1.png" src="../../_images/hardware_inertialunit1.png" style="width: 322px; height: 471px;" />
+</div>
+<div class="section" id="si-international-system-of-unit">
+<h3>SI - International System of Unit<a class="headerlink" href="#si-international-system-of-unit" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>ALMotion</strong> module use the SI - International System of Units (meters, second, radian...).</p>
+</div>
+<div class="section" id="how-to-name-joints-and-body-parts">
+<h3>How to name joints and body parts<a class="headerlink" href="#how-to-name-joints-and-body-parts" title="Permalink to this headline">¶</a></h3>
+<p>Depending on the method chosen, <strong>ALMotion</strong> requires to name joints, group of
+joints or a body part.</p>
+<ul class="simple">
+<li>Body parts are called <strong>Effectors</strong> and are used by <a class="reference internal" href="control-cartesian.html#control-cartesian"><em>Cartesian control</em></a>
+and <a class="reference internal" href="control-wholebody.html#control-wholebody"><em>Whole Body control</em></a>.</li>
+<li>Joint names can be called individually or by groups and are used by
+<a class="reference internal" href="control-stiffness.html#control-stiffness"><em>Stiffness control</em></a>, <a class="reference internal" href="control-joint.html#control-joint"><em>Joint control</em></a>,
+<a class="reference internal" href="tools-general.html#tools-general"><em>General tools</em></a> and <a class="reference internal" href="tools-motion-task.html#tools-motion-task"><em>Motion task</em></a>.</li>
+</ul>
+<img alt="../../_images/almotion_names.png" src="../../_images/almotion_names.png" style="width: 409px; height: 494px;" />
+<p>This overview points out the relationship between the different names and
+specifies which model includes which joint:</p>
+<ul class="simple">
+<li><strong>Body</strong> = all Joints + the 2 Actuators added at the end of the arm links</li>
+<li><strong>Chain</strong> = Joints + Actuators</li>
+<li><strong>Effectors</strong> = all Chain names + Torso</li>
+</ul>
+<p>For further details, see:</p>
+<ul class="simple">
+<li><a class="reference internal" href="control-joint.html#body-chain-def"><em>&#8220;Body&#8221;, chains and joint names</em></a>,</li>
+<li><a class="reference internal" href="control-cartesian.html#motion-cartesian-effectors"><em>Effectors</em></a>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="advanced-user">
+<h2>Advanced User<a class="headerlink" href="#advanced-user" title="Permalink to this headline">¶</a></h2>
+<p>If you are familiar with the <strong>ALMotion</strong> definition and you want to go further
+creating advanced behavior in C++ like a new reflex, a better object tracker or
+use at the same time DCM module and ALMotion see <a class="reference internal" href="advanced.html#advanced"><em>Motion - advanced</em></a> section.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../core/almodule-api.html" title="ALModule API">ALModule API</a>
+     |
+    <a href="../index.html" title="NAOqi modules APIs" accesskey="U">NAOqi modules APIs</a>
+   |
+    <a href="almotion-api.html" title="ALMotion API">ALMotion API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">NAOqi Motion</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-stiffness.html">Stiffness control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-joint.html">Joint control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-walk.html">Locomotion control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-cartesian.html">Cartesian control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-collision-avoidance.html">Self-collision avoidance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-motion-task.html">Motion task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">NAOqi Motion</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li><a class="reference internal" href="#performance-and-limitations">Performance and Limitations</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#axis-definition">Axis definition</a></li>
+<li><a class="reference internal" href="#si-international-system-of-unit">SI - International System of Unit</a></li>
+<li><a class="reference internal" href="#how-to-name-joints-and-body-parts">How to name joints and body parts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advanced-user">Advanced User</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../core/almodule-api.html" title="ALModule API">previous</a>
+     |
+    <a href="../index.html" title="NAOqi modules APIs" accesskey="U">up</a>
+   |
+    <a href="almotion-api.html" title="ALMotion API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

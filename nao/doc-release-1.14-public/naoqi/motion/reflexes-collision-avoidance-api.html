@@ -1,0 +1,379 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Self-collision avoidance API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Self-collision avoidance" href="reflexes-collision-avoidance.html" />
+    <link rel="next" title="Fall manager" href="reflexes-fall-manager.html" />
+    <link rel="prev" title="Self-collision avoidance" href="reflexes-collision-avoidance.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="reflexes-collision-avoidance.html" title="Self-collision avoidance">previous</a>
+     |
+    <a href="reflexes-collision-avoidance.html" title="Self-collision avoidance" accesskey="U">up</a>
+   |
+    <a href="reflexes-fall-manager.html" title="Fall manager">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-reflexes-collision-avoidance-api">
+            
+  <div class="section" id="self-collision-avoidance-api">
+<span id="reflexes-collision-avoidance-api"></span><h1>Self-collision avoidance API<a class="headerlink" href="#self-collision-avoidance-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-motion"><em>NAOqi Motion</em></a> - <a class="reference internal" href="reflexes-collision-avoidance.html#reflexes-collision-avoidance"><em>Overview</em></a> | API</p>
+<hr class="docutils" />
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ALMotionProxy">
+<em class="property">class </em><tt class="descname">ALMotionProxy</tt><a class="headerlink" href="#ALMotionProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALMotionProxy::setCollisionProtectionEnabled__ssCR.bCR" title="ALMotionProxy::setCollisionProtectionEnabled"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setCollisionProtectionEnabled()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::getCollisionProtectionEnabled__ssCR" title="ALMotionProxy::getCollisionProtectionEnabled"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getCollisionProtectionEnabled()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMotionProxy::isCollision__ssCR" title="ALMotionProxy::isCollision"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::isCollision()</span></tt></a></li>
+</ul>
+<dl class="function">
+<dt id="ALMotionProxy::setCollisionProtectionEnabled__ssCR.bCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">setCollisionProtectionEnabled</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pChainName</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>pEnable</em><big>)</big><a class="headerlink" href="#ALMotionProxy::setCollisionProtectionEnabled__ssCR.bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable Anti-collision protection of the arms of the robot. Use api isCollision to know if a chain is in collision and can be inactivated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pChainName</strong> &#8211; The chain name {&#8220;Arms&#8221;, &#8220;LArm&#8221; or &#8220;RArm&#8221;}.</li>
+<li><strong>pEnable</strong> &#8211; Activate or deactivate the anti-collision of the desired Chain.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A bool which return always true.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_setcollisionprotectionenabled.py"><tt class="xref download docutils literal"><span class="pre">almotion_setcollisionprotectionenabled.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to activate &quot;Arms&quot; anticollision</span>
+    <span class="c"># Anticollision can be activated at every time</span>
+    <span class="n">pChainName</span> <span class="o">=</span> <span class="s">&quot;Arms&quot;</span>
+    <span class="n">pEnable</span>    <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">isSuccess</span>  <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">setCollisionProtectionEnabled</span><span class="p">(</span><span class="n">pChainName</span><span class="p">,</span> <span class="n">pEnable</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Anticollision activation on arms: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">isSuccess</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to deactivate &quot;LArm&quot; anticollision</span>
+    <span class="c"># Anticollision can be inactivated only if there is no collision in the desired chain</span>
+    <span class="n">pChainName</span> <span class="o">=</span> <span class="s">&quot;LArm&quot;</span>
+    <span class="n">collisionState</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">isCollision</span><span class="p">(</span><span class="n">pChainName</span><span class="p">)</span>
+    <span class="n">pEnable</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">isSuccess</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">setCollisionProtectionEnabled</span><span class="p">(</span><span class="n">pChainName</span><span class="p">,</span> <span class="n">pEnable</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;isSuccess: &quot;</span><span class="p">,</span> <span class="n">isSuccess</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_setcollisionprotectionenabled.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::getCollisionProtectionEnabled__ssCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">getCollisionProtectionEnabled</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pChainName</em><big>)</big><a class="headerlink" href="#ALMotionProxy::getCollisionProtectionEnabled__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allow to know if the collision protection is activated on the given chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pChainName</strong> &#8211; The chain name {&#8220;LArm&#8221; or &#8220;RArm&#8221;}.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Return true is the collision protection of the given Arm is activated.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMotionProxy::isCollision__ssCR">
+<a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a> <tt class="descclassname">ALMotionProxy::</tt><tt class="descname">isCollision</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pChainName</em><big>)</big><a class="headerlink" href="#ALMotionProxy::isCollision__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Give the collision state of a chain. If a chain has a collision state &#8220;none&#8221; or &#8220;near&#8221;, it could be deactivates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pChainName</strong> &#8211; The chain name {&#8220;Arms&#8221;, &#8220;LArm&#8221; or &#8220;RArm&#8221;}.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string which notice the collision state: &#8220;none&#8221; there are no collision, &#8220;near&#8221; the collision is taking in account in the anti-collision algorithm, &#8220;collision&#8221; the chain is in contact with an other body. If the chain asked is &#8220;Arms&#8221; the most unfavorable result is given.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="../../_downloads/almotion_iscollision.cpp"><tt class="xref download docutils literal"><span class="pre">almotion_iscollision.cpp</span></tt></a></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;alproxies/almotionproxy.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: almotion_iscollision robotIp &quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="s">&quot;(optional default </span><span class="se">\&quot;</span><span class="s">127.0.0.1</span><span class="se">\&quot;</span><span class="s">).&quot;</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">AL</span><span class="o">::</span><span class="n">ALMotionProxy</span> <span class="n">motion</span><span class="p">(</span><span class="n">robotIp</span><span class="p">);</span>
+
+  <span class="c1">// Example showing how to get the collision state</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">pChainName</span> <span class="o">=</span> <span class="s">&quot;LArm&quot;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">collisionState</span> <span class="o">=</span> <span class="n">motion</span><span class="p">.</span><span class="n">isCollision</span><span class="p">(</span><span class="n">pChainName</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">pChainName</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; collision state: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">collisionState</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/almotion_iscollision.py"><tt class="xref download docutils literal"><span class="pre">almotion_iscollision.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Example showing how to get the collision state</span>
+    <span class="n">pChainName</span> <span class="o">=</span> <span class="s">&quot;LArm&quot;</span>
+    <span class="n">collisionState</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">isCollision</span><span class="p">(</span><span class="n">pChainName</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="n">pChainName</span> <span class="o">+</span> <span class="s">&quot; collision state is &quot;</span> <span class="o">+</span> <span class="n">collisionState</span> <span class="o">+</span><span class="s">&quot;.&quot;</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_iscollision.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="reflexes-collision-avoidance.html" title="Self-collision avoidance">Self-collision avoidance</a>
+     |
+    <a href="reflexes-collision-avoidance.html" title="Self-collision avoidance" accesskey="U">Self-collision avoidance</a>
+   |
+    <a href="reflexes-fall-manager.html" title="Fall manager">Fall manager</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Motion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-stiffness.html">Stiffness control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-joint.html">Joint control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-walk.html">Locomotion control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-cartesian.html">Cartesian control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="reflexes-collision-avoidance.html">Self-collision avoidance</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">Self-collision avoidance API</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-motion-task.html">Motion task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Self-collision avoidance API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="reflexes-collision-avoidance.html" title="Self-collision avoidance">previous</a>
+     |
+    <a href="reflexes-collision-avoidance.html" title="Self-collision avoidance" accesskey="U">up</a>
+   |
+    <a href="reflexes-fall-manager.html" title="Fall manager">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

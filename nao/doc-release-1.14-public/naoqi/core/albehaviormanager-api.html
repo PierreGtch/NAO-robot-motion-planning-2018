@@ -1,0 +1,643 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALBehaviorManager API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="ALBehaviorManager" href="albehaviormanager.html" />
+    <link rel="next" title="ALConnectionManager" href="../connectionmanager/index.html" />
+    <link rel="prev" title="ALBehaviorManager" href="albehaviormanager.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="albehaviormanager.html" title="ALBehaviorManager">previous</a>
+     |
+    <a href="albehaviormanager.html" title="ALBehaviorManager" accesskey="U">up</a>
+   |
+    <a href="../connectionmanager/index.html" title="ALConnectionManager">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-core-albehaviormanager-api">
+            
+  <div class="section" id="albehaviormanager-api">
+<span id="id1"></span><h1>ALBehaviorManager API<a class="headerlink" href="#albehaviormanager-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-core"><em>NAOqi Core</em></a> - <a class="reference internal" href="albehaviormanager.html#albehaviormanager"><em>Overview</em></a> | API</p>
+<hr class="docutils" />
+<p>Namespace : <strong>AL</strong></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alproxies/albehaviormanagerproxy.h&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<p>As any module, this module inherits methods from <a class="reference internal" href="almodule-api.html#almodule-api"><em>ALModule API</em></a>.
+It also has the following specific methods:</p>
+<dl class="class">
+<dt id="ALBehaviorManagerProxy">
+<em class="property">class </em><tt class="descname">ALBehaviorManagerProxy</tt><a class="headerlink" href="#ALBehaviorManagerProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::addDefaultBehavior__ssCR" title="ALBehaviorManagerProxy::addDefaultBehavior"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::addDefaultBehavior()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::getBehaviorNames" title="ALBehaviorManagerProxy::getBehaviorNames"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getBehaviorNames()</span></tt></a> (deprecated)</li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::getDefaultBehaviors" title="ALBehaviorManagerProxy::getDefaultBehaviors"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getDefaultBehaviors()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::getInstalledBehaviors" title="ALBehaviorManagerProxy::getInstalledBehaviors"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getInstalledBehaviors()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::getRunningBehaviors" title="ALBehaviorManagerProxy::getRunningBehaviors"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getRunningBehaviors()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::getSystemBehaviorNames" title="ALBehaviorManagerProxy::getSystemBehaviorNames"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getSystemBehaviorNames()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::getUserBehaviorNames" title="ALBehaviorManagerProxy::getUserBehaviorNames"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getUserBehaviorNames()</span></tt></a> (deprecated)</li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::installBehavior__ssCR.ssCR.bCR" title="ALBehaviorManagerProxy::installBehavior"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::installBehavior()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::isBehaviorInstalled__ssCR" title="ALBehaviorManagerProxy::isBehaviorInstalled"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::isBehaviorInstalled()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::isBehaviorPresent__ssCR" title="ALBehaviorManagerProxy::isBehaviorPresent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::isBehaviorPresent()</span></tt></a> (deprecated)</li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::isBehaviorRunning__ssCR" title="ALBehaviorManagerProxy::isBehaviorRunning"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::isBehaviorRunning()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::playDefaultProject" title="ALBehaviorManagerProxy::playDefaultProject"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::playDefaultProject()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::preloadBehavior__ssCR" title="ALBehaviorManagerProxy::preloadBehavior"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::preloadBehavior()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::removeBehavior__ssCR" title="ALBehaviorManagerProxy::removeBehavior"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::removeBehavior()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::removeDefaultBehavior__ssCR" title="ALBehaviorManagerProxy::removeDefaultBehavior"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::removeDefaultBehavior()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::runBehavior__ssCR" title="ALBehaviorManagerProxy::runBehavior"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::runBehavior()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::stopAllBehaviors" title="ALBehaviorManagerProxy::stopAllBehaviors"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::stopAllBehaviors()</span></tt></a></li>
+<li><a class="reference internal" href="#ALBehaviorManagerProxy::stopBehavior__ssCR" title="ALBehaviorManagerProxy::stopBehavior"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::stopBehavior()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="event-list">
+<h2>Event list<a class="headerlink" href="#event-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><tt class="xref naoqi naoqi-event docutils literal"><span class="pre">ALBehaviorManager/BehaviorAdded()</span></tt></li>
+<li><tt class="xref naoqi naoqi-event docutils literal"><span class="pre">ALBehaviorManager/BehaviorRemoved()</span></tt></li>
+<li><tt class="xref naoqi naoqi-event docutils literal"><span class="pre">ALBehaviorManager/BehaviorUpdated()</span></tt></li>
+<li><a class="reference internal" href="#BehaviorsRun" title="BehaviorsRun"><tt class="xref naoqi naoqi-event docutils literal"><span class="pre">BehaviorsRun()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::addDefaultBehavior__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">addDefaultBehavior</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>prefixedBehavior</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::addDefaultBehavior__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the given behavior as default</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>behavior</strong> &#8211; Behavior name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::getBehaviorNames">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">getBehaviorNames</tt><big>(</big><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::getBehaviorNames" title="Permalink to this definition">¶</a></dt>
+<dd><p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use <a class="reference internal" href="#ALBehaviorManagerProxy::getInstalledBehaviors" title="ALBehaviorManagerProxy::getInstalledBehaviors"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getInstalledBehaviors()</span></tt></a> instead</p>
+<p>Get behaviors</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the list of behaviors prefixed by their type (User/ or System/).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::getDefaultBehaviors">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">getDefaultBehaviors</tt><big>(</big><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::getDefaultBehaviors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get default behaviors</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Return default behaviors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::getInstalledBehaviors">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">getInstalledBehaviors</tt><big>(</big><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::getInstalledBehaviors" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the behaviors list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::getRunningBehaviors">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">getRunningBehaviors</tt><big>(</big><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::getRunningBehaviors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get running behaviors</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Return running behaviors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::getSystemBehaviorNames">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">getSystemBehaviorNames</tt><big>(</big><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::getSystemBehaviorNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get system behaviors</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the list of system behaviors prefixed by System/.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::getUserBehaviorNames">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">getUserBehaviorNames</tt><big>(</big><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::getUserBehaviorNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get user&#8217;s behaviors</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use  <a class="reference internal" href="#ALBehaviorManagerProxy::getInstalledBehaviors" title="ALBehaviorManagerProxy::getInstalledBehaviors"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::getInstalledBehaviors()</span></tt></a> instead</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the list of user&#8217;s behaviors prefixed by User/.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="albehaviormanagerproxy-installbehavior1"></span><dl class="function">
+<dt id="ALBehaviorManagerProxy::installBehavior__ssCR.ssCR.bCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">installBehavior</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>absolutePath</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>localPath</em>, <a class="reference internal" href="../stdtypes.html#b" title="bool">const bool&amp;</a> <em>overwrite</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::installBehavior__ssCR.ssCR.bCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are two overloads of this function:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#albehaviormanagerproxy-installbehavior1"><em>ALBehaviorManagerProxy::installBehavior</em></a></li>
+<li><a class="reference internal" href="#albehaviormanagerproxy-installbehavior2"><em>ALBehaviorManagerProxy::installBehavior</em></a> to install a behavior already located at the behaviors path</li>
+</ul>
+<p>Install a behavior.</p>
+<p>Check and take the behavior found at the given absolute path and import it to
+the given local path, relative to behaviors path.</p>
+<p>On success, behavior added signal is emitted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>absolutePath</strong> &#8211; A path on the local file system of a behavior to install.</li>
+<li><strong>localPath</strong> &#8211; The destination path relative to behaviors path.</li>
+<li><strong>overwrite</strong> &#8211; Whether to replace existing behaviors if present.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">true on success, false otherwise.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="albehaviormanagerproxy-installbehavior2"></span><dl class="function">
+<dt id="ALBehaviorManagerProxy::installBehavior__ssCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">installBehavior</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>localPath</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::installBehavior__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Install a behavior.</p>
+<p>Check the given local path for a valid behavior.</p>
+<p>On success, behavior added or updated signal is emitted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>localPath</strong> &#8211; The relative path of the behavior.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">true on success, false otherwise.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::isBehaviorInstalled__ssCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">isBehaviorInstalled</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::isBehaviorInstalled__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; The behavior directory name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns true if it is a valid behavior</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::isBehaviorPresent__ssCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">isBehaviorPresent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>prefixedBehavior</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::isBehaviorPresent__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.14: </span>use  <a class="reference internal" href="#ALBehaviorManagerProxy::isBehaviorInstalled__ssCR" title="ALBehaviorManagerProxy::isBehaviorInstalled"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALBehaviorManagerProxy::isBehaviorInstalled()</span></tt></a> instead</p>
+<p>Tell if the supplied name corresponds to an existing behavior.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prefixedBehavior</strong> &#8211; Prefixed behavior.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns true if it is an existing behavior</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::isBehaviorRunning__ssCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">isBehaviorRunning</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::isBehaviorRunning__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if supplied name corresponds to a running behavior</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; Behavior name.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns true if the name supplied is a running behavior</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::playDefaultProject">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">playDefaultProject</tt><big>(</big><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::playDefaultProject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play default behaviors</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::preloadBehavior__ssCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">preloadBehavior</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::preloadBehavior__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a behavior</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; Behavior name.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns true if it was successfully loaded.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::removeBehavior__ssCR">
+<a class="reference internal" href="../stdtypes.html#b" title="bool">bool</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">removeBehavior</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::removeBehavior__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a behavior from the filesystem</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; Behavior name.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Return true if succeeded, else false</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::removeDefaultBehavior__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">removeDefaultBehavior</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::removeDefaultBehavior__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the given behavior from the default behaviors</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Behavior name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::runBehavior__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">runBehavior</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::runBehavior__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a behavior</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Behavior name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::stopAllBehaviors">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">stopAllBehaviors</tt><big>(</big><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::stopAllBehaviors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop all behaviors</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALBehaviorManagerProxy::stopBehavior__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALBehaviorManagerProxy::</tt><tt class="descname">stopBehavior</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALBehaviorManagerProxy::stopBehavior__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop a behavior</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Behavior name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<dl class="event">
+<dt>
+<tt class="descname">ALBehaviorManager/BehaviorAdded(const std::string&amp; behavior)</tt></dt>
+<dd><p>Raised when a behavior is installed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> (<em>std::string</em>) &#8211; &#8220;None&#8221;</li>
+<li><strong>behavior</strong> &#8211; the name of the behavior installed</li>
+<li><strong>subscriberIdentifier</strong> (<em>std::string</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="event">
+<dt>
+<tt class="descname">ALBehaviorManager/BehaviorRemoved(const std::string&amp; behavior)</tt></dt>
+<dd><p>Raised when a behavior is removed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> (<em>std::string</em>) &#8211; &#8220;None&#8221;</li>
+<li><strong>behavior</strong> &#8211; the name of the behavior removed</li>
+<li><strong>subscriberIdentifier</strong> (<em>std::string</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="event">
+<dt>
+<tt class="descname">ALBehaviorManager/BehaviorUpdated(const std::string&amp; behavior)</tt></dt>
+<dd><p>Raised when a behavior is updated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> (<em>std::string</em>) &#8211; &#8220;None&#8221;</li>
+<li><strong>behavior</strong> &#8211; the name of the behavior updated</li>
+<li><strong>subscriberIdentifier</strong> (<em>std::string</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="event">
+<dt id="BehaviorsRun">
+<div class="line">Event: <tt class="descname">&quot;BehaviorsRun&quot;</tt></div>
+callback<big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> eventName</em>, const std::vector&lt;<a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a>&gt;&amp;<em> runningBehaviorList</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> subscriberIdentifier</em><big>)</big><a class="headerlink" href="#BehaviorsRun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when the list of running behaviors change.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> (<em>std::string</em>) &#8211; &#8220;BehaviorsRun&#8221;</li>
+<li><strong>runningBehaviorList</strong> &#8211; list of all running behaviors</li>
+<li><strong>subscriberIdentifier</strong> (<em>std::string</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="albehaviormanager.html" title="ALBehaviorManager">ALBehaviorManager</a>
+     |
+    <a href="albehaviormanager.html" title="ALBehaviorManager" accesskey="U">ALBehaviorManager</a>
+   |
+    <a href="../connectionmanager/index.html" title="ALConnectionManager">ALConnectionManager</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Core</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="albehaviormanager.html">ALBehaviorManager</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALBehaviorManager API</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../connectionmanager/index.html">ALConnectionManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almemory.html">ALMemory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almodule.html">ALModule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alpreferences.html">ALPreferences</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alresourcemanager.html">ALResourceManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allauncher.html">ALLauncher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="albonjour.html">ALBonjour</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allogger.html">ALLogger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="extractors.html">Extractors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALBehaviorManager API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+<li><a class="reference internal" href="#event-list">Event list</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+<li><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="albehaviormanager.html" title="ALBehaviorManager">previous</a>
+     |
+    <a href="albehaviormanager.html" title="ALBehaviorManager" accesskey="U">up</a>
+   |
+    <a href="../connectionmanager/index.html" title="ALConnectionManager">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

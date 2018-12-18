@@ -1,0 +1,421 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Functions to create targets &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="qiBuild CMake API" href="../api.html" />
+    <link rel="next" title="Staging targets" href="stage.html" />
+    <link rel="prev" title="CMake API syntax" href="../cmake_api_syntax.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../cmake_api_syntax.html" title="CMake API syntax">previous</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="stage.html" title="Staging targets">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="ref-cmake-api-target">
+            
+  <div class="section" id="functions-to-create-targets">
+<h1>Functions to create targets<a class="headerlink" href="#functions-to-create-targets" title="Permalink to this headline">¶</a></h1>
+<p>This is the main qiBuild module. It encapsulates the creation of programs,
+scripts and libraries, handling dependencies and install rules,
+in an easy, elegant and standard way.</p>
+<p>There could be differents targets:</p>
+<ul class="simple">
+<li><em>bin</em> : a program</li>
+<li><em>lib</em> : a library</li>
+<li><em>script</em> : a script</li>
+</ul>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="submodule.html#using-submodules"><em>Using submodules</em></a></li>
+</ul>
+</div>
+<div class="section" id="qi-create-bin">
+<h2>qi_create_bin<a class="headerlink" href="#qi-create-bin" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_create_bin">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">name</span> <span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[NO_INSTALL]</span>
+    <span class="s">[NO_RPATH]</span>
+    <span class="s">[EXCLUDE_FROM_ALL]</span>
+    <span class="s">[WIN32]</span>
+    <span class="s">[MACOSX_BUNDLE]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[SRC</span> <span class="s">&lt;src&gt;</span> <span class="s">...]</span>
+    <span class="s">[DEPENDS</span> <span class="s">&lt;depends&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBMODULE</span> <span class="s">&lt;submodule&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_create_bin" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; the target name</li>
+<li><strong>args</strong> (<em>remaining</em>) &#8211; source files, like the SRC group, argn and SRC will be merged</li>
+<li><strong>NO_INSTALL</strong> &#8211; Do not create install rules for the target</li>
+<li><strong>NO_RPATH</strong> &#8211; Do not try to fix rpath By default, qibuild runs chrpath on the targets so everything work even when project is intalled to a non-standard location. Use this to prevent chrpath to be run.</li>
+<li><strong>EXCLUDE_FROM_ALL</strong> &#8211; Do not include the target in the &#8216;all&#8217; target, this target will not be build by default, you will have to compile the target explicitly. Warning: you will NOT be able to create install rules for this target.</li>
+<li><strong>WIN32</strong> &#8211; Build an executable with a WinMain entry point on windows.</li>
+<li><strong>MACOSX_BUNDLE</strong> &#8211; Refer to the add_executable documentation.</li>
+<li><strong>SUBFOLDER</strong> &#8211; The destination subfolder. The install rules generated will be sdk/bin/&lt;subfolder&gt;</li>
+<li><strong>SRC</strong> &#8211; The list of source files</li>
+<li><strong>DEPENDS</strong> &#8211; The list of source files</li>
+<li><strong>SUBMODULE</strong> &#8211; The list of source files</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create an executable.
+The target name should be unique.</p>
+</dd></dl>
+
+<p><strong>Example</strong></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="c">##</span>
+<span class="c">## target examples</span>
+<span class="c">##</span>
+
+
+<span class="nb">project</span><span class="p">(</span><span class="s">SampleTarget</span><span class="p">)</span>
+
+<span class="c">#add_subdirectory(fooscript)</span>
+<span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">foolib</span><span class="p">)</span>
+<span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">foobin</span><span class="p">)</span>
+
+<span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">myprog</span> <span class="s">SRC</span> <span class="s">main.cpp</span><span class="p">)</span>
+<span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">mylib</span> <span class="s">SRC</span> <span class="s">mylib.h</span> <span class="s">mylib.c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="qi-create-script">
+<h2>qi_create_script<a class="headerlink" href="#qi-create-script" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_create_script">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_script</span><span class="p">(</span><span class="s">name</span> <span class="s">source</span> <span class="s">[NO_INSTALL]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_create_script" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name of the target script</li>
+<li><strong>source</strong> &#8211; The source script, that will be copied in the sdk to bin/&lt;name&gt;</li>
+<li><strong>NO_INSTALL</strong> &#8211; Do not generate install rule for the script</li>
+<li><strong>SUBFOLDER</strong> &#8211; The subfolder in sdk/bin to install the script into. (sdk/bin/&lt;subfolder&gt;)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a script. This will generate rules to install it in the sdk.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-create-lib">
+<h2>qi_create_lib<a class="headerlink" href="#qi-create-lib" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_create_lib">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">name</span> <span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+    <span class="s">[NO_INSTALL]</span>
+    <span class="s">[EXCLUDE_FROM_ALL]</span>
+    <span class="s">[INTERNAL]</span>
+    <span class="s">[NO_FPIC]</span>
+    <span class="s">[SUBFOLDER</span> <span class="s">&lt;subfolder&gt;]</span>
+    <span class="s">[SRC</span> <span class="s">&lt;src&gt;</span> <span class="s">...]</span>
+    <span class="s">[SUBMODULE</span> <span class="s">&lt;submodule&gt;</span> <span class="s">...]</span>
+    <span class="s">[DEP</span> <span class="s">&lt;dep&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_create_lib" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; the target name</li>
+<li><strong>args</strong> (<em>remaining</em>) &#8211; sources files, like the SRC group, argn and SRC will be merged</li>
+<li><strong>NO_INSTALL</strong> &#8211; Do not create install rules for the target</li>
+<li><strong>EXCLUDE_FROM_ALL</strong> &#8211; Do not include the target in the &#8216;all&#8217; target, This target will not be built by default, you will have to compile the target explicitly. Warning: you will NOT be able to create install rules for this target.</li>
+<li><strong>INTERNAL</strong> &#8211; By default, the library won&#8217;t be installed, the headers of the library won&#8217;t be installed either, and library cmake config file will not be generated, thus it will be impossible to use the library from another project using a package of the project. You can by-pass this behavior by setting QI_INSTALL_INTERNAL to &#8220;ON&#8221;</li>
+<li><strong>NO_FPIC</strong> &#8211; Do not set -fPIC on static libraries (will be set for shared lib by CMake anyway)</li>
+<li><strong>SUBFOLDER</strong> &#8211; The destination subfolder. The install rules generated will be sdk/lib/&lt;subfolder&gt;</li>
+<li><strong>SRC</strong> &#8211; The list of source files (private headers and sources)</li>
+<li><strong>SUBMODULE</strong> &#8211; Submodule to include in the lib</li>
+<li><strong>DEP</strong> &#8211; List of dependencies</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a library</p>
+<p>The target name should be unique.</p>
+<p>If you need your library to be static, use:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">mylib</span> <span class="s">STATIC</span> <span class="s">SRC</span> <span class="s">....</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you need your library to be shared, use:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">mylib</span> <span class="s">SHARED</span> <span class="s">SRC</span> <span class="s">....</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want to let the user choose, use:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">mylib</span> <span class="s">SRC</span> <span class="s">....</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>The library will be:</dt>
+<dd><ul class="first last simple">
+<li>built as a shared library on UNIX</li>
+<li>built as a static library on windows</li>
+</ul>
+</dd>
+</dl>
+<p>But the user can set BUILD_SHARED_LIBS=OFF to compile
+everything in static by default.</p>
+<p>Warning ! This is quite not the standard CMake behavior</p>
+</dd></dl>
+
+<p><strong>Example</strong></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="c">##</span>
+<span class="c">## target examples</span>
+<span class="c">##</span>
+
+
+<span class="nb">project</span><span class="p">(</span><span class="s">SampleTarget</span><span class="p">)</span>
+
+<span class="c">#add_subdirectory(fooscript)</span>
+<span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">foolib</span><span class="p">)</span>
+<span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">foobin</span><span class="p">)</span>
+
+<span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">myprog</span> <span class="s">SRC</span> <span class="s">main.cpp</span><span class="p">)</span>
+<span class="nb">qi_create_lib</span><span class="p">(</span><span class="s">mylib</span> <span class="s">SRC</span> <span class="s">mylib.h</span> <span class="s">mylib.c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="qi-create-config-h">
+<h2>qi_create_config_h<a class="headerlink" href="#qi-create-config-h" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_create_config_h">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_config_h</span><span class="p">(</span><span class="s">OUT_PATH</span> <span class="s">source</span> <span class="s">dest</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_create_config_h" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>OUT_PATH</strong> &#8211; Path to the generated file</li>
+<li><strong>source</strong> &#8211; The source file</li>
+<li><strong>dest</strong> &#8211; The destination</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a configuration file</p>
+<p>Configures a header named ${dest} using the source file from
+${source} using <tt class="docutils literal"><span class="pre">configure_file</span></tt>
+In addition:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Make sure the path where the header is generated is
+added to the include path</li>
+<li>Create the necessary install rules</li>
+</ul>
+</div></blockquote>
+<p>If you need the header to be generated in a subdirectory
+(recommended), simply use something like:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_config_h</span><span class="p">(</span><span class="s">_out</span> <span class="s">config.h.in</span> <span class="s">foo/config.h</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../cmake_api_syntax.html" title="CMake API syntax">CMake API syntax</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">qiBuild CMake API</a>
+   |
+    <a href="stage.html" title="Staging targets">Staging targets</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">qiBuild reference documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../man/index.html">qibuild man Pages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html">qiBuild CMake API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../cmake_api_syntax.html">CMake API syntax</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Functions to create targets</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stage.html">Staging targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html">Installing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="submodule.html">Using submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="option.html">Using options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="find.html">Functions to find libaries and include directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html">Handling compile flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="swig/python.html">Python wrapper for swig</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cfg/index.html">Configuration files syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">qiBuild Python documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Functions to create targets</a><ul>
+<li><a class="reference internal" href="#qi-create-bin">qi_create_bin</a></li>
+<li><a class="reference internal" href="#qi-create-script">qi_create_script</a></li>
+<li><a class="reference internal" href="#qi-create-lib">qi_create_lib</a></li>
+<li><a class="reference internal" href="#qi-create-config-h">qi_create_config_h</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../cmake_api_syntax.html" title="CMake API syntax">previous</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="stage.html" title="Staging targets">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

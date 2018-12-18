@@ -1,0 +1,343 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Search order &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="qiBuild CMake framework design" href="index.html" />
+    <link rel="next" title="Managing shared libraries" href="shared_libs.html" />
+    <link rel="prev" title="Managing dependences with qiBuild: an overview" href="managing_deps.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="managing_deps.html" title="Managing dependences with qiBuild: an overview">previous</a>
+     |
+    <a href="index.html" title="qiBuild CMake framework design" accesskey="U">up</a>
+   |
+    <a href="shared_libs.html" title="Managing shared libraries">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="design-cmake-searching">
+            
+  <div class="section" id="search-order">
+<span id="qibuild-search-order"></span><h1>Search order<a class="headerlink" href="#search-order" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="search-order-for-packages-libs-headers-and-programs">
+<h2>Search order for packages, libs, headers, and programs<a class="headerlink" href="#search-order-for-packages-libs-headers-and-programs" title="Permalink to this headline">¶</a></h2>
+<p>This has an impact on the following functions:</p>
+<ul class="simple">
+<li>find_package()</li>
+<li>find_libary()</li>
+<li>find_path()</li>
+<li>find_program()</li>
+</ul>
+<p>When the executable <tt class="docutils literal"><span class="pre">hello</span></tt> is looking for the <tt class="docutils literal"><span class="pre">world</span></tt> library,
+the <tt class="docutils literal"><span class="pre">world</span></tt> library can be in several places:</p>
+<ul class="simple">
+<li>in the same project <tt class="docutils literal"><span class="pre">src/hello</span></tt></li>
+<li>in a <tt class="docutils literal"><span class="pre">world</span></tt> project in <tt class="docutils literal"><span class="pre">src/world</span></tt></li>
+<li>in a toolchain with a <tt class="docutils literal"><span class="pre">world</span></tt> package</li>
+<li>in the system, for instance because <tt class="docutils literal"><span class="pre">libworld-dev</span></tt> package is installed.</li>
+</ul>
+<p>Here is the order CMake will use to find headers and libraries, in this order:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">src/hello/path/to/world</span></tt>     (if world target is defined when parsing
+<tt class="docutils literal"><span class="pre">hello</span></tt>&#8216;s CMakeLists)</li>
+<li><tt class="docutils literal"><span class="pre">src/world/build/sdk/include</span></tt> (providing there&#8217;s <tt class="docutils literal"><span class="pre">depends=world</span></tt> in
+<tt class="docutils literal"><span class="pre">hello</span></tt> manifest)</li>
+<li><tt class="docutils literal"><span class="pre">path/to/toolchain/&lt;name&gt;/world/include</span></tt> (if using a toolchain providing
+the <tt class="docutils literal"><span class="pre">world</span></tt> package)</li>
+<li><tt class="docutils literal"><span class="pre">/usr/include/</span></tt> (if <tt class="docutils literal"><span class="pre">world</span></tt> is installed in the system)</li>
+</ul>
+<p>Note that it makes no difference whether you are using <a class="reference internal" href="../../ref/cmake/api/stage.html#qi_use_lib" title="qi_use_lib"><tt class="xref cmake cmake-function docutils literal"><span class="pre">qi_use_lib</span></tt></a>
+or <tt class="docutils literal"><span class="pre">find_package</span></tt>.</p>
+<p>To make this work, we only use the <tt class="docutils literal"><span class="pre">CMAKE_FIND_ROOT_PATH</span></tt> cmake
+variable, and <a class="reference internal" href="../../ref/cmake/api/stage.html#qi_use_lib" title="qi_use_lib"><tt class="xref cmake cmake-function docutils literal"><span class="pre">qi_use_lib</span></tt></a> calls <tt class="docutils literal"><span class="pre">find_package</span></tt> without any specific
+argument</p>
+<p>This means that if you really need to find a library <strong>inside</strong> a toolchain,
+and never in the system, (for cross-compiling), you should use something like
+this for the toolchain file of your cross-toolchain</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_FIND_ROOT_PATH_MODE_PACKAGE</span> <span class="s">ONLY</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_FIND_ROOT_PATH_MODE_LIBRARY</span> <span class="s">ONLY</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_FIND_ROOT_PATH_MODE_INCLUDE</span> <span class="s">ONLY</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">world</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="why">
+<h3>Why ?<a class="headerlink" href="#why" title="Permalink to this headline">¶</a></h3>
+<p>Because we treat the <tt class="docutils literal"><span class="pre">CMAKE_FIND_ROOT_PATH</span></tt> variable
+very carefully ;)</p>
+<p>Here&#8217;s what happens when you run <tt class="docutils literal"><span class="pre">qibuild</span> <span class="pre">configure</span> <span class="pre">hello</span></tt>:</p>
+<p>In the main <tt class="docutils literal"><span class="pre">CMakeLists</span></tt>, you have <tt class="docutils literal"><span class="pre">project()</span></tt> <strong>before</strong> the call to
+<tt class="docutils literal"><span class="pre">include(qibuild.cmake)</span></tt>.</p>
+<p>So this means you go through the toolchain file first (calling <tt class="docutils literal"><span class="pre">project()</span></tt> makes
+cmake include the file passed with <tt class="docutils literal"><span class="pre">-DCMAKE_TOOLCHAIN_FILE</span></tt>.</p>
+<p>The toolchain file generated by qitoolchain contains:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">list</span><span class="p">(</span><span class="s">APPEND</span> <span class="s">CMAKE_FIND_ROOT_PATH</span> <span class="s">/path/to/toolchain/&lt;name&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(Note that <tt class="docutils literal"><span class="pre">qibuild</span> <span class="pre">configure</span></tt> calls cmake with the correct <tt class="docutils literal"><span class="pre">-DCMAKE_TOOLCHAIN_FILE</span></tt>
+for you)</p>
+<p>Then, you go through <tt class="docutils literal"><span class="pre">qibuild.cmake</span></tt> which includes <tt class="docutils literal"><span class="pre">build/dependencies.cmake</span></tt></p>
+<p>The code in <tt class="docutils literal"><span class="pre">dependencies.cmake</span></tt> looks like</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">list</span><span class="p">(</span><span class="s">INSERT</span> <span class="s">CMAKE_FIND_ROOT_PATH</span> <span class="s">0</span> <span class="s">/path/to/src/world/build/sdk</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So that sources are searched <strong>before</strong> the packages from toolchain</p>
+<p>Finally, you go through <tt class="docutils literal"><span class="pre">qibuild/general.cmake</span></tt></p>
+<p>Here we do something like</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_FIND_ROOT_PATH</span> <span class="s2">&quot;${QI_SDK_DIR}&quot;</span> <span class="o">${</span><span class="nv">CMAKE_FIND_ROOT_PATH</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>so that self build dir is searched first.</p>
+<p>Note that we never reset <tt class="docutils literal"><span class="pre">CMAKE_FIND_ROOT_PATH</span></tt>, so that if user set it
+from command lines, it exists even before going to the toolchain file,
+so it still has the priority.</p>
+</div>
+</div>
+<div class="section" id="search-order-for-packages">
+<h2>Search order for packages<a class="headerlink" href="#search-order-for-packages" title="Permalink to this headline">¶</a></h2>
+<p>When we call <tt class="docutils literal"><span class="pre">find_package(bar)</span></tt>, we have several possible cases</p>
+<ul class="simple">
+<li>We are using a <tt class="docutils literal"><span class="pre">bar-config.cmake</span></tt> that was generated by qibuild.</li>
+<li>We are using the custom <tt class="docutils literal"><span class="pre">bar-config.cmake</span></tt> in <tt class="docutils literal"><span class="pre">qibuild/cmake/modules</span></tt>. This can
+happen because the upstream <tt class="docutils literal"><span class="pre">FindBar.cmake</span></tt> does not exist or is not usable. (For
+instance, the upstream <tt class="docutils literal"><span class="pre">FindGTest.cmake</span></tt> sets <tt class="docutils literal"><span class="pre">GTEST_BOTH_LIBRARIES,</span></tt> instead fo
+<tt class="docutils literal"><span class="pre">GTEST_LIBRARIES</span></tt> ...)</li>
+<li>We are using upstream’s CMake <tt class="docutils literal"><span class="pre">FindBar.cmake</span></tt>.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Due to strange CMake rules about case sensitivity, for this to work you
+it&#8217;s best you always use <tt class="docutils literal"><span class="pre">find_package()</span></tt> with an upper-case argument.
+<tt class="docutils literal"><span class="pre">find_package(GTest)</span></tt> won&#8217;t find <tt class="docutils literal"><span class="pre">gtest-config.cmake</span></tt>, but <tt class="docutils literal"><span class="pre">find_package(GTEST)</span></tt>
+will find it. (strange but true)</p>
+<p class="last">That&#8217;s why when we call <tt class="docutils literal"><span class="pre">find_package</span></tt> from <tt class="docutils literal"><span class="pre">qi_use_lib</span></tt> we alwayws use
+the upper-case version of the first argument.</p>
+</div>
+<p>To do this, we have to search for the <cite>-config.cmake</cite> files generated by qiBuild (or
+present ni <tt class="docutils literal"><span class="pre">qibuild/cmake/modules</span></tt>, then only  for upstream <cite>Find-*.cmake</cite> in <tt class="docutils literal"><span class="pre">/usr/share/cmake</span></tt>)</p>
+<p>This is not hard because <tt class="docutils literal"><span class="pre">find_package</span></tt> can be call with a special argument to only look
+for <cite>-config.cmake</cite> files.</p>
+<p>From the comments in the cmake code:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="c"># find_package in two calls. The first call:</span>
+<span class="c"># Uses NO_MODULE - looks for PKGConfig.cmake, not FindPKG.cmake</span>
+<span class="c"># Uses QUIET     - no warning will be generated</span>
+<span class="c"># If Config is found, then PKG_DIR will be set so that the following</span>
+<span class="c"># find_package knows where to look</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="o">${</span><span class="nv">_pkg</span><span class="o">}</span> <span class="s">NO_MODULE</span> <span class="s">QUIET</span><span class="p">)</span>
+<span class="c"># _PACKAGE_FOUND is only set when using qibuild/cmake modules,</span>
+<span class="c"># see comments in find.cmake for details.</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">NOT</span> <span class="o">${</span><span class="nv">_U_PKG</span><span class="o">}</span><span class="s">_PACKAGE_FOUND</span><span class="p">)</span>
+  <span class="nb">find_package</span><span class="p">(</span><span class="o">${</span><span class="nv">_pkg</span><span class="o">}</span> <span class="s">QUIET</span> <span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+<span class="c"># Right after find_package_handle_standard_args, ${prefix}_FOUND is</span>
+<span class="c"># set correctly.</span>
+<span class="c"># For instance, if foo/bar.h is not foud, FOO_FOUND is FALSE.</span>
+<span class="c"># But, right after this, since foo-config.cmake HAS been found, CMake</span>
+<span class="c"># re-set FOO_FOUND to TRUE.</span>
+<span class="c"># So we set ${prefix}_PACKAGE_FOUND in cache...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="search-order-for-cmake-specific-code">
+<h2>Search order for cmake specific code<a class="headerlink" href="#search-order-for-cmake-specific-code" title="Permalink to this headline">¶</a></h2>
+<p>This has an impact on the functions:</p>
+<ul class="simple">
+<li>include()</li>
+</ul>
+<p>And most of all, on <tt class="docutils literal"><span class="pre">include(qibuild.cmake)</span></tt></p>
+<p>We have several cases here:</p>
+<ul class="simple">
+<li>qibuild is installed in the system, so <tt class="docutils literal"><span class="pre">qibuild/general.cmake</span></tt> is found in
+<tt class="docutils literal"><span class="pre">/usr/share/cmake-2.8/Modules/qibuild/general.cmake</span></tt>, and
+<tt class="docutils literal"><span class="pre">include(qibuild.cmake)</span></tt> just works.</li>
+<li>we are using a cross toolchain <strong>without</strong> qibuild, so we have to set
+<tt class="docutils literal"><span class="pre">CMAKE_MODULE_PATH</span></tt> to <tt class="docutils literal"><span class="pre">CTC_DIR/sysroot/usr/share/cmake-2.8/Modules/qibuild</span></tt>
+(Assuming qibuild is installed in the sysroot of a cross-toolchain)</li>
+<li>qibuild is not installed, and we are using a wrapper script using code from <tt class="docutils literal"><span class="pre">~/src/qibuild</span></tt>.</li>
+</ul>
+<p>To find the qibuild cmake files installed in a cross-toolchain, it is enough to do
+something like:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">list</span><span class="p">(</span><span class="s">APPEND</span> <span class="s">CMAKE_MODULE_PATH</span>  <span class="s2">&quot;${sysroot}/usr/share/cmake/Modules/&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To find the qibuild cmake files while using code from <tt class="docutils literal"><span class="pre">src/qibuild</span></tt>, we
+do something like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in python/qibuild/__init__.py</span>
+
+<span class="k">def</span> <span class="nf">get_cmake_qibuild_dir</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Try to guess where the qibuild cmake files are</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="c"># in project.bootstrap()</span>
+<span class="n">cmake_module_path</span> <span class="o">=</span> <span class="n">get_cmake_qibuild_dir</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then, when we run <tt class="docutils literal"><span class="pre">qibuild</span> <span class="pre">configure</span> <span class="pre">hello</span></tt>, the <tt class="docutils literal"><span class="pre">dependencies.cmake</span></tt> file is generated
+with the correct CMAKE_MODULE_PATH:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">set</span><span class="p">(</span><span class="s">_qibuild_path</span> <span class="s2">&quot;src/qibuild/cmake&quot;</span><span class="p">)</span>  <span class="c"># &lt; this line configured by project.bootstrap()</span>
+<span class="nb">list</span><span class="p">(</span><span class="s">FIND</span> <span class="s">CMAKE_MODULE_PATH</span> <span class="s2">&quot;${_qibuild_path}&quot;</span> <span class="s">_found</span><span class="p">)</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">_found</span> <span class="s">STREQUAL</span> <span class="s2">&quot;-1&quot;</span><span class="p">)</span>
+  <span class="nb">list</span><span class="p">(</span><span class="s">APPEND</span> <span class="s">CMAKE_MODULE_PATH</span> <span class="s2">&quot;${_qibuild_path}&quot;</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="managing_deps.html" title="Managing dependences with qiBuild: an overview">Managing dependences with qiBuild: an overview</a>
+     |
+    <a href="index.html" title="qiBuild CMake framework design" accesskey="U">qiBuild CMake framework design</a>
+   |
+    <a href="shared_libs.html" title="Managing shared libraries">Managing shared libraries</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Search order</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Search order</a><ul>
+<li><a class="reference internal" href="#search-order-for-packages-libs-headers-and-programs">Search order for packages, libs, headers, and programs</a><ul>
+<li><a class="reference internal" href="#why">Why ?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#search-order-for-packages">Search order for packages</a></li>
+<li><a class="reference internal" href="#search-order-for-cmake-specific-code">Search order for cmake specific code</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="managing_deps.html" title="Managing dependences with qiBuild: an overview">previous</a>
+     |
+    <a href="index.html" title="qiBuild CMake framework design" accesskey="U">up</a>
+   |
+    <a href="shared_libs.html" title="Managing shared libraries">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

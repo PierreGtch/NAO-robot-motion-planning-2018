@@ -1,0 +1,896 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALMemory API &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="ALMemory" href="almemory.html" />
+    <link rel="next" title="ALModule" href="almodule.html" />
+    <link rel="prev" title="ALMemory" href="almemory.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="almemory.html" title="ALMemory">previous</a>
+     |
+    <a href="almemory.html" title="ALMemory" accesskey="U">up</a>
+   |
+    <a href="almodule.html" title="ALModule">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-core-almemory-api">
+            
+  <div class="section" id="almemory-api">
+<span id="id1"></span><h1>ALMemory API<a class="headerlink" href="#almemory-api" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="index.html#naoqi-core"><em>NAOqi Core</em></a> - <a class="reference internal" href="almemory.html#almemory"><em>Overview</em></a> | API</p>
+<hr class="docutils" />
+<p>Namespace : <strong>AL</strong></p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;alproxies/almemoryproxy.h&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="method-list">
+<h2>Method list<a class="headerlink" href="#method-list" title="Permalink to this headline">¶</a></h2>
+<p>As any module, this module inherits methods from <a class="reference internal" href="almodule-api.html#almodule-api"><em>ALModule API</em></a>.
+It also has the following specific methods:</p>
+<dl class="class">
+<dt id="ALMemoryProxy">
+<em class="property">class </em><tt class="descname">ALMemoryProxy</tt><a class="headerlink" href="#ALMemoryProxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<ul class="simple">
+<li><a class="reference internal" href="#ALMemoryProxy::declareEvent__ssCR" title="ALMemoryProxy::declareEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::declareEvent()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getData__ssCR" title="ALMemoryProxy::getData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getData()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getDataList__ssCR" title="ALMemoryProxy::getDataList"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getDataList()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getDataListName" title="ALMemoryProxy::getDataListName"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getDataListName()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getDataOnChange__ssCR.iCR" title="ALMemoryProxy::getDataOnChange"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getDataOnChange()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getDataPtr__ssCR" title="ALMemoryProxy::getDataPtr"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getDataPtr()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getDescriptionList__std::vector:ss:CR" title="ALMemoryProxy::getDescriptionList"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getDescriptionList()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getEventHistory__ssCR" title="ALMemoryProxy::getEventHistory"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getEventHistory()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getEventList" title="ALMemoryProxy::getEventList"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getEventList()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getExtractorEvent__ssCR" title="ALMemoryProxy::getExtractorEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getExtractorEvent()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getListData__AL::ALValueCR" title="ALMemoryProxy::getListData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getListData()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getMicroEventList" title="ALMemoryProxy::getMicroEventList"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getMicroEventList()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getSubscribers__ssCR" title="ALMemoryProxy::getSubscribers"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getSubscribers()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::getType__ssCR" title="ALMemoryProxy::getType"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getType()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::insertData__ssCR.iCR" title="ALMemoryProxy::insertData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::insertData()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::insertListData__AL::ALValueCR" title="ALMemoryProxy::insertListData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::insertListData()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::raiseEvent__ssCR.AL::ALValueCR" title="ALMemoryProxy::raiseEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::raiseEvent()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::raiseMicroEvent__ssCR.AL::ALValueCR" title="ALMemoryProxy::raiseMicroEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::raiseMicroEvent()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::removeData__ssCR" title="ALMemoryProxy::removeData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::removeData()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::removeMicroEvent__ssCR" title="ALMemoryProxy::removeMicroEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::removeMicroEvent()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::setDescription__ssCR.ssCR" title="ALMemoryProxy::setDescription"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::setDescription()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::subscribeToEvent__ssCR.ssCR.ssCR" title="ALMemoryProxy::subscribeToEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::subscribeToEvent()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::subscribeToMicroEvent__ssCR.ssCR.ssCR.ssCR" title="ALMemoryProxy::subscribeToMicroEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::subscribeToMicroEvent()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::unregisterModuleReference__ssCR" title="ALMemoryProxy::unregisterModuleReference"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::unregisterModuleReference()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::unsubscribeToEvent__ssCR.ssCR" title="ALMemoryProxy::unsubscribeToEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::unsubscribeToEvent()</span></tt></a></li>
+<li><a class="reference internal" href="#ALMemoryProxy::unsubscribeToMicroEvent__ssCR.ssCR" title="ALMemoryProxy::unsubscribeToMicroEvent"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::unsubscribeToMicroEvent()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="event-list">
+<h2>Event list<a class="headerlink" href="#event-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="#NAOqiReady" title="NAOqiReady"><tt class="xref naoqi naoqi-event docutils literal"><span class="pre">NAOqiReady()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ALMemoryProxy::declareEvent__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">declareEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>eventName</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::declareEvent__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Declares an event to allow future subscriptions to the event</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> &#8211; The name of the event</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::declareEvent__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">declareEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>eventName</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>extractorName</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::declareEvent__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Declares an event to allow future subscriptions to the event</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> &#8211; The name of the event</li>
+<li><strong>extractorName</strong> &#8211; The name of the extractor capable of creating the event</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getData__ssCR">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getData__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a key-value pair stored in memory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> &#8211; Name of the value.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The data as an AL::ALValue. This can often be cast transparently into the original type.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getData__ssCR.iCR">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>deprecatedParameter</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getData__ssCR.iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a key-value pair stored in memory</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.12: </span>Please use the version of this method with no second parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> &#8211; Name of the value.</li>
+<li><strong>deprecatedParameter</strong> &#8211; This parameter has no effect, but is left for compatibility reason.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The data as an AL::ALValue</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getDataList__ssCR">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getDataList</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>filter</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getDataList__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a list of all key names that contain a given string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filter</strong> &#8211; A string used as the search term</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of all the data key names that contain the given string.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getDataListName">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getDataListName</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMemoryProxy::getDataListName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the key names for all the key-value pairs in memory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list containing the keys in memory</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getDataOnChange__ssCR.iCR">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getDataOnChange</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>deprecatedParameter</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getDataOnChange__ssCR.iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blocks the caller until the value of a key changes</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.12: </span>Call <a class="reference internal" href="#ALMemoryProxy::getData__ssCR" title="ALMemoryProxy::getData"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMemoryProxy::getData()</span></tt></a> on your own and compare when the data change.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> &#8211; Name of the data.</li>
+<li><strong>deprecatedParameter</strong> &#8211; this parameter has no effect</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">an array containing all the retrieved data</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getDataPtr__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void*</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getDataPtr</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getDataPtr__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a pointer to 32 a bit data item. Beware, the pointer will only be valid during the lifetime of the ALMemoryProxy object. Use with care, at initialization, not every loop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> &#8211; Name of the data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A pointer converted to int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getDescriptionList__std::vector:ss:CR">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getDescriptionList</tt><big>(</big><a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">const std::vector&lt;std::string&gt;&amp;</a> <em>keys</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getDescriptionList__std::vector:ss:CR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a description of all given keys</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>keys</strong> &#8211; List of keys. (empty to get all descriptions)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An array of (key, type, description) where type is &#8220;data&#8221; or &#8220;event&#8221;</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getEventHistory__ssCR">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getEventHistory</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>pName</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getEventHistory__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> &#8211; Name of the variable</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of all the data key names that contain the given string.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getEventList">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getEventList</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMemoryProxy::getEventList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a list containing the names of all the declared events</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list containing the names of all events</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getExtractorEvent__ssCR">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getExtractorEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>extractorName</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getExtractorEvent__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the list of all events generated by a given extractor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>extractorName</strong> &#8211; The name of the extractor</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list containing the names of the events associated with the given extractor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getListData__AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">AL::ALValue</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getListData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>keyList</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getListData__AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the values associated with the given list of keys. This is more efficient than calling getData many times, especially over the network.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>keyList</strong> &#8211; An array containing the key names.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An array containing all the values corresponding to the given keys.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getMicroEventList">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getMicroEventList</tt><big>(</big><big>)</big><a class="headerlink" href="#ALMemoryProxy::getMicroEventList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a list containing the names of all the declared micro events</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list containing the names of all the microEvents</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getSubscribers__ssCR">
+<a class="reference internal" href="../stdtypes.html#std::vector:ss:" title="std::vector&lt;std::string&gt;">std::vector&lt;std::string&gt;</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getSubscribers</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getSubscribers__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a list containing the names of subscribers to an event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; Name of the event or micro-event</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of subscriber names</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::getType__ssCR">
+<a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">getType</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::getType__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the storage class of the stored data. This is not the underlying POD type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> &#8211; Name of the variable</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">String type: Data, Event, MicroEvent</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::insertData__ssCR.iCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">insertData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em>, <a class="reference internal" href="../stdtypes.html#i" title="int">const int&amp;</a> <em>value</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::insertData__ssCR.iCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts a key-value pair into memory, where value is an int</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> &#8211; Name of the value to be inserted.</li>
+<li><strong>value</strong> &#8211; The int to be inserted</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::insertData__ssCR.floatCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">insertData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em>, <a class="reference internal" href="../stdtypes.html#float" title="float">const float&amp;</a> <em>value</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::insertData__ssCR.floatCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts a key-value pair into memory, where value is a float</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> &#8211; Name of the value to be inserted.</li>
+<li><strong>value</strong> &#8211; The float to be inserted</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::insertData__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">insertData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>value</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::insertData__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts a key-value pair into memory, where value is a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> &#8211; Name of the value to be inserted.</li>
+<li><strong>value</strong> &#8211; The string to be inserted</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::insertData__ssCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">insertData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>data</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::insertData__ssCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts a key-value pair into memory, where value is an ALValue</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> &#8211; Name of the value to be inserted.</li>
+<li><strong>data</strong> &#8211; The ALValue to be inserted. This could contain a basic type, or a more complex array. See the ALValue documentation for more information.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::insertListData__AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">insertListData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>list</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::insertListData__AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts a list of key-value pairs into memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>list</strong> &#8211; An ALValue list of the form [[Key, Value],...]. Each item will be inserted.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::raiseEvent__ssCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">raiseEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>value</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::raiseEvent__ssCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publishes the given data to all subscribers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Name of the event to raise.</li>
+<li><strong>value</strong> &#8211; The data associated with the event. This could contain a basic type, or a more complex array. See the ALValue documentation for more information.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::raiseMicroEvent__ssCR.AL::ALValueCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">raiseMicroEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em>, <a class="reference internal" href="../stdtypes.html#AL::ALValue" title="AL::ALValue">const AL::ALValue&amp;</a> <em>value</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::raiseMicroEvent__ssCR.AL::ALValueCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publishes the given data to all subscribers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Name of the event to raise.</li>
+<li><strong>value</strong> &#8211; The data associated with the event. This could contain a basic type, or a more complex array. See the <a class="reference external" href="../../ref/libalvalue/classAL_1_1ALValue.html">AL::ALValue</a> documentation for more information.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::removeData__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">removeData</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>key</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::removeData__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a key-value pair from memory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> &#8211; Name of the data to be removed.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::removeMicroEvent__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">removeMicroEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::removeMicroEvent__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a micro event from memory and unsubscribes any existing subscribers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Name of the event to remove.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::setDescription__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">setDescription</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>description</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::setDescription__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the description of a memory entry.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name of the key to document</li>
+<li><strong>description</strong> &#8211; The description</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::subscribeToEvent__ssCR.ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">subscribeToEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackModule</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackMethod</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::subscribeToEvent__ssCR.ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribes to an event and automaticaly launches the module that declared itself as the generator of the event if required.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name of the event to subscribe to</li>
+<li><strong>callbackModule</strong> &#8211; Name of the module to call with notifications</li>
+<li><strong>callbackMethod</strong> &#8211; Name of the module&#8217;s method to call when a data is changed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Look at the following example for details: <a class="reference internal" href="../../dev/cpp/examples/core/events/events.html#cpp-tutos-create-events"><em>Creating events</em></a></p>
+<p>C++ callback signature:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyModule</span> <span class="o">:</span> <span class="k">public</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALModule</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">myCallback</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">,</span> <span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="o">&amp;</span><span class="n">message</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Python callback signature:</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># create python module</span>
+<span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">ALModule</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot; Mandatory docstring.</span>
+<span class="sd">      comment needed to create a new python module</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">myCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Mandatory docstring.</span>
+<span class="sd">        comment needed to create a bound method</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::subscribeToEvent__ssCR.ssCR.ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">subscribeToEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackModule</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackMessage</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbacMethod</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::subscribeToEvent__ssCR.ssCR.ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribes to event and automaticaly launches the module capable of generating the event if it is not already running. Please use the version without the callbackMessage parameter.</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.12: </span>Please use the version without the callbackMessage parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name of the event to subscribe to</li>
+<li><strong>callbackModule</strong> &#8211; Name of the module to call with notifications</li>
+<li><strong>callbackMessage</strong> &#8211; DEPRECATED Message included in the notification.</li>
+<li><strong>callbacMethod</strong> &#8211; Name of the module&#8217;s method to call when a data is changed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::subscribeToMicroEvent__ssCR.ssCR.ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">subscribeToMicroEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackModule</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackMessage</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackMethod</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::subscribeToMicroEvent__ssCR.ssCR.ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribes to a microEvent. Subscribed modules are notified on theircallback method whenever the data is updated, even if the new value is the same as the old value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Name of the data.</li>
+<li><strong>callbackModule</strong> &#8211; Name of the module to call with notifications</li>
+<li><strong>callbackMessage</strong> &#8211; Message included in the notification. This can be used to disambiguate multiple subscriptions.</li>
+<li><strong>callbackMethod</strong> &#8211; Name of the module&#8217;s method to call when a data is changed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Look at the following example for details: <a class="reference internal" href="../../dev/cpp/examples/core/events/events.html#cpp-tutos-create-events"><em>Creating events</em></a></p>
+<p>C++ callback signature:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyModule</span> <span class="o">:</span> <span class="k">public</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALModule</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">myCallback</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">,</span> <span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">,</span> <span class="k">const</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALValue</span> <span class="o">&amp;</span><span class="n">message</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Python callback signature:</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># create python module</span>
+<span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">ALModule</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot; Mandatory docstring.</span>
+<span class="sd">      comment needed to create a new python module</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">myCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Mandatory docstring.</span>
+<span class="sd">        comment needed to create a bound method</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::unregisterModuleReference__ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">unregisterModuleReference</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>moduleName</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::unregisterModuleReference__ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Informs ALMemoryProxy that a module doesn&#8217;t exist anymore.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>moduleName</strong> &#8211; Name of the departing module.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::unsubscribeToEvent__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">unsubscribeToEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackModule</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::unsubscribeToEvent__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsubscribes a module from the given event. No further notifications will be received.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name of the event</li>
+<li><strong>callbackModule</strong> &#8211; The name of the module that was given when subscribing.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ALMemoryProxy::unsubscribeToMicroEvent__ssCR.ssCR">
+<a class="reference internal" href="../stdtypes.html#void" title="void">void</a> <tt class="descclassname">ALMemoryProxy::</tt><tt class="descname">unsubscribeToMicroEvent</tt><big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>name</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">const std::string&amp;</a> <em>callbackModule</em><big>)</big><a class="headerlink" href="#ALMemoryProxy::unsubscribeToMicroEvent__ssCR.ssCR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsubscribes from the given event. No further notifications will be received.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Name of the event.</li>
+<li><strong>callbackModule</strong> &#8211; The name of the module that was given when subscribing.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<dl class="event">
+<dt id="NAOqiReady">
+<div class="line">Event: <tt class="descname">&quot;NAOqiReady&quot;</tt></div>
+callback<big>(</big><a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> eventName</em>, <a class="reference internal" href="../stdtypes.html#ss" title="std::string">std::string</a><em> subscriberIdentifier</em><big>)</big><a class="headerlink" href="#NAOqiReady" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when all the auto-loaded modules have been loaded.
+See <a class="reference internal" href="../../dev/naoqi/index.html#naoqi-process"><em>The NAOqi process</em></a> to understand what is an auto-loaded module.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="almemory.html" title="ALMemory">ALMemory</a>
+     |
+    <a href="almemory.html" title="ALMemory" accesskey="U">ALMemory</a>
+   |
+    <a href="almodule.html" title="ALModule">ALModule</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Core</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albehaviormanager.html">ALBehaviorManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../connectionmanager/index.html">ALConnectionManager</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="almemory.html">ALMemory</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">ALMemory API</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="almodule.html">ALModule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alpreferences.html">ALPreferences</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alresourcemanager.html">ALResourceManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allauncher.html">ALLauncher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="albonjour.html">ALBonjour</a></li>
+<li class="toctree-l4"><a class="reference internal" href="allogger.html">ALLogger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="extractors.html">Extractors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALMemory API</a><ul>
+<li><a class="reference internal" href="#method-list">Method list</a></li>
+<li><a class="reference internal" href="#event-list">Event list</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+<li><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="almemory.html" title="ALMemory">previous</a>
+     |
+    <a href="almemory.html" title="ALMemory" accesskey="U">up</a>
+   |
+    <a href="almodule.html" title="ALModule">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,351 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Logging messages &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="qiBuild CMake API" href="../api.html" />
+    <link rel="next" title="Using options" href="option.html" />
+    <link rel="prev" title="Testing" href="tests.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="tests.html" title="Testing">previous</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="option.html" title="Using options">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="ref-cmake-api-log">
+            
+  <div class="section" id="logging-messages">
+<h1>Logging messages<a class="headerlink" href="#logging-messages" title="Permalink to this headline">¶</a></h1>
+<p>This modules implements log messages with different verbosity levels.
+By default debug and verbose are disabled.
+If you want the verbose output call cmake with a VERBOSE=1 environment variable set.
+If you want the debug output call cmake with a DEBUG=1 environment variable set.
+You can combine DEBUG and VERBOSE.</p>
+<p>You can also trigger deprectated warning messages with QI_WARN_DEPRECATED (OFF
+by default)</p>
+<div class="section" id="qi-debug">
+<h2>qi_debug<a class="headerlink" href="#qi-debug" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_debug">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_debug</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_debug" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; a message</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>display a debug message
+To enable debug output set DEBUG=1 in your environment.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-verbose">
+<h2>qi_verbose<a class="headerlink" href="#qi-verbose" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_verbose">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_verbose</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_verbose" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; a message</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>display a vebose message
+To enable verbose output set VERBOSE=1 in your environment.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-info">
+<h2>qi_info<a class="headerlink" href="#qi-info" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_info">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_info</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_info" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; a message</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>display an info message</p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-deprecated">
+<h2>qi_deprecated<a class="headerlink" href="#qi-deprecated" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_deprecated">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_deprecated</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_deprecated" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; a message</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>display a deprecated message</p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-warning">
+<h2>qi_warning<a class="headerlink" href="#qi-warning" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_warning">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_warning</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_warning" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; a message</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>display a warning message</p>
+</dd></dl>
+
+</div>
+<div class="section" id="qi-error">
+<h2>qi_error<a class="headerlink" href="#qi-error" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="qi_error">
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_error</span><span class="p">(</span><span class="s">[&lt;remaining</span> <span class="s">args&gt;</span> <span class="s">...]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<a class="headerlink" href="#qi_error" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>remaining</em>) &#8211; a message</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>display an error message</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="tests.html" title="Testing">Testing</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">qiBuild CMake API</a>
+   |
+    <a href="option.html" title="Using options">Using options</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">qiBuild reference documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../man/index.html">qibuild man Pages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html">qiBuild CMake API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../cmake_api_syntax.html">CMake API syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="target.html">Functions to create targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stage.html">Staging targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html">Installing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="submodule.html">Using submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html">Testing</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Logging messages</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="option.html">Using options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="find.html">Functions to find libaries and include directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html">Handling compile flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="swig/python.html">Python wrapper for swig</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cfg/index.html">Configuration files syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">qiBuild Python documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Logging messages</a><ul>
+<li><a class="reference internal" href="#qi-debug">qi_debug</a></li>
+<li><a class="reference internal" href="#qi-verbose">qi_verbose</a></li>
+<li><a class="reference internal" href="#qi-info">qi_info</a></li>
+<li><a class="reference internal" href="#qi-deprecated">qi_deprecated</a></li>
+<li><a class="reference internal" href="#qi-warning">qi_warning</a></li>
+<li><a class="reference internal" href="#qi-error">qi_error</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="tests.html" title="Testing">previous</a>
+     |
+    <a href="../api.html" title="qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="option.html" title="Using options">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

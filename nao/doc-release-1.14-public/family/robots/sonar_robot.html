@@ -1,0 +1,301 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Sonars &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAO Technical overview" href="index_robots.html" />
+    <link rel="next" title="Joint position sensors" href="mre_robot.html" />
+    <link rel="prev" title="Inertial unit" href="inertial_robot.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="inertial_robot.html" title="Inertial unit">previous</a>
+     |
+    <a href="index_robots.html" title="NAO Technical overview" accesskey="U">up</a>
+   |
+    <a href="mre_robot.html" title="Joint position sensors">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="family-robots-sonar_robot">
+            
+  <div class="section" id="sonars">
+<span id="robot-sonar"></span><h1>Sonars<a class="headerlink" href="#sonars" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="simple">
+<li><a class="reference internal" href="../../naoqi/sensors/alsonar.html#alsonar"><em>ALSonar</em></a></li>
+</ul>
+<p class="last"><a class="reference internal" href="index_robots.html#all-robots"><em>NAO Technical overview</em></a> | <a class="reference internal" href="../nao_h25/index_h25.html#nao-h25"><em>NAO H25</em></a> | <a class="reference internal" href="../nao_h21/index_h21.html#nao-h21"><em>NAO H21</em></a> | <a class="reference internal" href="../nao_t14/index_t14.html#nao-t14"><em>NAO T14</em></a> | <a class="reference internal" href="../nao_t2/index_t2.html#nao-t2"><em>NAO T2</em></a></p>
+</div>
+<hr class="docutils" />
+<div class="section" id="specifications">
+<h2>Specifications<a class="headerlink" href="#specifications" title="Permalink to this headline">¶</a></h2>
+<p>Sonar: 2 emitters, 2 receivers.</p>
+<ul class="simple">
+<li>Frequency: 40kHz.</li>
+<li>Sensitivity: -86dB.</li>
+<li>Resolution: 1cm.</li>
+<li>Detection range: 0.25m - 2.55m.</li>
+<li>Effective cone: 60°.</li>
+</ul>
+<p>NAO is equipped with two ultrasonic sensors (or sonars) which allow it to
+estimate the distance to
+obstacles in its environment. The detection range goes from 25 cm to 255 cm,
+but under 25 cm there is no distance information, the robot only knows that an
+object is present.</p>
+<img alt="../../_images/hardware_usposition.png" src="../../_images/hardware_usposition.png" style="width: 560px; height: 381px;" />
+</div>
+<div class="section" id="location">
+<h2>Location<a class="headerlink" href="#location" title="Permalink to this headline">¶</a></h2>
+<p>Position relative to the Torso frame.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="9%" />
+<col width="10%" />
+<col width="10%" />
+<col width="16%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Sonar name</th>
+<th class="head">X(m)</th>
+<th class="head">Y(m)</th>
+<th class="head">Z(m)</th>
+<th class="head">WX(rd)[deg]*</th>
+<th class="head">WY(rd)[deg]*</th>
+<th class="head">WZ(rd)[deg]*</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>US sensor 1</td>
+<td>0.0537</td>
+<td>-0.0341</td>
+<td>0.0698</td>
+<td>0.0</td>
+<td>-0.1745 [-10.0]</td>
+<td>-0.3490 [-20.0]</td>
+</tr>
+<tr class="row-odd"><td>US sensor 2</td>
+<td>0.0477</td>
+<td>-0.0416</td>
+<td>0.0509</td>
+<td>0.0</td>
+<td>0.2618 [15.0]</td>
+<td>-0.4363 [-25.0]</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We adopt the roll, pitch and yaw notation for angle representation.
+So, to construct an homogeneous transform with rotation (Wx,Wy,Wz) use T=rotZ(Wz)*rotY(Wy)*rotX(Wx)</p>
+</div>
+<ul class="simple">
+<li><strong>US sensor 3</strong> is symmetrical to US sensor 1 with respect to sagittal plane of the robot.</li>
+<li><strong>US sensor 4</strong> is symmetrical to US sensor 2 with respect to sagittal plane of the robot.</li>
+</ul>
+</div>
+<div class="section" id="accessing-value-using-almemory-keys">
+<span id="sonar-key"></span><h2>Accessing value using ALMemory keys<a class="headerlink" href="#accessing-value-using-almemory-keys" title="Permalink to this headline">¶</a></h2>
+<p>Access echos value by using <a class="reference internal" href="../../naoqi/core/almemory.html#almemory"><em>ALMemory</em></a> key name.</p>
+<p>Left sonar(m):</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value1</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value2</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value3</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value4</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value5</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value6</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value7</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value8</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Left</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value9</span>
+</pre></div>
+</div>
+<p>Right sonar(m):</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value1</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value2</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value3</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value4</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value5</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value6</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value7</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value8</span>
+<span class="n">Device</span><span class="o">/</span><span class="n">SubDeviceList</span><span class="o">/</span><span class="n">US</span><span class="o">/</span><span class="n">Right</span><span class="o">/</span><span class="n">Sensor</span><span class="o">/</span><span class="n">Value9</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="inertial_robot.html" title="Inertial unit">Inertial unit</a>
+     |
+    <a href="index_robots.html" title="NAO Technical overview" accesskey="U">NAO Technical overview</a>
+   |
+    <a href="mre_robot.html" title="Joint position sensors">Joint position sensors</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../nao/index.html">NAO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/configuring.html">Configuring NAO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/taking-care.html">Taking care of <strong>NAO</strong></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Hardware</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../body_type.html">Robot version and Body Type</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index_robots.html">NAO Technical overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dimensions_robot.html">Dimensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="links_robot.html">Links</a></li>
+<li class="toctree-l4"><a class="reference internal" href="joints_robot.html">Joints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="masses_robot.html">Masses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="motors_robot.html">Motors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="motherboard_robot.html">Motherboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="battery_robot.html">Battery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="loudspeaker_robot.html">Loudspeakers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="microphone_robot.html">Microphones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="video_robot.html">Video camera</a></li>
+<li class="toctree-l4"><a class="reference internal" href="infrared_robot.html">Infra-Red</a></li>
+<li class="toctree-l4"><a class="reference internal" href="leds_robot.html">LEDs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fsr_robot.html">FSRs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="inertial_robot.html">Inertial unit</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Sonars</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="mre_robot.html">Joint position sensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="contact-sensors_robot.html">Contact and tactile sensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="languages.html">Available languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="laser.html">Laser head v.3.2</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_h25/index_h25.html">NAO H25</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_t14/index_t14.html">NAO T14</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_h21/index_h21.html">NAO H21</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_t2/index_t2.html">NAO T2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Sonars</a><ul>
+<li><a class="reference internal" href="#specifications">Specifications</a></li>
+<li><a class="reference internal" href="#location">Location</a></li>
+<li><a class="reference internal" href="#accessing-value-using-almemory-keys">Accessing value using ALMemory keys</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="inertial_robot.html" title="Inertial unit">previous</a>
+     |
+    <a href="index_robots.html" title="NAO Technical overview" accesskey="U">up</a>
+   |
+    <a href="mre_robot.html" title="Joint position sensors">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

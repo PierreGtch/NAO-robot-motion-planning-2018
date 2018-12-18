@@ -1,0 +1,247 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using qiBuild CMake API &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="qiBuild Programming guide" href="../index.html" />
+    <link rel="next" title="Creating a binary" href="create_bin.html" />
+    <link rel="prev" title="Managing dependencies between projects" href="../overview/managing_deps.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../overview/managing_deps.html" title="Managing dependencies between projects">previous</a>
+     |
+    <a href="../index.html" title="qiBuild Programming guide" accesskey="U">up</a>
+   |
+    <a href="create_bin.html" title="Creating a binary">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="guide-cmake-index">
+            
+  <div class="section" id="using-qibuild-cmake-api">
+<h1>Using qiBuild CMake API<a class="headerlink" href="#using-qibuild-cmake-api" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="create_bin.html">Creating a binary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="create_bin.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_bin.html#basic-cmake">Basic CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_bin.html#adding-an-executable">Adding an executable</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="create_lib.html">Creating a library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="create_lib.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_lib.html#the-answer-library">The answer library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_lib.html#using-the-answer-library">Using the answer library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="create_lib.html#adding-the-include-directories">Adding the include directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="create_lib.html#creating-the-answer-library">Creating the answer library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="create_lib.html#link-the-foo-executable-with-the-answer-library">Link the foo executable with the answer library</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="create_lib.html#building">Building</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_lib.html#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Using qi_install functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#components">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#runtime-versus-development-installation">Runtime versus development installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#special-features">Special features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#check-of-arguments">Check of arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#support-of-glob-and-directories">Support of glob and directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#if-keyword">&#8220;IF&#8221; keyword</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#subfolder-and-keep-relative-paths-keywords">SUBFOLDER and KEEP_RELATIVE_PATHS keywords</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="install.html#using-subfolder">Using SUBFOLDER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install.html#using-keep-relative-paths">Using KEEP_RELATIVE_PATHS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">Unit testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="test.html#adding-a-test">Adding a test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html#important">Important</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="managing_config_files.html">Managing configuration files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_a_config_cmake.html">Writing a custom -config.cmake module file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="writing_a_config_cmake.html#simplest-case">Simplest case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_a_config_cmake.html#finding-libraries-with-different-names">Finding libraries with different names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_a_config_cmake.html#finding-include-directories-with-prefixes">Finding include directories with prefixes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_a_config_cmake.html#headers-only-libraries">Headers-only libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_a_config_cmake.html#finding-in-non-standards-paths">Finding in non standards paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_a_config_cmake.html#finding-pkg-config-libraries">Finding pkg-config libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using_qi_stage.html">Using qi_stage_lib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using_qi_stage.html#basic-usage">Basic usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_qi_stage.html#advanced-usage">Advanced usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using_qi_stage.html#using-qi-stage-lib-with-custom-depends">Using qi_stage_lib with custom DEPENDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_qi_stage.html#using-qi-stage-lib-with-include-dirs">Using qi_stage_lib with INCLUDE_DIRS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_qi_stage.html#using-qi-stage-lib-with-path-suffixes">Using qi_stage_lib with PATH_SUFFIXES</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../overview/managing_deps.html" title="Managing dependencies between projects">Managing dependencies between projects</a>
+     |
+    <a href="../index.html" title="qiBuild Programming guide" accesskey="U">qiBuild Programming guide</a>
+   |
+    <a href="create_bin.html" title="Creating a binary">Creating a binary</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">qiBuild Programming guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../overview/index.html">qiBuild overview</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Using qiBuild CMake API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="create_bin.html">Creating a binary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="create_lib.html">Creating a library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html">Using qi_install functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="test.html">Unit testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="managing_config_files.html">Managing configuration files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="writing_a_config_cmake.html">Writing a custom -config.cmake module file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_qi_stage.html">Using qi_stage_lib</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../porting_to_qibuild.html">Porting a CMake project to qiBuild</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../using_toolchains.html">Using toolchains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_configs.html">Mananing build configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../how_to_write_a_library.html">How to write a library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extending_qibuild_actions.html">Extending qiBuild actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tips_and_tricks.html">qiBuild tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../overview/managing_deps.html" title="Managing dependencies between projects">previous</a>
+     |
+    <a href="../index.html" title="qiBuild Programming guide" accesskey="U">up</a>
+   |
+    <a href="create_bin.html" title="Creating a binary">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

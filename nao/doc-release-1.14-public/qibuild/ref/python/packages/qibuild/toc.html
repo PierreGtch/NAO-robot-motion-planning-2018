@@ -1,0 +1,505 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qibuild.toc – TOC means Obvious Compilation &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="qibuild modules" href="index.html" />
+    <link rel="next" title="qibuild.project – Managing projects" href="project.html" />
+    <link rel="prev" title="qibuild modules" href="index.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="index.html" title="qibuild modules">previous</a>
+     |
+    <a href="index.html" title="qibuild modules" accesskey="U">up</a>
+   |
+    <a href="project.html" title="qibuild.project &amp;#8211; Managing &lt;tt class=&#34;docutils literal docutils literal&#34;&gt;&lt;span class=&#34;pre&#34;&gt;projects&lt;/span&gt;&lt;/tt&gt;">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="ref-python-packages-qibuild-toc">
+            
+  <div class="section" id="module-qibuild.toc">
+<span id="qibuild-toc-toc-means-obvious-compilation"></span><h1>qibuild.toc &#8211; TOC means Obvious Compilation<a class="headerlink" href="#module-qibuild.toc" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="qibuild-toc-toc">
+<h2>qibuild.toc.Toc<a class="headerlink" href="#qibuild-toc-toc" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="qibuild.toc.Toc">
+<em class="property">class </em><tt class="descclassname">qibuild.toc.</tt><tt class="descname">Toc</tt><big>(</big><em>work_tree</em>, <em>path_hints=None</em>, <em>config=None</em>, <em>qibuild_cfg=None</em>, <em>build_type='Debug'</em>, <em>cmake_flags=None</em>, <em>cmake_generator=None</em>, <em>active_projects=None</em>, <em>solve_deps=True</em><big>)</big><a class="headerlink" href="#qibuild.toc.Toc" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class inherits from <a class="reference internal" href="worktree.html#qibuild.worktree.WorkTree" title="qibuild.worktree.WorkTree"><tt class="xref py py-class docutils literal"><span class="pre">qibuild.worktree.WorkTree</span></tt></a>,
+so it has a list of projects.</p>
+<p>Example of use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">toc</span> <span class="o">=</span> <span class="n">Toc</span><span class="p">(</span><span class="s">&quot;/path/to/work/tree&quot;</span><span class="p">,</span> <span class="n">build_type</span><span class="o">=</span><span class="s">&quot;release&quot;</span><span class="p">)</span>
+
+<span class="c"># Look for the foo project in the worktree</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">toc</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span>
+
+<span class="c"># Resolve foo dependencies, call cmake on each of them,</span>
+<span class="n">toc</span><span class="o">.</span><span class="n">configure_project</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+
+<span class="c"># Build the foo project, building all the dependencies in</span>
+<span class="c"># the correct order:</span>
+<span class="n">toc</span><span class="o">.</span><span class="n">build_project</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>Since the class is huge, documentation of the Toc class
+has been splitted in several parts:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#toc-init"><em>Initialisation</em></a></li>
+<li><a class="reference internal" href="#toc-compilation-methods"><em>Compilation related methods</em></a></li>
+<li><a class="reference internal" href="#toc-configuration"><em>Toc configuration</em></a></li>
+<li><a class="reference internal" href="#toc-dependencies-resolution"><em>Dependency resolution</em></a></li>
+<li><a class="reference internal" href="#toc-attributes"><em>Attributes</em></a></li>
+</ul>
+<div class="section" id="initialisation">
+<span id="toc-init"></span><h3>Initialisation<a class="headerlink" href="#initialisation" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="qibuild.toc.Toc.__init__">
+<tt class="descclassname">Toc.</tt><tt class="descname">__init__</tt><big>(</big><em>work_tree</em>, <em>path_hints=None</em>, <em>config=None</em>, <em>qibuild_cfg=None</em>, <em>build_type='Debug'</em>, <em>cmake_flags=None</em>, <em>cmake_generator=None</em>, <em>active_projects=None</em>, <em>solve_deps=True</em><big>)</big><a class="headerlink" href="#qibuild.toc.Toc.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Toc object. Most of the keyargs come directly from
+the command line. (&#8211;wortree, &#8211;debug, -c, etc.)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>work_tree</strong> &#8211; see <a class="reference internal" href="worktree.html#qibuild.worktree.WorkTree.__init__" title="qibuild.worktree.WorkTree.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">qibuild.worktree.WorkTree.__init__()</span></tt></a></li>
+<li><strong>path_hints</strong> &#8211; see <a class="reference internal" href="worktree.html#qibuild.worktree.WorkTree.__init__" title="qibuild.worktree.WorkTree.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">qibuild.worktree.WorkTree.__init__()</span></tt></a></li>
+<li><strong>qibuild_cfg</strong> &#8211; a  <a class="reference internal" href="config.html#qibuild.config.QiBuildConfig" title="qibuild.config.QiBuildConfig"><tt class="xref py py-class docutils literal"><span class="pre">qibuild.config.QiBuildConfig</span></tt></a> instance
+if not given, a new one will be created</li>
+<li><strong>build_type</strong> &#8211; a build type, could be debug or release
+(defaults to debug)</li>
+<li><strong>cmake_flags</strong> &#8211; optional additional cmake flags</li>
+<li><strong>cmake_generator</strong> &#8211; optional cmake generator
+(defaults to Unix Makefiles)</li>
+<li><strong>active_projects</strong> &#8211; the projects excplicitely specified by user</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="dependency-resolution">
+<span id="toc-dependencies-resolution"></span><h3>Dependency resolution<a class="headerlink" href="#dependency-resolution" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="qibuild.toc.Toc.resolve_deps">
+<tt class="descclassname">Toc.</tt><tt class="descname">resolve_deps</tt><big>(</big><em>runtime=False</em><big>)</big><a class="headerlink" href="#qibuild.toc.Toc.resolve_deps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tuple of three lists:
+(projects, packages, not_foud), see <a class="reference internal" href="dependencies_solver.html#module-qibuild.dependencies_solver" title="qibuild.dependencies_solver"><tt class="xref py py-mod docutils literal"><span class="pre">qibuild.dependencies_solver</span></tt></a>
+for more information.</p>
+<p>Note that the result depends on how the Toc object has been built.</p>
+<p>For instance, assuming you have &#8216;hello&#8217; depending on &#8216;world&#8217;, and
+&#8216;world&#8217; is also a package, you will get:</p>
+<p>([&#8216;hello&#8217;], [&#8216;world&#8217;], [])  if user used</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild configure hello
+</pre></div>
+</div>
+<p>but:</p>
+<p>([&#8216;world&#8217;, &#8216;hello], [], []) if user used:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> qibuild configure world hello
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="compilation-related-methods">
+<span id="toc-compilation-methods"></span><h3>Compilation related methods<a class="headerlink" href="#compilation-related-methods" title="Permalink to this headline">¶</a></h3>
+<p>Note : to use these method you must have a valid
+<a class="reference internal" href="project.html#qibuild.project.Project" title="qibuild.project.Project"><tt class="xref py py-class docutils literal"><span class="pre">qibuild.project.Project</span></tt></a> instance.</p>
+<p>You can get one using <a class="reference internal" href="#qibuild.toc.Toc.get_project" title="qibuild.toc.Toc.get_project"><tt class="xref py py-meth docutils literal"><span class="pre">Toc.get_project()</span></tt></a> method</p>
+<dl class="method">
+<dt id="qibuild.toc.Toc.get_project">
+<tt class="descclassname">Toc.</tt><tt class="descname">get_project</tt><big>(</big><em>project_name</em><big>)</big><a class="headerlink" href="#qibuild.toc.Toc.get_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a project from a name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A vali <a class="reference internal" href="project.html#qibuild.project.Project" title="qibuild.project.Project"><tt class="xref py py-class docutils literal"><span class="pre">qibuild.project.Project</span></tt></a> instance</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raise :</th><td class="field-body">a TocException if the project was not found</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="qibuild.toc.Toc.get_sdk_dirs">
+<tt class="descclassname">Toc.</tt><tt class="descname">get_sdk_dirs</tt><big>(</big><em>project_name</em><big>)</big><a class="headerlink" href="#qibuild.toc.Toc.get_sdk_dirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of sdk needed to build a project.</p>
+<p>Iterate through the dependencies.
+When it is a package (pre-compiled), add the path of
+the package, when it is a project, add the path to the &#8220;sdk&#8221; dir
+under the build directory of the project.</p>
+<p>If a name is both in source and in package, use the package
+(saves compile time), unless user asked explicitely for a list
+of projects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qibuild.toc.Toc.configure_project">
+<tt class="descclassname">Toc.</tt><tt class="descname">configure_project</tt><big>(</big><em>project</em>, <em>clean_first=True</em>, <em>debug_trycompile=False</em><big>)</big><a class="headerlink" href="#qibuild.toc.Toc.configure_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call cmake with correct options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>clean_first</strong> &#8211; If False, do not delete CMake cache.
+This is mainly useful when you are calling cmake NOT from
+<cite>qibuild configure</cite>.</li>
+<li><strong>debug_trycompile</strong> &#8211; If True, will pass &#8211;debug-trycompile.
+Useful when detecting compiler fails</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="qibuild.toc.Toc.build_project">
+<tt class="descclassname">Toc.</tt><tt class="descname">build_project</tt><big>(</big><em>project</em>, <em>incredibuild=False</em>, <em>num_jobs=1</em>, <em>target=None</em>, <em>rebuild=False</em><big>)</big><a class="headerlink" href="#qibuild.toc.Toc.build_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a project.</p>
+<p>Usually we will simply can <tt class="docutils literal"><span class="pre">cmake</span> <span class="pre">--build</span></tt>, but for incredibuild
+we need to call <cite>BuildConsole.exe</cite> with an sln.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qibuild.toc.Toc.install_project">
+<tt class="descclassname">Toc.</tt><tt class="descname">install_project</tt><big>(</big><em>project</em>, <em>destdir</em>, <em>runtime=False</em><big>)</big><a class="headerlink" href="#qibuild.toc.Toc.install_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Install the project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>project</strong> &#8211; project name.</li>
+<li><strong>destdir</strong> &#8211; destination. Note that when using <cite>qibuild install</cite>,
+we will first call <cite>cmake</cite> to make sure <cite>CMAKE_INSTALL_PREFIX</cite> is
+<tt class="docutils literal"><span class="pre">/</span></tt>. But this function simply calls <tt class="docutils literal"><span class="pre">cmake</span> <span class="pre">--target</span> <span class="pre">install</span></tt>
+in the simple case.</li>
+<li><strong>runtime</strong> &#8211; Whether to install the project as a runtime
+package or not.
+(see <a class="reference internal" href="../../../../guide/cmake/install.html#cmake-install"><em>Using qi_install functions</em></a> section for the details)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="qibuild.toc.Toc.test_project">
+<tt class="descclassname">Toc.</tt><tt class="descname">test_project</tt><big>(</big><em>project</em>, <em>test_name=None</em><big>)</big><a class="headerlink" href="#qibuild.toc.Toc.test_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run qibuild.ctest on a project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>test_name</strong> &#8211; if given, only this test will run</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="attributes">
+<span id="toc-attributes"></span><h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<p>This is only a small list of <a class="reference internal" href="#qibuild.toc.Toc" title="qibuild.toc.Toc"><tt class="xref py py-class docutils literal"><span class="pre">Toc</span></tt></a> attributes.</p>
+<dl class="attribute">
+<dt id="qibuild.toc.Toc.active_config">
+<tt class="descclassname">Toc.</tt><tt class="descname">active_config</tt><a class="headerlink" href="#qibuild.toc.Toc.active_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <a class="reference internal" href="#toc-configuration"><em>Toc configuration</em></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qibuild.toc.Toc.config">
+<tt class="descclassname">Toc.</tt><tt class="descname">config</tt><a class="headerlink" href="#qibuild.toc.Toc.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="config.html#qibuild.config.QiBuildConfig" title="qibuild.config.QiBuildConfig"><tt class="xref py py-class docutils literal"><span class="pre">qibuild.config.QiBuildConfig</span></tt></a> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qibuild.toc.Toc.projects">
+<tt class="descclassname">Toc.</tt><tt class="descname">projects</tt><a class="headerlink" href="#qibuild.toc.Toc.projects" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of objects of type <a class="reference internal" href="project.html#qibuild.project.Project" title="qibuild.project.Project"><tt class="xref py py-class docutils literal"><span class="pre">qibuild.project.Project</span></tt></a>
+this is updated using <a class="reference internal" href="worktree.html#qibuild.worktree.WorkTree.buildable_projects" title="qibuild.worktree.WorkTree.buildable_projects"><tt class="xref py py-attr docutils literal"><span class="pre">qibuild.worktree.WorkTree.buildable_projects</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qibuild.toc.Toc.toolchain">
+<tt class="descclassname">Toc.</tt><tt class="descname">toolchain</tt><a class="headerlink" href="#qibuild.toc.Toc.toolchain" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../qitoolchain/toolchain.html#qitoolchain.toolchain.Toolchain" title="qitoolchain.toolchain.Toolchain"><tt class="xref py py-class docutils literal"><span class="pre">qitoolchain.toolchain.Toolchain</span></tt></a> instance.
+Will be built from the active configuration name.</p>
+<p>Thus, <tt class="docutils literal"><span class="pre">self.toolchain.toolchain_file</span></tt> can be passed as
+<cite>-DCMAKE_TOOLCHAIN_FILE</cite> argument when calling
+<a class="reference internal" href="#qibuild.toc.Toc.configure_project" title="qibuild.toc.Toc.configure_project"><tt class="xref py py-meth docutils literal"><span class="pre">configure_project()</span></tt></a>, and
+<tt class="docutils literal"><span class="pre">self.toolchain.packages</span></tt> can be used to install contents
+of binary packages when calling <a class="reference internal" href="#qibuild.toc.Toc.install_project" title="qibuild.toc.Toc.install_project"><tt class="xref py py-meth docutils literal"><span class="pre">install_project()</span></tt></a></p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="toc-configuration">
+<span id="id1"></span><h2>Toc configuration<a class="headerlink" href="#toc-configuration" title="Permalink to this headline">¶</a></h2>
+<p>It always has a &#8220;current config&#8221;. This config can be:</p>
+<ul class="simple">
+<li>None in the simplest case</li>
+<li>A default configuration specified in the current worktree
+configuration file (<tt class="docutils literal"><span class="pre">.qi/qibuild.xml</span></tt>)</li>
+<li>A configuration set by the user with the <tt class="docutils literal"><span class="pre">-c,--config</span></tt> of
+various qibuild command</li>
+</ul>
+</div>
+<div class="section" id="other-functions-in-this-module">
+<h2>Other functions in this module<a class="headerlink" href="#other-functions-in-this-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="qibuild-toc-toc-open">
+<h3>qibuild.toc.toc_open<a class="headerlink" href="#qibuild-toc-toc-open" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="qibuild.toc.toc_open">
+<tt class="descclassname">qibuild.toc.</tt><tt class="descname">toc_open</tt><big>(</big><em>work_tree</em>, <em>args=None</em>, <em>qibuild_cfg=None</em><big>)</big><a class="headerlink" href="#qibuild.toc.toc_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <a class="reference internal" href="#qibuild.toc.Toc" title="qibuild.toc.Toc"><tt class="xref py py-class docutils literal"><span class="pre">Toc</span></tt></a> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>worktree</strong> &#8211; The worktree to be used. (see <a class="reference internal" href="worktree.html#qibuild.worktree.WorkTree" title="qibuild.worktree.WorkTree"><tt class="xref py py-class docutils literal"><span class="pre">qibuild.worktree.WorkTree</span></tt></a>)</li>
+<li><strong>args</strong> &#8211; an <tt class="docutils literal"><span class="pre">argparse.NameSpace</span></tt> object containing
+the arguments passed from the comand line.</li>
+<li><strong>qibuild_cfg</strong> &#8211; A (<a class="reference internal" href="config.html#qibuild.config.QiBuildConfig" title="qibuild.config.QiBuildConfig"><tt class="xref py py-class docutils literal"><span class="pre">qibuild.config.QiBuildConfig</span></tt></a> instance) to use.
+If None, we built a new instance to store in <tt class="docutils literal"><span class="pre">toc.config</span></tt></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>You should always use this function to call Toc methods from
+a qibuild <a class="reference internal" href="../../../../design/python/index.html#term-action"><em class="xref std std-term">action</em></a>.</p>
+<p>It takes care of all the options you specify from command line,
+and calls Toc constructor accordingly (see <a class="reference internal" href="#qibuild.toc.Toc.__init__" title="qibuild.toc.Toc.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">Toc.__init__()</span></tt></a>)</p>
+</dd></dl>
+
+<p>Typical usage from an action is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">configure_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+    <span class="c"># Add -c option</span>
+    <span class="n">qibuild</span><span class="o">.</span><span class="n">parsers</span><span class="o">.</span><span class="n">toc_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+
+    <span class="c"># Add --release, --cmake-generator, -j options:</span>
+    <span class="n">qibuild</span><span class="o">.</span><span class="n">parsers</span><span class="o">.</span><span class="n">build_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+
+    <span class="c"># Handle specifing zero, one or several project names</span>
+    <span class="c"># on the command line</span>
+    <span class="n">qibuild</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">project_parser</span><span class="p">(</span><span class="n">parse</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">toc</span> <span class="o">=</span> <span class="n">qibuild</span><span class="o">.</span><span class="n">toc</span><span class="o">.</span><span class="n">toc_open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">work_tree</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">project_names</span><span class="p">,</span> <span class="n">_package_names</span><span class="p">,</span> <span class="n">_not_found</span><span class="p">)</span> <span class="o">=</span> <span class="n">toc</span><span class="o">.</span><span class="n">resolve_deps</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">project_name</span> <span class="ow">in</span> <span class="n">project_nanes</span><span class="p">:</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="n">toc</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+        <span class="c"># Do something with &#39;project&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="index.html" title="qibuild modules">qibuild modules</a>
+     |
+    <a href="index.html" title="qibuild modules" accesskey="U">qibuild modules</a>
+   |
+    <a href="project.html" title="qibuild.project &amp;#8211; Managing &lt;tt class=&#34;docutils literal docutils literal&#34;&gt;&lt;span class=&#34;pre&#34;&gt;projects&lt;/span&gt;&lt;/tt&gt;">qibuild.project &#8211; Managing <tt class="docutils literal docutils literal"><span class="pre">projects</span></tt></a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">qiBuild reference documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../man/index.html">qibuild man Pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cmake/api.html">qiBuild CMake API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cfg/index.html">Configuration files syntax</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">qiBuild Python documentation</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">qiBuild Python packages documentation</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">qibuild modules</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="">qibuild.toc &#8211; TOC means Obvious Compilation</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="project.html">qibuild.project &#8211; Managing <tt class="docutils literal"><span class="pre">projects</span></tt></a></li>
+<li class="toctree-l5"><a class="reference internal" href="worktree.html">qibuild.worktree &#8211; Using a <tt class="docutils literal"><span class="pre">worktree</span></tt></a></li>
+<li class="toctree-l5"><a class="reference internal" href="dependencies_solver.html">qibuild.dependencies_solver &#8211; Resolving dependencies</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cmdparse.html">qibuild.cmdparse &#8211; Parsing command line</a></li>
+<li class="toctree-l5"><a class="reference internal" href="parsers.html">qibuild.parsers &#8211; Parsers for qibuild actions</a></li>
+<li class="toctree-l5"><a class="reference internal" href="cmake.html">qibuild.cmake - CMake tools</a></li>
+<li class="toctree-l5"><a class="reference internal" href="build.html">qibuild.build - Build tools</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ctest.html">qibuild.ctest &#8211; Implementation of CTest in Python</a></li>
+<li class="toctree-l5"><a class="reference internal" href="envsetter.html">qibuild.envsetter &#8211; controlling environment variables</a></li>
+<li class="toctree-l5"><a class="reference internal" href="command.html">qibuild.command - Launch processes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="config.html">qibuild.config &#8211; Managing qiBuild config files</a></li>
+<li class="toctree-l5"><a class="reference internal" href="archive.html">qibuild.archive &#8211; Manage .tar.gz and .zip files</a></li>
+<li class="toctree-l5"><a class="reference internal" href="sh.html">qibuild.sh &#8211; Common filesystem operations</a></li>
+<li class="toctree-l5"><a class="reference internal" href="log.html">qibuild.log &#8211; Logging tools</a></li>
+<li class="toctree-l5"><a class="reference internal" href="interact.html">qibuild.interact &#8211; Interacting with the user</a></li>
+<li class="toctree-l5"><a class="reference internal" href="wizard.html">qibuild.wizard &#8211; Configuration wizards</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../qitoolchain/index.html">qitoolchain modules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../qisrc/index.html">qisrc modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">qibuild.toc &#8211; TOC means Obvious Compilation</a><ul>
+<li><a class="reference internal" href="#qibuild-toc-toc">qibuild.toc.Toc</a><ul>
+<li><a class="reference internal" href="#initialisation">Initialisation</a></li>
+<li><a class="reference internal" href="#dependency-resolution">Dependency resolution</a></li>
+<li><a class="reference internal" href="#compilation-related-methods">Compilation related methods</a></li>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#toc-configuration">Toc configuration</a></li>
+<li><a class="reference internal" href="#other-functions-in-this-module">Other functions in this module</a><ul>
+<li><a class="reference internal" href="#qibuild-toc-toc-open">qibuild.toc.toc_open</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="index.html" title="qibuild modules">previous</a>
+     |
+    <a href="index.html" title="qibuild modules" accesskey="U">up</a>
+   |
+    <a href="project.html" title="qibuild.project &amp;#8211; Managing &lt;tt class=&#34;docutils literal docutils literal&#34;&gt;&lt;span class=&#34;pre&#34;&gt;projects&lt;/span&gt;&lt;/tt&gt;">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

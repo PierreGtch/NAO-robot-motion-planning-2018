@@ -1,0 +1,308 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Pref files and sub pref files &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../index.html" />
+    <link rel="up" title="DCM" href="../dcm.html" />
+    <link rel="next" title="DCM architecture" href="dcm_architecture.html" />
+    <link rel="prev" title="Architecture of the pref file Device.xml / of key/values in ALMemory" href="pref_file_architecture.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="pref_file_architecture.html" title="Architecture of the pref file Device.xml / of key/values in ALMemory">previous</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="dcm_architecture.html" title="DCM architecture">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-sensors-dcm-pref_subpref_files">
+            
+  <div class="section" id="pref-files-and-sub-pref-files">
+<h1>Pref files and sub pref files<a class="headerlink" href="#pref-files-and-sub-pref-files" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../dcm.html#dcm"><em>Overview</em></a> | <a class="reference internal" href="../dcm-api.html#dcm-api"><em>API</em></a>  | <a class="reference internal" href="../dcm-tuto.html#dcm-tuto"><em>Tutorial</em></a></p>
+</div>
+<hr class="docutils" />
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This chapter is about configuration files. Changing one
+configuration value may damage your robot. Do not change anything
+unless it is necessary.</p>
+</div>
+<p>The <strong>DCM</strong> has 2 preference (or configuration) files:</p>
+<ul class="simple">
+<li><strong>Device.xml</strong> with the robot electronic description, and</li>
+<li><strong>DCM.xml</strong> that holds parameters specific to the <strong>DCM</strong>.</li>
+</ul>
+<p>These two files are the same for all robots, with all default
+parameters. They are in the <strong>naoqi/preferences</strong> folder.</p>
+<p>But there are needs of specific parameters (mainly for calibration
+purposes) linked to some parts of the robot. These parameters are stored
+in the removable part of the robot, so that even if the part changes, the
+new one will have its own good parameters.</p>
+<p>Currently the robot can be divided in two parts: head and body.</p>
+<p>So there are two files called <strong>subPref</strong> and names <strong>Device_Head.xml</strong>,
+and <strong>Device_Body.xml</strong> that are specific to each robot (and even more to
+the part of the robot they describe).</p>
+<p><strong>Device_Head.xml</strong> is stored in the internal geode board flash (in <strong>/media/internal</strong>).</p>
+<p><strong>Device_Body.xml</strong> is stored (in a compressed version) in the flash
+of the chest board. A copy is dumped in the <strong>naoqi/preference</strong> folder when the <strong>DCM</strong> read it.</p>
+<p>Both files could be changed by a method to the <strong>DCM</strong> or simply by
+changing the file and ask the <strong>DCM</strong> to reload it.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is an optional file named <strong>Device_Local.xml</strong> that can
+also be used. It is read at startup from the <strong>naoqi/preference</strong> folder.</p>
+</div>
+<p>When these <strong>subPref files</strong> are read at startup, the value for each
+of their keys replaces the value of the same key in <strong>Device.xml</strong> (it&#8217;s
+also possible for <strong>DCM.xml</strong>), even if the <strong>DCM</strong> keeps in memory a copy of
+each separate file.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Most of the keys in these preference files are read at startup
+only, and even if they change with a request to the <strong>DCM</strong> while it&#8217;s
+running, the change won&#8217;t have any effect until the next start. The
+joint calibration is one of the only exception.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Many parameters for the motor boards are sent to them at
+startup. It won&#8217;t be sent again until next start.</p>
+</div>
+</div>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<img alt="../../../_images/dcm_pref_files.png" src="../../../_images/dcm_pref_files.png" style="width: 500px; height: 445px;" />
+<p><strong>Device.xml</strong> and <strong>DCM.xml</strong> are read from the <strong>naoqi/preference</strong>
+directory. The <strong>DCM</strong> keeps a copy of them in its RAM, and send them to
+<strong>ALMemory</strong>.</p>
+<p>Then the <strong>DCM</strong> reads the <strong>subPref</strong> files:</p>
+<ul class="simple">
+<li><strong>Device_Head.xml</strong> is read from the same directory, kept in memory,
+and its key/value are send to <strong>ALMemory</strong> over the key/values that
+already exist.</li>
+<li>The <strong>DCM</strong> reads the <strong>Device_Body</strong> from the chest board flash
+memory, writes a copy (<strong>Device_Body.xml</strong>) in the <strong>naoqi/preference</strong>
+directory, and sends key/value to ALMemory over the key/values that
+already exists.</li>
+</ul>
+<p>Whatever happened then, <strong>ALMemory</strong> always has a copy of what the <strong>DCM</strong>
+has in memory, with the difference that the <strong>DCM</strong> keeps all <strong>Pref</strong> and
+<strong>SubPref</strong> as separate files.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the same key is on both <strong>Device_Head</strong> and <strong>Device_Body</strong> with a
+different value, the result will be unpredictable.</p>
+</div>
+</div>
+<div class="section" id="possible-actions">
+<h2>Possible actions<a class="headerlink" href="#possible-actions" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first"><strong>Load</strong>:
+You can ask the <strong>DCM</strong> to (re)load a file, either
+Chest or Head or both. In both case, the <strong>DCM</strong> loads again the files
+from the <strong>NAOqi/preference</strong> (and not from the chest board flash), copy
+them in its memory, and also in <strong>ALMemory</strong>.</p>
+</li>
+<li><p class="first"><strong>Save</strong>:
+For the Head file, the save will write again the
+<strong>Device_Head.xml</strong> file from the copy in the <strong>DCM</strong> RAM.
+For the Chest file, the save command will write in the chest
+board flash the copy in the <strong>DCM</strong> RAM and also in the <strong>Device_Body.xml</strong>
+file.
+You can also write the <strong>Device.xml</strong> file using <strong>save</strong>. But this file is not supposed to change.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">During the save in the chest board, every USB communication is lost with the robot for 1 or 2 seconds. Do not use this when
+the robot is moving, and even when the control loop of joint is activated (the robot may fall).</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not use Save just after a load/add/calibration. Wait a
+while (one second for example) before using it.</p>
+</div>
+</li>
+<li><p class="first"><strong>Add</strong>
+You can add a specific key/value in a specific file with a special request. This key is only stored in ram, and copy
+to ALMemory. Use after the <strong>save</strong> command to save it in the chest or in files.
+If the key already exists, you can change its value using this command.</p>
+</li>
+<li><p class="first"><strong>Calibration</strong>
+The calibration stores the new calibration value using the same method that the &#8220;Add&#8221;. You have to do a &#8220;Save&#8221; after it.</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="pref_file_architecture.html" title="Architecture of the pref file Device.xml / of key/values in ALMemory">Architecture of the pref file Device.xml / of key/values in ALMemory</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">DCM</a>
+   |
+    <a href="dcm_architecture.html" title="DCM architecture">DCM architecture</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../dcm.html">DCM</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../dcm-api.html">DCM API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../dcm-tuto.html">DCM Tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../dcm-tuto.html#dcm-bound-methods">DCM bound methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="upper_level_architecture.html">Upper level architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="low_level_architecture.html">Low level architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pref_file_architecture.html">Architecture of the pref file Device.xml / of key/values in ALMemory</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Pref files and sub pref files</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="dcm_architecture.html">DCM architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dcm_synchro_methods.html">DCM Synchronization methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Pref files and sub pref files</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#description">Description</a></li>
+<li><a class="reference internal" href="#possible-actions">Possible actions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="pref_file_architecture.html" title="Architecture of the pref file Device.xml / of key/values in ALMemory">previous</a>
+     |
+    <a href="../dcm.html" title="DCM" accesskey="U">up</a>
+   |
+    <a href="dcm_architecture.html" title="DCM architecture">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

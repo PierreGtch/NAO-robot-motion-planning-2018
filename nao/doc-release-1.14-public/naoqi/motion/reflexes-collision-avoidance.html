@@ -1,0 +1,505 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Self-collision avoidance &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Motion" href="index.html" />
+    <link rel="next" title="Self-collision avoidance API" href="reflexes-collision-avoidance-api.html" />
+    <link rel="prev" title="Whole Body control Tutorial: A dance" href="control-wholebody-tuto.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="control-wholebody-tuto.html" title="Whole Body control Tutorial: A dance">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="reflexes-collision-avoidance-api.html" title="Self-collision avoidance API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-reflexes-collision-avoidance">
+            
+  <div class="section" id="self-collision-avoidance">
+<span id="reflexes-collision-avoidance"></span><h1>Self-collision avoidance<a class="headerlink" href="#self-collision-avoidance" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-motion"><em>NAOqi Motion</em></a> - Overview | <a class="reference internal" href="reflexes-collision-avoidance-api.html#reflexes-collision-avoidance-api"><em>API</em></a></p>
+<hr class="docutils" />
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p>The goal of this function is enabling NAO to become aware of his body.
+You can program motion without worrying about taking in account his anatomy.
+Nao always knows where are his head, torso, legs and arms, so he avoids limbs collision during motion.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>This section presents how collisions are modelized, detected and avoided.</p>
+<div class="section" id="modelization-of-collision-on-nao-s-body">
+<h3>Modelization of collision on NAO&#8217;s body<a class="headerlink" href="#modelization-of-collision-on-nao-s-body" title="Permalink to this headline">¶</a></h3>
+<p>For reason of CPU consumption, we simplify NAO&#8217;s geometry, approximating
+it with simple 3D shapes: spheres (in green in the image below) and capsules
+(in red). Typically, spheres are used for the head,
+hips and torso, and capsules for the arms and legs.</p>
+<img alt="../../_images/motion_collision_shape.png" src="../../_images/motion_collision_shape.png" style="width: 600px; height: 633px;" />
+<p>A sphere is simply characterized by its center and radius: it is the
+set of all points which are at the radius distance of the sphere
+center.</p>
+<p>A capsule is a cylinder, capped by two half spheres, one at each
+extremity, with the same radius as the cylinder. The capsule is
+characterized by its center, its length of the cylinder (L), and its
+radius (R), which is the same for the capping spheres and the cylinder.</p>
+</div>
+<div class="section" id="collision-detection">
+<h3>Collision detection<a class="headerlink" href="#collision-detection" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="collision-detection-between-spheres">
+<h4>Collision detection between spheres<a class="headerlink" href="#collision-detection-between-spheres" title="Permalink to this headline">¶</a></h4>
+<p>To detect if two spheres collide, we measure the distance D between the two
+sphere centers. If D - (r1 + r2) &gt; 0, where r1 is the radius of the first
+sphere and r2 is the radius of the second one, then the spheres are not
+colliding. Else, they are colliding.</p>
+<img alt="../../_images/motion_collision_sphere_2.png" src="../../_images/motion_collision_sphere_2.png" style="width: 350px; height: 154px;" />
+</div>
+<div class="section" id="collision-detection-between-a-capsule-and-a-sphere">
+<h4>Collision detection between a capsule and a sphere<a class="headerlink" href="#collision-detection-between-a-capsule-and-a-sphere" title="Permalink to this headline">¶</a></h4>
+<p>To detect collision between a capsule and a sphere, we project the
+sphere center on the axis of the capsule. Again, there are two cases:</p>
+<ul class="simple">
+<li>case 1: the projection of the sphere center is inside the capsule cylinder. Here, we consider the distance D between the sphere center and its projection on the capsule axis.</li>
+<li>case 2: the projection of the center is outside the capsule cylinder. Here, we consider the distance D between the sphere center and the closest capsule cylinder extremity.</li>
+</ul>
+<p>In both cases, if D - (rC + rS) &gt; 0, where rC is the radius of the
+capsule and rS the radius of the sphere, there is no collision.</p>
+<img alt="../../_images/motion_collision_capsule_sphere.png" src="../../_images/motion_collision_capsule_sphere.png" style="width: 600px; height: 273px;" />
+</div>
+<div class="section" id="collision-detection-between-capsules">
+<h4>Collision detection between capsules<a class="headerlink" href="#collision-detection-between-capsules" title="Permalink to this headline">¶</a></h4>
+<p>To detect collision between two capsules, the capsules are reduced to
+two axes. Two cases are then possible:
+- case 1: the intersection of the axes is inside the first capsule. Here, the distance between the closest points is D, indicated on the drawing: if it is greater than r1 + r2, then there is no collision.
+- case 2: the intersection of the axes is outside the capsules. Here, the closest points are the extremities of the capsules. If the distance D between them is greater than r1 + r2, then there is no collision.</p>
+<img alt="../../_images/motion_collision_capsule_capsule.png" src="../../_images/motion_collision_capsule_capsule.png" style="width: 600px; height: 200px;" />
+</div>
+</div>
+<div class="section" id="collision-avoidance">
+<h3>Collision avoidance<a class="headerlink" href="#collision-avoidance" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="introduction">
+<h4>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h4>
+<p>This section presents how the algorithm avoids collision between the
+protected chains and the rest of NAO&#8217;s body. The aim of the algorithm is
+to prevent collisions from happening, but also finding an alternate way
+of satisfying the command, if possible.</p>
+<p>To try to satisfy the command, we must minimize the distance between the
+current state and the desired one. We also have a given constraint: no
+collision must take place. To solve this, we can formalize the problem as
+a minimization problem under a linear inequality constraint.</p>
+<p>We are going to illustrate this problem with a arm / torso collision, but
+the following equations are general. The following illustration shows the
+left arm chain near the torso.</p>
+<img alt="../../_images/motion_collision_avoidance_best.png" src="../../_images/motion_collision_avoidance_best.png" style="width: 600px; height: 211px;" />
+</div>
+<div class="section" id="optimization">
+<h4>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h4>
+<p>In the case of a command affecting the arm, what we want to minimize is the difference between the desired state and
+the final one, which gives the following equation:</p>
+<div class="math">
+<p><img src="../../_images/math/a900b27fe7d83b8c98f0c60d49f64c1cb796ba91.png" alt="\text{min} \frac{1}{2} \|\dot{q} - \dot{q}_{\text{desired}} \|^2  \text{~~~with~~~}  q = \left[\begin{array}{ccccc}
+q_{\text{LShoulderPitch}} &amp;
+q_{\text{LShoulderRoll}} &amp;
+q_{\text{LElbowYaw}} &amp;
+q_{\text{LElbowRoll}} &amp;
+q_{\text{LWristYaw}}
+\end{array}\right]^T"/></p>
+</div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This equation is valid for a T14 (Academics model) robot.
+In the case of a H21 robot model (Robocup model), the last angle
+is not present since the robot does not have this degree of freedom.
+However, the equations are unchanged.</p>
+</div>
+</div>
+<div class="section" id="constraint">
+<h4>Constraint<a class="headerlink" href="#constraint" title="Permalink to this headline">¶</a></h4>
+<p>We now have to express the fact that we do not want the arm to collide
+with the rest of the body. We will consider here only the torso for
+simplicity, but the reasoning is strictly the same for any other body
+part.</p>
+<p>We consider the speed of the extremity of the arm. Since the interpolation
+is discretized, to ensure that there will be no collision, we have to ensure
+that at the next movement step, the distance covered will be less than
+the distance separating the arm and the torso. The distance is computed
+using the models described in the previous section.</p>
+<p>To predict the distance covered, we first compute the Cartesian speed vector
+along the contact normal. The Cartesian speed vector can be obtained
+with the following formula (Jchain is the Jacobian of the nearest point to the torso):</p>
+<div class="math">
+<p><img src="../../_images/math/d16debc9506e4bdcf7a6c45a3f809f84b765e3da.png" alt="v_{\text{chain}} = J_{\text{chain}} \: \dot{q} \text{~~~with~~~} v_{\text{chain}} = \left[\begin{array}{ccc} \dot{x} &amp; \dot{y} &amp; \dot{z} \end{array} \right]^T"/></p>
+</div><p>If we project this Cartesian speed along the contact normal n, and multiply
+this by the time step, the non collision can be expressed as follows:</p>
+<div class="math">
+<p><img src="../../_images/math/ff66b790b01bcf121596fa8faac350f26b21d50e.png" alt="\Delta t * \left(\vec{n} \: J_{\text{chain}}\right) \ \dot{q} &lt; D"/></p>
+</div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The time step is at least equal to the threading time of motion.</p>
+</div>
+<p>We can then rewrite the above expression to obtain a classical
+inequality constraint:</p>
+<div class="math">
+<p><img src="../../_images/math/4638e9063c7fb66ac5ffacb32bfa8814e73cd713.png" alt="-\left(\vec{n} \: J_{\text{chain}}\right) \: \dot{q} + \frac{D}{\Delta t} &gt; 0"/></p>
+</div></div>
+<div class="section" id="conclusion">
+<h4>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h4>
+<p>We have then formalized the problem as a minimization with an inequality
+constraint. This problem is now a classical optimization problem with the linear inequality constraint:</p>
+<div class="math">
+<p><img src="../../_images/math/dad687d1c3d9d2aff508af1de36dc09722b9d4fc.png" alt="\text{min} \frac{1}{2} \|\dot{q} - \dot{q}_{\text{desired}} \|^2 \text{~~~with~~~} -\left(\vec{n} \: J_{\text{chain}}\right) \: \dot{q} + \frac{D}{\Delta t} &gt; 0"/></p>
+</div><p>With this algorithm, NAO can avoid collisions with itself. When the desired
+position is unreachable, it tries to find the nearest solution, while still
+guaranteeing the absence of collision.</p>
+</div>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Collision detection and avoidance can be activated on the following
+chains: &#8220;Arms&#8221;, &#8220;LArm&#8221; or &#8220;RArm&#8221;. It detects and avoids collisions
+between these chains and the rest of the body.</p>
+<p>In the case where the protected chain has no stiffness, the algorithm
+will try to move the parts of NAO&#8217;s body which are stiff. If the
+chain is stiff, the algorithm will modify its movement.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Collision detection and avoidance only works for
+<a class="reference internal" href="control-joint.html#control-joint"><em>Joint</em></a> methods but not for
+<a class="reference internal" href="control-cartesian.html#control-cartesian"><em>Cartesian</em></a> and <a class="reference internal" href="control-wholebody.html#control-wholebody"><em>Whole body</em></a>
+methods. It also works when making the robot move from Choregraphe
+using the Timeline, or the sliders (when clicking on a body part of
+NAO).</p>
+</div>
+</div>
+<div class="section" id="use-case">
+<h2>Use case<a class="headerlink" href="#use-case" title="Permalink to this headline">¶</a></h2>
+<p>Example showing the effect of collision detection Nao bumps his chest
+with his left arm with collision detection enabled or disabled.</p>
+<p><a class="reference download internal" href="../../_downloads/almotion_reflexesCollisionAvoidance.py"><tt class="xref download docutils literal"><span class="pre">almotion_reflexesCollisionAvoidance.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+<span class="c"># -*- encoding: UTF-8 -*-</span>
+
+<span class="sd">&#39;&#39;&#39; Reflexes: LArm Collision Avoidance &#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+<span class="kn">import</span> <span class="nn">motion</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Example showing the effect of collision detection</span>
+<span class="sd">        Nao bumps his chest with his left arm with collision detection enabled</span>
+<span class="sd">        or disabled.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">9559</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span><span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Get the robot configuration.</span>
+    <span class="n">robotConfig</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getRobotConfig</span><span class="p">()</span>
+    <span class="n">robotName</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">robotConfig</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">robotConfig</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;Model Type&quot;</span><span class="p">):</span>
+            <span class="n">robotName</span> <span class="o">=</span> <span class="n">robotConfig</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c">##################</span>
+    <span class="c"># Initialization #</span>
+    <span class="c">##################</span>
+    <span class="n">pChainName</span> <span class="o">=</span> <span class="s">&quot;LArm&quot;</span>
+
+    <span class="c"># Send robot to Pose Init.</span>
+    <span class="n">moveLArm</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">,</span> <span class="n">robotName</span><span class="p">,</span> <span class="s">&quot;Init&quot;</span><span class="p">)</span>
+
+    <span class="c"># Disable collision detection on LArm chain.</span>
+    <span class="n">pEnable</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">setCollisionProtectionEnabled</span><span class="p">(</span><span class="n">pChainName</span><span class="p">,</span> <span class="n">pEnable</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">success</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Failed to disable collision protection&quot;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="c"># Make NAO&#39;s arm move so that it bumps its torso.</span>
+    <span class="n">moveLArm</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">,</span> <span class="n">robotName</span><span class="p">,</span> <span class="s">&quot;Final&quot;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Go back to pose init.</span>
+    <span class="n">moveLArm</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">,</span> <span class="n">robotName</span><span class="p">,</span> <span class="s">&quot;Init&quot;</span><span class="p">)</span>
+    <span class="c"># Enable collision detection on chainName.</span>
+    <span class="n">pEnable</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">setCollisionProtectionEnabled</span><span class="p">(</span><span class="n">pChainName</span><span class="p">,</span> <span class="n">pEnable</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">success</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Failed to enable collision protection&quot;</span><span class="p">)</span>
+
+    <span class="c"># Make NAO&#39;s arm move and see that it does not bump on the torso.</span>
+    <span class="n">moveLArm</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">,</span> <span class="n">robotName</span><span class="p">,</span> <span class="s">&quot;Final&quot;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Go back to pose init.</span>
+    <span class="n">moveLArm</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">,</span> <span class="n">robotName</span><span class="p">,</span> <span class="s">&quot;Init&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">moveLArm</span><span class="p">(</span><span class="n">motionProxy</span><span class="p">,</span> <span class="n">pRobotName</span><span class="p">,</span> <span class="n">pPose</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Function to make NAO bump on his Torso with his left arm &#39;&#39;&#39;</span>
+
+    <span class="c"># Define the name of the chain controlled</span>
+    <span class="n">pChainName</span> <span class="o">=</span> <span class="s">&quot;LArm&quot;</span>
+
+    <span class="c"># Define the final position.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">pPose</span> <span class="o">==</span> <span class="s">&quot;Init&quot;</span><span class="p">):</span>
+        <span class="n">pTargetAngles</span> <span class="o">=</span> <span class="p">[</span>
+             <span class="mi">80</span><span class="p">,</span> <span class="c"># LShoulderPitch</span>
+             <span class="mi">20</span><span class="p">,</span> <span class="c"># LShoulderRoll</span>
+            <span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="c"># LElbowYaw</span>
+            <span class="o">-</span><span class="mi">60</span><span class="p">]</span> <span class="c"># LElbowRoll</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">pPose</span> <span class="o">==</span> <span class="s">&quot;Final&quot;</span><span class="p">):</span>
+        <span class="n">pTargetAngles</span> <span class="o">=</span> <span class="p">[</span>
+             <span class="mi">50</span><span class="p">,</span> <span class="c"># LShoulderPitch</span>
+              <span class="mi">6</span><span class="p">,</span> <span class="c"># LShoulderRoll</span>
+              <span class="mi">0</span><span class="p">,</span> <span class="c"># LElbowYaw</span>
+           <span class="o">-</span><span class="mi">150</span><span class="p">]</span> <span class="c"># LElbowRoll</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;ERROR: Your pose is unknown&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;---------------------&quot;</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Set the target angles according to the robot version.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">pRobotName</span> <span class="o">==</span> <span class="s">&quot;naoH25&quot;</span><span class="p">)</span> <span class="ow">or</span>\
+       <span class="p">(</span><span class="n">pRobotName</span> <span class="o">==</span> <span class="s">&quot;naoAcademics&quot;</span><span class="p">)</span> <span class="ow">or</span>\
+       <span class="p">(</span><span class="n">pRobotName</span> <span class="o">==</span> <span class="s">&quot;naoT14&quot;</span><span class="p">):</span>
+        <span class="n">pTargetAngles</span> <span class="o">+=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">pRobotName</span> <span class="o">==</span> <span class="s">&quot;naoH21&quot;</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">pRobotName</span> <span class="o">==</span> <span class="s">&quot;naoT2&quot;</span><span class="p">):</span>
+        <span class="n">pTargetAngles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;ERROR: Your robot is unknown&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;This test is not available for your Robot&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;---------------------&quot;</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Convert to radians.</span>
+    <span class="n">pTargetAngles</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">motion</span><span class="o">.</span><span class="n">TO_RAD</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pTargetAngles</span><span class="p">]</span>
+
+    <span class="c"># Set the fraction of max speed for the arm movement.</span>
+    <span class="n">pMaxSpeedFraction</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+    <span class="c"># Set NAO in stiffness On.</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="s">&quot;LArm&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Move the arm to the final position.</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">angleInterpolationWithSpeed</span><span class="p">(</span><span class="n">pChainName</span><span class="p">,</span> <span class="n">pTargetAngles</span><span class="p">,</span> <span class="n">pMaxSpeedFraction</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python almotion_reflexesCollisionAvoidance.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="control-wholebody-tuto.html" title="Whole Body control Tutorial: A dance">Whole Body control Tutorial: A dance</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">NAOqi Motion</a>
+   |
+    <a href="reflexes-collision-avoidance-api.html" title="Self-collision avoidance API">Self-collision avoidance API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Motion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-stiffness.html">Stiffness control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-joint.html">Joint control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-walk.html">Locomotion control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-cartesian.html">Cartesian control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Self-collision avoidance</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reflexes-collision-avoidance-api.html">Self-collision avoidance API</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-motion-task.html">Motion task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Self-collision avoidance</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a><ul>
+<li><a class="reference internal" href="#modelization-of-collision-on-nao-s-body">Modelization of collision on NAO&#8217;s body</a></li>
+<li><a class="reference internal" href="#collision-detection">Collision detection</a><ul>
+<li><a class="reference internal" href="#collision-detection-between-spheres">Collision detection between spheres</a></li>
+<li><a class="reference internal" href="#collision-detection-between-a-capsule-and-a-sphere">Collision detection between a capsule and a sphere</a></li>
+<li><a class="reference internal" href="#collision-detection-between-capsules">Collision detection between capsules</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#collision-avoidance">Collision avoidance</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#optimization">Optimization</a></li>
+<li><a class="reference internal" href="#constraint">Constraint</a></li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#use-case">Use case</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="control-wholebody-tuto.html" title="Whole Body control Tutorial: A dance">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="reflexes-collision-avoidance-api.html" title="Self-collision avoidance API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

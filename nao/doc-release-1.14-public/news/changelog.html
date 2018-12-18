@@ -1,0 +1,495 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ChangeLog &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../index.html" />
+    <link rel="up" title="What’s new" href="index.html" />
+    <link rel="next" title="Release notes - 1.14.3" href="1.14.3/index.html" />
+    <link rel="prev" title="Release note - 1.14.5" href="1.14.5/whatsnew.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../search.html">Search</a>
+         |
+        <a title="Index" href="../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="1.14.5/whatsnew.html" title="Release note - 1.14.5">previous</a>
+     |
+    <a href="index.html" title="What&amp;#8217;s new" accesskey="U">up</a>
+   |
+    <a href="1.14.3/index.html" title="Release notes - 1.14.3">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="news-changelog">
+            
+  <div class="section" id="changelog">
+<span id="id1"></span><h1>ChangeLog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<p><em>The main changes are described in the Release Note, here are only listed the main
+known issues solved by this release.</em></p>
+<div class="section" id="id2">
+<h2>1.14.5<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fix #14097 Random segfaults when restarting naoqi</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>1.14.4<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>NAO&#8217;s global behavior</strong><ul>
+<li>Fix #11001 [RANDOM] Nao displays glitches in its movements, especially in Nao&#8217;s life</li>
+<li>Fix #12887 FSR give weird reading for Center of Pressure</li>
+<li>Fix #13716 MODEL: nao ankle limits are wrong</li>
+</ul>
+</li>
+<li><strong>Choregraphe</strong><ul>
+<li>Fix #11365 Trying to connect two choregraphe sessions to a single robot,
+all connections are lost.</li>
+<li>Fix #10072 and #9875 Choregraphe can&#8217; t be used out of the box <strong>Mountain Lion</strong></li>
+<li>Fix  #13079 deadlock on repeated behavior execution</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>1.14.3<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>Choregraphe</strong><ul>
+<li>Fix #6251 Link possible to a wrench even when there&#8217;s no compatible parameter</li>
+<li>Fix #12995 Creating a Timeline box by a right-click should have by default an
+opened behavior layer (same as the Timeline template in the Box Libraries)</li>
+<li>Fix #12644 Saving as &#8220;something_v1.2&#8221; changes the name in the title bar to
+&#8220;something_v1&#8221;</li>
+<li>Fix #10850: on Mac OS X, fixed a random error while sending heavy behaviors to a real robot</li>
+<li>Fix #13070 solved a crash when making screen shots of the 3D view through the pose editor</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2>1.14.2<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>OpenNAO</strong><ul>
+<li>Fix #12615 Integrate gst-python and pygobject packages
+(only missing on Geode image).</li>
+<li>Fix #8216 [Chrome] Nao webpage isn&#8217;t displayed properly,
+especially <em>Network</em> page.</li>
+<li>Fix #9940 <em>Unlearn Face</em> and <em>Unlearn All Faces</em> boxes have no effect.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2>1.14.1<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>Choregraphe</strong><ul>
+<li>Fix #10900 GotoAndPlay box jumps to random frame.</li>
+<li>Fix #9943 Some Libraries prevent 1.14 Choregraphe to start on OSX Mountain Lion.</li>
+<li>Fix #8752 Timeline display shifted left - controls unusable.</li>
+</ul>
+</li>
+<li><strong>NAOqi</strong><ul>
+<li>Fix #11072 Tracker: head tracking of face do not work on sit posture on naoqi 1.14.</li>
+<li>Fix #10917 The anti collision enables himself again after a short time.</li>
+<li>Fix #10490 Activation / deactivation of the Fall manager made more robust.</li>
+<li>Fix #10015 A call to the setLanguage function of tts increases the list of available languages.</li>
+<li>Fix Specialized proxy for module ALSonar (ALSonarProxy).</li>
+<li>Fix #7758 Segfault in libplugin_almemory.so!AlMemoryPlugin::run.</li>
+</ul>
+</li>
+<li><strong>OpenNAO</strong><ul>
+<li>Fix #10831 Unable to flash from 1.14 to 1.12: unknown preferences are considered as errors.</li>
+<li>Fix #10734 ntp-client service: fix/update sntp options.</li>
+<li>Fix #9558 After a normal reboot, all my personal data are lost.
+Checkpart: do not format the user data partition if not explicitly required via factory-reset.</li>
+<li>Fix #8104 and #7732 Nao Web Page: <em>Language</em> and <em>Time zone</em> combo boxes are not
+correctly set with Internet Explorer.</li>
+<li>Fix #11101: OpenNAO-vm: Avoid spurious and annoying &#8220;Name already in use&#8221;
+popping in the standard video output.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h2>1.14<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fix #7151 Resource Manager does not handle multimodel. Tai Chi Chuan box cannot run on a T14 robot.</li>
+<li>Fix #7909 Wireless network not being refreshed</li>
+<li>Fix #7908 Static IP address invalid after a reboot</li>
+<li>Fix #6338 Wifi with hidden SSID and no security are not reconnected at startup</li>
+<li>Fix #6135 audio driver: locked in mute (atom)</li>
+<li>Feature #3796 Voice shaping does not work for Japanese language</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="id8">
+<h2>1.12.5<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>NAOqi</strong><ul>
+<li>ALTelepathe: fixed segfaults for associated robots (#6647, #7207, #7209)</li>
+<li>Fix #5915 ALInfrared: remove IR remote learning</li>
+<li>Fix #6951 ALAudioPlayer does not work on RoboCup config</li>
+<li>Fix #7236 erratic result of brightness setting in NAO V4 camera</li>
+</ul>
+</li>
+<li><strong>Choregraphe</strong><ul>
+<li><strong>Record Sound</strong> box. The default value of the <strong>Microphone used</strong> parameter has changed.</li>
+</ul>
+</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="id9">
+<h2>1.12.3<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>NAOqi</strong><ul>
+<li>Fix #6985 Ultrasonic sensors sometimes needs NAOqi restart</li>
+<li>Fix #5592 Strange behavior of angleInterpolation with AnklePitch/Roll joint</li>
+<li>Fix #6578 Remove inversion of active camera</li>
+<li>Fix #6123 Modify path where pictures are recorded: <tt class="docutils literal"><span class="pre">recordings/cameras</span></tt></li>
+<li>Fix #6573 Audio player doesn&#8217;t play web streams anymore</li>
+<li>Fix #6341 Stopping a box stops also another one when both use Standing resource.</li>
+<li>Fix #6306 takePictureRegularly does not work with some param</li>
+<li>Fix #6244 Segfault in audioplayer when playing corrupted .wav files</li>
+<li>Fix #2065/FS#3764 Nao now speaks in Portuguese or Korean when pressing the chest button</li>
+<li>Fix #5472 I can&#8217;t find my body is now always said in English</li>
+<li>Fix #6038 Naopathe: &#8220;Error: cannot found the ALAudioDevice module&#8221; when
+setting volume</li>
+</ul>
+</li>
+<li><strong>OpenNAO</strong><ul>
+<li>Fix #6599 Roaming improved</li>
+<li>Fix #6604 wireless connection freeze - Update to wireless stack of Linux 3.2</li>
+<li>Fix #6288 Ensure that we can always login on NAO.</li>
+<li>Fix #6190 ATOM: problem while initializing SD-card</li>
+<li>Fix #6286 Update NAO v4 temperature/fan speed settings</li>
+</ul>
+</li>
+<li><strong>libnaoqi</strong><ul>
+<li>Fix #3849: Choregraphe should clean Temporary files at shutdown</li>
+</ul>
+</li>
+<li><strong>HAL</strong><ul>
+<li>Fix #6161 Change current limit 1.15/1.5 for roll/pitch for maxon and 1.26/1.75 for portescape</li>
+</ul>
+</li>
+<li><strong>Choregraphe</strong><ul>
+<li>Fix #6616: Boxes are removed from box library when drag-n-dropped to the diagram
+(mac64 only)</li>
+<li>Fix #6606 &#8216;Stand up&#8217; box is not symmetric.</li>
+<li>Fix #6583 Sounds are now recorded in <tt class="docutils literal"><span class="pre">/home/nao/recordings/microphones</span></tt>
+instead of <tt class="docutils literal"><span class="pre">/home/nao/recordedSounds</span></tt></li>
+<li>Fix #6496 Endless walk stand up</li>
+<li>Fix #6265 WalkTo and WalkForward boxes do not use stopWalk function</li>
+<li>Fix #6115 Choregraphe crashes with the webpage &#8220;Test&#8221; button in Japanese</li>
+<li>Fix #6200 license key can now be registered by machine</li>
+<li>Fix FS#6127: Choregraphe no longer works on Mac after &#8216;sudo port select
+python python26&#8217;</li>
+<li>Fix #5992 Choregraphe menu bar: no shortcut for Connection, Box library or View</li>
+</ul>
+</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="id10">
+<h2>1.12<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="public-release">
+<h3>1.12.0.63  &#8211; Public release<a class="headerlink" href="#public-release" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>NAOqi</strong><ul>
+<li>Fix #5795 NAO 4: heat on shoulder pitch</li>
+<li>Fix #5879 Inertial unit send more &#8216;nacks&#8217; than before, causing false
+positives for fall manager</li>
+</ul>
+</li>
+<li><strong>Monitor</strong><ul>
+<li>Fix #5905 Camera Monitor: notify users that fps are limited</li>
+</ul>
+</li>
+<li><strong>OpenNAO</strong><ul>
+<li>Fix #5906 Persistent data: passwd does not move shadow file,
+ensure that passwords are kept after software update.</li>
+</ul>
+</li>
+<li><strong>Hal</strong><ul>
+<li>Fix #5881 HipYaw pitch overheating</li>
+</ul>
+</li>
+<li><strong>Choregraphe</strong><ul>
+<li>Fix #3520 The hand slider is not precise enough</li>
+<li>Fix #5774 Crash Choregraphe when attached file is too big</li>
+<li>Fix #5235 Default IP changed from &#8220;localhost&#8221; to &#8220;127.0.0.1&#8221;</li>
+<li>Fix #4939 When setting a default behavior from a Choregraphe 1.12 on a
+NAOqi 1.10, it is not played on start-up</li>
+<li>Fix #4664 Prevent from zooming in the motion timeline outside the timeline editor</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="rc1">
+<h3>1.12.0.49 - RC1<a class="headerlink" href="#rc1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>NAOqi</strong><ul>
+<li>Fix #5476 Sentinel: Emergency stiffness removal does not work when system
+menu is activated</li>
+<li>Fix #2065 Missing Portuguese and Korean Chest button translations</li>
+<li>Fix #5158 interaction problem between animation-mode and fallmanager</li>
+</ul>
+</li>
+<li><strong>NAOqi - Core</strong><ul>
+<li>Fix #5225 Launch python modules and executables from autoload.ini</li>
+</ul>
+</li>
+<li><strong>NAOqi - Motion</strong><ul>
+<li>Fix #5300 Instabilities when walking backwards</li>
+</ul>
+</li>
+<li><strong>Choregraphe</strong><ul>
+<li>Fix #5562 videoMonitor is at 5fps</li>
+<li>Fix #5188 After a few PLAY / STOP in the video monitor of choregraphe, the video can not retrieved anymore.</li>
+<li>Fix #5156 ALBehaviorManager - runBehavior doesn&#8217;t work on a sub behavior anymore</li>
+</ul>
+</li>
+<li><strong>OpenNAO</strong><ul>
+<li>Fix #4978 on V4 /media/internal is not persistent</li>
+<li>Fix #143, #4022 DFU v2</li>
+<li>Fix #4428 infrared remote discovery not terminating on the webpage</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="beta2">
+<h3>1.12.0.42 - Beta2<a class="headerlink" href="#beta2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>NAOqi - Audio</strong><ul>
+<li>Fix #5179 xRemoveBrackets segfaults</li>
+</ul>
+</li>
+<li><strong>NAOqi - Core</strong><ul>
+<li>Fix #4474, #4825, #4359, #4940 : deadlock or crashes when connecting/deconnecting  brokers</li>
+</ul>
+</li>
+<li><strong>Choregraphe</strong><ul>
+<li>Fix #4696, #3788, #4969, #4234: cleaning of e-mail boxes</li>
+<li>Fix #4836 Video acquisition continued even if video monitor widget is closed</li>
+<li>Fix #5074 Crash in ALBehaviorManager</li>
+<li>Fix #4836 fix the pause/resume video process at initialisation</li>
+</ul>
+</li>
+<li><strong>Choregraphe - Boxes</strong><ul>
+<li>Fix #4973 MP3 files: late and incomplete playing =&gt; modify the tooltip</li>
+<li>Fix #4392 IR Send Key box: cannot enter custom remote control config. name</li>
+</ul>
+</li>
+<li><strong>.Net SDK</strong><ul>
+<li>New #4766 Suppoprt using TTS in Japanese</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="beta1">
+<h3>1.12.0.30 - Beta1<a class="headerlink" href="#beta1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Motion/DCM</strong><ul>
+<li>Fix #3957 - FS#5841 Motion and DCM can be used at the
+same time on different joints, but when changing from using DCM on a joint to
+using motion, the user is required to set stiffness to zero during the transition.</li>
+<li>Fix #3313 - FS#5158 RHipYawPitch does not respond. Workaround: RHipYawPitch
+and LHipYawPitch are the 2 names of the same joint, use LHipYawPitch to control the hips.</li>
+</ul>
+</li>
+<li><strong>Audio</strong><ul>
+<li>Fix #3952 - FS#5836 Synchronous call to say or playFile from a remote python script
+are regularly not returning.</li>
+</ul>
+</li>
+<li><strong>Network</strong><ul>
+<li>Fix #3853 - FS#5728 The connection is not stable with Wifi roaming (related bug FS#5379).</li>
+</ul>
+</li>
+<li><strong>Choregraphe</strong><ul>
+<li>Fix #3744 - FS#5609 Choice box does not work in Chinese, German, Italian,
+Japanese, Korean and Portuguese.</li>
+</ul>
+</li>
+<li><strong>NAOqi</strong><ul>
+<li>Fix #2720 - FS#4471  Instability issues (related bugs: FS#4384, FS#3896, FS#117).</li>
+<li>Fix #1158 - FS#1824 When compiling modules in debug mode for C++ projects, many warnings occur.</li>
+</ul>
+</li>
+<li><strong>NAOqi - Audio</strong><ul>
+<li>Fix #2505 - FS#4245 Synchronization issue between music and move.</li>
+</ul>
+</li>
+<li><strong>NAO</strong><ul>
+<li>Fix #2065 - FS#3764 if NAO is not set in English or French, when pressing his chest
+button, he cannot pronounce properly the sentence.</li>
+</ul>
+</li>
+<li><strong>NAOqi - ALMemory</strong><ul>
+<li>Fix #1720  - FS#3213 Choregraphe may consider that a behavior is still
+running although it is finished.</li>
+</ul>
+</li>
+<li><strong>Languages compatibility</strong><ul>
+<li>Fix #1276 - FS#2235 Python scripts: The float values are
+truncated on French Linux OS.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="1.14.5/whatsnew.html" title="Release note - 1.14.5">Release note - 1.14.5</a>
+     |
+    <a href="index.html" title="What&amp;#8217;s new" accesskey="U">What&amp;#8217;s new</a>
+   |
+    <a href="1.14.3/index.html" title="Release notes - 1.14.3">Release notes - 1.14.3</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../contents.html">Site map</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">What&#8217;s new</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.14.5/whatsnew.html">Release note - 1.14.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.14.5/whatsnew.html#known-issues">Known issues</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">ChangeLog</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="1.14.3/index.html">Release notes - 1.14.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.14.2/index.html">Release notes - 1.14.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.14.1/index.html">Release notes - 1.14.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.14/index.html">Release notes - 1.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1.12/index.html">Release notes - 1.12</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ChangeLog</a><ul>
+<li><a class="reference internal" href="#id2">1.14.5</a></li>
+<li><a class="reference internal" href="#id3">1.14.4</a></li>
+<li><a class="reference internal" href="#id4">1.14.3</a></li>
+<li><a class="reference internal" href="#id5">1.14.2</a></li>
+<li><a class="reference internal" href="#id6">1.14.1</a></li>
+<li><a class="reference internal" href="#id7">1.14</a></li>
+<li><a class="reference internal" href="#id8">1.12.5</a></li>
+<li><a class="reference internal" href="#id9">1.12.3</a></li>
+<li><a class="reference internal" href="#id10">1.12</a><ul>
+<li><a class="reference internal" href="#public-release">1.12.0.63  &#8211; Public release</a></li>
+<li><a class="reference internal" href="#rc1">1.12.0.49 - RC1</a></li>
+<li><a class="reference internal" href="#beta2">1.12.0.42 - Beta2</a></li>
+<li><a class="reference internal" href="#beta1">1.12.0.30 - Beta1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="1.14.5/whatsnew.html" title="Release note - 1.14.5">previous</a>
+     |
+    <a href="index.html" title="What&amp;#8217;s new" accesskey="U">up</a>
+   |
+    <a href="1.14.3/index.html" title="Release notes - 1.14.3">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

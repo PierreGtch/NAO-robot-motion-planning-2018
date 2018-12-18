@@ -1,0 +1,311 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Glossary &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="index.html" />
+    <link rel="next" title="Legal notices" href="legal/notice.html" />
+    <link rel="prev" title="NAOqi Python API" href="ref/python-api.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="index.html">Home</a>
+        
+         |
+        <a title="Site map" href="contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="search.html">Search</a>
+         |
+        <a title="Index" href="genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="ref/python-api.html" title="NAOqi Python API">previous</a>
+     |
+    <a title="NAO Software 1.14.5 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="legal/notice.html" title="Legal notices">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="glossary">
+            
+  <div class="section" id="glossary">
+<span id="id1"></span><h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
+<dl class="glossary docutils">
+<dt id="term-actuator">Actuator</dt>
+<dd><p class="first">Electronic device able to receive commands.</p>
+<p class="last">In ALMemory, actuator values contain the last command sent to the actuator.</p>
+</dd>
+<dt id="term-blocking-method">Blocking Method</dt>
+<dd><p class="first">Like normal method calls, simple calls are blocking - The next
+instruction will be executed after the end of the previous call. All calls can
+raise an exception and should be encapsulated in a try-catch block. Calls can
+have return values.</p>
+<p class="last">Further details: <a class="reference internal" href="dev/naoqi/index.html#naoqi-blocking-non-blocking"><em>Blocking and non-blocking calls</em></a>.</p>
+</dd>
+<dt id="term-body">Body</dt>
+<dd><p class="first">In ALMotion, Body is the group gathering all joints of the robot.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-joint.html#body-chain-def"><em>&#8220;Body&#8221;, chains and joint names</em></a>. See also: <a class="reference internal" href="#term-whole-body-motion"><em class="xref std std-term">Whole Body Motion</em></a>.</p>
+</dd>
+<dt id="term-broker">Broker</dt>
+<dd><p class="first">A broker is an executable and a server that can listen to remote commands
+on IP and port.</p>
+<p class="last">Further details: <a class="reference internal" href="dev/naoqi/index.html#naoqi-broker"><em>Broker</em></a>.</p>
+</dd>
+<dt id="term-chain">Chain</dt>
+<dd><p class="first">In ALMotion, a chain is a group of joints.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-joint.html#body-chain-def"><em>&#8220;Body&#8221;, chains and joint names</em></a>.</p>
+</dd>
+<dt id="term-com">COM</dt>
+<dd>Center Of Mass.</dd>
+<dt id="term-dof"><span id="term-degrees-of-freedom"></span>DOF<br />Degrees of freedom</dt>
+<dd><p class="first">Degrees of freedom (DOF) are the set of independent displacements and/or
+rotations that specify completely the displaced or deformed position and
+orientation of the body or system.</p>
+<p class="last">See also: <a class="reference internal" href="#term-joint"><em class="xref std std-term">joint</em></a>.</p>
+</dd>
+<dt id="term-dcm"><span id="term-device-communication-manager"></span>DCM<br />Device Communication Manager</dt>
+<dd><p class="first">The DCM is the NAO software module, part of the NAOqi system, that
+is in charge of the communication with all electronic devices in the
+robot (boards, sensors, actuators...) except the sound (in or out)
+and the camera. It manages the main communication line:
+the USB link with the ChestBoard. But there is also an I2C link
+with devices in the robot head. Thus, the DCM is the link between the
+&#8220;upper level&#8221; software (others modules) and the &#8220;lower level&#8221; software
+(soft in electronic boards).</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/sensors/dcm/introduction.html#what-is-dcm"><em>What is the DCM</em></a>.</p>
+</dd>
+<dt id="term-effector">Effector</dt>
+<dd><p class="first">Effectors are points allowing to control position by Cartesian methods.
+There are 6 effectors: &#8220;Head&#8221; , &#8220;LArm&#8221;, &#8220;LLeg&#8221;, &#8220;RLeg&#8221;, &#8220;RArm&#8221;, &#8220;Torso&#8221;.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-cartesian.html#control-cartesian"><em>Cartesian control</em></a>.</p>
+</dd>
+<dt id="term-frame-robot">FRAME_ROBOT</dt>
+<dd><p class="first">One of the 3 spatial references used by ALMotion.
+This is average of the two feet positions projected around a vertical z axis.
+This space is useful, because the x axis is always forwards, so provides
+a natural ego-centric reference.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-cartesian.html#motion-effectors-space"><em>Spaces</em></a>.</p>
+</dd>
+<dt id="term-frame-torso">FRAME_TORSO</dt>
+<dd><p class="first">One of the 3 spatial references used by ALMotion.
+This is attached to NAO&#8217;s torso reference, so moves with NAO as he walks
+and changes orientation as he leans. This space is useful when you have
+very local tasks, that make sense in the orientation of the torso frame.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-cartesian.html#motion-effectors-space"><em>Spaces</em></a>.</p>
+</dd>
+<dt id="term-frame-world">FRAME_WORLD</dt>
+<dd><p class="first">One of the 3 spatial references used by ALMotion.
+This is a fixed origin that is never altered. It is left behind when NAO walks,
+and will be different in z rotation after NAO has turned. This space is useful
+for calculations which require an external, absolute frame of reference.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-cartesian.html#motion-effectors-space"><em>Spaces</em></a>.</p>
+</dd>
+<dt id="term-hardness">Hardness</dt>
+<dd><p class="first">Hardness (named as stiffness in the Motion module) of the joint. The
+value is from 0.0 to 1.0, 0 means 0% and 1 means 100% (full power).
+In the motorboard, this percentage is directly applied to the max
+current. Setting the hardness to 0.5 means that the electric current
+limitation is reduced to 50%.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/sensors/dcm/pref_file_architecture.html#jointhardness"><em>jointHardness (Hardness/Actuator)</em></a>. See also: <a class="reference internal" href="#term-stiffness"><em class="xref std std-term">Stiffness</em></a>.</p>
+</dd>
+<dt id="term-initial-pose"><span id="term-nao-initial-position"></span><span id="term-pose-init"></span><span id="term-standinit-posture"></span>Initial Pose<br />NAO Initial position<br />Pose Init<br />StandInit posture</dt>
+<dd><p class="first">Specific stable <a class="reference internal" href="naoqi/motion/alrobotposture.html#term-posture"><em class="xref std std-term">posture</em></a> with: kneeAngle = 40.0 deg and torsoAngle = wideAngle = 0.0 deg.</p>
+<p>A good starting point for most of the motion animations.</p>
+<p class="last">Available in Choregraphe <a class="reference internal" href="software/choregraphe/panels/pose_library_panel.html#choregraphe-overview-pose-library-panel"><em>Pose library panel</em></a>.
+Can also be reached using <a class="reference internal" href="naoqi/motion/alrobotposture.html#alrobotposture"><em>ALRobotPosture</em></a>
+or using directly <strong>ALMotion</strong> joint control (see <a class="reference internal" href="naoqi/motion/control-joint-tuto.html#control-joint-tuto"><em>Joint control Tutorial: The Pose Init</em></a>).</p>
+</dd>
+<dt id="term-irrecord">Irrecord</dt>
+<dd><p class="first">The LIRC program used by the <a class="reference internal" href="naoqi/sensors/alinfrared.html#alinfrared"><em>ALInfrared</em></a> module to record IR
+(Infra Red) remote controls.</p>
+<p class="last">See also: <a class="reference internal" href="#term-lirc"><em class="xref std std-term">LIRC</em></a>.</p>
+</dd>
+<dt id="term-joint">Joint</dt>
+<dd><p class="first">Point of articulation, connection that allow motion.
+In ALMotion, all Degrees Of Freedom except hands are called joints.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-joint.html#body-chain-def"><em>&#8220;Body&#8221;, chains and joint names</em></a>. See also: <a class="reference internal" href="#term-dof"><em class="xref std std-term">DOF</em></a>.</p>
+</dd>
+<dt id="term-lirc">LIRC</dt>
+<dd><p class="first">LIRC (Linux Infrared Remote Control).</p>
+<p class="last">Further details: <a class="reference external" href="http://www.lirc.org/">http://www.lirc.org/</a></p>
+</dd>
+<dt id="term-non-blocking-method">Non-blocking Method</dt>
+<dd><p class="first">By using the <em>post</em> object of a proxy, a task is created
+in a parallel thread. This enables you to do other work at the same time (e.g.
+walking while talking). Each <em>post</em> call generates a <em>task id</em>.  You can
+use this <em>task id</em> to check if a task is running, or wait until the task is finished.</p>
+<p>See also: <a class="reference internal" href="#term-blocking-method"><em class="xref std std-term">blocking method</em></a>.</p>
+<p class="last">Further details: <a class="reference internal" href="dev/naoqi/index.html#naoqi-blocking-non-blocking"><em>Blocking and non-blocking calls</em></a>.</p>
+</dd>
+<dt id="term-pose">Pose</dt>
+<dd><p class="first">Combination of position and orientation of a body in a coordinate system.
+For example, position and orientation of the robot related to
+<a class="reference internal" href="#term-frame-world"><em class="xref std std-term">FRAME_WORLD</em></a>.</p>
+<p class="last"><strong>Caution</strong>: not to be confused with <a class="reference internal" href="naoqi/motion/alrobotposture.html#term-posture"><em class="xref std std-term">posture</em></a>.</p>
+</dd>
+<dt id="term-position6d">Position6D</dt>
+<dd><p class="first">A Position6D is a vector of 6 dimensions composed of 3 translations
+(in meters) and 3 rotation (in radians).</p>
+<p>See also: <a class="reference internal" href="#term-transform"><em class="xref std std-term">Transform</em></a>.</p>
+<p class="last">Further details: <a class="reference external" href="ref/libalmath/overview.html">libalmath Overview</a>.</p>
+</dd>
+<dt id="term-posture">Posture</dt>
+<dd><p class="first">A configuration of the robot body, generally involving all joints.</p>
+<p>Useful postures are available in Choregraphe
+<a class="reference internal" href="software/choregraphe/panels/pose_library_panel.html#choregraphe-overview-pose-library-panel"><em>Pose library panel</em></a>.
+or can be reached using <a class="reference internal" href="naoqi/motion/alrobotposture.html#alrobotposture"><em>ALRobotPosture</em></a> or using directly
+<strong>ALMotion</strong> joint control (see <a class="reference internal" href="naoqi/motion/control-joint-tuto.html#control-joint-tuto"><em>Joint control Tutorial: The Pose Init</em></a>).</p>
+<p class="last">See Also: <a class="reference internal" href="naoqi/motion/alrobotposture.html#term-predefined-postures"><em class="xref std std-term">Predefined postures</em></a>.</p>
+</dd>
+<dt id="term-se3-interpolation">SE3 Interpolation</dt>
+<dd><p class="first">SE3 Interpolation is used for all interpolations that are defined in Cartesian Space.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-cartesian.html#motion-se3-interpolation"><em>SE3 Interpolation</em></a></p>
+</dd>
+<dt id="term-singularity">Singularity</dt>
+<dd><p class="first">A position in the robot&#8217;s workspace where one or more joints no longer
+represent independent controlling variables.</p>
+<p class="last">Mathematically, a Jacobian mathematical matrix formulation can be used to relate
+the motion in joint space to the motion in Cartesian space.
+The singularity occurs when the inverse Jacobian becomes singular (determinant = 0).</p>
+</dd>
+<dt id="term-spaces">Spaces</dt>
+<dd><p class="first">ALMotion uses 3 different spatial references: <a class="reference internal" href="#term-frame-torso"><em class="xref std std-term">FRAME_TORSO</em></a>,
+<a class="reference internal" href="#term-frame-world"><em class="xref std std-term">FRAME_WORLD</em></a> and <a class="reference internal" href="#term-frame-robot"><em class="xref std std-term">FRAME_ROBOT</em></a>.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-cartesian.html#motion-effectors-space"><em>Spaces</em></a>.</p>
+</dd>
+<dt id="term-stiffness">Stiffness</dt>
+<dd><p class="first">The stiffness of the joint is equivalent to a torque limitation into
+the motors. If the joint stiffness is set to 0.0, the joint controller
+do nothing and the joint is free. Else with a value at 1.0 the joint is
+allowed to use full torque power to reach a given position.</p>
+<p class="last">Further details: <a class="reference internal" href="naoqi/motion/control-stiffness.html#control-stiffness"><em>Stiffness control</em></a>. See also: <a class="reference internal" href="#term-hardness"><em class="xref std std-term">Hardness</em></a>.</p>
+</dd>
+<dt id="term-support-polygon">Support polygon</dt>
+<dd>For a rigid object in contact with a fixed environment and acted upon by gravity in
+the vertical direction, its support polygon is a horizontal region over which the center
+of mass must lie to achieve static stability.
+For example, for an object resting on a horizontal surface (e.g. a table),
+the support polygon is the convex hull of its &#8220;footprint&#8221; on the table.</dd>
+<dt id="term-transform">Transform</dt>
+<dd><p class="first">Way to describe a solid in space. It is composed of a rotation matrix and a translation.</p>
+<p>See also: <a class="reference internal" href="#term-position6d"><em class="xref std std-term">Position6D</em></a>.</p>
+<p class="last">Further details: <a class="reference external" href="ref/libalmath/overview.html">libalmath Overview</a>.</p>
+</dd>
+<dt id="term-whole-body-motion">Whole Body Motion</dt>
+<dd>Whole Body Motion is a Generalized Inverse Kinematics which deals with
+Cartesian and joint control, balance, redundancy and task priority.</dd>
+</dl>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="ref/python-api.html" title="NAOqi Python API">NAOqi Python API</a>
+     |
+    <a title="NAO Software 1.14.5 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="legal/notice.html" title="Legal notices">Legal notices</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref/index.html">References</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal/notice.html">Legal notices</a></li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="ref/python-api.html" title="NAOqi Python API">previous</a>
+     |
+    <a title="NAO Software 1.14.5 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="legal/notice.html" title="Legal notices">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

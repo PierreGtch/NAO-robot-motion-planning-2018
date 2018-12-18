@@ -1,0 +1,364 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>.Net SDK &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="SDKs" href="../sdk.html" />
+    <link rel="next" title="Java SDK" href="../java/index.html" />
+    <link rel="prev" title="Python SDK tips and tricks" href="../python/tips-and-tricks.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../python/tips-and-tricks.html" title="Python SDK tips and tricks">previous</a>
+     |
+    <a href="../sdk.html" title="SDKs" accesskey="U">up</a>
+   |
+    <a href="../java/index.html" title="Java SDK">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-dotnet-index">
+            
+  <div class="section" id="net-sdk">
+<span id="naoqi-dot-net"></span><h1>.Net SDK<a class="headerlink" href="#net-sdk" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../sdk.html#sdk-index"><em>Overview</em></a> | <a class="reference internal" href="../cpp/index.html#cpp-introduction"><em>C++</em></a> | <a class="reference internal" href="../python/index.html#python-introduction"><em>Python</em></a>
+| .Net | <a class="reference internal" href="../java/index.html#java"><em>Java</em></a> | <a class="reference internal" href="../matlab/index.html#matlab"><em>Matlab</em></a> | <a class="reference internal" href="../urbi/index.html#urbi"><em>Urbi</em></a></p>
+</div>
+<hr class="docutils" />
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p><strong>NAOqi.Net</strong> allows you to call any NAOqi method from most Microsoft .Net languages.
+Featuring a very small download size, and coming with autocompletion,
+it is one of the easiest ways to program NAO from a remote Windows based machine.</p>
+<p>It has been principally tested for c# but is known to work in Visual Basic and F#.</p>
+</div>
+<div class="section" id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
+<p><strong>NAOqi.Net</strong> can only be used on remote Windows machines. It cannot be used on the robot, even via the Mono framework.</p>
+<p>It does not currently implement NAOqi&#8217;s ALModule class, and as a consequence, it cannot receive event notifications.</p>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>.Net version 2 or above for Visual Studio 2005 or Visual Studio 2008</li>
+<li>.Net version 4 or above for Visual Studio 2010</li>
+</ul>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Depending on which version of .Net that you wish to target, choose the install
+that is right for you:</p>
+<ul class="simple">
+<li>.Net4: naoqi-dotnet4-sdk-<em>VERSION</em>.msi</li>
+<li>.Net2: naoqi-dotnet2-sdk-<em>VERSION</em>.msi</li>
+</ul>
+<p>You can download the latest release from the
+<a class="reference external" href="https://community.aldebaran.com/">Aldebaran Community Website</a>.</p>
+<p>On 32 bit machines, files will be placed in:</p>
+<ul class="simple">
+<li>C:\Program Files\Aldebaran\NAOqi.Net *VERSION*</li>
+</ul>
+<p>On 64 bit machine files will be placed in:</p>
+<ul class="simple">
+<li>C:\Program Files (x86)\Aldebaran\NAOqi.Net *VERSION*</li>
+</ul>
+</div>
+<div class="section" id="hello-world-example">
+<h2>Hello World Example<a class="headerlink" href="#hello-world-example" title="Permalink to this headline">¶</a></h2>
+<p>This example shows how to create a &#8220;HelloWorld&#8221; application using naoqi-dotnet4 in Visual Studio 2010.</p>
+<p><strong>1. Create a New CSharp Project</strong></p>
+<p>From the <strong>File</strong> Menu of Visual Studio 2010, choose <strong>New Project</strong>, then select a .Net project type that corresponds to the type of project you wish to create.</p>
+<p>In this example we will choose to make the simplest C# Console Application.</p>
+<img alt="../../_images/new_project-dotnet4.jpg" src="../../_images/new_project-dotnet4.jpg" style="width: 600px; height: 382px;" />
+<p><strong>2. Add a reference</strong></p>
+<p>Select the project in <strong>Solution Explorer</strong> and right click to <strong>add a reference</strong>.</p>
+<img alt="../../_images/add_reference1-dotnet4.jpg" src="../../_images/add_reference1-dotnet4.jpg" style="width: 344px; height: 205px;" />
+<p>Choose the <strong>Browse</strong> tab and navigate to the naoqi-dotnet4.dll.</p>
+<p>If you installed to the default location, this will be c:\Program Files\Aldebaran\NAOqi.Net SDK *VERSION*</p>
+<img alt="../../_images/add_reference2-dotnet4.jpg" src="../../_images/add_reference2-dotnet4.jpg" style="width: 561px; height: 446px;" />
+<p><strong>3. Add the namespace</strong></p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">using</span> <span class="nn">Aldebaran.Proxies</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>4. Connect to a proxy</strong></p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">TextToSpeechProxy</span> <span class="n">tts</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TextToSpeechProxy</span><span class="p">(</span><span class="s">&quot;&lt;IP OF YOUR ROBOT&gt;&quot;</span><span class="p">,</span> <span class="m">9559</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The first argument is the IP address or hostname of the NaoQi that you wish to connect to.</p>
+<p>The second argument is the port which is typically: 9559.</p>
+<p><strong>5. Call a method</strong></p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">tts</span><span class="p">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The &#8216;say&#8217; method of the TextToSpeech module takes a string argument containing the text that you wish to say.</p>
+<p><strong>Complete example</strong></p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">using</span> <span class="nn">Aldebaran.Proxies</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Program</span>
+<span class="p">{</span>
+  <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+  <span class="p">{</span>
+     <span class="n">TextToSpeechProxy</span> <span class="n">tts</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TextToSpeechProxy</span><span class="p">(</span><span class="s">&quot;&lt;IP OF YOUR ROBOT&gt;&quot;</span><span class="p">,</span> <span class="m">9559</span><span class="p">);</span>
+     <span class="n">tts</span><span class="p">.</span><span class="n">say</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="further-examples">
+<h2>Further examples<a class="headerlink" href="#further-examples" title="Permalink to this headline">¶</a></h2>
+<p>In the install directory, you will find a simple example called <strong>NaoCamCSharp</strong>
+which shows how to make a simple windows forms application that controls the head orientation and receives images from the camera.</p>
+</div>
+<div class="section" id="type-mappings-between-c-and-net">
+<span id="understanding-dotnet-types"></span><h2>Type mappings between c++ and .Net<a class="headerlink" href="#type-mappings-between-c-and-net" title="Permalink to this headline">¶</a></h2>
+<p>The underlying modules of NAOqi use c++ types. All the basic types of c++ that are used in bound methods have very similar types in .Net so need no special translation.</p>
+<p>More complex c++ types such as std::vector&lt;type&gt; and AL::ALValue are mapped as follows:</p>
+<p><strong>Using Generic Lists</strong></p>
+<p>std::vector&lt;type&gt; becomes System.Collections.Generic.List&lt;type&gt;</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
+<span class="p">...</span>
+
+<span class="n">MotionProxy</span> <span class="n">_motion</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MotionProxy</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="m">9559</span><span class="p">);</span>
+
+<span class="c1">// Add items one by one</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">names</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+<span class="n">names</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;HeadYaw&quot;</span><span class="p">);</span>
+<span class="n">names</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;HeadPitch&quot;</span><span class="p">);</span>
+
+<span class="n">_motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="m">1.0F</span><span class="p">);</span>
+
+<span class="c1">// or</span>
+<span class="c1">// Add elements in the constructor</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">float</span><span class="p">&gt;</span> <span class="n">times</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">float</span><span class="p">&gt;()</span> <span class="p">{</span><span class="m">1.0f</span><span class="p">,</span> <span class="m">2.0f</span><span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>Using ArrayLists</strong></p>
+<p>AL::ALValue becomes System.Collections.ArrayList</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">using</span> <span class="nn">System.Collections</span><span class="p">;</span>
+
+<span class="c1">// Using ArrayList</span>
+<span class="n">ArrayList</span> <span class="n">list</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="p">();</span>
+<span class="n">list</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;HeadYaw&quot;</span><span class="p">);</span>
+<span class="n">list</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;HeadPitch&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Using object[]</strong></p>
+<p>The .Net ArrayList is a collection of objects. Because in .Net all types derive from Object, any basic type, or array of objects will be automatically cast into an object or object array if that is what the method accepts.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">MotionProxy</span> <span class="n">_motion</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MotionProxy</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="m">9559</span><span class="p">);</span>
+
+<span class="kt">object</span> <span class="n">names</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">object</span><span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;HeadYaw&quot;</span><span class="p">,</span> <span class="s">&quot;HeadPitch&quot;</span> <span class="p">};</span>
+<span class="n">_motion</span><span class="p">.</span><span class="n">setStiffnesses</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="m">1.0F</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Complex ArrayLists</strong></p>
+<p>This example shows how to get the bytes of an image object.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">VideoDeviceProxy</span> <span class="n">_videoDeviceProxy</span> <span class="p">=</span> <span class="k">new</span> <span class="n">VideoDeviceProxy</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="m">9559</span><span class="p">);</span>
+
+<span class="c1">// The numbers describe the format: 160*120, RGB, 5fps</span>
+<span class="n">_videoDeviceProxy</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;dotNetExample&quot;</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">15</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+
+<span class="n">Object</span> <span class="n">imageObject</span> <span class="p">=</span> <span class="n">_videoDeviceProxy</span><span class="p">.</span><span class="n">getImageRemote</span><span class="p">(</span><span class="s">&quot;dotNetExample&quot;</span><span class="p">);</span>
+
+<span class="c1">// Take the 6th element of the imageObject as a byte array</span>
+<span class="kt">byte</span><span class="p">[]</span> <span class="n">imageBytes</span> <span class="p">=</span> <span class="p">(</span><span class="kt">byte</span><span class="p">[])</span> <span class="p">((</span><span class="n">ArrayList</span><span class="p">)</span> <span class="n">imageObject</span><span class="p">)[</span><span class="m">6</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="faq">
+<span id="dotnet-faq"></span><h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mismatched-target-frameworks">
+<h3>Mismatched target frameworks<a class="headerlink" href="#mismatched-target-frameworks" title="Permalink to this headline">¶</a></h3>
+<p>If you try to use a naoqi-dotnet2 in Visual Studio 2010, you will receive an error about mis-matched targets. The solution is either to use naoqi-dotnet4, or to add an app.config file to your project which tells Visual Studio to play nice.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;configuration&gt;</span>
+  <span class="c">&lt;!--</span>
+<span class="c">    naoqi-dotnet2.dll was built with .Net 2</span>
+
+<span class="c">    VS2010 isn&#39;t as forgiving as previous versions about loading</span>
+<span class="c">    assemblies built with previous versions of .Net</span>
+<span class="c">    You need to explicitly ask it to play nice:</span>
+<span class="c">  --&gt;</span>
+  <span class="nt">&lt;startup</span> <span class="na">useLegacyV2RuntimeActivationPolicy=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;supportedRuntime</span> <span class="na">version=</span><span class="s">&quot;v4.0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;requiredRuntime</span> <span class="na">version=</span><span class="s">&quot;v4.0.20506&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/startup&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-on-64bit-machines">
+<h3>Building on 64bit machines<a class="headerlink" href="#building-on-64bit-machines" title="Permalink to this headline">¶</a></h3>
+<p>To build projects on 64 bit machines, you need to choose &#8220;x86&#8221; in Configuration Manager. If you attempt &#8220;Any CPU&#8221; you will get errors about mixed architectures.</p>
+</div>
+</div>
+<div class="section" id="changes-in-version-1-12">
+<span id="dotnet-changes-in-1-12"></span><h2>Changes in version 1.12<a class="headerlink" href="#changes-in-version-1-12" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Support for VS2010 and .Net4</li>
+<li>Support for generic proxies - allows you to call your own c++ modules</li>
+<li>Support for non-ascii languages - automatic managed UTF16 to native UTF8 convertion</li>
+<li>Updated against NAOqi 1.12 modules and methods</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../python/tips-and-tricks.html" title="Python SDK tips and tricks">Python SDK tips and tricks</a>
+     |
+    <a href="../sdk.html" title="SDKs" accesskey="U">SDKs</a>
+   |
+    <a href="../java/index.html" title="Java SDK">Java SDK</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../cpp/index.html">Cpp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">.NET</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">.Net SDK</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#hello-world-example">Hello World Example</a></li>
+<li><a class="reference internal" href="#further-examples">Further examples</a></li>
+<li><a class="reference internal" href="#type-mappings-between-c-and-net">Type mappings between c++ and .Net</a></li>
+<li><a class="reference internal" href="#faq">FAQ</a><ul>
+<li><a class="reference internal" href="#mismatched-target-frameworks">Mismatched target frameworks</a></li>
+<li><a class="reference internal" href="#building-on-64bit-machines">Building on 64bit machines</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-version-1-12">Changes in version 1.12</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../python/tips-and-tricks.html" title="Python SDK tips and tricks">previous</a>
+     |
+    <a href="../sdk.html" title="SDKs" accesskey="U">up</a>
+   |
+    <a href="../java/index.html" title="Java SDK">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

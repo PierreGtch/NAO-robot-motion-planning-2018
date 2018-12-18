@@ -1,0 +1,442 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NAO Messages &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../index.html" />
+    <link rel="up" title="Taking care of NAO" href="taking-care.html" />
+    <link rel="next" title="Replacing the battery" href="replacing-battery.html" />
+    <link rel="prev" title="Main usages of the Chest button" href="chest_button_usages.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../search.html">Search</a>
+         |
+        <a title="Index" href="../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="chest_button_usages.html" title="Main usages of the Chest button">previous</a>
+     |
+    <a href="taking-care.html" title="Taking care of &lt;strong&gt;NAO&lt;/strong&gt;" accesskey="U">up</a>
+   |
+    <a href="replacing-battery.html" title="Replacing the battery">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="nao-led_messages">
+            
+  <div class="section" id="nao-messages">
+<h1><strong>NAO</strong> Messages<a class="headerlink" href="#nao-messages" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="meaning-of-the-vocal-warnings">
+<span id="nao-manual-meaning-of-warnings"></span><h2>Meaning of the vocal warnings<a class="headerlink" href="#meaning-of-the-vocal-warnings" title="Permalink to this headline">¶</a></h2>
+<p>Here is the meaning of each warning of the robot.</p>
+<div class="section" id="when-nao-is-on">
+<h3>When  <strong>NAO</strong> is on<a class="headerlink" href="#when-nao-is-on" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">NAO says ...</th>
+<th class="head">When ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&#8220;Motor hot&#8221;</td>
+<td><p class="first">The motor of a joint is getting too hot.</p>
+<p class="last">The joint will become less stiff.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>&#8220;Battery low&#8221;</td>
+<td><p class="first">The battery is out of charge.</p>
+<p class="last">The robot is about to turn off.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first">&#8220;Head processor hot&#8221;</p>
+<p class="last">with its eyes blinking</p>
+</td>
+<td><p class="first">The CPU in the head is getting too hot.</p>
+<p class="last">It is better to turn off the robot:
+its behavior could be unexpected and if the temperature keeps
+increasing (&gt;110 degrees Celsius), it will turn off automatically.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first">&#8220;Head processor overheating,
+shutdown&#8221;</p>
+<p class="last">with its eyes blinking</p>
+</td>
+<td>The CPU in the head is getting too hot (&gt;110 degrees Celsius),
+the robot is about to turn off automatically.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="during-boot-process">
+<h3>During boot process<a class="headerlink" href="#during-boot-process" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">NAO says ...</th>
+<th class="head">When ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&#8220;Errors occurred during the boot, I will not work as
+usual. Any change done during this session will be
+lost after reboot. A reboot can fix this. If this
+happens again, please contact the support.&#8221;</td>
+<td><p class="first">Something goes wrong during the boot process, the flash memory dedicated to user
+purposes will not be available until reboot.</p>
+<p class="last">This may occurs several consecutive times. If this happens, try stop NAO, wait for
+a while then boot again.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>&#8220;Errors occurred during the boot, I will not work as
+usual. My head will not respond as expected,
+especially my audio and video capabilities. A reboot
+can fix this. If this happens again, please contact
+the support.&#8221;</td>
+<td><p class="first">Something goes wrong during the boot process, the memory storing the head hardware
+configuration is unavailable until reboot.</p>
+<p class="last">This may occurs several consecutive times. If this happens, try stop NAO, wait for
+a while then boot NAO again.</p>
+</td>
+</tr>
+<tr class="row-even"><td>&#8220;The system upgrade to the version X.Y.Z has
+failed.&#8221;</td>
+<td><p class="first">Something goes wrong during the software version update that was planned during the
+session before the last boot of NAO.</p>
+<p class="last">The software is not updated.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>&#8220;The system upgrade succeeded, I am running the
+software version X.Y.Z.&#8221;</td>
+<td>The software version update that was planned during the session before the last
+boot of NAO succeeded.</td>
+</tr>
+<tr class="row-even"><td>&#8220;My body is disabled because the hardware is too
+old. The current hardware version is ... whereas my
+software needs a hardware version greater or equal
+to ...&#8221;</td>
+<td><p class="first">The current software version is too recent and does not support the current
+hardware (i.e. NAO&#8217;s body).</p>
+<p>For safety reasons, the body is disabled and it is no longer possible to stiffen
+its joints.</p>
+<p class="last"><strong>Solution:</strong> the software version should be downgraded.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>&#8220;My body is disabled because the software version
+does not meet the requirements. The current software
+version is ... whereas my body needs a software
+version greater or equal to ...&#8221;</td>
+<td><p class="first">The current software version is too old and does not support the current hardware
+(i.e. NAO&#8217;s body).</p>
+<p>For safety reasons, the body is disabled and it is no longer possible to stiffen
+its joints.</p>
+<p class="last"><strong>Solution:</strong> the software version should be upgraded.</p>
+</td>
+</tr>
+<tr class="row-even"><td>&#8220;To complete my upgrade, please make sure that I
+am well charged, unplug my charger and re-boot me&#8221;</td>
+<td><p class="first">The charger is plugged and disturbs the upgrade of the card controlling
+the <strong>Inertial sensor</strong>.</p>
+<p>This error is not systematic, it may occur in case of  disturbances on the
+power distribution network.</p>
+<p class="last"><strong>Solution:</strong> do as required by NAO, in order to perform the upgrade without
+the disturbance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="meaning-of-the-leds">
+<span id="nao-manual-meaning-of-lights"></span><h2>Meaning of the LEDs<a class="headerlink" href="#meaning-of-the-leds" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="chest-button-on-boot-time">
+<h3>Chest button on boot time<a class="headerlink" href="#chest-button-on-boot-time" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">LEDs</th>
+<th class="head">Meanings</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="blue_chest" class="img-inline" src="../_images/gs_blue_led.png" style="width: 50px; height: 45px;" /></td>
+<td><p class="first">Blinking blue light means that a Firmware update has been requested.</p>
+<p class="last">Wait until the process is finished.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><img alt="green_chest" class="img-inline" src="../_images/gs_green_led.png" style="width: 50px; height: 48px;" /></td>
+<td><p class="first"><strong>During the boot process</strong>, a steady green light indicates
+that the boot process is stuck in the boot loader.</p>
+<p class="last">Contact the Aldebaran team if it happens several times.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="chest-button-when-nao-is-on">
+<h3>Chest button when <strong>NAO</strong> is on<a class="headerlink" href="#chest-button-when-nao-is-on" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">LEDs</th>
+<th class="head">Meanings</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><img alt="white_chest" class="img-inline" src="../_images/gs_white_led.png" style="width: 50px; height: 49px;" /></td>
+<td>A steady white light indicates that the robot is on, ready to use.</td>
+</tr>
+<tr class="row-odd"><td><img alt="green_chest" class="img-inline" src="../_images/gs_green_led.png" style="width: 50px; height: 48px;" /></td>
+<td>A steady green light indicates that the battery charge is higher than 3/5.</td>
+</tr>
+<tr class="row-even"><td rowspan="2"><img alt="yellow_chest" class="img-inline" src="../_images/gs_yellow_led.png" style="width: 50px; height: 46px;" /></td>
+<td>A steady yellow light means that the battery charge is less than 3/5 and higher than 1/5.</td>
+</tr>
+<tr class="row-odd"><td><p class="first">A slow yellow blinking light means that NAOqi is not running.</p>
+<p class="last">Restart NAOqi or your robot.</p>
+</td>
+</tr>
+<tr class="row-even"><td><img alt="red_chest" class="img-inline" src="../_images/gs_red_led.png" style="width: 50px; height: 50px;" /></td>
+<td><p class="first">A red blinking light means that the battery charge is less than 1/5.</p>
+<p class="last">You should charge immediately.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="ears-on-boot-time">
+<span id="nao-manual-ears-on-boot"></span><h3>Ears on boot time<a class="headerlink" href="#ears-on-boot-time" title="Permalink to this headline">¶</a></h3>
+<p>While the booting up, progress is displayed on NAO&#8217;s ear LEDs in 4 steps:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Ear LED Brightness</th>
+<th class="head">Means ...</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0 %</td>
+<td>The robot is in the early boot step, initializing the hardware.</td>
+</tr>
+<tr class="row-odd"><td>25 %</td>
+<td>Hardware is initialized.</td>
+</tr>
+<tr class="row-even"><td>50 %</td>
+<td>Filesystems are ready to use.</td>
+</tr>
+<tr class="row-odd"><td>75 %</td>
+<td>Network and ssh are started.</td>
+</tr>
+<tr class="row-even"><td>100 %</td>
+<td>NAOqi is started.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="ears-on-upgrade">
+<span id="nao-manual-ears-on-upgrade"></span><h3>Ears on upgrade<a class="headerlink" href="#ears-on-upgrade" title="Permalink to this headline">¶</a></h3>
+<p>When upgrading the embedded system, to make things clearer to understand, the
+boot progress displayed on ear LEDs is divided in 4 steps:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Ear LEDs</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>The front half-circle is blinking.</td>
+<td>Checking integrity of the image to be flashed.</td>
+</tr>
+<tr class="row-odd"><td>Animation like a progress bar.</td>
+<td>The OS image is being flashed.</td>
+</tr>
+<tr class="row-even"><td>The rear half-circle is blinking <a class="footnote-reference" href="#f1" id="id1">[1]</a>.</td>
+<td>Checking integrity of the flashed data.</td>
+</tr>
+<tr class="row-odd"><td>The front and rear half-circles are
+alternatively blinking <a class="footnote-reference" href="#f1" id="id2">[1]</a>.</td>
+<td>Restoring factory settings.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Only on NAO v4.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="chest_button_usages.html" title="Main usages of the Chest button">Main usages of the Chest button</a>
+     |
+    <a href="taking-care.html" title="Taking care of &lt;strong&gt;NAO&lt;/strong&gt;" accesskey="U">Taking care of &lt;strong&gt;NAO&lt;/strong&gt;</a>
+   |
+    <a href="replacing-battery.html" title="Replacing the battery">Replacing the battery</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">NAO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuring.html">Configuring NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="taking-care.html">Taking care of <strong>NAO</strong></a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="chest_button_usages.html">Main usages of the Chest button</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href=""><strong>NAO</strong> Messages</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="replacing-battery.html">Replacing the battery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="upgrade.html">Upgrading your robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="removing-head.html">Removing NAO&#8217;s head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contacting_support.html">Contacting customer support</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../family/index.html">Hardware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><strong>NAO</strong> Messages</a><ul>
+<li><a class="reference internal" href="#meaning-of-the-vocal-warnings">Meaning of the vocal warnings</a><ul>
+<li><a class="reference internal" href="#when-nao-is-on">When  <strong>NAO</strong> is on</a></li>
+<li><a class="reference internal" href="#during-boot-process">During boot process</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#meaning-of-the-leds">Meaning of the LEDs</a><ul>
+<li><a class="reference internal" href="#chest-button-on-boot-time">Chest button on boot time</a></li>
+<li><a class="reference internal" href="#chest-button-when-nao-is-on">Chest button when <strong>NAO</strong> is on</a></li>
+<li><a class="reference internal" href="#ears-on-boot-time">Ears on boot time</a></li>
+<li><a class="reference internal" href="#ears-on-upgrade">Ears on upgrade</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="chest_button_usages.html" title="Main usages of the Chest button">previous</a>
+     |
+    <a href="taking-care.html" title="Taking care of &lt;strong&gt;NAO&lt;/strong&gt;" accesskey="U">up</a>
+   |
+    <a href="replacing-battery.html" title="Replacing the battery">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

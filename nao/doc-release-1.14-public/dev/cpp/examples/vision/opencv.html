@@ -1,0 +1,513 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using OpenCV &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../../../index.html" />
+    <link rel="up" title="C++ Examples" href="../../examples.html" />
+    <link rel="next" title="Optimized access to images" href="optimizedimage/optimizedimage.html" />
+    <link rel="prev" title="Capturing audio and video" href="../audiovideocapture/audiovideocapture.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../../../search.html">Search</a>
+         |
+        <a title="Index" href="../../../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../audiovideocapture/audiovideocapture.html" title="Capturing audio and video">previous</a>
+     |
+    <a href="../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="optimizedimage/optimizedimage.html" title="Optimized access to images">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-cpp-examples-vision-opencv">
+            
+  <div class="section" id="using-opencv">
+<span id="cpp-tutos-opencv"></span><h1>Using OpenCV<a class="headerlink" href="#using-opencv" title="Permalink to this headline">¶</a></h1>
+<p>OpenCV (Open Computer Vision) is a C++ library containing various state-of-the-art
+vision algorithms, from object recognition to video analysis, image processing
+etc.</p>
+<div class="section" id="opencv-2-3-1">
+<h2>OpenCV 2.3.1<a class="headerlink" href="#opencv-2-3-1" title="Permalink to this headline">¶</a></h2>
+<p>Since version 1.14, <strong>NAOqi SDK</strong> supports OpenCV 2.3.1 for both compilation and
+cross-compilation. This latest version contains various fixes and optimizations
+compared to the previously supported 2.1 versions, also with an important
+restructuring of the library&#8217;s architecture.</p>
+<p>OpenCV 2.3 is practically entirely backward compatible with OpenCV 2.1. So
+everything working on 2.1 should work on 2.3.</p>
+<p>However, there has been a complete refactoring of the structure:</p>
+<ul class="simple">
+<li>separating the C API from the C++ one</li>
+<li>separating the distribution into logical modules</li>
+</ul>
+<div class="section" id="modules">
+<h3>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h3>
+<p>The main modules are</p>
+<ul class="simple">
+<li><strong>core</strong>: it contains the basic structures and functionalities</li>
+<li><strong>highgui</strong>: anything to do with display, opening or saving images</li>
+<li><strong>imgproc</strong>: color conversion, filters...</li>
+<li><strong>video</strong>: optical flow, background substraction...</li>
+<li><strong>calib3d</strong>: homography, fundamental matrices... anything to do with camera
+calibration and stereovision</li>
+<li><strong>features2d</strong>: feature detection, descriptors (FAST, SURF), matching</li>
+<li><strong>ml</strong>: machine learning (neural networks, SVM, boosting, KNN etc)</li>
+<li><strong>flann</strong>: efficient clustering and search in databases</li>
+<li><strong>objectdetection</strong>: object detection with Cascade or Haar classifiers</li>
+</ul>
+<p>Each module has its associated include file(s). For example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#include &lt;opencv2/core/core.hpp&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<p>The API has been cleaned: C and C++ API are now clearly distinguished.
+For example <strong>CvMat</strong> is C API, and has its equivalent in C++ <strong>cv::Mat</strong>.
+Unless you are doing C, use C++ API! No need to mix both. If you really need to
+use the C API, use the right include</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#include &lt;opencv2/core/core_c.h&gt;</span>
+</pre></div>
+</div>
+<p>but again, do not mix the includes.</p>
+<div class="section" id="iplimage-and-cv-mat">
+<h4>IplImage and cv::Mat<a class="headerlink" href="#iplimage-and-cv-mat" title="Permalink to this headline">¶</a></h4>
+<p>IplImage* has been replaced by cv::Mat. This is basically the same structure,
+but more generic. So all methods that had IplImage* arguments now use cv::Mat.</p>
+<p>cv::Mat is a smart pointer, which means that you do not have to release it by
+hand (though there is a release method). It behaves like a pointer, which means
+that if you do the following code:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">oldMat</span><span class="p">;</span>
+<span class="c1">// Do some processing.</span>
+<span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">newMat</span> <span class="o">=</span> <span class="n">oldMat</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>no data will be copied</strong>. Which means that if oldMat is released, then newMat
+is emptied. If you want to copy some data, use the <strong>copyTo</strong> or <strong>clone</strong>
+methods.</p>
+<p>ROI are handled that way: you create a new matrix pointing to the desired area,
+without any data copy, and then copy what you want to that new matrix.</p>
+<p>Here is a non-exhaustive list of some interesting fields of IplImage, and what
+they have become in cv::Mat.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">OpenCV 2.1</th>
+<th class="head">OpenCV 2.3</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>width</td>
+<td>cols</td>
+</tr>
+<tr class="row-odd"><td>height</td>
+<td>rows</td>
+</tr>
+<tr class="row-even"><td>imageData</td>
+<td>data</td>
+</tr>
+<tr class="row-odd"><td>nChannels</td>
+<td>channels()</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cvseq-and-std-vector">
+<h4>CvSeq* and std::vector<a class="headerlink" href="#cvseq-and-std-vector" title="Permalink to this headline">¶</a></h4>
+<p>You might have dabbled a bit with the storage structures of OpenCV, CvSeq and
+CvMemStorage. If you did, you might have noticed that they are rather
+counter-intuitive and nearly impossible to create yourself. Fortunately, if
+you use the C++ API, all CvSeq have disappeared and have been replaced by
+std::vector, that is infinitely easier to handle!</p>
+</div>
+<div class="section" id="from-c-to-c">
+<h4>From C to C++<a class="headerlink" href="#from-c-to-c" title="Permalink to this headline">¶</a></h4>
+<p>Even if you code in C++, you might be used to the C API, which has this typical
+format: cvSomeOpenCVMethod(...). To use the C++ equivalent try replacing CvSeq
+by std::vector and IplImage by cv::Mat.</p>
+</div>
+</div>
+<div class="section" id="cmake-dependencies">
+<h3>CMake dependencies<a class="headerlink" href="#cmake-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>OpenCV 2.3 is now packaged according to the modules. So when you want to use
+OpenCV, instead of using</p>
+<div class="highlight-python"><pre>qi_use_lib(mylib OPENCV)</pre>
+</div>
+<p>specify the modules that you want to use. For example, if you are using core
+and highgui</p>
+<div class="highlight-python"><pre>qi_use_lib(mylib OPENCV2_CORE OPENCV2_HIGHGUI)</pre>
+</div>
+<p>All modules use the following format: OPENCV2_MODULENAME.</p>
+</div>
+<div class="section" id="what-s-new-in-opencv-2-3">
+<h3>What&#8217;s new in OpenCV 2.3<a class="headerlink" href="#what-s-new-in-opencv-2-3" title="Permalink to this headline">¶</a></h3>
+<p>OpenCV 2.3 is not only a code clean-up and refactoring. It also offers a lot
+of new wrapper classes which make life much easier, especially in terms of
+keypoint extraction and so on.</p>
+<p>There are new implementations of various keypoints / descriptors: Star (also
+called Censure), MSER, Upgraded SURF, BRIEF, Ferns...</p>
+</div>
+</div>
+<div class="section" id="toolchain-opencv-versus-system-opencv">
+<span id="cpp-tutos-opencv-toolchain"></span><h2>Toolchain OpenCV versus system OpenCV<a class="headerlink" href="#toolchain-opencv-versus-system-opencv" title="Permalink to this headline">¶</a></h2>
+<p>C++ <strong>NAOqi SDK</strong> provides some OpenCV libraries.</p>
+<p>However, <strong>on Ubuntu, these libraries
+have been built without GTK support for portability reasons</strong> (GTK has a lot of
+dependencies, and will be useless on the robot since it has no display). This
+means that you will not be able to use any of the graphical interface methods
+of OpenCV (such as cv::imshow). This seems natural if you are working on the
+robot, but you will probably want to have some visual debug. You will also
+have the same problem if you try to execute this example:
+<a class="reference internal" href="getimage/getimage.html#cpp-tutos-get-image"><em>Getting an image</em></a>.</p>
+<p>You might also want to work with your specific OpenCV (for example, using
+special compilation flags or optimization libraries).</p>
+<p>The solution is to replace Aldebaran robotics&#8217; version of OpenCV by your system one. To
+do so, follow these steps:</p>
+<div class="section" id="getting-opencv-latest-version-on-your-system">
+<h3>Getting OpenCV latest version on your system<a class="headerlink" href="#getting-opencv-latest-version-on-your-system" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="cleaning-old-versions">
+<h4>Cleaning old versions<a class="headerlink" href="#cleaning-old-versions" title="Permalink to this headline">¶</a></h4>
+<p>If you do not have any previous OpenCV installation on your machine, you may
+skip this section and go directly to <a class="reference internal" href="#cpp-tutos-opencv-install"><em>Installing the latest version</em></a>.</p>
+<p><strong>If you installed your version from the sources</strong></p>
+<ul>
+<li><p class="first">go to the build folder where you built the sources.</p>
+</li>
+<li><p class="first">execute the following command (possibly with sudo on Ubuntu):</p>
+<div class="highlight-python"><pre>make uninstall</pre>
+</div>
+</li>
+<li><p class="first">If you installed it from the sources but cannot find the build directory, you
+can either remove OpenCV libraries by hand or:</p>
+<ul>
+<li><p class="first">download the source of your current OpenCV version</p>
+</li>
+<li><p class="first">build the sources (as in <a class="reference internal" href="#cpp-tutos-opencv-install"><em>Installing the latest version</em></a> but with an older version)</p>
+</li>
+<li><p class="first">execute the following (possibly with sudo on Ubuntu):</p>
+<div class="highlight-python"><pre>make
+make install
+make uninstall</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>If you used an installer or a package</strong></p>
+<p>Uninstall it using the provided uninstaller (from Synaptic Package Manager for
+Ubuntu, for example).</p>
+</div>
+<div class="section" id="installing-the-latest-version">
+<span id="cpp-tutos-opencv-install"></span><h4>Installing the latest version<a class="headerlink" href="#installing-the-latest-version" title="Permalink to this headline">¶</a></h4>
+<p>The best solution is to build OpenCV from the sources and install it.</p>
+<ul>
+<li><p class="first">Get the latest OpenCV version from
+<a class="reference external" href="http://sourceforge.net/projects/opencvlibrary/">http://sourceforge.net/projects/opencvlibrary/</a>.</p>
+</li>
+<li><p class="first">Uncompress it somewhere on your machine (it is better to keep it afterwards)</p>
+</li>
+<li><p class="first">Inside the extracted folder, create a build directory and open it</p>
+<div class="highlight-python"><pre>mkdir build
+cd build</pre>
+</div>
+</li>
+<li><p class="first">Configure your project using CMake</p>
+<div class="highlight-python"><pre>cmake ..</pre>
+</div>
+<p>This command will output a large log which will show what prerequisites have
+been found. Some are optional, some are more important. For example, you have
+to check that GTK support is enabled, but you do not need IPP support or CUDA.</p>
+<p>To have an idea of the prerequisites, refer to:
+<a class="reference external" href="http://opencv.willowgarage.com/wiki/InstallGuide">http://opencv.willowgarage.com/wiki/InstallGuide</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On Ubuntu, you might need amongst other the package
+libgstreamermm-0.10-dev for gstreamer missing libraries.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you are using Ubuntu 11.10, you will probably get some issues with
+ffmpgeg/avcodec.h. If you don&#8217;t need ffmpeg (which you probably don&#8217;t, or
+else you would know it), then remove ffmpeg support. Do do so, uncheck
+WITH_FFMPEG key in CMake GUI, configure and generate, then proceed as
+usual. If you are convinced that you need ffmpeg, you might want to follow
+the instructions from this
+<a class="reference external" href="http://thebitbangtheory.wordpress.com/2011/10/23/how-to-install-opencv-2-3-1-in-ubuntu-11-10-oneiric-ocelot-with-python-support/">link</a>.</p>
+</div>
+</li>
+<li><p class="first">Build the distribution</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">make</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install it</p>
+<div class="highlight-python"><pre>make install</pre>
+</div>
+</li>
+</ul>
+<p>You now have OpenCV installed on your machine!</p>
+</div>
+</div>
+<div class="section" id="removing-opencv-from-the-naoqi-sdk">
+<h3>Removing OpenCV from the NAOqi SDK<a class="headerlink" href="#removing-opencv-from-the-naoqi-sdk" title="Permalink to this headline">¶</a></h3>
+<p>Once you have OpenCV installed for your system, you have to remove it from the
+SDK. Do not remove the CMake configuration files.</p>
+<ul class="simple">
+<li>Remove all OpenCV libraries from the lib/ directory of the SDK. They will
+have the following format: libopencv_modulename.so, libcv.so, libhighui.so
+and libml.so</li>
+<li>Remove the opencv folder from the include folder</li>
+</ul>
+<p>Now clean your project, then run again</p>
+<div class="highlight-python"><pre>qibuild configure [-c mytoolchain]
+qibuild make [-c mytoolchain]</pre>
+</div>
+</div>
+</div>
+<div class="section" id="cross-compilation-of-opencv-code">
+<h2>Cross compilation of OpenCV code<a class="headerlink" href="#cross-compilation-of-opencv-code" title="Permalink to this headline">¶</a></h2>
+<p>The cross toolchain contains OpenCV libraries. To ensure that your code will
+run on NAO, simply make sure that you are not using any graphical interface
+methods (such as windows, trackbars etc).</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cmake-configuration">
+<h3>CMake configuration<a class="headerlink" href="#cmake-configuration" title="Permalink to this headline">¶</a></h3>
+<p>If you get some issues while configuring the project saying that some OpenCV
+packages are not found, there might be several explanations:</p>
+<ul class="simple">
+<li>you have removed opencv from the toolchain, but do not have it installed on
+your system</li>
+<li>you used a wrong name in your CMakeLists.txt: check that the format is
+OPENCV2_MODULENAME (ex: OPENCV2_CORE).</li>
+</ul>
+</div>
+<div class="section" id="build-and-linking">
+<h3>Build and linking<a class="headerlink" href="#build-and-linking" title="Permalink to this headline">¶</a></h3>
+<p>If you get a compilation error, first check you OpenCV version.</p>
+<p>If you get some &#8220;undefined reference to&#8221; errors, check that you have added the
+right module include and put it in the CMakeLists.txt file.</p>
+<p>On Linux 64 bits, if you get an error about pointers it
+might be that you are using a C API include. To fix it, add
+#include &lt;cstddef.h&gt; before your opencv includes, if you really need to use
+these includes.</p>
+</div>
+<div class="section" id="runtime">
+<h3>Runtime<a class="headerlink" href="#runtime" title="Permalink to this headline">¶</a></h3>
+<p>On Ubuntu, if you run your program and get an error like &#8220;xxx function is not
+implemented&#8221; and a reference to some libraries on opennao, it probably means
+that you are trying to use some method requiring GTK but are using the toolchain
+OpenCV and not your system OpenCV. Such methods include for example
+cv::namedWindow() or cv::imshow() (refer to <a class="reference internal" href="#cpp-tutos-opencv-toolchain"><em>Toolchain OpenCV versus system OpenCV</em></a>).</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../audiovideocapture/audiovideocapture.html" title="Capturing audio and video">Capturing audio and video</a>
+     |
+    <a href="../../examples.html" title="C++ Examples" accesskey="U">C++ Examples</a>
+   |
+    <a href="optimizedimage/optimizedimage.html" title="Optimized access to images">Optimized access to images</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html">Cpp</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../install_guide.html">C++ SDK Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tutorials.html">C++ Tutorials</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../examples.html">C++ Examples</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../core/events/events.html">Creating events</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../core/sayhelloworld/sayhelloworld.html">Say Hello World</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../core/helloworld/index.html">Creating a simple remote module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../core/helloworld/example.html">Example: HelloWorld module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../core/custommain/custom_main.html">Creating a custom main</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../motion/movehead/movehead.html">Moving NAO&#8217;s head</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/bumper/index.html">Reacting to an event: bumper</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/bumper/example.html">Example code: Bumper module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/bumper/principle.html">Principle</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/leds/leds.html">Control the LEDs</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../sensors/fastgetsetdcm/fastgetsetexample.html">Fast getting and setting joint angles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audiovideocapture/audiovideocapture.html">Capturing audio and video</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="">Using OpenCV</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="optimizedimage/optimizedimage.html">Optimized access to images</a></li>
+<li class="toctree-l5"><a class="reference internal" href="img2arv/img2arv.html">img2arv example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="arv2avi/arv2avi.html">arv2avi example</a></li>
+<li class="toctree-l5"><a class="reference internal" href="getimage/getimage.html">Getting an image</a></li>
+<li class="toctree-l5"><a class="reference internal" href="genericvideomodule/genericvideomodule.html">Generic video module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="onfacedetection/onfacedetection.html">Reacting to a vision event: face detected</a></li>
+<li class="toctree-l5"><a class="reference internal" href="alvisualcompass/alvisualcompass.html">Using ALVisualCompass</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/soundplayback/soundplayback.html">Sound playback</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/speechbasedreaction/speechbasedreaction.html">Speech based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/soundbasedreaction/soundbasedreaction.html">Sound based reaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/soundbasedreaction/onloudnoise.html">Reacting to an audio event: loud noise</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../audio/soundprocessing/soundprocessing.html">Sound processing</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../tips-and-tricks.html">C++ Tips and tricks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tools/gdb-on-nao.html">Debugging C/C++ on the robot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../python/index.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Using OpenCV</a><ul>
+<li><a class="reference internal" href="#opencv-2-3-1">OpenCV 2.3.1</a><ul>
+<li><a class="reference internal" href="#modules">Modules</a></li>
+<li><a class="reference internal" href="#api">API</a><ul>
+<li><a class="reference internal" href="#iplimage-and-cv-mat">IplImage and cv::Mat</a></li>
+<li><a class="reference internal" href="#cvseq-and-std-vector">CvSeq* and std::vector</a></li>
+<li><a class="reference internal" href="#from-c-to-c">From C to C++</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cmake-dependencies">CMake dependencies</a></li>
+<li><a class="reference internal" href="#what-s-new-in-opencv-2-3">What&#8217;s new in OpenCV 2.3</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#toolchain-opencv-versus-system-opencv">Toolchain OpenCV versus system OpenCV</a><ul>
+<li><a class="reference internal" href="#getting-opencv-latest-version-on-your-system">Getting OpenCV latest version on your system</a><ul>
+<li><a class="reference internal" href="#cleaning-old-versions">Cleaning old versions</a></li>
+<li><a class="reference internal" href="#installing-the-latest-version">Installing the latest version</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#removing-opencv-from-the-naoqi-sdk">Removing OpenCV from the NAOqi SDK</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cross-compilation-of-opencv-code">Cross compilation of OpenCV code</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#cmake-configuration">CMake configuration</a></li>
+<li><a class="reference internal" href="#build-and-linking">Build and linking</a></li>
+<li><a class="reference internal" href="#runtime">Runtime</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../audiovideocapture/audiovideocapture.html" title="Capturing audio and video">previous</a>
+     |
+    <a href="../../examples.html" title="C++ Examples" accesskey="U">up</a>
+   |
+    <a href="optimizedimage/optimizedimage.html" title="Optimized access to images">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

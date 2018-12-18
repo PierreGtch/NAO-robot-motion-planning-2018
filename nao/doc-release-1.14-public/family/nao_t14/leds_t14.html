@@ -1,0 +1,691 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>T14 - LEDs &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAO T14" href="index_t14.html" />
+    <link rel="next" title="T14 - Joint position sensors" href="mre_t14.html" />
+    <link rel="prev" title="T14 - Motors - V 3.2" href="motors_t14_v32.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="motors_t14_v32.html" title="T14 - Motors - V 3.2">previous</a>
+     |
+    <a href="index_t14.html" title="NAO T14" accesskey="U">up</a>
+   |
+    <a href="mre_t14.html" title="T14 - Joint position sensors">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="family-nao_t14-leds_t14">
+            
+  <div class="section" id="t14-leds">
+<span id="nao-t14-led"></span><h1>T14 - LEDs<a class="headerlink" href="#t14-leds" title="Permalink to this headline">¶</a></h1>
+<p><img alt="no-virtual" class="img-inline" src="../../_images/no_virtual.png" /> <em>Cannot be tested on a simulated robot</em>.</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="index_t14.html#nao-t14"><em>NAO T14</em></a> | <a class="reference internal" href="../robots/leds_robot.html#robot-led"><em>LEDs</em></a></p>
+</div>
+<hr class="docutils" />
+<img alt="../../_images/naot14_leds.png" src="../../_images/naot14_leds.png" style="width: 240px; height: 249px;" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="39%" />
+<col width="8%" />
+<col width="46%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Part</th>
+<th class="head">Location</th>
+<th class="head">Qty</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>A</strong></td>
+<td>Head tactile sensor</td>
+<td>12</td>
+<td>16 step blue LEDs</td>
+</tr>
+<tr class="row-odd"><td><strong>B</strong></td>
+<td>Ears</td>
+<td>2x10</td>
+<td>16 step blue LEDs</td>
+</tr>
+<tr class="row-even"><td><strong>C</strong></td>
+<td>Eyes</td>
+<td>2x8</td>
+<td>Full colour RGB LEDs</td>
+</tr>
+<tr class="row-odd"><td><strong>D</strong></td>
+<td>Chest button</td>
+<td>1</td>
+<td>Full colour RGB LED</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="eye-led-locations">
+<h2>Eye LED locations<a class="headerlink" href="#eye-led-locations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nao-v4-and-v3-3">
+<h3>NAO V4 and V3.3<a class="headerlink" href="#nao-v4-and-v3-3" title="Permalink to this headline">¶</a></h3>
+<img alt="../../_images/hardware_led_v3.3-v4.png" src="../../_images/hardware_led_v3.3-v4.png" style="width: 458px; height: 334px;" />
+<p><strong>Right</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="9%" />
+<col width="10%" />
+<col width="9%" />
+<col width="17%" />
+<col width="17%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Part</th>
+<th class="head">X(m)</th>
+<th class="head">Y(m)</th>
+<th class="head">Z(m)</th>
+<th class="head">Group Name</th>
+<th class="head">Short Name</th>
+<th class="head">Actuator Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>R 0</td>
+<td>0.0436</td>
+<td>-0.0257</td>
+<td>0.0511</td>
+<td>FaceLedRight0</td>
+<td>RightFaceLed8</td>
+<td>Face/Led/[Color]/Right/45Deg</td>
+</tr>
+<tr class="row-odd"><td>R 1</td>
+<td>0.0434</td>
+<td>-0.0198</td>
+<td>0.0487</td>
+<td>FaceLedRight1</td>
+<td>RightFaceLed7</td>
+<td>Face/Led/[Color]/Right/0Deg</td>
+</tr>
+<tr class="row-even"><td>R 2</td>
+<td>0.0430</td>
+<td>-0.0173</td>
+<td>0.0428</td>
+<td>FaceLedRight2</td>
+<td>RightFaceLed6</td>
+<td>Face/Led/[Color]/Right/315Deg</td>
+</tr>
+<tr class="row-odd"><td>R 3</td>
+<td>0.0425</td>
+<td>-0.0198</td>
+<td>0.0369</td>
+<td>FaceLedRight3</td>
+<td>RightFaceLed5</td>
+<td>Face/Led/[Color]/Right/270Deg</td>
+</tr>
+<tr class="row-even"><td>R 4</td>
+<td>0.0424</td>
+<td>-0.0257</td>
+<td>0.0344</td>
+<td>FaceLedRight4</td>
+<td>RightFaceLed4</td>
+<td>Face/Led/[Color]/Right/225Deg</td>
+</tr>
+<tr class="row-odd"><td>R 5</td>
+<td>0.0425</td>
+<td>-0.0316</td>
+<td>0.0368</td>
+<td>FaceLedRight5</td>
+<td>RightFaceLed3</td>
+<td>Face/Led/[Color]/Right/180Deg</td>
+</tr>
+<tr class="row-even"><td>R 6</td>
+<td>0.0430</td>
+<td>-0.0341</td>
+<td>0.0428</td>
+<td>FaceLedRight6</td>
+<td>RightFaceLed2</td>
+<td>Face/Led/[Color]/Right/135Deg</td>
+</tr>
+<tr class="row-odd"><td>R 7</td>
+<td>0.0434</td>
+<td>-0.0316</td>
+<td>0.0487</td>
+<td>FaceLedRight7</td>
+<td>RightFaceLed1</td>
+<td>Face/Led/[Color]/Right/90Deg</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Left</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="9%" />
+<col width="10%" />
+<col width="9%" />
+<col width="17%" />
+<col width="17%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Part</th>
+<th class="head">X(m)</th>
+<th class="head">Y(m)</th>
+<th class="head">Z(m)</th>
+<th class="head">Group Name</th>
+<th class="head">Short Name</th>
+<th class="head">Actuator Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>L 0</td>
+<td>0.0436</td>
+<td>0.0257</td>
+<td>0.0511</td>
+<td>FaceLedLeft0</td>
+<td>LeftFaceLed1</td>
+<td>Face/Led/[Color]/Left/45Deg</td>
+</tr>
+<tr class="row-odd"><td>L 1</td>
+<td>0.0434</td>
+<td>0.0198</td>
+<td>0.0487</td>
+<td>FaceLedLeft1</td>
+<td>LeftFaceLed2</td>
+<td>Face/Led/[Color]/Left/0Deg</td>
+</tr>
+<tr class="row-even"><td>L 2</td>
+<td>0.0430</td>
+<td>0.0173</td>
+<td>0.0427</td>
+<td>FaceLedLeft2</td>
+<td>LeftFaceLed3</td>
+<td>Face/Led/[Color]/Left/315Deg</td>
+</tr>
+<tr class="row-odd"><td>L 3</td>
+<td>0.0425</td>
+<td>0.0198</td>
+<td>0.0368</td>
+<td>FaceLedLeft3</td>
+<td>LeftFaceLed4</td>
+<td>Face/Led/[Color]/Left/270Deg</td>
+</tr>
+<tr class="row-even"><td>L 4</td>
+<td>0.0424</td>
+<td>0.0257</td>
+<td>0.0344</td>
+<td>FaceLedLeft4</td>
+<td>LeftFaceLed5</td>
+<td>Face/Led/[Color]/Left/225Deg</td>
+</tr>
+<tr class="row-odd"><td>L 5</td>
+<td>0.0425</td>
+<td>0.0316</td>
+<td>0.0368</td>
+<td>FaceLedLeft5</td>
+<td>LeftFaceLed6</td>
+<td>Face/Led/[Color]/Left/180Deg</td>
+</tr>
+<tr class="row-even"><td>L 6</td>
+<td>0.0430</td>
+<td>0.0341</td>
+<td>0.0428</td>
+<td>FaceLedLeft6</td>
+<td>LeftFaceLed7</td>
+<td>Face/Led/[Color]/Left/135Deg</td>
+</tr>
+<tr class="row-odd"><td>L 7</td>
+<td>0.0434</td>
+<td>0.0316</td>
+<td>0.0487</td>
+<td>FaceLedLeft7</td>
+<td>LeftFaceLed8</td>
+<td>Face/Led/[Color]/Left/90Deg</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="nao-v3-v3-2">
+<h3>NAO V3+, V3.2<a class="headerlink" href="#nao-v3-v3-2" title="Permalink to this headline">¶</a></h3>
+<img alt="../../_images/hardware_led_v3.2-3plus.png" src="../../_images/hardware_led_v3.2-3plus.png" style="width: 419px; height: 174px;" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="19%" />
+<col width="21%" />
+<col width="13%" />
+<col width="18%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Part</th>
+<th class="head">Group Name</th>
+<th class="head">Short Name</th>
+<th class="head">Led Ref</th>
+<th class="head">Group Name</th>
+<th class="head">Short Name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>R 0</td>
+<td>FaceLedRight0</td>
+<td>RightFaceLed8</td>
+<td>L 0</td>
+<td>FaceLedLeft0</td>
+<td>LeftFaceLed1</td>
+</tr>
+<tr class="row-odd"><td>R 1</td>
+<td>FaceLedRight1</td>
+<td>RightFaceLed7</td>
+<td>L 1</td>
+<td>FaceLedLeft1</td>
+<td>LeftFaceLed2</td>
+</tr>
+<tr class="row-even"><td>R 2</td>
+<td>FaceLedRight2</td>
+<td>RightFaceLed6</td>
+<td>L 2</td>
+<td>FaceLedLeft2</td>
+<td>LeftFaceLed3</td>
+</tr>
+<tr class="row-odd"><td>R 3</td>
+<td>FaceLedRight3</td>
+<td>RightFaceLed5</td>
+<td>L 3</td>
+<td>FaceLedLeft3</td>
+<td>LeftFaceLed4</td>
+</tr>
+<tr class="row-even"><td>R 4</td>
+<td>FaceLedRight4</td>
+<td>RightFaceLed4</td>
+<td>L 4</td>
+<td>FaceLedLeft4</td>
+<td>LeftFaceLed5</td>
+</tr>
+<tr class="row-odd"><td>R 5</td>
+<td>FaceLedRight5</td>
+<td>RightFaceLed3</td>
+<td>L 5</td>
+<td>FaceLedLeft5</td>
+<td>LeftFaceLed6</td>
+</tr>
+<tr class="row-even"><td>R 6</td>
+<td>FaceLedRight6</td>
+<td>RightFaceLed2</td>
+<td>L 6</td>
+<td>FaceLedLeft6</td>
+<td>LeftFaceLed7</td>
+</tr>
+<tr class="row-odd"><td>R 7</td>
+<td>FaceLedRight7</td>
+<td>RightFaceLed1</td>
+<td>L 7</td>
+<td>FaceLedLeft7</td>
+<td>LeftFaceLed8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="ear-led-locations">
+<h2>Ear LED locations<a class="headerlink" href="#ear-led-locations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="right-ear">
+<h3>Right ear<a class="headerlink" href="#right-ear" title="Permalink to this headline">¶</a></h3>
+<img alt="../../_images/hardware_led_right_ear.png" src="../../_images/hardware_led_right_ear.png" style="width: 400px; height: 445px;" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+<col width="9%" />
+<col width="18%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Led Ref</th>
+<th class="head">X(m)</th>
+<th class="head">Y(m)</th>
+<th class="head">Z(m)</th>
+<th class="head">Short Name</th>
+<th class="head">Actuator Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>R 0</td>
+<td>0.0121</td>
+<td>-0.0490</td>
+<td>0.0249</td>
+<td>RightEarLed2</td>
+<td>Ears/Led/Right/36Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>R 1</td>
+<td>-0.0068</td>
+<td>-0.0490</td>
+<td>0.0247</td>
+<td>RightEarLed3</td>
+<td>Ears/Led/Right/72Deg/Actuator/Value</td>
+</tr>
+<tr class="row-even"><td>R 2</td>
+<td>-0.0227</td>
+<td>-0.0490</td>
+<td>0.0360</td>
+<td>RightEarLed4</td>
+<td>Ears/Led/Right/108Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>R 3</td>
+<td>-0.0272</td>
+<td>-0.0490</td>
+<td>0.0560</td>
+<td>RightEarLed5</td>
+<td>Ears/Led/Right/144Deg/Actuator/Value</td>
+</tr>
+<tr class="row-even"><td>R 4</td>
+<td>-0.0205</td>
+<td>-0.0490</td>
+<td>0.0729</td>
+<td>RightEarLed6</td>
+<td>Ears/Led/Right/180Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>R 5</td>
+<td>-0.0043</td>
+<td>-0.0490</td>
+<td>0.0827</td>
+<td>RightEarLed7</td>
+<td>Ears/Led/Right/216Deg/Actuator/Value</td>
+</tr>
+<tr class="row-even"><td>R 6</td>
+<td>0.0142</td>
+<td>-0.0490</td>
+<td>0.0820</td>
+<td>RightEarLed8</td>
+<td>Ears/Led/Right/252Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>R 7</td>
+<td>0.0304</td>
+<td>-0.0490</td>
+<td>0.0716</td>
+<td>RightEarLed9</td>
+<td>Ears/Led/Right/288Deg/Actuator/Value</td>
+</tr>
+<tr class="row-even"><td>R 8</td>
+<td>0.0349</td>
+<td>-0.0490</td>
+<td>0.0532</td>
+<td>RightEarLed10</td>
+<td>Ears/Led/Right/324Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>R 9</td>
+<td>0.0298</td>
+<td>-0.0490</td>
+<td>0.0334</td>
+<td>RightEarLed1</td>
+<td>Ears/Led/Right/0Deg/Actuator/Value</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="left-ear">
+<h3>Left ear<a class="headerlink" href="#left-ear" title="Permalink to this headline">¶</a></h3>
+<img alt="../../_images/hardware_led_left_ear.png" src="../../_images/hardware_led_left_ear.png" style="width: 400px; height: 439px;" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+<col width="9%" />
+<col width="16%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Led Ref</th>
+<th class="head">X(m)</th>
+<th class="head">Y(m)</th>
+<th class="head">Z(m)</th>
+<th class="head">Short Name</th>
+<th class="head">Actuator Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>L 0</td>
+<td>0.0346</td>
+<td>-0.0490</td>
+<td>0.0499</td>
+<td>LeftEarLed1</td>
+<td>Ears/Led/Left/0Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>L 1</td>
+<td>0.0276</td>
+<td>-0.0490</td>
+<td>0.0323</td>
+<td>LeftEarLed2</td>
+<td>Ears/Led/Left/36Deg/Actuator/Value</td>
+</tr>
+<tr class="row-even"><td>L 2</td>
+<td>0.0100</td>
+<td>-0.0490</td>
+<td>0.0244</td>
+<td>LeftEarLed3</td>
+<td>Ears/Led/Left/72Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>L 3</td>
+<td>-0.0084</td>
+<td>-0.0490</td>
+<td>0.0264</td>
+<td>LeftEarLed4</td>
+<td>Ears/Led/Left/108Deg/Actuator/Value</td>
+</tr>
+<tr class="row-even"><td>L 4</td>
+<td>-0.0230</td>
+<td>-0.0490</td>
+<td>0.0384</td>
+<td>LeftEarLed5</td>
+<td>Ears/Led/Left/144Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>L 5</td>
+<td>-0.0272</td>
+<td>-0.0490</td>
+<td>0.0562</td>
+<td>LeftEarLed6</td>
+<td>Ears/Led/Left/180Deg/Actuator/Value</td>
+</tr>
+<tr class="row-even"><td>L 6</td>
+<td>-0.0198</td>
+<td>-0.0490</td>
+<td>0.0753</td>
+<td>LeftEarLed7</td>
+<td>Ears/Led/Left/216Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>L 7</td>
+<td>-0.0024</td>
+<td>-0.0490</td>
+<td>0.0841</td>
+<td>LeftEarLed8</td>
+<td>Ears/Led/Left/252Deg/Actuator/Value</td>
+</tr>
+<tr class="row-even"><td>L 8</td>
+<td>0.0162</td>
+<td>-0.0490</td>
+<td>0.0811</td>
+<td>LeftEarLed9</td>
+<td>Ears/Led/Left/288Deg/Actuator/Value</td>
+</tr>
+<tr class="row-odd"><td>L 9</td>
+<td>0.0325</td>
+<td>-0.0490</td>
+<td>0.0702</td>
+<td>LeftEarLed10</td>
+<td>Ears/Led/Left/324Deg/Actuator/Value</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="motors_t14_v32.html" title="T14 - Motors - V 3.2">T14 - Motors - V 3.2</a>
+     |
+    <a href="index_t14.html" title="NAO T14" accesskey="U">NAO T14</a>
+   |
+    <a href="mre_t14.html" title="T14 - Joint position sensors">T14 - Joint position sensors</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../nao/index.html">NAO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/configuring.html">Configuring NAO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nao/taking-care.html">Taking care of <strong>NAO</strong></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Hardware</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../body_type.html">Robot version and Body Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../robots/index_robots.html">NAO Technical overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_h25/index_h25.html">NAO H25</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index_t14.html">NAO T14</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dimensions_t14.html">T14 - Dimensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="links_t14.html">T14 - Links</a></li>
+<li class="toctree-l4"><a class="reference internal" href="joints_t14.html">T14 - Joints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="masses_t14.html">T14 - Masses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="motors_t14.html">T14 - Motors</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">T14 - LEDs</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="mre_t14.html">T14 - Joint position sensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="contact-sensors_t14.html">T14 - Contact and tactile sensors</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_h21/index_h21.html">NAO H21</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nao_t2/index_t2.html">NAO T2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">T14 - LEDs</a><ul>
+<li><a class="reference internal" href="#eye-led-locations">Eye LED locations</a><ul>
+<li><a class="reference internal" href="#nao-v4-and-v3-3">NAO V4 and V3.3</a></li>
+<li><a class="reference internal" href="#nao-v3-v3-2">NAO V3+, V3.2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ear-led-locations">Ear LED locations</a><ul>
+<li><a class="reference internal" href="#right-ear">Right ear</a></li>
+<li><a class="reference internal" href="#left-ear">Left ear</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="motors_t14_v32.html" title="T14 - Motors - V 3.2">previous</a>
+     |
+    <a href="index_t14.html" title="NAO T14" accesskey="U">up</a>
+   |
+    <a href="mre_t14.html" title="T14 - Joint position sensors">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

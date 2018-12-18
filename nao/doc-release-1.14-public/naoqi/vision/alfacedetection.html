@@ -1,0 +1,497 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ALFaceDetection &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Vision" href="index.html" />
+    <link rel="next" title="ALFaceDetection API" href="alfacedetection-api.html" />
+    <link rel="prev" title="ALDarknessDetection API" href="aldarknessdetection-api.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="aldarknessdetection-api.html" title="ALDarknessDetection API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Vision" accesskey="U">up</a>
+   |
+    <a href="alfacedetection-api.html" title="ALFaceDetection API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-vision-alfacedetection">
+            
+  <div class="section" id="alfacedetection">
+<span id="id1"></span><h1>ALFaceDetection<a class="headerlink" href="#alfacedetection" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-vision"><em>NAOqi Vision</em></a> - Overview | <a class="reference internal" href="alfacedetection-api.html#alfacedetection-api"><em>API</em></a> |
+<a class="reference internal" href="alfacedetection-tuto.html#alfacedetection-tuto"><em>Tutorials</em></a></p>
+<hr class="docutils" />
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="../../family/robots/video_robot.html#robot-video"><em>Video camera Hardware</em></a></li>
+</ul>
+</div>
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p><strong>ALFaceDetection</strong> is a vision module in which NAO tries to detect,
+and optionally recognize, faces in front of him.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p><strong>ALFaceDetection</strong> is based on a face detection/recognition solution provided
+by OKI with an upper layer improving recognition results.</p>
+<div class="section" id="face-detection">
+<h3>Face detection<a class="headerlink" href="#face-detection" title="Permalink to this headline">¶</a></h3>
+<p>Face detection detects faces and provides their position, as well as a list of angular
+coordinates for important faces features (eyes, eyebrows, nose, mouth).</p>
+</div>
+<div class="section" id="recognition">
+<h3>Recognition<a class="headerlink" href="#recognition" title="Permalink to this headline">¶</a></h3>
+<p>To make NAO not only detect but also recognize people, a learning stage is necessary.
+For further details, see <a class="reference internal" href="#alfacedetection-learning-stage"><em>Learning stage for recognition</em></a> section.</p>
+<p>Recognition feature returns for every image the names of people that are recognized.</p>
+<p><strong>Temporal filter</strong>: in addition, there is temporal filter output to easily build higher
+level features using recognition. Indeed we don&#8217;t want NAO to say &#8220;Hello Michel&#8221; several
+times per second, so someone&#8217;s name will only be output the first time he is recognized
+and will be placed in a short term memory. This memory will be kept as long as some faces
+is not only recognized but detected by NAO.
+As soon as there are more than 4 seconds without detecting any face, the short term
+memory is cleared and Michel name will be output again if NAO encounters him.
+This is that output that is used in the Choregraphe <strong>Face Reco</strong> box.</p>
+</div>
+<div class="section" id="facedetected-almemory-key">
+<h3>FaceDetected ALMemory key<a class="headerlink" href="#facedetected-almemory-key" title="Permalink to this headline">¶</a></h3>
+<p>Once ALFaceDetection is started, results are written in a variable in ALMemory
+called <em>&#8220;FaceDetected&#8221;</em> organized as follows:</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">FaceDetected</span> <span class="p">=</span>
+<span class="p">[</span>
+  <span class="n">TimeStamp</span><span class="p">,</span>
+  <span class="p">[</span> <span class="n">FaceInfo</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">Time_Filtered_Reco_Info</span> <span class="p">],</span>
+  <span class="n">CameraPose_InTorsoFrame</span><span class="p">,</span>
+  <span class="n">CameraPose_InRobotFrame</span><span class="p">,</span>
+  <span class="n">Camera_Id</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>TimeStamp</strong>: this field is the time stamp of the image that was used to perform the detection.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">TimeStamp</span> <span class="p">=</span>
+<span class="p">[</span>
+  <span class="n">TimeStamp_Seconds</span><span class="p">,</span>
+  <span class="n">Timestamp_Microseconds</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>FaceInfo</strong>: for each detected face, we have one FaceInfo field.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">FaceInfo</span> <span class="p">=</span>
+<span class="p">[</span>
+  <span class="n">ShapeInfo</span><span class="p">,</span>
+  <span class="n">ExtraInfo</span><span class="p">[</span><span class="n">N</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><em>ShapeInfo</em>: shape information about a face.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">ShapeInfo</span> <span class="p">=</span>
+<span class="p">[</span>
+  0<span class="p">,</span>
+  <span class="n">alpha</span><span class="p">,</span>
+  <span class="nb">beta</span><span class="p">,</span>
+  <span class="n">sizeX</span><span class="p">,</span>
+  <span class="n">sizeY</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>alpha</strong> and <strong>beta</strong> represent the face&#8217;s location in terms of camera angles</li>
+<li><strong>sizeX</strong> and <strong>sizeY</strong> are the face&#8217;s size in camera angle</li>
+</ul>
+<p><em>ExtraInfo</em>: shape information about a face.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">ExtraInfo</span> <span class="p">=</span>
+<span class="p">[</span>
+  <span class="n">faceID</span><span class="p">,</span>
+  <span class="n">scoreReco</span><span class="p">,</span>
+  <span class="n">faceLabel</span><span class="p">,</span>
+  <span class="n">leftEyePoints</span><span class="p">,</span>
+  <span class="n">rightEyePoints</span><span class="p">,</span>
+  <span class="n">leftEyebrowPoints</span><span class="p">,</span>
+  <span class="n">rightEyebrowPoints</span><span class="p">,</span>
+  <span class="n">nosePoints</span><span class="p">,</span>
+  <span class="n">mouthPoints</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>faceID</strong> represents the ID number for the face</li>
+<li><strong>scoreReco</strong> is the score returned by the rocognition process (the higher, the better)</li>
+<li><strong>faceLabel</strong> is the name of the recognized face if the face has been recognized</li>
+<li><strong>leftEyePoints</strong> and <strong>rightEyePoints</strong> provide interesting points positions for the eyes (given in camera angles)</li>
+</ul>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">EyePoints</span> <span class="p">=</span>
+<span class="p">[</span>
+  <span class="n">eyeCenter_x</span><span class="p">,</span>
+  <span class="n">eyeCenter_y</span><span class="p">,</span>
+  <span class="n">noseSideLimit_x</span><span class="p">,</span>
+  <span class="n">noseSideLimit_y</span><span class="p">,</span>
+  <span class="n">earSideLimit_x</span><span class="p">,</span>
+  <span class="n">earSideLimit_y</span><span class="p">,</span>
+  <span class="n">topLimit_x</span><span class="p">,</span>
+  <span class="n">topLimit_y</span><span class="p">,</span>
+  <span class="n">bottomLimit_x</span><span class="p">,</span>
+  <span class="n">bottomLimit_y</span><span class="p">,</span>
+  <span class="n">midTopEarLimit_x</span><span class="p">,</span>
+  <span class="n">midTopEarLimit_y</span><span class="p">,</span>
+  <span class="n">midTopNoseLimit_x</span><span class="p">,</span>
+  <span class="n">midTopNoseLimit_y</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>leftEyebrowPoints</strong> and <strong>leftEyebrowPoints</strong> provide interesting points positions for the eyebrows (given in camera angles)</li>
+</ul>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">EyebrowPoints</span> <span class="p">=</span>
+<span class="p">[</span>
+  <span class="n">noseSideLimit_x</span><span class="p">,</span>
+  <span class="n">noseSideLimit_y</span><span class="p">,</span>
+  <span class="n">center_x</span><span class="p">,</span>
+  <span class="n">center_y</span><span class="p">,</span>
+  <span class="n">earSideLimit_x</span><span class="p">,</span>
+  <span class="n">earSideLimit_y</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>nosePoints</strong> provides interesting points positions for the nose (given in camera angles)</li>
+</ul>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">NosePoints</span> <span class="p">=</span>
+<span class="p">[</span>
+  <span class="n">bottomCenterLimit_x</span><span class="p">,</span>
+  <span class="n">bottomCenterLimit_y</span><span class="p">,</span>
+  <span class="n">bottomLeftLimit_x</span><span class="p">,</span>
+  <span class="n">bottomLeftLimit_y</span><span class="p">,</span>
+  <span class="n">bottomRightLimit_x</span><span class="p">,</span>
+  <span class="n">bottomRightLimit_y</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>mouthPoints</strong> provides interesting points positions for the mouth (given in camera angles)</li>
+</ul>
+<div class="highlight-guess"><div class="highlight"><pre><span class="n">MouthPoints</span> <span class="p">=</span>
+<span class="p">[</span>
+  <span class="n">leftLimit_x</span><span class="p">,</span>
+  <span class="n">leftLimit_y</span><span class="p">,</span>
+  <span class="n">rightLimit_x</span><span class="p">,</span>
+  <span class="n">rightLimit_y</span><span class="p">,</span>
+  <span class="n">topLimit_x</span><span class="p">,</span>
+  <span class="n">topLimit_y</span><span class="p">,</span>
+  <span class="n">bottomLimit_x</span><span class="p">,</span>
+  <span class="n">bottomLimit_y</span><span class="p">,</span>
+  <span class="n">midTopLeftLimit_x</span><span class="p">,</span>
+  <span class="n">midTopLeftLimit_y</span><span class="p">,</span>
+  <span class="n">midTopRightLimit_x</span><span class="p">,</span>
+  <span class="n">midTopRightLimit_y</span><span class="p">,</span>
+  <span class="n">midBottomRightLimit_x</span><span class="p">,</span>
+  <span class="n">midBottomRightLimit_y</span><span class="p">,</span>
+  <span class="n">midBottomLeftLimit_x</span><span class="p">,</span>
+  <span class="n">midBottomLeftLimit_y</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Time_Filtered_Reco_Info</strong> can be equal to:</p>
+<ul class="simple">
+<li>[] if there is nothing new</li>
+<li>[ 2, [ faceLabel ] ] if there is one face recognized</li>
+<li>[ 3, [ faceLabel0, ..., faceLabelP ] ] if there are several recognized faces</li>
+<li>[ 4 ] if a face has been detected for more than 8 seconds without being recognized.
+Getting this result is a suggestion to learn this face if desired, but keep in mind
+that recognition only works for faces looking towards NAO.</li>
+</ul>
+<p><strong>CameraPose_InTorsoFrame</strong>: describes the <a class="reference internal" href="../../glossary.html#term-position6d"><em class="xref std std-term">Position6D</em></a> of the camera at the time the image was taken, in <a class="reference internal" href="../../glossary.html#term-frame-torso"><em class="xref std std-term">FRAME_TORSO</em></a>.</p>
+<p><strong>CameraPose_InRobotFrame</strong>: describes the <a class="reference internal" href="../../glossary.html#term-position6d"><em class="xref std std-term">Position6D</em></a> of the camera at the time the image was taken, in <a class="reference internal" href="../../glossary.html#term-frame-robot"><em class="xref std std-term">FRAME_ROBOT</em></a>.</p>
+<p><strong>Camera_Id</strong>: gives the Id of the camera used for the detection (0 for the top camera, 1 for the bottom camera).</p>
+</div>
+</div>
+<div class="section" id="performances-and-limitations">
+<h2>Performances and Limitations<a class="headerlink" href="#performances-and-limitations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="detection">
+<h3>Detection<a class="headerlink" href="#detection" title="Permalink to this headline">¶</a></h3>
+<p><strong>Performances</strong></p>
+<ul>
+<li><p class="first"><strong>Size range</strong> for the detected faces:</p>
+<dl class="docutils">
+<dt>Minimum: ~45 pixels in a QVGA image. For an adult, this corresponds to</dt>
+<dd><p class="first last">around 3m with v3.x VGA cameras and more than 2m on v4 HD cameras.</p>
+</dd>
+</dl>
+<p>Maximum: ~160 pixels in a QVGA image</p>
+</li>
+<li><p class="first"><strong>Tilt</strong>: +/- 20 deg (0 deg corresponding to a face facing the camera)</p>
+</li>
+<li><p class="first"><strong>Rotation</strong> in image plane: +/- 20 deg</p>
+</li>
+</ul>
+<p><strong>Limitations</strong></p>
+<ul class="simple">
+<li><strong>Lighting</strong>: the face detection has been tested under office lightning
+conditions - ie, under 100 to 500 lux. If you feel that the detection is not
+running well, try to activate the camera auto gain - via the Monitor
+interface - or try to manually adjust the camera contrast.</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Recognition<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Performances</strong></p>
+<p>When learning someones face, the subject is supposed to face the camera and to
+keep a neutral face because a neutral face is between sadness and hapyness.
+Otherwise, it would be harder to recognize someone sad if he was smiling during
+the learning process.</p>
+<p>In order to get a more robust output, NAO checks first that he recognises the same person in
+2 consecutive images from the camera before outputing the name.</p>
+<p>Sometimes, depending on a change of location or haircut, a known face can be difficult to recognize.
+To improve the robustness, a reinforcement process as been added. If someone is not
+recognized, or mistaken for someone else, just learn him again. This learning will be
+added to that person&#8217;s database. After some days, you should get more reliable recognitions.</p>
+<p><strong>Limitations</strong></p>
+<p>Recognition is less robust than detection regarding pan, tilt, rotation and maximal distance.
+Reason is that the recognition algorithm doesn&#8217;t have a 3D representation of the person to
+recognize and uses some info like distances between keypoints for the recognition (in a way
+functionning partially like an identikit would do). If we turn the head, distances ratios will
+be modified.</p>
+</div>
+<div class="section" id="learning">
+<h3>Learning<a class="headerlink" href="#learning" title="Permalink to this headline">¶</a></h3>
+<p><strong>Performances</strong></p>
+<p>The learning stage is an intelligent process in which NAO checks that the face is correctly
+exposed (e.g. no backlighting, no partial shadows) in 3 consecutive images.</p>
+<p><strong>Limitations</strong></p>
+<p>The learning stage can only be achieved with one face in the field of view at a time.</p>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Detection<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>To get a feel of what the ALFaceDetection can do, you can use Monitor and launch
+the vision plugin. Activate the face detection checkbox and start the camera
+acquisition. Then, if you present your face to the camera - or show a picture
+with a face on it - Monitor should report the detected faces with blue crosses.</p>
+<img alt="../../_images/face_detection_telepathe.png" src="../../_images/face_detection_telepathe.png" />
+<p>Another way to use face detection is to launch the Choregraphe <strong>Walk Tracker</strong>
+or <strong>WB Tracker</strong> boxes and switch default value from <strong>Red Ball</strong> to <strong>Face</strong>.
+Doing so, you can ask NAO to move toward the person in order to always keep the
+face in the middle of his field of view.</p>
+</div>
+<div class="section" id="learning-stage-for-recognition">
+<span id="alfacedetection-learning-stage"></span><h3>Learning stage for recognition<a class="headerlink" href="#learning-stage-for-recognition" title="Permalink to this headline">¶</a></h3>
+<p><strong>Learning stage</strong> can be done via the learnFace bound method of the API or
+through user friendly interface of Choregraphe <strong>Learn Face</strong> box.</p>
+<ul class="simple">
+<li>Once you have clicked on the box and entered the name of the person, this person
+has 5 seconds to place its face in front of NAO.</li>
+<li>Then the learning process is launched during wich NAO&#8217;s eyes gets blue.<ul>
+<li>His eyes turns green in less than a second if the face is seen by NAO in correct
+conditions (e.g. no partial shadow on the face, no backlight, person is not too far).</li>
+<li>If the eyes are still blue after some seconds, the person should move in order
+to change the learning conditions.</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The algorithm requires better conditions for the learning stage than the ones needed
+for detection.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can launch the <cite>WB Tracker</cite> box in parallel with the learning stage so the face to
+learn will always be in the middle of NAO&#8217;s field of view.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="aldarknessdetection-api.html" title="ALDarknessDetection API">ALDarknessDetection API</a>
+     |
+    <a href="index.html" title="NAOqi Vision" accesskey="U">NAOqi Vision</a>
+   |
+    <a href="alfacedetection-api.html" title="ALFaceDetection API">ALFaceDetection API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motion/index.html">NAOqi Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Vision</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="albacklightingdetection.html">ALBacklightingDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aldarknessdetection.html">ALDarknessDetection</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">ALFaceDetection</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="alfacedetection-api.html">ALFaceDetection API</a></li>
+<li class="toctree-l5"><a class="reference internal" href="alfacedetection-tuto.html">ALFaceDection tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="allandmarkdetection.html">ALLandMarkDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almovementdetection.html">ALMovementDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alphotocapture.html">ALPhotoCapture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alredballdetection.html">ALRedBallDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvideodevice.html">ALVideoDevice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvideorecorder.html">ALVideoRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvisionrecognition.html">ALVisionRecognition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvisualcompass.html">ALVisualCompass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alvisiontoolbox.html">ALVisionToolbox</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ALFaceDetection</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a><ul>
+<li><a class="reference internal" href="#face-detection">Face detection</a></li>
+<li><a class="reference internal" href="#recognition">Recognition</a></li>
+<li><a class="reference internal" href="#facedetected-almemory-key">FaceDetected ALMemory key</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#performances-and-limitations">Performances and Limitations</a><ul>
+<li><a class="reference internal" href="#detection">Detection</a></li>
+<li><a class="reference internal" href="#id2">Recognition</a></li>
+<li><a class="reference internal" href="#learning">Learning</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#id3">Detection</a></li>
+<li><a class="reference internal" href="#learning-stage-for-recognition">Learning stage for recognition</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="aldarknessdetection-api.html" title="ALDarknessDetection API">previous</a>
+     |
+    <a href="index.html" title="NAOqi Vision" accesskey="U">up</a>
+   |
+    <a href="alfacedetection-api.html" title="ALFaceDetection API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

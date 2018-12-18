@@ -1,0 +1,366 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Stiffness control &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="NAOqi Motion" href="index.html" />
+    <link rel="next" title="Stiffness control API" href="control-stiffness-api.html" />
+    <link rel="prev" title="Motion - advanced" href="advanced.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="advanced.html" title="Motion - advanced">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="control-stiffness-api.html" title="Stiffness control API">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="naoqi-motion-control-stiffness">
+            
+  <div class="section" id="stiffness-control">
+<span id="control-stiffness"></span><h1>Stiffness control<a class="headerlink" href="#stiffness-control" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference internal" href="index.html#naoqi-motion"><em>NAOqi Motion</em></a> - Overview | <a class="reference internal" href="control-stiffness-api.html#control-stiffness-api"><em>API</em></a></p>
+<hr class="docutils" />
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">These API control the <a class="reference internal" href="../../glossary.html#term-stiffness"><em class="xref std std-term">Stiffness</em></a> of one or several joint(s).</div>
+<div class="line">The <a class="reference internal" href="../../glossary.html#term-stiffness"><em class="xref std std-term">Stiffness</em></a> of the joint is equivalent to a torque limitation into the motors.</div>
+</div>
+<ul class="simple">
+<li>If the joint stiffness is set to 0.0, the joint controller does nothing and the joint is free.</li>
+<li>Else with a value at 1.0 the joint is allowed to use full torque power to reach a given position.</li>
+<li>Between these two extremes, the joint is more or less compliant (tries to reach a position but if
+torque need to move is higher than the limitation of Stiffness, the joint doesn&#8217;t reach the
+target position).</li>
+</ul>
+<div class="line-block">
+<div class="line">The <a class="reference internal" href="../../glossary.html#term-stiffness"><em class="xref std std-term">Stiffness</em></a> can be managed:</div>
+</div>
+<ul class="simple">
+<li>globally, on the whole robot using:
+<a class="reference internal" href="control-stiffness-api.html#ALMotionProxy::wakeUp" title="ALMotionProxy::wakeUp"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::wakeUp()</span></tt></a> and <a class="reference internal" href="control-stiffness-api.html#ALMotionProxy::rest" title="ALMotionProxy::rest"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::rest()</span></tt></a></li>
+<li>specifically, for one or several joint(s) using:
+<a class="reference internal" href="control-stiffness-api.html#ALMotionProxy::stiffnessInterpolation__AL::ALValueCR.AL::ALValueCR.AL::ALValueCR" title="ALMotionProxy::stiffnessInterpolation"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::stiffnessInterpolation()</span></tt></a>,
+<a class="reference internal" href="control-stiffness-api.html#ALMotionProxy::getStiffnesses__AL::ALValueCR" title="ALMotionProxy::getStiffnesses"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::getStiffnesses()</span></tt></a> or
+<a class="reference internal" href="control-stiffness-api.html#ALMotionProxy::setStiffnesses__AL::ALValueCR.AL::ALValueCR" title="ALMotionProxy::setStiffnesses"><tt class="xref cpp cpp-func docutils literal"><span class="pre">ALMotionProxy::setStiffnesses()</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>These API just create a higher level of the <a class="reference internal" href="../../glossary.html#term-dcm"><em class="xref std std-term">DCM</em></a> hardness definition and provide
+interpolation in order to have more smooth behavior.</p>
+</div>
+<div class="section" id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="case-1-stiffness-on">
+<h3>Case 1: Stiffness On<a class="headerlink" href="#case-1-stiffness-on" title="Permalink to this headline">¶</a></h3>
+<p>When NAO is switched on, he initially has zero Stiffness. When at
+zero Stiffness, you can send any commands to the motors, but he will not
+move.</p>
+<p>To give power to the motors, you can call one of Motion&#8217;s Stiffness methods:</p>
+<p><a class="reference download internal" href="../../_downloads/motion_stiffnessOn.py"><tt class="xref download docutils literal"><span class="pre">motion_stiffnessOn.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39;Stiffness On: active stiffness of all joints and actuators&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+    <span class="c"># print motion state</span>
+    <span class="k">print</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getSummary</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_stiffnessOn.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="avoiding-judder">
+<h4>Avoiding judder<a class="headerlink" href="#avoiding-judder" title="Permalink to this headline">¶</a></h4>
+<p>When changing Stiffness away from zero, it is best to do it gently so
+as to reduce the chance of a judder when powering up the motors.</p>
+</div>
+<div class="section" id="adapting-the-stiffness-to-task">
+<h4>Adapting the Stiffness to task<a class="headerlink" href="#adapting-the-stiffness-to-task" title="Permalink to this headline">¶</a></h4>
+<p>Many tasks can be achieved at less than maximum Stiffness (Stiffness = 0.6),
+but tasks such as &#8220;Get up&#8221; require all the power they can get (Stiffness = 1.0).</p>
+</div>
+</div>
+<div class="section" id="case-2-stiffness-off">
+<h3>Case 2: Stiffness Off<a class="headerlink" href="#case-2-stiffness-off" title="Permalink to this headline">¶</a></h3>
+<p>When you reduce the Stiffness to zero, you cut all the power to the motors,
+so you should be careful that NAO is in a self-stable pose, otherwise he
+could fall.</p>
+<p><a class="reference download internal" href="../../_downloads/motion_stiffnessOff.py"><tt class="xref download docutils literal"><span class="pre">motion_stiffnessOff.py</span></tt></a></p>
+<div class="highlight-py"><div class="highlight"><pre><span class="c"># -*- encoding: UTF-8 -*- </span>
+
+<span class="sd">&#39;&#39;&#39;Stiffness Off: remove stiffness of all joints and actuators&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">naoqi</span> <span class="kn">import</span> <span class="n">ALProxy</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">robotIP</span><span class="p">):</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">motionProxy</span> <span class="o">=</span> <span class="n">ALProxy</span><span class="p">(</span><span class="s">&quot;ALMotion&quot;</span><span class="p">,</span> <span class="n">robotIP</span><span class="p">,</span> <span class="mi">9559</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Could not create proxy to ALMotion&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;Error was: &quot;</span><span class="p">,</span> <span class="n">e</span>
+
+    <span class="c"># We use the &quot;Body&quot; name to signify the collection of all joints</span>
+    <span class="n">pNames</span> <span class="o">=</span> <span class="s">&quot;Body&quot;</span>
+    <span class="n">pStiffnessLists</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">pTimeLists</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">motionProxy</span><span class="o">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+
+    <span class="c"># print motion state</span>
+    <span class="k">print</span> <span class="n">motionProxy</span><span class="o">.</span><span class="n">getSummary</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">robotIp</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Usage python motion_stiffnessOff.py robotIP (optional default: 127.0.0.1)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">robotIp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">robotIp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="case-3-stiffness-trajectories">
+<h3>Case 3: Stiffness Trajectories<a class="headerlink" href="#case-3-stiffness-trajectories" title="Permalink to this headline">¶</a></h3>
+<p>Should you wish to vary the Stiffness of a joint over time, you can
+request a &#8216;trajectory&#8217; of Stiffness.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c"># Example showing a stiffness trajectory</span>
+<span class="c"># Here the stiffness of the HeadYaw Joint, rises to</span>
+<span class="c"># 0.8, then goes back to zero.</span>
+<span class="n">pNames</span>          <span class="p">=</span> <span class="s">&quot;HeadYaw&quot;</span>
+<span class="n">pStiffnessLists</span> <span class="p">=</span> <span class="p">[</span>0<span class="p">.</span>0<span class="p">,</span> 0<span class="p">.</span>8<span class="p">,</span> 0<span class="p">.</span>0<span class="p">]</span>
+<span class="n">pTimeLists</span>      <span class="p">=</span> <span class="p">[</span>0<span class="p">.</span>5<span class="p">,</span> 1<span class="p">.</span>0<span class="p">,</span> 1<span class="p">.</span>5<span class="p">]</span>
+<span class="n">proxy</span><span class="p">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Like angle interpolation commands, multiple trajectories can be specified
+in the same command.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="c"># Example showing multiple stiffness trajectories</span>
+<span class="c"># Here the stiffness of the HeadYaw Joint, rises to</span>
+<span class="c"># 0.5, then goes back to zero, while the HeadPitch</span>
+<span class="c"># joint rises to 1.0</span>
+<span class="n">pNames</span>          <span class="p">=</span> <span class="p">[</span><span class="s">&quot;HeadYaw&quot;</span><span class="p">,</span> <span class="s">&quot;HeadPitch&quot;</span><span class="p">]</span>
+<span class="n">pStiffnessLists</span> <span class="p">=</span> <span class="p">[[</span>0<span class="p">.</span>0<span class="p">,</span> 0<span class="p">.</span>5<span class="p">,</span> 0<span class="p">.</span>0<span class="p">],</span> <span class="p">[</span>0<span class="p">.</span>0<span class="p">,</span> 1<span class="p">.</span>0<span class="p">,</span> 0<span class="p">.</span>0<span class="p">]]</span>
+<span class="n">pTimeLists</span>      <span class="p">=</span> <span class="p">[[</span>0<span class="p">.</span>5<span class="p">,</span> 1<span class="p">.</span>0<span class="p">,</span> 1<span class="p">.</span>5<span class="p">],</span> <span class="p">[</span>0<span class="p">.</span>5<span class="p">,</span> 1<span class="p">.</span>0<span class="p">,</span> 1<span class="p">.</span>5<span class="p">]]</span>
+<span class="n">proxy</span><span class="p">.</span><span class="n">stiffnessInterpolation</span><span class="p">(</span><span class="n">pNames</span><span class="p">,</span> <span class="n">pStiffnessLists</span><span class="p">,</span> <span class="n">pTimeLists</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="advanced.html" title="Motion - advanced">Motion - advanced</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">NAOqi Motion</a>
+   |
+    <a href="control-stiffness-api.html" title="Stiffness control API">Stiffness control API</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index.html">Programming Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../ref/index.html">References</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NAOqi API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../core/index.html">NAOqi Core</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NAOqi Motion</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="almotion-api.html">ALMotion API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="advanced.html">Motion - advanced</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Stiffness control</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="control-stiffness-api.html">Stiffness control API</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="control-joint.html">Joint control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-walk.html">Locomotion control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-cartesian.html">Cartesian control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="control-wholebody.html">Whole Body control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-collision-avoidance.html">Self-collision avoidance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-fall-manager.html">Fall manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reflexes-smart-stiffness.html">Smart Stiffness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-general.html">General tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools-motion-task.html">Motion task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="almotionrecorder.html">ALMotionRecorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alnavigation.html">ALNavigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="alrobotposture.html">ALRobotPosture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../audio/index.html">NAOqi Audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/index.html">NAOqi Vision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/index.html">NAOqi Sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trackers/index.html">NAOqi Trackers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sensors/dcm.html">DCM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stdtypes.html">Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-classindex.html">&gt; All C++ Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cpp-funcindex.html">&gt; All C++ Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-eventindex.html">&gt; All NAOqi Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../naoqi-memoryindex.html">&gt; All NAOqi Memory Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/cpp-api.html">C++ API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/simulator_sdk.html">Simulator SDK package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ref/python-api.html">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Stiffness control</a><ul>
+<li><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li><a class="reference internal" href="#use-cases">Use Cases</a><ul>
+<li><a class="reference internal" href="#case-1-stiffness-on">Case 1: Stiffness On</a><ul>
+<li><a class="reference internal" href="#avoiding-judder">Avoiding judder</a></li>
+<li><a class="reference internal" href="#adapting-the-stiffness-to-task">Adapting the Stiffness to task</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#case-2-stiffness-off">Case 2: Stiffness Off</a></li>
+<li><a class="reference internal" href="#case-3-stiffness-trajectories">Case 3: Stiffness Trajectories</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="advanced.html" title="Motion - advanced">previous</a>
+     |
+    <a href="index.html" title="NAOqi Motion" accesskey="U">up</a>
+   |
+    <a href="control-stiffness-api.html" title="Stiffness control API">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,241 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Unit testing &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Using qiBuild CMake API" href="index.html" />
+    <link rel="next" title="Managing configuration files" href="managing_config_files.html" />
+    <link rel="prev" title="Using qi_install functions" href="install.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="install.html" title="Using qi_install functions">previous</a>
+     |
+    <a href="index.html" title="Using qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="managing_config_files.html" title="Managing configuration files">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="guide-cmake-test">
+            
+  <div class="section" id="unit-testing">
+<span id="cmake-test"></span><h1>Unit testing<a class="headerlink" href="#unit-testing" title="Permalink to this headline">¶</a></h1>
+<p>Here we will just add a test that checks that
+forty plus two are forty-two. (Just in case ...)</p>
+<div class="section" id="adding-a-test">
+<h2>Adding a test<a class="headerlink" href="#adding-a-test" title="Permalink to this headline">¶</a></h2>
+<p>You first need to call <tt class="docutils literal"><span class="pre">enable_testing()</span></tt></p>
+<p>Then you call <a class="reference internal" href="../../ref/cmake/api/tests.html#qi_create_test" title="qi_create_test"><tt class="xref cmake cmake-function docutils literal"><span class="pre">qi_create_test</span></tt></a> with the first argument being the name of
+the test, and the rest being the sources of the executable.</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">enable_testing</span><span class="p">()</span>
+<span class="nb">qi_create_test</span><span class="p">(</span><span class="s">foo_test</span> <span class="s">test.cpp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you have arguments to pass to the executable you want to test,
+simply add them to the <a class="reference internal" href="../../ref/cmake/api/tests.html#qi_create_test" title="qi_create_test"><tt class="xref cmake cmake-function docutils literal"><span class="pre">qi_create_test</span></tt></a> call, like this:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_test</span><span class="p">(</span><span class="s">foo_test</span> <span class="s">foo_test.cpp</span> <span class="s">ARGUMENTS</span> <span class="s2">&quot;--foo=bar&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you have <tt class="docutils literal"><span class="pre">gtest</span></tt> installed, you can use
+<a class="reference internal" href="../../ref/cmake/api/tests.html#qi_create_gtest" title="qi_create_gtest"><tt class="xref cmake cmake-function docutils literal"><span class="pre">qi_create_gtest</span></tt></a>:</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_gtest</span><span class="p">(</span><span class="s">foo_test</span> <span class="s">foo_test.cpp</span>
+  <span class="s">DEPENDS</span> <span class="s">gtest</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will automatically add the <cite>&#8211;xml-output</cite> option
+to store the results of the test as XML files in
+<tt class="docutils literal"><span class="pre">foo/build-tests/results</span></tt>, which is useful when
+you are doing continuous integration.</p>
+<p>If you need to run the same executable with different
+arguments, you should use a lower-level function
+called <a class="reference internal" href="../../ref/cmake/api/tests.html#qi_add_test" title="qi_add_test"><tt class="xref cmake cmake-function docutils literal"><span class="pre">qi_add_test</span></tt></a></p>
+<div class="highlight-cmake"><div class="highlight"><pre><span class="nb">qi_create_bin</span><span class="p">(</span><span class="s">test_launcher</span>
+ <span class="s">test_launcher.cpp</span> <span class="s">NO_INSTALL</span><span class="p">)</span>
+
+<span class="nb">qi_add_test</span><span class="p">(</span><span class="s">test_launch_foo</span>
+ <span class="s">test_launcher</span>
+   <span class="s">ARGUMENTS</span> <span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+
+<span class="nb">qi_add_test</span><span class="p">(</span><span class="s">test_launch_bar</span>
+ <span class="s">test_launcher</span>
+   <span class="s">ARGUMENTS</span> <span class="s2">&quot;bar&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="important">
+<h2>Important<a class="headerlink" href="#important" title="Permalink to this headline">¶</a></h2>
+<p>Please read <a class="reference internal" href="../overview/testing_a_project.html#qibuild-ctest"><em>Note for CTest users</em></a> before using <tt class="docutils literal"><span class="pre">qibuild</span> <span class="pre">test</span></tt>
+for continuous integration.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="install.html" title="Using qi_install functions">Using qi_install functions</a>
+     |
+    <a href="index.html" title="Using qiBuild CMake API" accesskey="U">Using qiBuild CMake API</a>
+   |
+    <a href="managing_config_files.html" title="Managing configuration files">Managing configuration files</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">qiBuild Programming guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../overview/index.html">qiBuild overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Using qiBuild CMake API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="create_bin.html">Creating a binary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="create_lib.html">Creating a library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html">Using qi_install functions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Unit testing</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="managing_config_files.html">Managing configuration files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="writing_a_config_cmake.html">Writing a custom -config.cmake module file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_qi_stage.html">Using qi_stage_lib</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../porting_to_qibuild.html">Porting a CMake project to qiBuild</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../using_toolchains.html">Using toolchains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_configs.html">Mananing build configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../how_to_write_a_library.html">How to write a library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extending_qibuild_actions.html">Extending qiBuild actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tips_and_tricks.html">qiBuild tips and tricks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib/writing_documentation.html">Writing qiBuild documentation</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Unit testing</a><ul>
+<li><a class="reference internal" href="#adding-a-test">Adding a test</a></li>
+<li><a class="reference internal" href="#important">Important</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="install.html" title="Using qi_install functions">previous</a>
+     |
+    <a href="index.html" title="Using qiBuild CMake API" accesskey="U">up</a>
+   |
+    <a href="managing_config_files.html" title="Managing configuration files">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

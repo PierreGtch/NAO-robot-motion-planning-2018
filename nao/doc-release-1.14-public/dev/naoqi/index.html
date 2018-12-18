@@ -1,0 +1,431 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>NAOqi Framework &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="Programming Guide" href="../index.html" />
+    <link rel="next" title="Working with NAO" href="../tools/index.html" />
+    <link rel="prev" title="Programming Guide" href="../index.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../index.html" title="Programming Guide">previous</a>
+     |
+    <a href="../index.html" title="Programming Guide" accesskey="U">up</a>
+   |
+    <a href="../tools/index.html" title="Working with NAO">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-naoqi-index">
+            
+  <div class="section" id="naoqi-framework">
+<span id="naoqi-overview"></span><span id="naoqi-framework-overview"></span><h1>NAOqi Framework<a class="headerlink" href="#naoqi-framework" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="what-is-naoqi-framework">
+<h2>What is NAOqi Framework<a class="headerlink" href="#what-is-naoqi-framework" title="Permalink to this headline">¶</a></h2>
+<p><strong>NAOqi</strong> is the name of the main software that runs on the robot and controls it.</p>
+<p>The <strong>NAOqi Framework</strong> is the programming framework used to program NAO.</p>
+<p>It answers to common robotics needs including: parallelism, resources, synchronization, events.</p>
+<p>This framework allows homogeneous communication between different modules (motion,
+audio, video), homogeneous programming and homogeneous information sharing.</p>
+<p>The framework:</p>
+<ul class="simple">
+<li>is <strong>cross-platform</strong>, which means that it is possible to develop with it
+on Windows, Linux or Mac. For more details, see <a class="reference internal" href="../cpp/install_guide.html#compatible-platforms"><em>Supported Operating Systems</em></a> section.</li>
+<li>is <strong>cross-language</strong>, with an identical API for both C++ and Python.
+For more details, see <a class="reference internal" href="#cross-language"><em>Cross language</em></a> section.</li>
+<li>also provides <strong>introspection</strong>, which means the framework knows which
+functions are available in the different modules and where.
+For more details, see: <a class="reference internal" href="#introspection"><em>Introspection</em></a> section.</li>
+</ul>
+<div class="section" id="cross-language">
+<span id="id1"></span><h3>Cross language<a class="headerlink" href="#cross-language" title="Permalink to this headline">¶</a></h3>
+<p>Software can be developed in C++ and Python. In all cases, programming methods
+are exactly the same, all existing API can be indifferently called from any supported languages:</p>
+<ul class="simple">
+<li>if you create a new C++ module, C++ API functions can be called from everywhere,</li>
+<li>if properly defined (see note in <a class="reference internal" href="../python/reacting_to_events.html#python-reacting-to-events"><em>Making a Python module - Reacting to events</em></a>), python module API functions can be called from everywhere.</li>
+</ul>
+<p>Most of the time you will develop your behaviors in Python and your services in C++.</p>
+<img alt="Cross language" src="../../_images/framework_crosslangage.png" style="width: 536px; height: 338px;" />
+<p>These features are also linked to this section: <a class="reference internal" href="#introspection"><em>Introspection</em></a>.</p>
+</div>
+<div class="section" id="introspection">
+<span id="id2"></span><h3>Introspection<a class="headerlink" href="#introspection" title="Permalink to this headline">¶</a></h3>
+<p>Introspection is the foundation of robot API, capabilities, monitoring and action
+on monitored functions. The robot knows all the available API functions.
+Unloading a library will automatically remove the corresponding API functions.
+A function defined in a module can be added in the API with a BIND_METHOD
+(defined in almodule.h).</p>
+<p>If you bind a function - just three source code lines - you automatically
+benefit from the following features:</p>
+<ul class="simple">
+<li>Call function in both C++ and Python (see <a class="reference internal" href="#cross-language"><em>Cross language</em></a>)</li>
+<li>Know function if the function is being executed</li>
+<li>Execute function locally or remotely (from a computer or another robot)
+(see <a class="reference internal" href="#distributed"><em>Distributed tree and communication</em></a>)</li>
+<li>Call wait, stop, isRunning on functions</li>
+</ul>
+<p>The API is displayed on a web browser. Just type in the robot url and port 9559
+- for example <tt class="docutils literal"><span class="pre">http://127.0.01:9559</span></tt>. The Robot will display its modules list,
+method list, method parameters, descriptions and examples. The browser also
+displays parallel methods that can be monitored, made to wait, stopped.</p>
+<img alt="NAOqi introspection" src="../../_images/framework_introspection.png" style="width: 600px; height: 372px;" />
+</div>
+<div class="section" id="distributed-tree-and-communication">
+<span id="distributed"></span><h3>Distributed tree and communication<a class="headerlink" href="#distributed-tree-and-communication" title="Permalink to this headline">¶</a></h3>
+<p>A real time application can be only one standalone executable or tree of robot,
+tree of processes, tree of modules. Whatever your choice is, the call methods
+are always the same. Connect an executable to another robot with IP address and
+port, and all the API methods from other executables are available in exactly
+the same way as with a local method. NAOqi makes the choice between fast direct
+call (LPC) and remote call (RPC).</p>
+<img alt="Communication" src="../../_images/framework_communication.png" style="width: 541px; height: 474px;" />
+</div>
+</div>
+<div class="section" id="the-naoqi-process">
+<span id="naoqi-process"></span><h2>The NAOqi process<a class="headerlink" href="#the-naoqi-process" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>NAOqi</strong> executable which runs on the robot is a broker. When it starts,
+it loads a preferences file called <tt class="docutils literal"><span class="pre">autoload.ini</span></tt> that defines which
+libraries it should load. Each library contains one or more modules that use
+the broker to advertise their methods.</p>
+<img alt="broker, libraries and modules :height: 394 px :width: 600 px" src="../../_images/broker-libraries-modules.png" />
+<p>The broker provides lookup services so that any module in the tree or across
+the network can find any method that has been advertised.</p>
+<p>Loading modules forms a tree of methods attached to modules, and modules
+attached to a broker.</p>
+<img alt="broker, modules and methods" src="../../_images/broker-modules-methods.png" style="width: 600px; height: 410px;" />
+<div class="section" id="broker">
+<span id="naoqi-broker"></span><h3>Broker<a class="headerlink" href="#broker" title="Permalink to this headline">¶</a></h3>
+<p>A broker is an object that provides two main roles:</p>
+<ul class="simple">
+<li>It provides directory services: Allowing you to find modules and methods.</li>
+<li>It provides network access: Allowing the methods of attached modules to be
+called from outside the process.</li>
+</ul>
+<p>Most of the time, you don&#8217;t need to think about brokers. They do their work
+transparently, allowing you to write code that will be the same for calls to
+&#8220;local modules&#8221; (in the same process) or &#8220;remote modules&#8221; (in another
+process or on another machine).</p>
+</div>
+<div class="section" id="proxy">
+<span id="naoqi-proxy"></span><h3>Proxy<a class="headerlink" href="#proxy" title="Permalink to this headline">¶</a></h3>
+<p>A proxy is an object that will behave as the module it represents.</p>
+<p>For instance, if you create a proxy to the ALMotion module, you will get
+an object containing all the ALMotion methods.</p>
+<p>To create a proxy to a module, (and thus calling the methods of a module)
+you have two choices:</p>
+<ul class="simple">
+<li>Simply use the name of the module. In this case, the code you are running and
+the module to which you want to connect to must be in the <em>same</em> broker.
+This is called a <em>local</em> call.</li>
+<li>Use the name of the module, and the IP and port of a broker. In this case, the
+module must be in the corresponding broker.</li>
+</ul>
+<p>The full difference between local and remote modules is explained in the
+<a class="reference internal" href="#naoqi-local-remote-modules"><em>Local modules</em></a> section.</p>
+<p>To learn how to extend the NAO API, you must learn how to create new modules.
+You can read a tutorial about creating a C++ NAOqi module in the
+<a class="reference internal" href="../cpp/tutos/create_module.html#cpp-create-module"><em>Extending NAO API - Creating a new module</em></a> section.</p>
+</div>
+</div>
+<div class="section" id="modules">
+<span id="maoqi-module"></span><h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<p>Typically each Module is a class within a library. When the library is loaded
+from the <tt class="docutils literal"><span class="pre">autoload.ini</span></tt>, it will automatically instantiate the module class.</p>
+<p>In the constructor of a class that derives from <a class="reference external" href="../../ref/libalcommon/classAL_1_1ALModule.html">ALModule</a>, you can
+&#8220;bind&#8221; methods. This advertises their names and method signatures to the
+broker so that they become available to others.</p>
+<p>A module can be either remote or local.</p>
+<ul class="simple">
+<li>If it is remote, it is compiled as an executable file, and can be run
+outside the robot. Remote modules are easier to use and can be debugged easily
+from the outside, but are less efficient in terms of speed and memory usage.</li>
+<li>If it is local, it is compiled as a library, and can only be used on the
+robot. However, they are more efficient than a remote module.</li>
+</ul>
+<p>Each module contains various methods. Among them, some methods are bound, which
+means they can be called from outside the module, for example inside another
+module, from an executable etc. The way to call these bound functions does not
+vary if the module is remote or local: the module automatically adapts.</p>
+<p>The module API can be seen from the robot web page.</p>
+<div class="section" id="local-modules">
+<span id="naoqi-local-remote-modules"></span><h3>Local modules<a class="headerlink" href="#local-modules" title="Permalink to this headline">¶</a></h3>
+<p>Local modules are two (or more) modules launched in the same process. They speak
+to each other using only <strong>ONE</strong> broker.</p>
+<p>Since local modules are in the same process, they can share variables and call
+each others&#8217; methods without serialization nor networking. This allow the
+fastest possible communication between them.</p>
+<p>If you need to do some close loop (enslavement for example), you <strong>MUST</strong> use local modules.</p>
+</div>
+<div class="section" id="remote-modules">
+<h3>Remote modules<a class="headerlink" href="#remote-modules" title="Permalink to this headline">¶</a></h3>
+<p>Remote modules are modules which communicate using the network. A remote module
+needs a broker to speak to other modules. The broker is responsible for all the
+networking part. You must know that remote modules work using SOAP over the network.
+You <strong>cannot</strong> do fast access using remote module (direct memory access for example).</p>
+</div>
+<div class="section" id="connection-between-remote-modules">
+<h3>Connection between remote modules<a class="headerlink" href="#connection-between-remote-modules" title="Permalink to this headline">¶</a></h3>
+<p>Remote modules can speak with other modules by connecting their brokers to other modules&#8217;
+brokers using a proxy.</p>
+<ul class="simple">
+<li>A connection <strong>Broker to Broker</strong> opens a mutual communication. Modules from
+both brokers can talk to each others.</li>
+<li>A <strong>Proxy to Broker</strong> connection opens a single way of communication.
+The proxy can access to all modules registered to the broker <strong>BUT</strong> the modules
+registered to the broker cannot access to the module that owns the proxy.</li>
+</ul>
+</div>
+<div class="section" id="broker-to-broker-connection">
+<h3>Broker to Broker connection<a class="headerlink" href="#broker-to-broker-connection" title="Permalink to this headline">¶</a></h3>
+<p>You can connect two modules together by connecting their brokers.</p>
+<p>For example, you have two modules B and C. When you connect their brokers, B
+can access to C&#8217;s functions and C can access to B&#8217;s functions.</p>
+<p>To connect modules this way you need to specify the IP address and port number
+of the main broker. (<tt class="docutils literal"><span class="pre">--pip</span></tt>, <tt class="docutils literal"><span class="pre">--pport</span></tt> command line option when you start your module).
+Then you can access the module by getting a proxy on it:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">AL</span><span class="o">::</span><span class="n">ALProxy</span> <span class="n">proxy</span> <span class="o">=</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALProxy</span><span class="p">(</span><span class="o">&lt;</span><span class="n">modulename</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Since module&#8217;s broker is already connected using <tt class="docutils literal"><span class="pre">--pip</span></tt> and <tt class="docutils literal"><span class="pre">--pport</span></tt>,
+you do not need to specify IP address and port number when you create a proxy.</p>
+</div>
+<div class="section" id="proxy-to-broker-connection">
+<h3>Proxy to Broker connection<a class="headerlink" href="#proxy-to-broker-connection" title="Permalink to this headline">¶</a></h3>
+<p>You can connect your module to another one without specifying
+<tt class="docutils literal"><span class="pre">--pip</span></tt> and <tt class="docutils literal"><span class="pre">--pport</span></tt>. To do that, you need to create a proxy inside your module
+and connect it to the broker IP address and port number you want.</p>
+<p>For example, you have two modules B and C. When you connect B to C just using a proxy, B can access to C functions <strong>BUT</strong> C cannot access to B functions.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">AL</span><span class="o">::</span><span class="n">ALProxy</span> <span class="n">proxy</span> <span class="o">=</span> <span class="n">AL</span><span class="o">::</span><span class="n">ALProxy</span><span class="p">(</span><span class="o">&lt;</span><span class="n">modulename</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">ip_adress</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">port_number</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="blocking-and-non-blocking-calls">
+<span id="naoqi-blocking-non-blocking"></span><h2>Blocking and non-blocking calls<a class="headerlink" href="#blocking-and-non-blocking-calls" title="Permalink to this headline">¶</a></h2>
+<p>NAOqi offers two ways to call methods:</p>
+<ul class="simple">
+<li><strong>Blocking calls</strong> Like normal method calls, simple calls are blocking - The next
+instruction will be executed after the end of the previous call. All calls can
+raise an exception and should be encapsulated in a try-catch block. Calls can
+have return values.</li>
+</ul>
+<img alt="Blocking call" src="../../_images/blocking-call.png" style="width: 531px; height: 377px;" />
+<ul class="simple">
+<li><strong>Non-blocking calls</strong> By using the <em>post</em> object of a proxy, a task is created
+in a parallel thread. This enables you to do other work at the same time (e.g.
+walking while talking). Each <em>post</em> call generates a <em>task id</em>.  You can
+use this <em>task id</em> to check if a task is running, or wait until the task is finished.</li>
+</ul>
+<img alt="Non-blocking call" src="../../_images/parallel-call.png" style="width: 600px; height: 364px;" />
+</div>
+<div class="section" id="memory">
+<span id="id3"></span><h2>Memory<a class="headerlink" href="#memory" title="Permalink to this headline">¶</a></h2>
+<p>ALMemory is the robot memory. All modules can read or write data, subscribe on
+events so as to be called when events are raised.</p>
+<p>Please be aware that ALMemory is not a real-time synchronization tool. Limit
+subscribe on DCM/time or motion/synchro or real time variable.</p>
+<div class="section" id="almemory">
+<span id="memory-almemory"></span><h3>ALMemory<a class="headerlink" href="#almemory" title="Permalink to this headline">¶</a></h3>
+<p>ALMemory is an array of ALValue&#8217;s (see <a class="reference external" href="../../ref/libalvalue/classAL_1_1ALValue.html">ALValue</a>). Variable access is thread safe. We use
+read/write critical sections to avoid bad performance when memory is read.</p>
+<img alt="NAOqi memory" src="../../_images/framework_memory.jpg" style="width: 450px; height: 242px;" />
+<p>ALMemory contains three types of data and provides three different APIs.</p>
+<ul class="simple">
+<li>Mainly data from sensors and joints</li>
+<li>Event</li>
+<li>Micro-event (see <a class="reference internal" href="../../naoqi/core/almemory.html#event-micro-event"><em>ALMemory overview</em></a> for more explanations)</li>
+</ul>
+</div>
+<div class="section" id="data-from-sensors-and-joints">
+<h3>Data from sensors and joints<a class="headerlink" href="#data-from-sensors-and-joints" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Data have no history.</li>
+<li>Data are only 32 bits variable.</li>
+<li>User can get pointer on data for a very fast access.</li>
+<li>No subscribe on data.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="reacting-to-events">
+<span id="naoqi-events"></span><h2>Reacting to events<a class="headerlink" href="#reacting-to-events" title="Permalink to this headline">¶</a></h2>
+<p>A few modules exposes also some <em>events</em>.</p>
+<p>You must subscribe to event from an other module, using a callback that must
+be a method of your subscriber.</p>
+<p>For instance, you can have a module called <tt class="docutils literal"><span class="pre">FaceReaction</span></tt> containing a method
+<tt class="docutils literal"><span class="pre">onFaceDetected</span></tt>.</p>
+<p>You can subscribe the <tt class="docutils literal"><span class="pre">FaceReaction</span></tt> module to the <tt class="docutils literal"><span class="pre">FaceDetected</span></tt>
+method of the <tt class="docutils literal"><span class="pre">ALFaceRecognition</span></tt> module with the <tt class="docutils literal"><span class="pre">onFaceDetected</span></tt> callback.</p>
+<p>This will cause the face detection algorithm to run, and every time a face
+is detected, the <tt class="docutils literal"><span class="pre">onFaceDetected</span></tt> callback will be called.</p>
+<p>To see how this is done in Python, please see the
+<a class="reference internal" href="../python/reacting_to_events.html#python-reacting-to-events"><em>Making a Python module - Reacting to events</em></a> section.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../index.html" title="Programming Guide">Programming Guide</a>
+     |
+    <a href="../index.html" title="Programming Guide" accesskey="U">Programming Guide</a>
+   |
+    <a href="../tools/index.html" title="Working with NAO">Working with NAO</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">NAOqi</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Working with NAO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sdk.html">SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">NAOqi Framework</a><ul>
+<li><a class="reference internal" href="#what-is-naoqi-framework">What is NAOqi Framework</a><ul>
+<li><a class="reference internal" href="#cross-language">Cross language</a></li>
+<li><a class="reference internal" href="#introspection">Introspection</a></li>
+<li><a class="reference internal" href="#distributed-tree-and-communication">Distributed tree and communication</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-naoqi-process">The NAOqi process</a><ul>
+<li><a class="reference internal" href="#broker">Broker</a></li>
+<li><a class="reference internal" href="#proxy">Proxy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modules">Modules</a><ul>
+<li><a class="reference internal" href="#local-modules">Local modules</a></li>
+<li><a class="reference internal" href="#remote-modules">Remote modules</a></li>
+<li><a class="reference internal" href="#connection-between-remote-modules">Connection between remote modules</a></li>
+<li><a class="reference internal" href="#broker-to-broker-connection">Broker to Broker connection</a></li>
+<li><a class="reference internal" href="#proxy-to-broker-connection">Proxy to Broker connection</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#blocking-and-non-blocking-calls">Blocking and non-blocking calls</a></li>
+<li><a class="reference internal" href="#memory">Memory</a><ul>
+<li><a class="reference internal" href="#almemory">ALMemory</a></li>
+<li><a class="reference internal" href="#data-from-sensors-and-joints">Data from sensors and joints</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reacting-to-events">Reacting to events</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../index.html" title="Programming Guide">previous</a>
+     |
+    <a href="../index.html" title="Programming Guide" accesskey="U">up</a>
+   |
+    <a href="../tools/index.html" title="Working with NAO">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

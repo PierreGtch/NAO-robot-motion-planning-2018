@@ -1,0 +1,304 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Writing qiBuild documentation &mdash; qiBuild 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="qiBuild 1.14.5 documentation" href="../index.html" />
+    <link rel="prev" title="Running qiBuild test suite" href="running_test_suite.html" /> 
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../index.html">qiBuild 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../index.html">Home</a>
+        
+         |
+        <a title="Search" href="../search.html">Search</a>
+         |
+        <a title="Index" href="../genindex.html">Index</a>
+        
+         |
+        <a title="CMake index" href="../cmake-functions-index.html">CMake index</a>
+         |
+        <a title="Python index" href="../py-modindex.html">Python index</a>
+        
+        
+         |
+        <a title="Back to main doc"
+            href="../../index.html"> Back to NAO Software Documentation </a>
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="running_test_suite.html" title="Running qiBuild test suite">previous</a>
+     |
+    <a title="qiBuild 1.14.5 documentation" href="../index.html" accesskey="U">up</a></div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="contrib-writing_documentation">
+            
+  <div class="section" id="writing-qibuild-documentation">
+<span id="qibuild-writing-documentation"></span><h1>Writing qiBuild documentation<a class="headerlink" href="#writing-qibuild-documentation" title="Permalink to this headline">¶</a></h1>
+<p>One of the strengths of the qiBuild framework is the documentation
+you are reading right now ;)</p>
+<p>It is completely written using <a class="reference external" href="http://sphinx.pocoo.org/">sphinx</a>,
+so do not hesitate to create links between various sections.</p>
+<p>Please submit documentation updates (if relevant) when you submit your patches.</p>
+<div class="section" id="building-the-doc">
+<h2>Building the doc<a class="headerlink" href="#building-the-doc" title="Permalink to this headline">¶</a></h2>
+<p>On linux, simply install sphinx, and then run</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd </span>doc
+<span class="gp">$</span> make
+</pre></div>
+</div>
+<p>Note: on archlinux, (or any distribution using python3 by default),
+because we use a custom sphinx extension written in python2,
+you have to install <tt class="docutils literal"><span class="pre">python2-sphinx</span></tt> and use:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd </span>doc
+<span class="gp">$</span> make <span class="nv">SPHINXBUILD</span><span class="o">=</span>sphinx-build2
+</pre></div>
+</div>
+</div>
+<div class="section" id="documenting-cmake-api">
+<h2>Documenting CMake API<a class="headerlink" href="#documenting-cmake-api" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../ref/cmake/api.html#qibuild-cmake-api"><em>qiBuild CMake API</em></a> is automatically generated from the
+comments of the cmake files in <tt class="docutils literal"><span class="pre">cmake/qibuild</span></tt></p>
+<p>If you add a new file, please add it to the list in
+<tt class="docutils literal"><span class="pre">ref/cmake/api.rst</span></tt> and in <tt class="docutils literal"><span class="pre">tools/gen_cmake_rst.py</span></tt></p>
+<p>Also, when changing the comments of a cmake functions, please
+regenerate the <tt class="docutils literal"><span class="pre">.rst</span></tt> files to check the output.</p>
+<p>You can do so by running <tt class="docutils literal"><span class="pre">make</span></tt> in <tt class="docutils literal"><span class="pre">doc/</span></tt>, or using:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd </span>doc
+<span class="gp">$</span> python tools/gen_cmake_rst.py ..
+</pre></div>
+</div>
+</div>
+<div class="section" id="generating-command-line-help">
+<h2>Generating command line help<a class="headerlink" href="#generating-command-line-help" title="Permalink to this headline">¶</a></h2>
+<p>The output of</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">qibuild --help</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">qibuild make --help</span>
+</pre></div>
+</div>
+<p>is automatically generated using:</p>
+<ul class="simple">
+<li>The <tt class="docutils literal"><span class="pre">help</span></tt> argument used in the various <cite>_parsers</cite> functions.</li>
+<li>The first line of the docstring of module corresponding to the action.</li>
+</ul>
+<p>So just make sure to write proper docstrings, and to correctly
+specify the <tt class="docutils literal"><span class="pre">help</span></tt> arguments when you configure your parser.</p>
+<p>If you think the new action is worth it, you can also patch
+the <a class="reference internal" href="../ref/man/index.html#qibuild-man-pages"><em>qibuild man Pages</em></a></p>
+<p>If you add a new executable, please add the corresponding man page
+in <tt class="docutils literal"><span class="pre">ref/man</span></tt>.</p>
+<p>This allows the qiBuild debian package to pass <tt class="docutils literal"><span class="pre">lintian</span></tt> checks.</p>
+</div>
+<div class="section" id="documenting-configuration-files-syntax">
+<h2>Documenting configuration files syntax<a class="headerlink" href="#documenting-configuration-files-syntax" title="Permalink to this headline">¶</a></h2>
+<p>Right now the syntax of the configuration files is not frozen yet.
+Just make sure to update the <a class="reference internal" href="../ref/cfg/index.html#qibuild-cfg-syntax"><em>Configuration files syntax</em></a> section.</p>
+<p>If your changes are incompatible, make sure (and add tests for it!)
+that you can convert from the previous version automatically.</p>
+</div>
+<div class="section" id="writing-python-documentation">
+<span id="qibuild-writing-documentation-python"></span><h2>Writing Python documentation<a class="headerlink" href="#writing-python-documentation" title="Permalink to this headline">¶</a></h2>
+<p>We are using <a class="reference external" href="http://sphinx.pocoo.org/ext/autodoc.html">sphinx autodoc extension</a> to
+generate the <a class="reference internal" href="../ref/python/index.html#qibuild-python-doc"><em>qiBuild Python documentation</em></a>, so please make sure to use
+valid rst syntax inside your docstrings.</p>
+<p>Sphinx&#8217;s markup is light enough to be used directly in the docstrings, but please
+keep the files readable!</p>
+<p>As a rule of thumb, if you want to refer to other parts of the documentation, do
+it in the <tt class="docutils literal"><span class="pre">.rst</span></tt> file, and not directly in the <tt class="docutils literal"><span class="pre">.py</span></tt> file.</p>
+<p>This is BAD:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+   <span class="sd">&quot;&quot;&quot; Does this and that</span>
+
+<span class="sd">   .. warning:: A big warning</span>
+
+<span class="sd">   Example::</span>
+
+<span class="sd">     # A big example</span>
+
+<span class="sd">     def tutu:</span>
+<span class="sd">         foo = Foo()</span>
+
+<span class="sd">   .. seealso:</span>
+
+<span class="sd">      * :ref:`qibuild-foo-stuff`</span>
+
+<span class="sd">   &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-rst"><div class="highlight"><pre><span class="cp">.. foo.rst</span>
+
+<span class="gh">Foo</span>
+<span class="gh">---</span>
+
+<span class="cp">.. autoclass: Foo</span>
+</pre></div>
+</div>
+<p>This is OK:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+   <span class="sd">&quot;&quot;&quot; Does this and that</span>
+
+<span class="sd">   .. warning:: A big warning</span>
+
+
+<span class="sd">   &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-rst"><div class="highlight"><pre><span class="cp">.. foo.rst</span>
+
+<span class="gh">Foo</span>
+<span class="gh">---</span>
+
+<span class="cp">.. autoclass: Foo</span>
+
+<span class="cp">   Example::</span>
+
+<span class="cp">     # A big example</span>
+
+<span class="cp">     def tutu:</span>
+<span class="cp">         foo = Foo()</span>
+
+<span class="cp">   .. seealso:</span>
+
+<span class="cp">      * :ref:`qibuild-foo-stuff`</span>
+</pre></div>
+</div>
+<p>Also, even if the <a class="reference internal" href="../py-modindex.html"><em>Module Index</em></a> page is generated automatically
+py <tt class="docutils literal"><span class="pre">Sphinx</span></tt>, do not forget to update the <a class="reference internal" href="../ref/python/packages/index.html#qibuild-python-packages"><em>qiBuild Python packages documentation</em></a>
+<tt class="docutils literal"><span class="pre">toctree</span></tt>.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="running_test_suite.html" title="Running qiBuild test suite">Running qiBuild test suite</a>
+     |
+    <a title="qiBuild 1.14.5 documentation" href="../index.html" accesskey="U">up</a></div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qibuild_in_five_minutes.html">qiBuild in five minutes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">qiBuild reference documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">qiBuild Programming guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Contributing to qiBuild</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/managing_deps.html">Managing dependences with qiBuild: an overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/searching.html">Search order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/shared_libs.html">Managing shared libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/cmake/index.html">qiBuild CMake framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/parsing_cmdline.html">Parsing command line arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/handling_build_configurations.html">Handling build configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/handling_cmake_flags.html">Handling CMake flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/overviews/parsing_toolchain_feeds.html">Parsing toolchain feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/python/index.html">qiBuild Python framework design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">qiBuild design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_build_frameworks.html">qiBuild compared to other build frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../relnotes.html">qiBuild release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../news/1.12.1.html">What&#8217;s new in qibuild 1.12.1</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reporting_bugs.html">Reporting qiBuild issues</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cmake/coding_guide.html">CMake coding guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python/coding_guide.html">Python coding guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="test_driven_development.html">qibuild: using test driven development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="running_test_suite.html">Running qiBuild test suite</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Writing qiBuild documentation</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+    <h3><a href="../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Writing qiBuild documentation</a><ul>
+<li><a class="reference internal" href="#building-the-doc">Building the doc</a></li>
+<li><a class="reference internal" href="#documenting-cmake-api">Documenting CMake API</a></li>
+<li><a class="reference internal" href="#generating-command-line-help">Generating command line help</a></li>
+<li><a class="reference internal" href="#documenting-configuration-files-syntax">Documenting configuration files syntax</a></li>
+<li><a class="reference internal" href="#writing-python-documentation">Writing Python documentation</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="running_test_suite.html" title="Running qiBuild test suite">previous</a>
+     |
+    <a title="qiBuild 1.14.5 documentation" href="../index.html" accesskey="U">up</a></div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

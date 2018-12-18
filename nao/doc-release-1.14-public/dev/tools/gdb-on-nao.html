@@ -1,0 +1,355 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Debugging C/C++ on the robot &mdash; NAO Software 1.14.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.14.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NAO Software 1.14.5 documentation" href="../../index.html" />
+    <link rel="up" title="C++ SDK" href="../cpp/index.html" />
+    <link rel="next" title="Python SDK" href="../python/index.html" />
+    <link rel="prev" title="C++ Tips and tricks" href="../cpp/tips-and-tricks.html" />
+
+ 
+
+<script  type="text/javascript">
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-19487749-1']);
+   _gaq.push(['_trackPageview']);
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+</script>
+
+
+  </head>
+  <body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t3">
+    <div id="hd">
+      <h1><a href="../../index.html">NAO Software 1.14.5 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="../../index.html">Home</a>
+        
+         |
+        <a title="Site map" href="../../contents.html">Site map</a>
+        
+         |
+        <a title="Search" href="../../search.html">Search</a>
+         |
+        <a title="Index" href="../../genindex.html">Index</a>
+        
+        
+      </div>
+      <div class="nav">
+    &laquo; <a href="../cpp/tips-and-tricks.html" title="C++ Tips and tricks">previous</a>
+     |
+    <a href="../cpp/index.html" title="C++ SDK" accesskey="U">up</a>
+   |
+    <a href="../python/index.html" title="Python SDK">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="dev-tools-gdb-on-nao">
+            
+  <div class="section" id="debugging-c-c-on-the-robot">
+<span id="gdb"></span><h1>Debugging C/C++ on the robot<a class="headerlink" href="#debugging-c-c-on-the-robot" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p><a class="reference internal" href="../sdk.html#sdk-index"><em>Overview</em></a> | <strong>C++</strong> | <a class="reference internal" href="../python/index.html#python-introduction"><em>Python</em></a> |
+<a class="reference internal" href="../dotnet/index.html#naoqi-dot-net"><em>.Net</em></a> | <a class="reference internal" href="../java/index.html#java"><em>Java</em></a> | <a class="reference internal" href="../matlab/index.html#matlab"><em>Matlab</em></a> | <a class="reference internal" href="../urbi/index.html#urbi"><em>Urbi</em></a></p>
+<p class="last"><a class="reference internal" href="../cpp/index.html#cpp-introduction"><em>C++ SDK</em></a> | <a class="reference internal" href="../cpp/install_guide.html#cpp-install-guide"><em>C++ SDK Installation</em></a> | <a class="reference internal" href="../cpp/tutorials.html#cpp-tutos-examples"><em>C++ Tutorials</em></a> |
+<a class="reference internal" href="../cpp/examples.html#cpp-examples"><em>C++ Examples</em></a> | <a class="reference internal" href="../cpp/tips-and-tricks.html#tips-and-tricks"><em>C++ Tips and tricks</em></a> | <em>Debugging C/C++ on the robot</em></p>
+</div>
+<hr class="docutils" />
+<p>This section gives you some hints about debugging methods and <tt class="docutils literal"><span class="pre">gdb</span></tt> usage on
+the robot.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>A <em>first approach</em> when developing NAOqi modules is to <strong>build it as a
+remote module</strong>, using the debugger already installed on the host computer.</p>
+<p class="last">The <em>second step</em> is <strong>cross-compiling this module for the robot</strong> using the
+cross-toolchain.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The followings intends to provide help in case of <em>cross-compilation</em>.</p>
+<p>However, the usage of <tt class="docutils literal"><span class="pre">gdb</span></tt> remains most of all the same.</p>
+<p class="last">For further information about <tt class="docutils literal"><span class="pre">gdb</span></tt>, please refer to the <tt class="docutils literal"><span class="pre">gdb</span></tt> manual:
+<cite>http://www.gnu.org/software/gdb/documentation/</cite>, or run <tt class="docutils literal"><span class="pre">help</span></tt> inside
+gdb.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All the tools used for debugging are <strong>already installed on the robot</strong> or
+<strong>provided by the cross-toolchain</strong>.</p>
+</div>
+<div class="section" id="starting-gdb">
+<h2>Starting gdb<a class="headerlink" href="#starting-gdb" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways of debugging some C/C++ binaries on your robot.</p>
+<p>You can run the debugger either:</p>
+<ul class="simple">
+<li><em>locally</em> (i.e. only running <tt class="docutils literal"><span class="pre">gdb</span></tt> on the robot) or</li>
+<li><em>remotely</em> (i.e. running <tt class="docutils literal"><span class="pre">gdbserver</span></tt> on the robot and <tt class="docutils literal"><span class="pre">gdb</span></tt> on the host
+computer).</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Those debugging methods explained hereafter imply that the <strong>cross-compiled
+binaries</strong> have been <strong>sent on the robot before being run</strong>.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p><strong>Cross-compiled binaries must be run on the robot</strong>.</p>
+<p>Any attempt of execution on another system is a misunderstanding of the
+cross-compilation.</p>
+<p>Such attempts will lead to:</p>
+<ul class="last simple">
+<li>in the best case: no execution at all;</li>
+<li>in the worst case: an execution complaining about weird and incomprehensible
+warnings or errors.</li>
+</ul>
+</div>
+<div class="section" id="running-debugger-locally-on-the-robot">
+<h3>Running debugger locally on the robot<a class="headerlink" href="#running-debugger-locally-on-the-robot" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Make sure you have built the module enabling the debug symbols (this is the
+default behavior when <strong>using the cross-toolchain</strong>).</p>
+</div>
+<p>On the robot, just run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> gdb naoqi-bin
+</pre></div>
+</div>
+<p>Then, execute any <tt class="docutils literal"><span class="pre">gdb</span></tt> commands you want. For further details, see <a class="reference internal" href="#gdb-using"><em>Using gdb</em></a>.</p>
+</div>
+<div class="section" id="running-debugger-remotely">
+<h3>Running debugger remotely<a class="headerlink" href="#running-debugger-remotely" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Currently, this is <strong>only available on Linux host</strong>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All the tools used for debugging are <strong>already installed on the robot</strong> or
+<strong>provided by the cross-toolchain</strong>.</p>
+</div>
+<p>Assuming the host computer, from which you are working, has <tt class="docutils literal"><span class="pre">192.168.0.2</span></tt> as
+IP address, and <tt class="docutils literal"><span class="pre">192.168.0.10</span></tt> is the one of the robot:</p>
+<ol class="arabic">
+<li><p class="first">On the robot:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> gdbserver 192.168.0.2:2345 naoqi-bin <span class="o">[</span>args<span class="o">]</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">2345</span></tt> is the port number to use (this is just an example).</p>
+</li>
+<li><p class="first">On the host computer:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> ~/.local/share/qi/toolchains/*/*-ctc/cross/bin/i686-aldebaran-linux-gnu-gdb naoqi-bin
+<span class="go">(gdb) set solib-absolute-prefix /path/to/your/build-directory</span>
+<span class="go">(gdb) target remote 192.168.0.10:2345</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Then, execute any <tt class="docutils literal"><span class="pre">gdb</span></tt> commands you want in the debugger running on the host
+computer. For further details, see <a class="reference internal" href="#gdb-using"><em>Using gdb</em></a>.</p>
+</div>
+</div>
+<div class="section" id="using-gdb">
+<span id="gdb-using"></span><h2>Using gdb<a class="headerlink" href="#using-gdb" title="Permalink to this headline">¶</a></h2>
+<p>The followings only give some basics about <tt class="docutils literal"><span class="pre">gdb</span></tt>.</p>
+<p>For further information about <tt class="docutils literal"><span class="pre">gdb</span></tt>:</p>
+<ul class="simple">
+<li>refer to the <tt class="docutils literal"><span class="pre">gdb</span></tt> manual: <a class="reference external" href="http://www.gnu.org/software/gdb/documentation/">http://www.gnu.org/software/gdb/documentation/</a> , or</li>
+<li>run <tt class="docutils literal"><span class="pre">help</span></tt> inside gdb.</li>
+</ul>
+<div class="section" id="managing-breakpoints">
+<h3>Managing breakpoints<a class="headerlink" href="#managing-breakpoints" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">(gdb) break &lt;absolute path of the source file on the host computer&gt;:&lt;line number&gt;</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">(gdb) break &lt;absolute path of the source file on the host computer&gt;:&lt;function name&gt;</span>
+</pre></div>
+</div>
+<p>Once created, a breakpoint <em>id</em> number is automatically associated.</p>
+<p>You can then enable or disable any breakpoints by their <em>id</em> numbers:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">(gdb) enable &lt;breakpoint id&gt;</span>
+<span class="go">(gdb) disable &lt;breakpoint id&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="execution-inside-gdb">
+<h3>Execution inside gdb<a class="headerlink" href="#execution-inside-gdb" title="Permalink to this headline">¶</a></h3>
+<p>Start the program passing some arguments:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">(gdb) run &lt;arg1&gt; &lt;arg2&gt;</span>
+</pre></div>
+</div>
+<p>For <tt class="docutils literal"><span class="pre">naoqi-bin</span></tt>, you might want to set a higher context level (refer to
+<a class="reference internal" href="naoqi-man.html#naoqi-man"><em>NAOqi man page</em></a> or the <a class="reference internal" href="../../ref/cpp-api.html#libqi-doc"><em>qiLog API from libqi</em></a>), to do so:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">(gdb) run -d -c 7</span>
+</pre></div>
+</div>
+<p>To pause the execution, just press <strong>Ctrl-C</strong>, then press <strong>C</strong> to continue.</p>
+<p>To quit <tt class="docutils literal"><span class="pre">gdb</span></tt>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">(gdb) quit</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exploiting-breakpoints">
+<h3>Exploiting breakpoints<a class="headerlink" href="#exploiting-breakpoints" title="Permalink to this headline">¶</a></h3>
+<p>Once the program has triggered a breakpoint, it execution is paused.</p>
+<p>Then, you can:</p>
+<ul>
+<li><p class="first">Display the source code around the breakpoint (this requires the sources at
+the same location on the robot as they are on the host):</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">(gdb) list</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Display the backtrace:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">(gdb) bt</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Move up and down in the backtrace:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">(gdb) up</span>
+<span class="go">(gdb) down</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="footernav">
+    &laquo; <a href="../cpp/tips-and-tricks.html" title="C++ Tips and tricks">C++ Tips and tricks</a>
+     |
+    <a href="../cpp/index.html" title="C++ SDK" accesskey="U">C++ SDK</a>
+   |
+    <a href="../python/index.html" title="Python SDK">Python SDK</a> &raquo;</div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+  <h3>Table Of Contents</h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Site map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../news/index.html">What&#8217;s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nao/index.html">NAO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/index.html">Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/choregraphe/index.html">Choregraphe User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Programming Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../naoqi/index.html">NAOqi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html">Working with NAO</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../sdk.html">SDK</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../cpp/index.html">Cpp</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../cpp/install_guide.html">C++ SDK Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/tutorials.html">C++ Tutorials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/examples.html">C++ Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/tips-and-tricks.html">C++ Tips and tricks</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">Debugging C/C++ on the robot</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dotnet/index.html">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../java/index.html">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../matlab/index.html">MatLab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../urbi/index.html">Urbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../example-index.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../legal/notice.html">Legal notices</a></li>
+</ul>
+
+    <h3><a href="../../index.html">On this page</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Debugging C/C++ on the robot</a><ul>
+<li><a class="reference internal" href="#starting-gdb">Starting gdb</a><ul>
+<li><a class="reference internal" href="#running-debugger-locally-on-the-robot">Running debugger locally on the robot</a></li>
+<li><a class="reference internal" href="#running-debugger-remotely">Running debugger remotely</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-gdb">Using gdb</a><ul>
+<li><a class="reference internal" href="#managing-breakpoints">Managing breakpoints</a></li>
+<li><a class="reference internal" href="#execution-inside-gdb">Execution inside gdb</a></li>
+<li><a class="reference internal" href="#exploiting-breakpoints">Exploiting breakpoints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="../cpp/tips-and-tricks.html" title="C++ Tips and tricks">previous</a>
+     |
+    <a href="../cpp/index.html" title="C++ SDK" accesskey="U">up</a>
+   |
+    <a href="../python/index.html" title="Python SDK">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>
