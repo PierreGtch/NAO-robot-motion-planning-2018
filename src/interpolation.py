@@ -96,6 +96,13 @@ def resample(points, n, d=3):
         out.append(f(t_x))
     return np.array(out)
 
+def sample(f, t0, t1, n):
+    t = np.linspace(t0, t1, n)
+    out = []
+    for t_x in t:
+        out.append(f(t_x))
+    return np.array(out)
+
 #------------------------------------------------
 
 def test_1d(n,d_max):
