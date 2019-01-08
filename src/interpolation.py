@@ -84,6 +84,17 @@ def interpolate_nd(t, points, d, raiseValueError=False):
         return out
     return func
 
+def resample(points, n, d=3):
+    t0, t1 = 0, 1
+    s = points.shape
+    t = np.linspace(t0, t1, s[0])
+    f = interpolate_nd(t, points, d=d)
+
+    tt = np.linspace(0, 1, n)
+    out = []
+    for t_x in tt:
+        out.append(f(t_x))
+    return np.array(out)
 
 #------------------------------------------------
 
