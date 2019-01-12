@@ -1,17 +1,13 @@
 # coding: utf8
 
-<<<<<<< HEAD
 """
     Code for the calibration of the NAO writing plan.
 """
 
-=======
->>>>>>> df284b8116de73649188cf9062d2462a4ea03a9d
 import sys
 import time
 from naoqi import ALProxy
 import motion
-<<<<<<< HEAD
 import textwrap
 
 if sys.version_info.major == 2:
@@ -27,17 +23,12 @@ elif sys.version_info.major == 3:
 
 
 def get_xyz(motionProxy, effector="LArm", frame=motion.FRAME_TORSO, useSensorValues=True):
-=======
-
-def get_xyz(motionProxy, effector="LArm", frame=motion.FRAME_TORSO, useSensorValue=True):
->>>>>>> df284b8116de73649188cf9062d2462a4ea03a9d
     """
     Return the position of the request effector as a triple x y z
     """
     full_position = motionProxy.getPosition(effector,frame,useSensorValues)
     return full_position[:3]
 
-<<<<<<< HEAD
 def get_calibration_data(proxy, effector="LArm"):
     """
     Ask the user for free points in order to define the drawing space.
@@ -72,5 +63,3 @@ if __name__=='__main__':
     print(p1)
     print(p2)
     print(p3)
-=======
->>>>>>> df284b8116de73649188cf9062d2462a4ea03a9d
