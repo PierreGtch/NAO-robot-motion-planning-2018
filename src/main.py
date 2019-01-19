@@ -20,8 +20,7 @@ import time
 from naoqi.naoqi import ALProxy
 import naoqi.motion as motion
 from calibration import get_converter
-from control.control_interpolation import NaoqiInterpolation
-from control.control_angles import NaoControlAngles
+from control import NaoqiInterpolation, NaoControlAngles
 
 
 # =========================================================

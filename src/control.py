@@ -28,7 +28,7 @@ def send(self, time, path):
 class NaoqiInterpolation:
 
     def __init__(self, motionProxy, effector, space, axisMask):
-        self.motionProxy = motoionProxy
+        self.motionProxy = motionProxy
         self.effector = effector
         self.space = space
         self.axisMask = axisMask
