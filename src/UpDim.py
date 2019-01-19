@@ -35,3 +35,13 @@ class UpDim():
 		delta_y =  y * self.y_max * self.e2
 		return self.origin + delta_x + delta_y
 
+	def convert_list(self,points):
+		"""
+		Convert a list of 2D points to 3D points.
+		:param points: A list of 2D points
+		:return: A array of 3D points
+		"""
+		res = []
+		for (x,y) in points:
+			res.append(self.convert(x,y))
+		return np.array(res)
