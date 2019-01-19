@@ -8,8 +8,8 @@ import numpy as np
 
 class NaoInverseKinematics():
 	
-	def __init__(self):
-		self.urdf_filename = "NAOH25V33.urdf"
+	def __init__(self,urdf_file):
+		self.urdf_filename = urdf_file
 				
 		self.model = pin.buildModelFromUrdf(self.urdf_filename, pin.JointModelFreeFlyer())
 		self.joint_names = list(self.model.names)
@@ -55,7 +55,6 @@ class NaoInverseKinematics():
 			# data.v[id_du_joint] contient la vitesse du corps en question exprimee au centre du joint
 			
 			M = data.oMi[id_LH]
-			#print(M)
 			Mdes = pin.SE3(np.matrix(np.eye(3)), np.matrix(trajectory(t)).T)
 			#print(Mdes)
 			
@@ -65,7 +64,9 @@ class NaoInverseKinematics():
 			#print(np.linalg.pinv(J_LH).shape)
 			#print((trajectory_derivative(t) + lam * error).shape)
 			# v_sol is the solution of the least square problem
-			v_sol = np.dot(np.linalg.pinv(J_LH), trajectory_derivative(t) + lam * error).reshape((48,))	
+			t_deriv = trajectory_derivative(t)
+			t_deriv = np.hstack((t_deriv,np.zeros((3,))))
+			v_sol = np.dot(np.linalg.pinv(J_LH), t_deriv + lam * error).reshape((48,))
 			v_sol = v_sol[np.newaxis,:]
 			#print(v_sol.shape)
 			# update current configurqtion
@@ -83,7 +84,7 @@ class NaoInverseKinematics():
 if __name__ == "__main__":
 	print('TEST')
 
-	ik = NaoInverseKinematics()
+	ik = NaoInverseKinematics("NAOH25V33.urdf")
 
 	trajectory = lambda x: np.zeros(3)
 	trajectory_derivative = lambda t: np.zeros(6)

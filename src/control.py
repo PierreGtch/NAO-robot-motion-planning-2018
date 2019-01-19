@@ -1,29 +1,36 @@
+# coding: utf8
 
 from kinematics.inverse_kinematics import NaoInverseKinematics
 from interpolation_py2 import interpolate_nd
+import numpy as np
 
 class NaoControlAngles:
 
-    def __init__(self, motionProxy):
+    def __init__(self, motionProxy,urdf_file):
         self.motionProxy = motionProxy
-        self.inverter = NaoInverseKinematics()
+        self.inverter = NaoInverseKinematics(urdf_file)
         self.poly_deg = 3
 
-def send(self, time, path):
-    trajectory = interpolate_nd(time, path, d=self.poly_deg)
+    def send(self, time, path):
+        trajectory = interpolate_nd(time, path, d=self.poly_deg)
 
-    trajectory_derivative = interpolate_nd(time, path, d=self.poly_deg)
-    duration = t[-1] - t[0]
+        trajectory_derivative = interpolate_nd(time, path, d=self.poly_deg,deriv=1)
+        duration = time[-1] - time[0]
 
-    configurations = self.inverter.compute(trajectory, trajectory_derivative, duration)
-    nb_step = configurations.shape[0]
-    joint_names = inverter.joints_names
-    nb_joints = len(joints_names)
-    timeLists = [[0.0 * i for i in range(nb_step)] for _ in range(nb_joints)]
-    isAbsolute = True
-
-    self.motionProxy.angleInterpolation(names, configurations, timeLists, isAbsolute)
-
+        print "Cinématique inverse..."
+        configurations = self.inverter.compute(trajectory, trajectory_derivative, duration)
+        print "...Done"
+        print configurations
+        nb_step = configurations.shape[0]
+        joint_names = self.inverter.joint_names
+        print joint_names
+        nb_joints = len(joint_names)
+        timeLists = [[0.01 * i for i in range(nb_step)] for _ in range(nb_joints)]
+        isAbsolute = True
+        print "Envoie de la commande, durée du mouvement :"
+        print np.max(timeLists)
+        self.motionProxy.angleInterpolation(joint_names, configurations.tolist(), timeLists, isAbsolute)
+        print "Done!!"
 
 class NaoqiInterpolation:
 
@@ -34,6 +41,9 @@ class NaoqiInterpolation:
         self.axisMask = axisMask
 
     def send(self, time, path):
+        path = np.array(path)
+        path = np.hstack((path,np.zeros((len(path),3)))).tolist()
+        # self.motionProxy.reset()
         self.motionProxy.positionInterpolation(
             self.effector,
             self.space,

@@ -215,7 +215,7 @@ def send_data(t, xy):
     print("time points :\n", t)
     print("corresponding coordinates :\n", xy)
     xy = normalize(xy)
-    path = converter.convert_list(xy, add_rot=True)
+    path = converter.convert_list(xy, add_rot=False)
 
     # we can eventually resample points here:
     time_init = t[0]
@@ -239,5 +239,5 @@ if __name__ == "__main__":
     converter = get_converter(proxy)
 
     api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_ROBOT, 7)
-    inverse_fun = NaoControlAngles(proxy)
+    inverse_fun = NaoControlAngles(proxy,"kinematics/NAOH25V33.urdf")
     main(api_fun, inverse_fun)
