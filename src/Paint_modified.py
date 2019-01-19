@@ -19,9 +19,19 @@ import numpy as np
 import time
 import calibration
 
+
+# =========================================================
+# GLOBAL PARAMETERS
+# =========================================================
+
 # some line attributes
 color = "black"
-ovals = True
+ovals = False
+
+# =========================================================
+# =========================================================
+
+
 # this will hold a pressed or released value
 mouseState = "up"
 # this will hold the x or y value of the cursor. null if not pressed
@@ -42,21 +52,28 @@ def main():
     root = Tk()
     root.wm_title("Paint!")
 
-    # define screen dimensions for responsiveness
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
+    # get screen dimensions
+    screen = (0.92*root.winfo_screenwidth(), 0.92*root.winfo_screenheight())
+    a4 = (29.7, 21.)
+    # To have a window with A4 format and that fits in the screen :
+    scale = (int(screen[0]), int(screen[0]*a4[1]/a4[0]))
+    if scale[1]>screen[1]:
+        scale = (int(screen[1]*a4[0]/a4[1]), int(screen[1]))
     # set the window size
-    root.minsize(int(screen_width/2), int(screen_height/2))
+    root.minsize(*scale)
 
     # create a canvas
     myCanvas = Canvas(root)
     # fit the canvas to the window. width and height are built into Tkinter
-    myCanvas.config(bg="white",width = screen_width/2, height = screen_height/2)
+    myCanvas.config(width=scale[0], height=scale[1], bg='white')
 
-    # LINE button - create
-    lineButton = Button(root, text ="Line", command = linePressed)
-    # DOTS button - create
-    dotsButton = Button(root, text ="Dots", command = dotsPressed)
+    lineButton = Button(root, text ="Line")
+    dotsButton = Button(root, text ="Dots")
+    make_exclusive_same_fun([
+        (lineButton, False),
+        (dotsButton, True),
+        ], set_ovals)
+
     # CLEAR button - create
     clearButton = Button(root, text ="Clear", command = clearPressed)
     # QUIT button - create
@@ -74,6 +91,10 @@ def main():
     myCanvas.bind("<Motion>", moveMouse)
     myCanvas.bind("<ButtonPress-1>", press)
     myCanvas.bind("<ButtonRelease-1>", release)
+
+    #initialize window
+    clearButton.invoke()
+    lineButton.invoke()
 
     root.mainloop()
 
@@ -118,17 +139,10 @@ def release(event):
 
 # =========================================== BUTTONS
 
-# LINE function
-def linePressed():
+def set_ovals(value):
     global ovals
-    print("line clicked")
-    ovals = False
-
-# DOTS function
-def dotsPressed():
-    global ovals
-    print("dots clicked")
-    ovals = True
+    print(value)
+    ovals = value
 
 # CLEAR function
 def clearPressed():
@@ -140,6 +154,37 @@ def clearPressed():
 def quitPressed():
     print("quit clicked")
     exit(0)
+
+# ============================ UTILS
+
+def make_exclusive(buttons, initial=None):
+    '''given a list of pairs of buttons and associated command,
+    make the buttons exclusive :
+    when one is pressed, it stays pressed and other are realeased'''
+    def wrap(fun, i):
+        def wrapped(*args, **kwargs):
+            for j, (b, fb) in enumerate(buttons):
+                if i == j:
+                    b.config(relief=SUNKEN)
+                else:
+                    b.config(relief=RAISED)
+            return fun(*args, **kwargs)
+        return wrapped
+    for i, (b, f) in enumerate(buttons):
+        b.config(command=wrap(f, i))
+    if initial != None:
+        wrap(lambda: 0, initial)()
+
+def make_exclusive_same_fun(buttons, function, initial=None):
+    '''given a function and a list of pairs of buttons and
+    associated parameter to the function, make the buttons exclusive :
+    when one is pressed, it stays pressed and other are realeased'''
+    #buttons2 = [(b, lambda: function(p)) for (b,p) in buttons]
+    buttons2 = []
+    for (b,p) in buttons:
+        f = lambda p : lambda: function(p) #because some local/global problems
+        buttons2.append((b, f(p)))
+    return make_exclusive(buttons2, initial=initial)
 
 # ============================ NAO-SPECIFIC
 
