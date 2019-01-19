@@ -1,12 +1,16 @@
 
 import pinocchio as pin
-from pinocchio.romeo_wrapper import RobotWrapper
+#from pinocchio.romeo_wrapper import RobotWrapper
+from pinocchio.robot_wrapper import RobotWrapper
 
 import numpy as np
 
 # import os
 # current_path = os.getcwd()
 
+# Just for test
+def derivative(trajectory):
+	return lambda t: np.zeros(6)
 
 class NaoInverseKinematics():
 	
@@ -14,7 +18,7 @@ class NaoInverseKinematics():
 		# TODO Get the correct urdf file (Depending on our Nao version) 
 		self.urdf_filename = "nao.urdf"
 	
-	def compute(trajectory, duration, dt = 0.01, Lam = 100.0):
+	def compute(self, trajectory, duration, dt = 0.01, lam = 100.0):
 		"""
 		trajectory: A lambda, the trajectory to follow
 		duration:   The total duration of the movement
@@ -23,7 +27,8 @@ class NaoInverseKinematics():
 		"""
 
 		model = pin.buildModelFromUrdf(self.urdf_filename, pin.JointModelFreeFlyer())
-		data = model.create_data()
+		print(model)
+		data = model.createData()
 
 		# Use model.getJointId to get the id of joints that we want to control
 
@@ -36,13 +41,13 @@ class NaoInverseKinematics():
 		# TODO Compute derivative
 		trajectory_derivative = derivative(trajectory)		
 
-		nb_step = duration / dt	
+		nb_step = int(duration / dt)	
 		
 		t = 0
 
 		q_s_result = []
 
-		while step in range(nb_step):
+		for step in range(nb_step):
 			# Update the position of the bodies of the robot in function of the current configuration
 			pin.forwardKinematics(model, data, q)
 
@@ -50,25 +55,44 @@ class NaoInverseKinematics():
 			pin.computeJointJacobians(model, data, q)
 
 			# Get the Jacobians of the joint to control in the world repair
-			J_LH = pin.getJointJacobian(model, data, id_LH, pin.ReferenceFrame.WORLD)
-
+			J_LH = np.array(pin.getJointJacobian(model, data, id_LH, pin.ReferenceFrame.WORLD))
+			print(J_LH.shape)
 			# Solve the inverse kinematics
 			# 1. calculer l'erreur courante en fonction de la position des organes terminaux
 			# data.oMi[id_du_joint] contient la position et l'orientation de l'organe par rapport au repere monde
 			# data.v[id_du_joint] contient la vitesse du corps en question exprimee au centre du joint
 			
-			# TODO What is Mdes ???
-			error = pin.log(Mdes.inverse() * data.oMi[id_LH])
+			M = data.oMi[id_LH]
+			print(M)
+			# TODO What is Mdes ???			
+			Mdes = pin.SE3.Identity()
+			print(Mdes)
 			
-			# v_sol is the solution of the least square problem
-			v_sol = np.dot(np.linalg.pinv(J_LH), trajectory_derivative(t) + lam * error)	
+			error = np.array(pin.log(M.inverse() * Mdes).vector).reshape((6,))
+			print(error.shape)
 
+			print(np.linalg.pinv(J_LH).shape)
+			print((trajectory_derivative(t) + lam * error).shape)
+			# v_sol is the solution of the least square problem
+			v_sol = np.dot(np.linalg.pinv(J_LH), trajectory_derivative(t) + lam * error).reshape((30,))	
+			v_sol = v_sol[np.newaxis,:]
+			print(v_sol.shape)
 			# update current configurqtion
-			q = pin.integrate(model, q, v_sol * dt)
+			q = pin.integrate(model, q, np.matrix(v_sol * dt))
 
 			q_s_result.append(q)
 
 			t += dt
 		
-		# TODO Check returs type and convert to appropriate format for naoqi functions
+		# TODO Check returns type and convert to appropriate format for naoqi functions
 		return q_s_result
+
+if __name__ == "__main__":
+	print('TEST')
+
+	ik = NaoInverseKinematics()
+
+	trajectory = lambda x: x
+	q = ik.compute(trajectory, 1)
+
+	print(q)
