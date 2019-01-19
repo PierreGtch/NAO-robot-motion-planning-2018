@@ -20,13 +20,15 @@ class NaoControlAngles:
         print "Cinématique inverse..."
         configurations = self.inverter.compute(trajectory, trajectory_derivative, duration)
         print "...Done"
-        print configurations
+        print "Configurations:"
+        print np.max(configurations)
         nb_step = configurations.shape[0]
         joint_names = self.inverter.joint_names
-        print joint_names
         nb_joints = len(joint_names)
+        print "Joints"
+        print nb_joints
         timeLists = [[0.01 * i for i in range(nb_step)] for _ in range(nb_joints)]
-        isAbsolute = True
+        isAbsolute = False
         print "Envoie de la commande, durée du mouvement :"
         print np.max(timeLists)
         self.motionProxy.angleInterpolation(joint_names, configurations.tolist(), timeLists, isAbsolute)
@@ -44,6 +46,7 @@ class NaoqiInterpolation:
         path = np.array(path)
         path = np.hstack((path,np.zeros((len(path),3)))).tolist()
         # self.motionProxy.reset()
+        print "Début du mvt"
         self.motionProxy.positionInterpolation(
             self.effector,
             self.space,
@@ -52,3 +55,4 @@ class NaoqiInterpolation:
             time,
             True
         )
+        print "Fin du mvt"
