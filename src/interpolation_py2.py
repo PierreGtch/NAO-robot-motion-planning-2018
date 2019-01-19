@@ -33,7 +33,7 @@ def to_funct(intervals, polynoms, raiseValueError):
 
     return funct
 
-def interpolate_1d(x, y, d, testing=False, raiseValueError=False):
+def interpolate_1d(x, y, d, testing=False, deriv=0, raiseValueError=False):
     u''' Givet two lists x and y s.t. f(x)=y,
     returns a continious function composed of polynoms of degree d'''
     assert isinstance(d,int) and d >= 1
@@ -51,6 +51,18 @@ def interpolate_1d(x, y, d, testing=False, raiseValueError=False):
         xi = x[i+before:i+after+1]
         yi = y[i+before:i+after+1]
         pi = lagrange(xi, yi)
+
+        # derivation :
+        j = deriv
+        if j > 0:
+            while j != 0:
+                j -= 1
+                pi = pi.deriv()
+        elif j < 0:
+            while j != 0:
+                j += 1
+                pi = pi.integ()
+
         polynoms.append(pi)
 
     intervals = x[first:last].copy()
@@ -62,7 +74,7 @@ def interpolate_1d(x, y, d, testing=False, raiseValueError=False):
         return funct, intervals, polynoms
     return funct
 
-def interpolate_nd(t, points, d, raiseValueError=False):
+def interpolate_nd(t, points, d, deriv=0, raiseValueError=False):
     u''' Givet two lists t and points
     s.t. points is a list of vectors of the same dim
     returns a continious function composed of polynoms of degree d'''
@@ -76,7 +88,7 @@ def interpolate_nd(t, points, d, raiseValueError=False):
     outputs = {}
     for i in np.ndindex(output_shape):
         y = np.array([x[i] for x in points])
-        f = interpolate_1d(t, y, d, testing=False, raiseValueError=raiseValueError)
+        f = interpolate_1d(t, y, d, testing=False, deriv=deriv, raiseValueError=raiseValueError)
         outputs[i] = f
 
     def func(x):
