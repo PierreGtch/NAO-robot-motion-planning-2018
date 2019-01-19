@@ -47,7 +47,7 @@ class NaoControlAngles:
                 c = c.tolist()
                 fractionMaxSpeed = 0.1
                 self.motionProxy.setAngles(joint_names, c, fractionMaxSpeed)
-                py_time.sleep(0.01)
+                py_time.sleep(0.02)
         else:
             self.motionProxy.angleInterpolation(joint_names, configurations.tolist(), timeLists, isAbsolute)
         print "Done!!"
