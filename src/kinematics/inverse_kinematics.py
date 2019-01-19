@@ -67,7 +67,7 @@ class NaoInverseKinematics():
 			#print((trajectory_derivative(t) + lam * error).shape)
 			# v_sol is the solution of the least square problem
 			t_deriv = trajectory_derivative(t)
-			# t_deriv = np.hstack((t_deriv,np.zeros((3,))))
+			t_deriv = np.hstack((t_deriv,np.zeros((3,))))
 			v_sol = np.dot(np.linalg.pinv(J_LH), t_deriv + lam * error).reshape((48,))
 			v_sol = v_sol[np.newaxis,:]
 			#print(v_sol.shape)

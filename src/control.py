@@ -3,6 +3,7 @@
 from kinematics.inverse_kinematics import NaoInverseKinematics
 from interpolation_py2 import interpolate_nd
 import numpy as np
+import time as py_time
 
 class NaoControlAngles:
 
@@ -31,7 +32,24 @@ class NaoControlAngles:
         isAbsolute = False
         print "Envoie de la commande, durée du mouvement :"
         print np.max(timeLists)
-        self.motionProxy.angleInterpolation(joint_names, configurations.tolist(), timeLists, isAbsolute)
+        mode = True
+        if mode:
+            print "MY ZONE"
+            print joint_names
+            print configurations.shape
+            c = configurations[0]
+            c = c.tolist()
+            fractionMaxSpeed = 0.1
+            self.motionProxy.setAngles(joint_names, c, fractionMaxSpeed)
+            py_time.sleep(2)
+            print "GOOO!!"
+            for c in configurations[1:]:
+                c = c.tolist()
+                fractionMaxSpeed = 0.1
+                self.motionProxy.setAngles(joint_names, c, fractionMaxSpeed)
+                py_time.sleep(0.01)
+        else:
+            self.motionProxy.angleInterpolation(joint_names, configurations.tolist(), timeLists, isAbsolute)
         print "Done!!"
 
 class NaoqiInterpolation:
