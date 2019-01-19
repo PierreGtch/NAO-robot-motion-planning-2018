@@ -1,7 +1,9 @@
 \documentclass{beamer}
+\usepackage[T1]{fontenc}
 \usepackage{url}
 \usepackage{ragged2e}
 \usetheme{metropolis}
+\setbeamercolor{background canvas}{bg=white}
 
 \title{Writing with NAO}
 \author{Adrien Bardes, Marius Dufraisse, Pierre Guetschel, Mengda Li}
@@ -42,6 +44,8 @@ We approach this goal trajectory by solving a sequence of optimization problem: 
 \includegraphics[scale = 0.4]{tracking.jpg}\cite{2}
 \end{frame}
 
+\subsection{modeling the coordinate system}
+
 \begin{frame}[allowframebreaks]{modeling the coordinate system}
 
 \begin{columns}
@@ -49,7 +53,7 @@ We approach this goal trajectory by solving a sequence of optimization problem: 
 \justify
    The robot is a n-joint system. 
    
-   We find the position of end-effector (the pen) by composing a sequence of \emph{change of coordinates}.
+   We find the position of end-effector (the pen) by composing a sequence of \emph{change of coordinates} matrix.
 \end{column}
 \begin{column}{0.5\textwidth}  %%<--- here
     \begin{center}
@@ -61,8 +65,40 @@ We approach this goal trajectory by solving a sequence of optimization problem: 
 
 %\includegraphics[scale = 0.35]{coordinate.png}\cite{3}
 
-\includegraphics[scale = 0.3]{joints.png}\cite{4}
+%\includegraphics[scale = 0.3]{joints.png}\cite{4}
+
+\center
+\includegraphics[scale = 1.8]{A-6R-manipulator-with-normal-configuration.png}\cite{4}
+
 \end{frame}
+
+\subsection{finding the next ``angles step'' by computing jacobien}
+\begin{frame}{finding the next ``angles step'' by computing jacobien i}
+
+
+\includegraphics[scale = 1.2]{slide_30.jpg}\cite{5}
+\end{frame}
+
+\begin{frame}{finding the next ``angles step'' by computing jacobien ii}
+
+\includegraphics[scale = 1.2]{slide_31.jpg}\cite{5}
+\end{frame}
+
+\begin{frame}{finding the next ``angles step'' by computing jacobien iii}
+
+\includegraphics[scale = 0.7]{eth1.PNG}\cite{6}
+\end{frame}
+
+\begin{frame}{finding the next ``angles step'' by computing jacobien iv}
+
+\includegraphics[scale = 0.3]{eth3.PNG}\cite{6}
+\end{frame}
+
+%     \includegraphics[scale = 0.2]{1_8N5jdpb0omhPkTHSzyIf5A.png}\cite{7}
+
+
+
+
 
 \begin{frame}[allowframebreaks]{Bibliography}
 \begin{thebibliography}{9}
@@ -79,16 +115,31 @@ Planification et suivi de trajectoires.
 \textit{Interfacing of Kinect Motion Sensor and NAO Humanoid Robot for Imitation Learning}. 
 \path{https://www.youngscientistjournal.org/article/interfacing-of-kinect-motion-sensor-and-nao-humanoid-robot-for-imitation-learning}
 
-\bibitem{y} 
-Emrehan Yavşan, Ayşegül Uçar. 
-\textit{Teaching human gestures to humanoid robots by using Kinect sensor}. 
-\path{https://www.researchgate.net/publication/282829504_Teaching_human_gestures_to_humanoid_robots_by_using_Kinect_sensor}
- 
 \bibitem{4} 
-Oussama Khatib.
-\textit{Springer Handbook of Robotics}.
- Fig. 3.5
-\end{thebibliography}
+\textit{Formal Kinematic Analysis of a General 6R Manipulator Using the Screw Theory}
 
+\bibitem{5}
+Matt Boggus.
+\textit{Character Animation Forward and Inverse Kinematics}.
+\path{https://slideplayer.com/slide/12902351/}
+
+\bibitem{6}
+Marco Hutter, Roland Siegwart, and Thomas Stastny.
+\textit{Lecture «Robot Dynamics»: Summary}.
+\path{https://www.ethz.ch/content/dam/ethz/special-interest/mavt/robotics-n-intelligent-systems/rsl-dam/documents/RobotDynamics2017/14-summary.pdf}
+%\bibitem{7}
+%Luis Bermudez.
+%\textit{Overview of Jacobian IK}.
+%\path{https://medium.com/unity3danimation/overview-of-jacobian-ik-a33939639ab2}
+%\bibitem{y} 
+%Emrehan Yavşan, Ayşegül Uçar. 
+%\textit{Teaching human gestures to humanoid robots by using Kinect sensor}. 
+%\path{https://www.researchgate.net/publication/282829504_Teaching_human_gestures_to_humanoid_robots_by_using_Kinect_sensor}
+% 
+%\bibitem{x} 
+%Oussama Khatib.
+%\textit{Springer Handbook of Robotics}.
+\end{thebibliography}
 \end{frame}
+
 \end{document}
