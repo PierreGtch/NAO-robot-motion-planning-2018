@@ -17,6 +17,7 @@ except ImportError:
     from tkinter import *
 import numpy as np
 import time
+import calibration
 
 # some line attributes
 color = "black"
