@@ -19,8 +19,8 @@ import numpy as np
 import time
 from naoqi import ALProxy
 import motion
-import calibration
-from kinematics.naoiq_kinematics import NaoqiInterpolation
+from calibration import get_converter
+from naoqi_kinematics import NaoqiInterpolation
 
 
 # =========================================================
@@ -30,8 +30,8 @@ from kinematics.naoiq_kinematics import NaoqiInterpolation
 # some line attributes
 color = "black"
 
-robotIP = '127.0.0.1'
-PORT = 54010
+robotIP = "169.254.226.148"
+PORT = 9559
 
 
 # =========================================================
