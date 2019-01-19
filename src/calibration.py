@@ -10,6 +10,7 @@ from naoqi import ALProxy
 import motion
 import textwrap
 from UpDim import UpDim
+import numpy as np
 
 if sys.version_info.major == 2:
     # We are using Python 2.x
@@ -22,8 +23,7 @@ elif sys.version_info.major == 3:
     from tkinter import messagebox
     from tkinter import filedialog
 
-		
-		
+
 
 def get_xyz(motionProxy, effector="LArm", frame=motion.FRAME_TORSO, useSensorValues=True):
     """
@@ -31,8 +31,8 @@ def get_xyz(motionProxy, effector="LArm", frame=motion.FRAME_TORSO, useSensorVal
 	:param motionProxy: The proxy to use in order to access NAO.
 	:param effector: The effector to calibrate.
 	:param frame: The system of coordinates to use.
-	:useSensorValues: cf. getPosition doc
-	:return: The position of the effector as a list [x,y,z]. 
+    :useSensorValues: cf. getPosition doc
+    :return: The position of the effector as a list [x,y,z].
     """
     full_position = motionProxy.getPosition(effector,frame,useSensorValues)
     return full_position[:3]
@@ -60,19 +60,22 @@ def get_calibration_data(proxy, effector="LArm"):
     proxy.setStiffnesses(effector, 1)
     return [p1,p2,p3]
 
+
 def get_converter(proxy):
-	"""
-	Goes through the calibration process and return an instance of the UpDim class which is appropriate for the current situation.
-	:param proxy: The motionProxy to use. 
-	"""	
-	p1, p2, p3 = get_calibration_data(proxy)
-	return UpDim(p1,p2-p1,p3-p1,1,1)
-	
-	
+    """
+    Goes through the calibration process and return an instance of the UpDim class which is appropriate for the current situation.
+    :param proxy: The motionProxy to use.
+    """
+    p1, p2, p3 = get_calibration_data(proxy)
+    p1 = np.array(p1)
+    p2 = np.array(p2)
+    p3 = np.array(p3)
+    return UpDim(p1,p2-p1,p3-p1,1,1)
+
 
 if __name__=='__main__':
-    robotIP = '127.0.0.1'
-    PORT = 54010
+    robotIP = '169.254.226.148'
+    PORT = 9559
     proxy = ALProxy("ALMotion",robotIP,PORT)
 
     p1, p2, p3 = get_calibration_data(proxy)
@@ -80,3 +83,4 @@ if __name__=='__main__':
     print(p1)
     print(p2)
     print(p3)
+    _ = get_converter(proxy)
