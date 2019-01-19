@@ -12,7 +12,7 @@ class NaoInverseKinematics():
 		self.urdf_filename = urdf_file
 				
 		self.model = pin.buildModelFromUrdf(self.urdf_filename, pin.JointModelFreeFlyer())
-		self.joint_names = list(self.model.names)
+		self.joint_names = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw", "LHand"]
 
 	def compute(self, trajectory, trajectory_derivative, duration, dt = 0.01, lam = 100.0):
 		"""
@@ -31,9 +31,11 @@ class NaoInverseKinematics():
 
 		# Initial configuration of the robot to adjust in function of the position of the system
 		q = self.model.neutralConfiguration
-		print(q.shape)		
+		print(q.reshape(65,))
+		print(list(self.model.joints))
+		print(list(self.model.names))	
 
-		nb_step = int(duration / dt)	
+		nb_step = int(duration / dt)
 		
 		t = 0
 
@@ -65,7 +67,7 @@ class NaoInverseKinematics():
 			#print((trajectory_derivative(t) + lam * error).shape)
 			# v_sol is the solution of the least square problem
 			t_deriv = trajectory_derivative(t)
-			t_deriv = np.hstack((t_deriv,np.zeros((3,))))
+			# t_deriv = np.hstack((t_deriv,np.zeros((3,))))
 			v_sol = np.dot(np.linalg.pinv(J_LH), t_deriv + lam * error).reshape((48,))
 			v_sol = v_sol[np.newaxis,:]
 			#print(v_sol.shape)
@@ -74,12 +76,13 @@ class NaoInverseKinematics():
 			#print(q.shape)
 			q = pin.integrate(self.model, q, np.matrix(v_sol * dt).T)
 			#print(q.shape)
-			q_s_result.append(q)
+		
+			q_s_result.append([float(q[15])] + [float(q[16])] + [float(q[17])] + [float(q[18])] + [float(q[19])] + [float(q[32])])
 
 			t += dt
 		
 		# TODO Check returns type and convert to appropriate format for naoqi functions
-		return np.array(q_s_result).reshape(nb_step, 65)
+		return np.array(q_s_result)
 
 if __name__ == "__main__":
 	print('TEST')
