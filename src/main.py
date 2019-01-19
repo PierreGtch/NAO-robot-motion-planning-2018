@@ -50,12 +50,13 @@ myCanvas = None
 ovals = False
 interpolation_fun = None
 converter = None
+scale = None
 
 # =========================================== SETUP
 
 
 def main(api_fun, inverse_fun):
-    global myCanvas
+    global myCanvas, scale
 
     root = Tk()
     root.wm_title("Nao drawer")
@@ -216,13 +217,17 @@ def send_data(t, xy):
     path_raw = converter.convert_list(xy, add_rot=True)
 
     # we can eventually resample points here:
-    path = path_raw
+    path = normalize(path_raw)
     time = t
 
     if interpolation_fun != None:
         interpolation_fun.send(time, path)
     else:
         print("/!\\ Fonction not implemented")
+
+def normalize(xy):
+    global scale
+    return Np.devide(xy, scale)
 
 # ============================ RUN APP
 
