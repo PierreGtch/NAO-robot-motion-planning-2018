@@ -59,8 +59,7 @@ class NaoInverseKinematics():
 			
 			M = data.oMi[id_LH]
 			#print(M)
-			# TODO What is Mdes ???
-			Mdes = pin.SE3.Identity()
+			Mdes = pin.SE3(np.matrix(np.eye(3)), np.matrix(trajectory(t)).T)
 			#print(Mdes)
 			
 			error = np.array(pin.log(M.inverse() * Mdes).vector).reshape((6,))
@@ -89,7 +88,7 @@ if __name__ == "__main__":
 
 	ik = NaoInverseKinematics()
 
-	trajectory = lambda x: x
+	trajectory = lambda x: np.zeros(3)
 	trajectory_derivative = lambda t: np.zeros(6)
 
 	q = ik.compute(trajectory, trajectory_derivative, 1)
