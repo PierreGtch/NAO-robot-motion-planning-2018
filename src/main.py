@@ -19,8 +19,8 @@ import numpy as np
 import time
 from naoqi import ALProxy
 import motion
-import calibration
-from kinematics.naoiq_kinematics import NaoqiInterpolation
+from calibration import get_converter
+from naoqi_kinematics import NaoqiInterpolation
 
 
 # =========================================================
@@ -30,8 +30,8 @@ from kinematics.naoiq_kinematics import NaoqiInterpolation
 # some line attributes
 color = "black"
 
-robotIP = '127.0.0.1'
-PORT = 54010
+robotIP = "169.254.226.148"
+PORT = 9559
 
 
 # =========================================================
@@ -50,12 +50,13 @@ myCanvas = None
 ovals = False
 interpolation_fun = None
 converter = None
+scale = None
 
 # =========================================== SETUP
 
 
 def main(api_fun, inverse_fun):
-    global myCanvas
+    global myCanvas, scale
 
     root = Tk()
     root.wm_title("Nao drawer")
@@ -213,16 +214,22 @@ def send_data(t, xy):
     global converter, interpolation_fun
     print("time points :\n", t)
     print("corresponding coordinates :\n", xy)
-    path_raw = converter.convert_list(xy, add_rot=True)
+    xy = normalize(xy)
+    path = converter.convert_list(xy, add_rot=True)
 
     # we can eventually resample points here:
-    path = path_raw
-    time = t
+    time_init = t[0]
+    time = (50 * (t + 0.1 - time_init)).tolist()
+
 
     if interpolation_fun != None:
         interpolation_fun.send(time, path)
     else:
         print("/!\\ Fonction not implemented")
+
+def normalize(xy):
+    global scale
+    return np.divide(xy, scale)
 
 # ============================ RUN APP
 
