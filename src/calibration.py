@@ -37,7 +37,7 @@ def get_xyz(motionProxy, effector="LArm", frame=motion.FRAME_TORSO, useSensorVal
     full_position = motionProxy.getPosition(effector,frame,useSensorValues)
     return full_position[:3]
 
-def get_calibration_data(proxy, effector="LArm"):
+def get_calibration_data(proxy, effector="LArm", closeHand=False):
     """
     Ask the user for free points in order to define the drawing space.
 
@@ -45,9 +45,15 @@ def get_calibration_data(proxy, effector="LArm"):
     :param effector: The arm we will use.
     :return: A list of three 3D-Points
     """
+    handName = 'LHand'
+
     messagebox.showinfo("Calibration", textwrap.fill("""Veuillez prendre \
     la main gauche du robot NAO"""))
     proxy.setStiffnesses(effector, 0.0)
+    # proxy.openHand(handName)
+    # messagebox.showinfo("Calibration", textwrap.fill("""Veuillez placer \
+    # le feutre dans la main gauche du robot NAO"""))
+    # proxy.closeHand(handName)
     messagebox.showinfo("Calibration (1/4)", textwrap.fill("""Maintenez le bras\
     gauche du robot en place et appuyer sur entrée."""))
     p1 = get_xyz(proxy,effector)
