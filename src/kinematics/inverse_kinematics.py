@@ -9,7 +9,10 @@ class NaoInverseKinematics():
 	
 	def __init__(self):
 		self.urdf_filename = "NAOH25V33.urdf"
-	
+				
+		self.model = pin.buildModelFromUrdf(self.urdf_filename, pin.JointModelFreeFlyer())
+		self.joint_names = list(self.model.names)
+
 	def compute(self, trajectory, trajectory_derivative, duration, dt = 0.01, lam = 100.0):
 		"""
 		trajectory: A lambda, the trajectory to follow
@@ -18,17 +21,15 @@ class NaoInverseKinematics():
 		lam:        Hyper parameter for the optimisation problem to solve at each iteration
 		"""
 
-		model = pin.buildModelFromUrdf(self.urdf_filename, pin.JointModelFreeFlyer())
-		print(model)
-		data = model.createData()
-
 		# Use model.getJointId to get the id of joints that we want to control
 
 		# TODO get the correct joint
-		id_LH = model.getJointId("LHand")
+		id_LH = self.model.getJointId("LHand")
+
+		data = self.model.createData()
 
 		# Initial configuration of the robot to adjust in function of the position of the system
-		q = model.neutralConfiguration
+		q = self.model.neutralConfiguration
 		print(q.shape)		
 
 		nb_step = int(duration / dt)	
@@ -39,13 +40,13 @@ class NaoInverseKinematics():
 
 		for step in range(nb_step):
 			# Update the position of the bodies of the robot in function of the current configuration
-			pin.forwardKinematics(model, data, q)
+			pin.forwardKinematics(self.model, data, q)
 
 			# Update all jacobians of the robot
-			pin.computeJointJacobians(model, data, q)
+			pin.computeJointJacobians(self.model, data, q)
 
 			# Get the Jacobians of the joint to control in the world repair
-			J_LH = np.array(pin.getJointJacobian(model, data, id_LH, pin.ReferenceFrame.WORLD))
+			J_LH = np.array(pin.getJointJacobian(self.model, data, id_LH, pin.ReferenceFrame.WORLD))
 			#print(J_LH.shape)
 			# Solve the inverse kinematics
 			# 1. calculer l'erreur courante en fonction de la position des organes terminaux
@@ -69,14 +70,14 @@ class NaoInverseKinematics():
 			# update current configurqtion
 			#print(np.matrix(v_sol * dt).shape)
 			#print(q.shape)
-			q = pin.integrate(model, q, np.matrix(v_sol * dt).T)
+			q = pin.integrate(self.model, q, np.matrix(v_sol * dt).T)
 			#print(q.shape)
 			q_s_result.append(q)
 
 			t += dt
 		
 		# TODO Check returns type and convert to appropriate format for naoqi functions
-		return np.array(q_s_result)
+		return np.array(q_s_result).reshape(nb_step, 65)
 
 if __name__ == "__main__":
 	print('TEST')
@@ -89,4 +90,4 @@ if __name__ == "__main__":
 	q = ik.compute(trajectory, trajectory_derivative, 1)
 
 	print(q.shape)
-	print(q[-1, :, :])
+	print(q[-1, :])
