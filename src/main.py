@@ -17,7 +17,10 @@ except ImportError:
     from tkinter import *
 import numpy as np
 import time
+from naoqi import ALProxy
+import motion
 import calibration
+from kinematics.naoiq_kinematics import NaoqiInterpolation
 
 
 # =========================================================
@@ -26,7 +29,10 @@ import calibration
 
 # some line attributes
 color = "black"
-ovals = False
+
+robotIP = '127.0.0.1'
+PORT = 54010
+
 
 # =========================================================
 # =========================================================
@@ -41,19 +47,21 @@ last_txy = []
 
 
 myCanvas = None
-
+ovals = False
+interpolation_fun = None
+converter = None
 
 # =========================================== SETUP
 
 
-def main():
+def main(api_fun, inverse_fun):
     global myCanvas
 
     root = Tk()
-    root.wm_title("Paint!")
+    root.wm_title("Nao drawer")
 
     # get screen dimensions
-    screen = (0.92*root.winfo_screenwidth(), 0.92*root.winfo_screenheight())
+    screen = (0.9*root.winfo_screenwidth(), 0.9*root.winfo_screenheight())
     a4 = (29.7, 21.)
     # To have a window with A4 format and that fits in the screen :
     scale = (int(screen[0]), int(screen[0]*a4[1]/a4[0]))
@@ -74,6 +82,13 @@ def main():
         (dotsButton, True),
         ], set_ovals)
 
+    apifunButton = Button(root, text ="API Interpolation")
+    inversefunButton = Button(root, text ="Inverse Kinematics Interpolation")
+    make_exclusive_same_fun([
+        (apifunButton, api_fun),
+        (inversefunButton, inverse_fun),
+        ], set_interpolation_fun)
+
     # CLEAR button - create
     clearButton = Button(root, text ="Clear", command = clearPressed)
     # QUIT button - create
@@ -83,6 +98,8 @@ def main():
     # this places the widgets. in order according to code.
     myCanvas.pack()
     quitButton.pack(side = "left")
+    apifunButton.pack(side = "left")
+    inversefunButton.pack(side = "left")
     lineButton.pack(side = "right")
     dotsButton.pack(side = "right")
     clearButton.pack(side = "right")
@@ -95,6 +112,7 @@ def main():
     #initialize window
     clearButton.invoke()
     lineButton.invoke()
+    apifunButton.invoke()
 
     root.mainloop()
 
@@ -141,8 +159,11 @@ def release(event):
 
 def set_ovals(value):
     global ovals
-    print(value)
     ovals = value
+
+def set_interpolation_fun(value):
+    global interpolation_fun
+    interpolation_fun = value
 
 # CLEAR function
 def clearPressed():
@@ -189,11 +210,27 @@ def make_exclusive_same_fun(buttons, function, initial=None):
 # ============================ NAO-SPECIFIC
 
 def send_data(t, xy):
-    '''à compléter !!!'''
+    global converter, interpolation_fun
     print("time points :\n", t)
     print("corresponding coordinates :\n", xy)
+    path_raw = converter.convert_list(xy, add_rot=True)
+
+    # we can eventually resample points here:
+    path = path_raw
+    time = t
+
+    if interpolation_fun != None:
+        interpolation_fun.send(time, path)
+    else:
+        print("/!\\ Fonction not implemented")
 
 # ============================ RUN APP
 
 if __name__ == "__main__":
-    main()
+    global converter
+    proxy = ALProxy("ALMotion",robotIP,PORT)
+    converter = get_converter(proxy)
+
+    api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_ROBOT, 7)
+    inverse_fun = None
+    main(api_fun, inverse_fun)
