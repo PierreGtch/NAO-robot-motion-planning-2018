@@ -6,8 +6,8 @@
 
 import sys
 import time
-from naoqi import ALProxy
-import motion
+from naoqi.naoqi import ALProxy
+import naoqi.motion as motion
 import textwrap
 from UpDim import UpDim
 import numpy as np

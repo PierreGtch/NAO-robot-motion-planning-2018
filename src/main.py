@@ -17,10 +17,11 @@ except ImportError:
     from tkinter import *
 import numpy as np
 import time
-from naoqi import ALProxy
-import motion
+from naoqi.naoqi import ALProxy
+import naoqi.motion as motion
 from calibration import get_converter
-from naoqi_kinematics import NaoqiInterpolation
+from control.control_interpolation import NaoqiInterpolation
+from control.control_angles import NaoControlAngles
 
 
 # =========================================================
