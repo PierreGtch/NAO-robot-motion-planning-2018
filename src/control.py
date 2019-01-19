@@ -40,5 +40,5 @@ class NaoqiInterpolation:
             path,
             self.axisMask,
             time,
-            isAbsolute=True,
+            isAbsolute=True
         )
