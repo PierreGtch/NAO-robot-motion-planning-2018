@@ -239,5 +239,5 @@ if __name__ == "__main__":
     converter = get_converter(proxy)
 
     api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_ROBOT, 7)
-    inverse_fun = None
+    inverse_fun = NaoControlAngles(proxy)
     main(api_fun, inverse_fun)
