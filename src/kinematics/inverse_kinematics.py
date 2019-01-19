@@ -1,3 +1,4 @@
+# coding: utf8
 
 import pinocchio as pin
 from pinocchio.robot_wrapper import RobotWrapper

@@ -20,8 +20,7 @@ import time
 from naoqi.naoqi import ALProxy
 import naoqi.motion as motion
 from calibration import get_converter
-from control.control_interpolation import NaoqiInterpolation
-from control.control_angles import NaoControlAngles
+from control import NaoqiInterpolation, NaoControlAngles
 
 
 # =========================================================
@@ -240,5 +239,5 @@ if __name__ == "__main__":
     converter = get_converter(proxy)
 
     api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_ROBOT, 7)
-    inverse_fun = None
+    inverse_fun = NaoControlAngles(proxy)
     main(api_fun, inverse_fun)
