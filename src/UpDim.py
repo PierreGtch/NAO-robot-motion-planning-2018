@@ -40,12 +40,13 @@ class UpDim():
 		Convert a list of 2D points to 3D points.
 		:param points: A list of 2D points
 		:param add_rot: If True, add rotations egals to 0
-		:return: A array of 3D points
+		:return: A list of 3D points
 		"""
 		res = []
 		for (x,y) in points:
 			res.append(self.convert(x,y))
 		if not add_rot:
-			return np.array(res)
+			res = np.array(res)
 		else:
-			return np.hstack((np.array(res),np.zeros((len(res),3))))
+			res = np.hstack((np.array(res),np.zeros((len(res),3))))
+		return res.tolist()

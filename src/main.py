@@ -214,11 +214,13 @@ def send_data(t, xy):
     global converter, interpolation_fun
     print("time points :\n", t)
     print("corresponding coordinates :\n", xy)
-    path_raw = converter.convert_list(xy, add_rot=True)
+    xy = normalize(xy)
+    path = converter.convert_list(xy, add_rot=True)
 
     # we can eventually resample points here:
-    path = normalize(path_raw)
-    time = t
+    time_init = t[0]
+    time = (50 * (t + 0.1 - time_init)).tolist()
+
 
     if interpolation_fun != None:
         interpolation_fun.send(time, path)
@@ -227,7 +229,7 @@ def send_data(t, xy):
 
 def normalize(xy):
     global scale
-    return Np.devide(xy, scale)
+    return np.divide(xy, scale)
 
 # ============================ RUN APP
 
