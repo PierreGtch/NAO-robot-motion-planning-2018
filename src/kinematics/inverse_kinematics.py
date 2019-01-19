@@ -1,18 +1,13 @@
 
 import pinocchio as pin
-#from pinocchio.romeo_wrapper import RobotWrapper
 from pinocchio.robot_wrapper import RobotWrapper
 
 import numpy as np
-
-# import os
-# current_path = os.getcwd()
 
 
 class NaoInverseKinematics():
 	
 	def __init__(self):
-		# TODO Get the correct urdf file (Depending on our Nao version) 
 		self.urdf_filename = "NAOH25V33.urdf"
 	
 	def compute(self, trajectory, trajectory_derivative, duration, dt = 0.01, lam = 100.0):
@@ -94,3 +89,4 @@ if __name__ == "__main__":
 	q = ik.compute(trajectory, trajectory_derivative, 1)
 
 	print(q.shape)
+	print(q[-1, :, :])
