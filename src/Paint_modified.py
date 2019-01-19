@@ -50,7 +50,7 @@ def main():
     # create a canvas
     myCanvas = Canvas(root)
     # fit the canvas to the window. width and height are built into Tkinter
-    myCanvas.config(width = screen_width/2, height = screen_height/2)
+    myCanvas.config(bg="white",width = screen_width/2, height = screen_height/2)
 
     # LINE button - create
     lineButton = Button(root, text ="Line", command = linePressed)
