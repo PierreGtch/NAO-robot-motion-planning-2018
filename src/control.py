@@ -12,7 +12,8 @@ class NaoControlAngles:
         self.inverter = NaoInverseKinematics(urdf_file)
         self.poly_deg = 3
 
-    def send(self, time, path):
+    def send(self, time, path, isAbsolute=True):
+        assert isAbsolute
         trajectory = interpolate_nd(time, path, d=self.poly_deg)
 
         trajectory_derivative = interpolate_nd(time, path, d=self.poly_deg,deriv=1)
@@ -60,7 +61,7 @@ class NaoqiInterpolation:
         self.space = space
         self.axisMask = axisMask
 
-    def send(self, time, path):
+    def send(self, time, path, isAbsolute=True):
         path = np.array(path)
         path = np.hstack((path,np.zeros((len(path),3)))).tolist()
         # self.motionProxy.reset()
@@ -71,6 +72,29 @@ class NaoqiInterpolation:
             path,
             self.axisMask,
             time,
-            True
+            isAbsolute
         )
         print "Fin du mvt"
+
+class PenControler:
+
+    def __init__(self, converter, distance=0.1):
+        '''converter must be an updim object'''
+        self.normal = converter.normal()
+        self.distance = distance
+
+    def up(self, controler):
+        '''controler must be an object with a send method
+        this raises the pen'''
+        t = [1.]
+        path = [self.normal*self.distance]
+        controler.send(t, path, isAbsolute=False)
+        time.sleep(sum(t))
+
+    def down(self, controler, pos):
+        '''controler must be an object with a send method
+        this places the pen over position then lay it down'''
+        t = [1., 1.]
+        path = [pos + self.normal*self.distance, pos]
+        controler.send(t, path, isAbsolute=False)
+        time.sleep(sum(t))

@@ -20,7 +20,7 @@ import time
 from naoqi.naoqi import ALProxy
 import naoqi.motion as motion
 from calibration import get_converter
-from control import NaoqiInterpolation, NaoControlAngles
+from control import NaoqiInterpolation, NaoControlAngles, PenControler
 
 
 # =========================================================
@@ -51,7 +51,7 @@ ovals = False
 interpolation_fun = None
 converter = None
 scale = None
-
+pen_controler = None
 # =========================================== SETUP
 
 
@@ -211,11 +211,14 @@ def make_exclusive_same_fun(buttons, function, initial=None):
 # ============================ NAO-SPECIFIC
 
 def send_data(t, xy):
-    global converter, interpolation_fun
+    global converter, interpolation_fun, pen_controler
     print("time points :\n", t)
     print("corresponding coordinates :\n", xy)
     xy = normalize(xy)
     path = converter.convert_list(xy, add_rot=False)
+
+    #initialize the pen position
+    pen_controler.down(interpolation_fun, path[0])
 
     # we can eventually resample points here:
     time_init = t[0]
@@ -227,6 +230,10 @@ def send_data(t, xy):
     else:
         print("/!\\ Fonction not implemented")
 
+    #raise the pen
+    pen_controler.up(interpolation_fun)
+
+
 def normalize(xy):
     global scale
     return np.divide(xy, scale)
@@ -234,10 +241,11 @@ def normalize(xy):
 # ============================ RUN APP
 
 if __name__ == "__main__":
-    global converter
+    global converter, pen_controler
     proxy = ALProxy("ALMotion",robotIP,PORT)
     converter = get_converter(proxy)
 
+    pen_controler = PenControler(converter, distance=0.1)
     api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_ROBOT, 7)
     inverse_fun = NaoControlAngles(proxy,"kinematics/NAOH25V33.urdf")
     main(api_fun, inverse_fun)
