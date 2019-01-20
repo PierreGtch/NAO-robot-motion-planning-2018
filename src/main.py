@@ -222,7 +222,7 @@ def send_data(t, xy):
 
     # we can eventually resample points here:
     time_init = t[0]
-    time = (50 * (t + 0.1 - time_init)).tolist()
+    time = (2 + 2 * (t - time_init)).tolist()
 
 
     if interpolation_fun != None:
@@ -243,9 +243,12 @@ def normalize(xy):
 if __name__ == "__main__":
     global converter, pen_controler
     proxy = ALProxy("ALMotion",robotIP,PORT)
-    converter = get_converter(proxy)
+    #converter = get_converter(proxy)
+    import pickle
+    with open("converter_mini2.pickle","rb") as f:
+        converter = pickle.load(f)
 
     pen_controler = PenControler(converter, distance=0.1)
-    api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_ROBOT, 7)
+    api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_TORSO, 7)
     inverse_fun = NaoControlAngles(proxy,"kinematics/NAOH25V33.urdf")
     main(api_fun, inverse_fun)
