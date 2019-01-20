@@ -72,8 +72,9 @@ class NaoqiInterpolation:
         path = np.hstack((path,np.zeros((len(path),3)))).tolist()
         # self.motionProxy.reset()
         print "Début du mvt"
-        mode = True
+        mode = False
         if mode:
+            self.motionProxy.setStiffnesses("Body", 1)
             self.motionProxy.positionInterpolation(
                 self.effector,
                 self.space,
@@ -85,6 +86,7 @@ class NaoqiInterpolation:
         else:
             t = 0
             for c, ti in zip(path, time):
+                self.motionProxy.setStiffnesses("Body", 1)
                 self.motionProxy.setPosition(
                     self.effector,
                     self.space,
