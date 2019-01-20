@@ -215,15 +215,20 @@ def send_data(t, xy):
     print("time points :\n", t)
     print("corresponding coordinates :\n", xy)
     xy = normalize(xy)
+
     path = converter.convert_list(xy, add_rot=False)
+    start_up = converter.convert(*xy[0], touch=1)
+    end_up = converter.convert(*xy[-1], touch=1)
+    path = np.vstack((start_up,start_up,path,end_up,end_up))
 
     #initialize the pen position
-    pen_controler.down(interpolation_fun, path[0])
+   # pen_controler.down(interpolation_fun, path[0])
 
     # we can eventually resample points here:
     time_init = t[0]
-    time = (2 + 2 * (t - time_init)).tolist()
-
+    t = t - time_init
+    t = np.hstack((0,1,2+t,t[-1]+2.5,t[-1]+3))
+    time = (2 + 2 * t).tolist()
 
     if interpolation_fun != None:
         interpolation_fun.send(time, path)
@@ -231,7 +236,7 @@ def send_data(t, xy):
         print("/!\\ Fonction not implemented")
 
     #raise the pen
-    pen_controler.up(interpolation_fun)
+  #  pen_controler.up(interpolation_fun)
 
 
 def normalize(xy):
@@ -243,11 +248,11 @@ def normalize(xy):
 if __name__ == "__main__":
     global converter, pen_controler
     proxy = ALProxy("ALMotion",robotIP,PORT)
-    #converter = get_converter(proxy)
     import pickle
     with open("converter_mini2.pickle","rb") as f:
         converter = pickle.load(f)
 
+    converter = get_converter(proxy)
     pen_controler = PenControler(converter, distance=0.1)
     api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_TORSO, 7)
     inverse_fun = NaoControlAngles(proxy,"kinematics/NAOH25V33.urdf")

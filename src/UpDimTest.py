@@ -33,6 +33,15 @@ class Test(unittest.TestCase):
 		out = c.convert(0.1,0.5)
 		self.assertEqual(np.all(out == np.array([0.1,0.5,-0.5])),True)
 
+	def test_output_w_normal(self):
+		origin = np.array([0,0,0])
+		e1 = np.array([1,0,0])
+		e2 = np.array([0,1,0])
+		n = np.array([0, 0, 1])
+		c = UpDim(origin,e1,e2,n)
+		out = c.convert(0.5,0.5,touch=1)
+		self.assertEqual(np.all(out == np.array([0.5,0.5,1])),True)
+
 
 	def test_list(self):
 		origin = np.array([0, 0, 0])

@@ -62,6 +62,12 @@ class NaoqiInterpolation:
         self.axisMask = axisMask
 
     def send(self, time, path, isAbsolute=True):
+        # import matplotlib.pyplot as plt
+        # plt.plot(path[:, 0],label="x")
+        # plt.plot(path[:, 1],label="y")
+        # plt.plot(path[:, 2],label="z")
+        # plt.legend()
+        # plt.show()
         path = np.array(path)
         path = np.hstack((path,np.zeros((len(path),3)))).tolist()
         # self.motionProxy.reset()
