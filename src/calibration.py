@@ -80,6 +80,7 @@ def get_converter(proxy):
     p2 = np.array(p2)
     p3 = np.array(p3)
     n = np.array(n)
+    print(p1, p2, p3, n)
     return UpDim(p1,p2-p1,p3-p1,n-p1)
 
 
