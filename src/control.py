@@ -167,7 +167,7 @@ class Dab:
             'HeadPitch','HeadYaw']
         dab_angles = [-0.09948381781578064, -0.12042801827192307, -0.5305798649787903, -1.2706001996994019, 1.414389729499817, -1.3264497518539429, 1.3913002014160156, 0.03490660712122917, 0.514872133731842, 0.5742133259773254]
         original_angles = self.proxy.getAngles(dab_joints, False)
-        self.proxy.setAngles(dab_joints, dab_angles, .6)
+        self.proxy.setAngles(dab_joints, dab_angles, .2)
         py_time.sleep(1.)
         self.proxy.setAngles(dab_joints, original_angles, .1)
         py_time.sleep(1.)
