@@ -271,8 +271,9 @@ if __name__ == "__main__":
     global converter, pen_controler, dab
     proxy = ALProxy("ALMotion",robotIP,PORT)
     postureProxy = ALProxy("ALRobotPosture", robotIP, PORT)
+    converter = get_converter(proxy)
 
-    dab = Dab(proxy, postureProxy)
+    dab = Dab(proxy)
     import pickle
     with open("converter_mini2.pickle","rb") as f:
         converter = pickle.load(f)
