@@ -98,3 +98,16 @@ class PenControler:
         path = [pos + self.normal*self.distance, pos]
         controler.send(t, path, isAbsolute=False)
         time.sleep(sum(t))
+class Dab:
+    def __init__(self, proxy, postureProxy):
+        self.proxy = proxy
+        self.postureProxy = postureProxy
+
+    def dab(self):
+        dab_angles = [-4.196169902570546e-05, 0.4118979871273041, -0.09948381781578064, -0.12042801827192307, -0.5305798649787903, -1.2706001996994019, 4.196169902570546e-05, -0.0014920199755579233, -0.43714800477027893, 0.6979280114173889, -0.3497940003871918, 4.196169902570546e-05, 4.196169902570546e-05, 4.196169902570546e-05, -0.43723198771476746, 0.6995459794998169, -0.34970998764038086, 4.196169902570546e-05, 1.4143900871276855, -1.3264497518539429, 1.391299843788147, 0.03490660712122917]
+        self.postureProxy.goToPosture("StandInit",.1)
+        pytime.sleep(1.)
+        self.proxy.setAngles('Body',dab_angles, 1.)
+        py_time.sleep(1.)
+        self.postureProxy.goToPosture("StandInit",.1)
+        pytime.sleep(1.)
