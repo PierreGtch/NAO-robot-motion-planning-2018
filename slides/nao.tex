@@ -6,7 +6,9 @@
 \usetheme{metropolis}
 \setbeamercolor{background canvas}{bg=white}
 \usepackage{tikz}
-\usetikzlibrary{arrows,positioning,shapes.geometric}
+\usetikzlibrary{calc,arrows,positioning,shapes.geometric}
+\usetikzlibrary{backgrounds}
+
 
 \title{Writing with NAO}
 \author{Adrien Bardes, Marius Dufraisse, Pierre Guetschel, Mengda Li}
@@ -48,7 +50,7 @@
 
 
 \path[draw, ->,rounded corners=5pt]
-	(start) -- (dess);
+	(start) -| (dess);
 
 \path[draw, ->]
 	(dess) -- (transfert);
@@ -58,6 +60,15 @@
 	(interpolation) -- (kin);
 \path[draw, ->]
 	(kin) -- (com);
+
+\coordinate (below scheme) at ($(com)!0.5!(interpolation)-(-2.22,1)$);
+\node[below =5mm of kin] (A){} ;
+\path[draw, ->] (com|-below scheme)-|(dess);
+\path[draw] (com.south)--(below scheme);
+
+%\node[below of=transfert](B){};
+%\path[draw, ->, rounded corners = 5pt]
+	%(com) -- (A) -- (B) -- (dessin);
 %	(ADL) -- (AUL)
 %	(AUL) edge (A1)
 %	(A1) edge (A2)
@@ -76,33 +87,33 @@
 \end{figure}
 \end{frame}
 
-\section{Analysis of handwriting and extraction of trajectory function}
-\begin{frame}{trajectory function}
-
-We formalize what we want to write by a trajectory function.
-\bigskip
-
-\includegraphics[scale = 0.3]{planning.jpg}\cite{2}
-\end{frame}
+%\section{Analysis of handwriting and extraction of trajectory function}
+%\begin{frame}{trajectory function}
+%
+%We formalize what we want to write by a trajectory function.
+%\bigskip
+%
+%\includegraphics[scale = 0.3]{planning.jpg}\cite{2}
+%\end{frame}
 \section{Inverse kinematics}
 
 
-\begin{frame}{approching the goal trajectory}
+\begin{frame}{Approching the goal trajectory}
 
-We approach this goal trajectory by solving a sequence of optimization problem: minimizing the errors betwenn the goal trajectory and the real trajectory.
+We approach this goal trajectory by solving a sequence of optimization problems: minimizing the errors between the goal trajectory and the real trajectory.
 \medskip
 
 \includegraphics[scale = 0.4]{tracking.jpg}\cite{2}
 \end{frame}
 
-\subsection{modeling the coordinate system}
+\subsection{Modeling the coordinate system}
 
 \begin{frame}[allowframebreaks]{modeling the coordinate system}
 
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \justify
-   The robot is a n-joint system. 
+   The robot's arm is a 6-joint system. 
    
    We find the position of end-effector (the pen) by composing a sequence of \emph{change of coordinates} matrix.
 \end{column}
@@ -123,24 +134,24 @@ We approach this goal trajectory by solving a sequence of optimization problem: 
 
 \end{frame}
 
-\subsection{finding the next ``angles step'' by computing jacobien}
-\begin{frame}{finding the next ``angles step'' by computing jacobien i}
+\subsection{Finding the next ``angles step'' by computing the Jacobian}
+\begin{frame}{Finding the next ``angles step'' by computing Jacobian i}
 
 
 \includegraphics[scale = 1.2]{slide_30.jpg}\cite{5}
 \end{frame}
 
-\begin{frame}{finding the next ``angles step'' by computing jacobien ii}
+\begin{frame}{Finding the next ``angles step'' by computing the jacobian ii}
 
 \includegraphics[scale = 1.2]{slide_31.jpg}\cite{5}
 \end{frame}
 
-\begin{frame}{finding the next ``angles step'' by computing jacobien iii}
+\begin{frame}{Finding the next ``angles step'' by computing the jacobian iii}
 
 \includegraphics[scale = 0.7]{eth1.PNG}\cite{6}
 \end{frame}
 
-\begin{frame}{finding the next ``angles step'' by computing jacobien iv}
+\begin{frame}{Finding the next ``angles step'' by computing the jacobian iv}
 
 \includegraphics[scale = 0.3]{eth3.PNG}\cite{6}
 \end{frame}
