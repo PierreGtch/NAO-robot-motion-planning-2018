@@ -226,7 +226,14 @@ def send_data(t, xy):
     path = converter.convert_list(xy, add_rot=False)
     start_up = converter.convert(*xy[0], touch=1)
     end_up = converter.convert(*xy[-1], touch=1)
-    path = np.vstack((start_up,start_up,path,end_up,end_up))
+    start_up_mid = converter.convert(*xy[0], touch=0.5)
+    end_up_mid = converter.convert(*xy[-1], touch=0.5)
+    start_up_14 = converter.convert(*xy[0], touch=0.75)
+    end_up_14 = converter.convert(*xy[-1], touch=0.25)
+    start_up_34 = converter.convert(*xy[0], touch=0.25)
+    end_up_34 = converter.convert(*xy[-1], touch=0.75)
+
+    path = np.vstack((start_up,start_up,start_up_14,start_up_mid,start_up_34,path,end_up_14,end_up_mid,end_up_34,end_up,end_up))
 
     #import pickle
     #with open("path.pickle", "wb") as f:
@@ -239,7 +246,7 @@ def send_data(t, xy):
     # we can eventually resample points here:
     time_init = t[0]
     t = t - time_init
-    t = np.hstack((0,1,2+t,t[-1]+2.5,t[-1]+3))
+    t = np.hstack((0,1,1.25,1.5,1.75,2+t,t[-1]+2.25,t[-1]+2.5,t[-1]+2.75,t[-1]+3,t[-1]+4))
     time = (2 + 2 * t).tolist()
 
     #with open("time.pickle", "wb") as f:
@@ -264,7 +271,7 @@ if __name__ == "__main__":
     global converter, pen_controler, dab
     proxy = ALProxy("ALMotion",robotIP,PORT)
     postureProxy = ALProxy("ALRobotPosture", robotIP, PORT)
-    converter = get_converter(proxy)
+    #converter = get_converter(proxy)
 
     dab = Dab(proxy, postureProxy)
     import pickle
