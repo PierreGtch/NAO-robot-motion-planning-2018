@@ -30,7 +30,8 @@ from control import NaoqiInterpolation, NaoControlAngles, PenControler
 # some line attributes
 color = "black"
 
-robotIP = "169.254.226.148"
+#robotIP = "169.254.226.148"
+robotIP = "127.0.0.1"
 PORT = 9559
 
 
@@ -62,7 +63,7 @@ def main(api_fun, inverse_fun):
     root.wm_title("Nao drawer")
 
     # get screen dimensions
-    screen = (0.9*root.winfo_screenwidth(), 0.9*root.winfo_screenheight())
+    screen = (0.75*root.winfo_screenwidth(), 0.75*root.winfo_screenheight())
     a4 = (29.7, 21.)
     # To have a window with A4 format and that fits in the screen :
     scale = (int(screen[0]), int(screen[0]*a4[1]/a4[0]))
@@ -212,14 +213,19 @@ def make_exclusive_same_fun(buttons, function, initial=None):
 
 def send_data(t, xy):
     global converter, interpolation_fun, pen_controler
-    print("time points :\n", t)
-    print("corresponding coordinates :\n", xy)
+    #print("time points :\n", t)
+    #print("corresponding coordinates :\n", xy)
     xy = normalize(xy)
 
     path = converter.convert_list(xy, add_rot=False)
     start_up = converter.convert(*xy[0], touch=1)
     end_up = converter.convert(*xy[-1], touch=1)
     path = np.vstack((start_up,start_up,path,end_up,end_up))
+
+    #import pickle
+    #with open("path.pickle", "wb") as f:
+    #    pickle.dump(path, f)
+
 
     #initialize the pen position
    # pen_controler.down(interpolation_fun, path[0])
@@ -229,6 +235,9 @@ def send_data(t, xy):
     t = t - time_init
     t = np.hstack((0,1,2+t,t[-1]+2.5,t[-1]+3))
     time = (2 + 2 * t).tolist()
+
+    #with open("time.pickle", "wb") as f:
+    #    pickle.dump(time, f)
 
     if interpolation_fun != None:
         interpolation_fun.send(time, path)
@@ -252,7 +261,7 @@ if __name__ == "__main__":
     with open("converter_mini2.pickle","rb") as f:
         converter = pickle.load(f)
 
-    converter = get_converter(proxy)
+    #converter = get_converter(proxy)
     pen_controler = PenControler(converter, distance=0.1)
     api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_TORSO, 7)
     inverse_fun = NaoControlAngles(proxy,"kinematics/NAOH25V33.urdf")

@@ -20,7 +20,8 @@ class NaoControlAngles:
         duration = time[-1] - time[0]
 
         print "Cinématique inverse..."
-        configurations = self.inverter.compute(trajectory, trajectory_derivative, duration)
+        current = self.motionProxy.getAngles(self.inverter.joint_names,True)
+        configurations = self.inverter.compute(trajectory, trajectory_derivative, duration, current)
         print "...Done"
         print "Configurations:"
         print np.max(configurations)
