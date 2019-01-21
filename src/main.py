@@ -20,7 +20,7 @@ import time
 from naoqi.naoqi import ALProxy
 import naoqi.motion as motion
 from calibration import get_converter
-from control import NaoqiInterpolation, NaoControlAngles, PenControler
+from control import NaoqiInterpolation, NaoControlAngles, PenControler, Dab
 
 
 # =========================================================
@@ -33,6 +33,8 @@ color = "black"
 #robotIP = "169.254.226.148"
 robotIP = "127.0.0.1"
 PORT = 9559
+
+dab_when_quit_pressed = True
 
 
 # =========================================================
@@ -53,6 +55,7 @@ interpolation_fun = None
 converter = None
 scale = None
 pen_controler = None
+dab = None
 # =========================================== SETUP
 
 
@@ -175,7 +178,10 @@ def clearPressed():
 
 # QUIT function
 def quitPressed():
+    global dab_when_quit_pressed, dab
     print("quit clicked")
+    if dab_when_quit_pressed:
+        dab.dab()
     exit(0)
 
 # ============================ UTILS
@@ -255,8 +261,12 @@ def normalize(xy):
 # ============================ RUN APP
 
 if __name__ == "__main__":
-    global converter, pen_controler
+    global converter, pen_controler, dab
     proxy = ALProxy("ALMotion",robotIP,PORT)
+    postureProxy = ALProxy("ALRobotPosture", robotIP, PORT)
+    converter = get_converter(proxy)
+
+    dab = Dab(proxy, postureProxy)
     import pickle
     with open("converter_mini2.pickle","rb") as f:
         converter = pickle.load(f)
