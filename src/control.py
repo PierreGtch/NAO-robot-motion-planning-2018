@@ -62,25 +62,45 @@ class NaoqiInterpolation:
         self.axisMask = axisMask
 
     def send(self, time, path, isAbsolute=True):
+        # import matplotlib.pyplot as plt
+        # plt.plot(path[:, 0],label="x")
+        # plt.plot(path[:, 1],label="y")
+        # plt.plot(path[:, 2],label="z")
+        # plt.legend()
+        # plt.show()
         path = np.array(path)
         path = np.hstack((path,np.zeros((len(path),3)))).tolist()
         # self.motionProxy.reset()
         print "Début du mvt"
-        self.motionProxy.positionInterpolation(
-            self.effector,
-            self.space,
-            path,
-            self.axisMask,
-            time,
-            isAbsolute
-        )
+        mode = False
+        if mode:
+            self.motionProxy.setStiffnesses("Body", 1)
+            self.motionProxy.positionInterpolation(
+                self.effector,
+                self.space,
+                path,
+                self.axisMask,
+                time,
+                isAbsolute
+            )
+        else:
+            t = 0
+            for c, ti in zip(path, time):
+                self.motionProxy.setStiffnesses("Body", 1)
+                self.motionProxy.setPosition(
+                    self.effector,
+                    self.space,
+                    c, 0.2, 7
+                )
+                py_time.sleep(ti - t)
+                t = ti
         print "Fin du mvt"
 
 class PenControler:
 
     def __init__(self, converter, distance=0.1):
         '''converter must be an updim object'''
-        self.normal = converter.normal()
+        self.normal = converter.normal
         self.distance = distance
 
     def up(self, controler):
@@ -94,8 +114,9 @@ class PenControler:
     def down(self, controler, pos):
         '''controler must be an object with a send method
         this places the pen over position then lay it down'''
-        t = [1., 1.]
-        path = [pos + self.normal*self.distance, pos]
+        t = [2., 3.]
+        pos = np.array(pos)
+        path = np.array([pos + self.normal*self.distance, pos]).tolist()
         controler.send(t, path, isAbsolute=False)
         time.sleep(sum(t))
 class Dab:

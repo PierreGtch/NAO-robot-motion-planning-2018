@@ -24,7 +24,6 @@ class UpDim():
 		self.origin	= origin
 		self.e1 = e1
 		self.e2 = e2
-
 		cross_unsigned = np.cross(self.e1,self.e2)
 		cross_normalized = cross_unsigned/np.linalg.norm(cross_unsigned)
 		norm_normalized = normal/np.linalg.norm(normal)
@@ -35,8 +34,28 @@ class UpDim():
 		else:
 			self.normal = cross_normalized
 
+		self.normal = self.normal * np.linalg.norm(self.e1)
 
-	def convert(self,x,y,touch=True):
+		# from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
+		#
+		# import matplotlib.pyplot as plt
+		# x = np.array([origin[0], origin[0], origin[0]])
+		# y = np.array([origin[1], origin[1], origin[1]])
+		# z = np.array([origin[2], origin[2], origin[2]])
+		# u = np.array([self.e1[0], self.e2[0], self.normal[0]])
+		# v = np.array([self.e1[1], self.e2[1], self.normal[1]])
+		# w = np.array([self.e1[2], self.e2[2], self.normal[2]])
+		#
+		# fig = plt.figure()
+		# ax = fig.gca(projection='3d')
+		#
+		# ax.quiver(x,y,z,u,v,w,arrow_length_ratio=0.01)
+		# ax.set_xlabel("x")
+		# ax.set_ylabel("y")
+		# ax.set_zlabel("z")
+		# plt.show()
+
+	def convert(self,x,y,touch=0):
 		"""
 			Convertit un point du plan 2D vers le plan 3D.
 		:param x: La coordonnée en x.
@@ -51,7 +70,7 @@ class UpDim():
 		delta_x =  x * self.e1
 		delta_y =  y * self.e2
 		res = self.origin + delta_x + delta_y
-		if not touch:
+		if touch != 0:
 			res += touch * self.normal
 		return res
 
