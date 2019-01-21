@@ -34,7 +34,6 @@ class NaoInverseKinematics():
 		q = self.model.neutralConfiguration
 		for i in range(len(self.joint_names)):
 			q[self.joint_ids[i]] = initial_angles[i] 
-
 		nb_step = int(duration / dt)
 		
 		t = 0
@@ -42,6 +41,8 @@ class NaoInverseKinematics():
 		q_s_result = []
 
 		for step in range(nb_step):
+			pin.forwardKinematics(self.model, data, q)
+			
 			# Update all jacobians of the robot
 			pin.computeJointJacobians(self.model, data, q)
 
@@ -57,17 +58,18 @@ class NaoInverseKinematics():
 			Xdes = np.matrix(trajectory(t)).T
 			
 			error = R.T * (X - Xdes)
-
-			v = -np.linalg.pinv(J) * lam * error
+			# print(np.linalg.norm(error))
+			deriv = np.matrix(trajectory_derivative(t)).T
+			v = -np.dot(np.linalg.pinv(J), deriv + lam * error)
 			
 			# v_sol is the solution of the least square problem
 			# t_deriv = trajectory_derivative(t)
 			
 			# update current configurqtion
 			q = pin.integrate(self.model, q, v * dt)
-		
+			#print(q[15:20].T)
 			q_s_result.append([float(q[15])] + [float(q[16])] + [float(q[17])] + [float(q[18])] + [float(q[19])] + [float(q[32])])
-
+			
 			t += dt
 		
 		# TODO Check returns type and convert to appropriate format for naoqi functions
@@ -78,10 +80,10 @@ if __name__ == "__main__":
 
 	ik = NaoInverseKinematics("NAOH25V33.urdf")
 
-	trajectory = lambda t: np.array([1 * t, 1 * t, t])
-	trajectory_derivative = lambda t: np.array([0.01, 0.01, 0.0])
+	trajectory = lambda t: np.array([0.5, -0.5, 0.5])
+	trajectory_derivative = lambda t: np.array([0, 0, 0])
 
-	q = ik.compute(trajectory, trajectory_derivative, 25, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+	q = ik.compute(trajectory, trajectory_derivative, 1, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
 	print(q.shape)
-	print(q)
+	#print(q[-10:-1])
