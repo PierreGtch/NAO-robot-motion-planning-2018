@@ -15,7 +15,7 @@ class NaoInverseKinematics():
 		self.joint_names = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw", "LHand"]
 		self.joint_ids = [15, 16, 17, 18, 19, 32]
 
-	def compute(self, trajectory, trajectory_derivative, duration, initial_angles, dt = 0.01, lam = 50.0):
+	def compute(self, trajectory, trajectory_derivative, duration, initial_angles, dt = 0.01, lam = 25.0):
 		"""
 		trajectory: A lambda, the trajectory to follow
 		duration:   The total duration of the movement

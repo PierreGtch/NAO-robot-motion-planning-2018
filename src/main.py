@@ -30,8 +30,8 @@ from control import NaoqiInterpolation, NaoControlAngles, PenControler, Dab
 # some line attributes
 color = "black"
 
-#robotIP = "169.254.226.148"
-robotIP = "127.0.0.1"
+robotIP = "169.254.226.148"
+#robotIP = "127.0.0.1"
 PORT = 9559
 
 dab_when_quit_pressed = True
@@ -247,7 +247,7 @@ def send_data(t, xy):
     time_init = t[0]
     t = t - time_init
     t = np.hstack((0,1,1.25,1.5,1.75,2+t,t[-1]+2.25,t[-1]+2.5,t[-1]+2.75,t[-1]+3,t[-1]+4))
-    time = (2 + 2 * t).tolist()
+    time = (3 + 2 * t).tolist()
 
     #with open("time.pickle", "wb") as f:
     #    pickle.dump(time, f)
@@ -271,14 +271,13 @@ if __name__ == "__main__":
     global converter, pen_controler, dab
     proxy = ALProxy("ALMotion",robotIP,PORT)
     postureProxy = ALProxy("ALRobotPosture", robotIP, PORT)
-    #converter = get_converter(proxy)
 
     dab = Dab(proxy, postureProxy)
     import pickle
     with open("converter_mini2.pickle","rb") as f:
         converter = pickle.load(f)
 
-    #converter = get_converter(proxy)
+    converter = get_converter(proxy)
     pen_controler = PenControler(converter, distance=0.1)
     api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_TORSO, 7)
     inverse_fun = NaoControlAngles(proxy,"kinematics/NAOH25V33.urdf")
