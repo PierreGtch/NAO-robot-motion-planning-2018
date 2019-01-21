@@ -14,7 +14,7 @@ It is about making the NAO robot draw on a board !
 ## Installation
 
 #### Software
-This project requires `python 2.7`, `pinoccio`, `tkinter`, the modules in [requirements.txt]()
+This project requires `python 2.7`, `pinoccio`, `tkinter`, the modules in [requirements.txt](requirements.txt)
 
 For the modules, please run :
 ```bash
@@ -35,7 +35,7 @@ To launch `choregraphe` use the script at the root of the archive.
 You will then be able to either run our program on a simulated robot
 or on the real robot
 
-###### Simulation
+##### Simulation
 The `choregraphe` program allows you to display a simulation
 and in the choregraphe archive you will find a program
 that simulates NAO at `bin/naoqi-bin`.
@@ -43,16 +43,16 @@ that simulates NAO at `bin/naoqi-bin`.
 Run both programs, then from the choregraphe interface
 connect the simulation to choregraphe.
 
-The default IP and PORT are specified in [src/main.py]() :
+The default IP and PORT are specified in [src/main.py](src/main.py) :
 ```python
 robotIP = "127.0.0.1"
 PORT = 9559
 ```
-If your simulation's IP or PORT are different, please edit the [src/main.py]() file
+If your simulation's IP or PORT are different, please edit the [src/main.py](src/main.py) file
 
-###### Real robot
+##### Real robot
 To run our program on the real robot, start your NAO, connect to it
-and set the right IP and PORT in [src/main.py]()  
+and set the right IP and PORT in [src/main.py](src/main.py)  
 Please refer to http://doc.aldebaran.com/1-14/getting_started/index.html
 
 You will need to place a pen in his left hand
@@ -85,5 +85,5 @@ Finally a window will pop up and you will be able to make drawings.
 NAO will reproduce them.
 
 Two motion planning methods are available via the buttons :
- - **Inverse Kinematics Interpolation** where we compute all the arm angles for each point in the curve (more details available at [slides/nao.pdf]()). This function uses the `pinocchio` library.
+ - **Inverse Kinematics Interpolation** where we compute all the arm angles for each point in the curve (more details available at [slides/nao.pdf](slides/nao.pdf)). This function uses the `pinocchio` library.
  - **API Interpolation** where we just use NAO's API and only have to specify the successive hand positions

@@ -1,3 +1,0 @@
-\beamer@sectionintoc {1}{Inverse kinematics}{4}{0}{1}
-\beamer@subsectionintoc {1}{1}{Modeling the coordinate system}{6}{0}{1}
-\beamer@subsectionintoc {1}{2}{Finding the next ``angles step'' by computing the Jacobian}{8}{0}{1}
