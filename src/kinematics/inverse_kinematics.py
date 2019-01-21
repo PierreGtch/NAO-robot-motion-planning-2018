@@ -13,8 +13,9 @@ class NaoInverseKinematics():
 				
 		self.model = pin.buildModelFromUrdf(self.urdf_filename, pin.JointModelFreeFlyer())
 		self.joint_names = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw", "LHand"]
+		self.joint_ids = [15, 16, 17, 18, 19, 32]
 
-	def compute(self, trajectory, trajectory_derivative, duration, dt = 0.01, lam = 100.0):
+	def compute(self, trajectory, trajectory_derivative, duration, initial_angles, dt = 0.01, lam = 50.0):
 		"""
 		trajectory: A lambda, the trajectory to follow
 		duration:   The total duration of the movement
@@ -31,9 +32,8 @@ class NaoInverseKinematics():
 
 		# Initial configuration of the robot to adjust in function of the position of the system
 		q = self.model.neutralConfiguration
-		print(q.reshape(65,))
-		print(list(self.model.joints))
-		print(list(self.model.names))	
+		for i in range(len(self.joint_names)):
+			q[self.joint_ids[i]] = initial_angles[i] 
 
 		nb_step = int(duration / dt)
 		
@@ -42,40 +42,29 @@ class NaoInverseKinematics():
 		q_s_result = []
 
 		for step in range(nb_step):
-			# Update the position of the bodies of the robot in function of the current configuration
-			pin.forwardKinematics(self.model, data, q)
-
 			# Update all jacobians of the robot
 			pin.computeJointJacobians(self.model, data, q)
 
 			# Get the Jacobians of the joint to control in the world repair
-			J_LH = np.array(pin.getJointJacobian(self.model, data, id_LH, pin.ReferenceFrame.WORLD))
-			#print(J_LH.shape)
+			J = pin.getJointJacobian(self.model, data, id_LH, pin.ReferenceFrame.LOCAL)[:3, :]
+			
 			# Solve the inverse kinematics
 			# 1. calculer l'erreur courante en fonction de la position des organes terminaux
 			# data.oMi[id_du_joint] contient la position et l'orientation de l'organe par rapport au repere monde
-			# data.v[id_du_joint] contient la vitesse du corps en question exprimee au centre du joint
 			
-			M = data.oMi[id_LH]
-			Mdes = pin.SE3(np.matrix(np.eye(3)), np.matrix(trajectory(t)).T)
-			#print(Mdes)
+			X = data.oMi[id_LH].translation
+			R = data.oMi[id_LH].rotation
+			Xdes = np.matrix(trajectory(t)).T
 			
-			error = np.array(pin.log(M.inverse() * Mdes).vector).reshape((6,))
-			#print(error.shape)
+			error = R.T * (X - Xdes)
 
-			#print(np.linalg.pinv(J_LH).shape)
-			#print((trajectory_derivative(t) + lam * error).shape)
+			v = -np.linalg.pinv(J) * lam * error
+			
 			# v_sol is the solution of the least square problem
-			t_deriv = trajectory_derivative(t)
-			t_deriv = np.hstack((t_deriv,np.zeros((3,))))
-			v_sol = np.dot(np.linalg.pinv(J_LH), t_deriv + lam * error).reshape((48,))
-			v_sol = v_sol[np.newaxis,:]
-			#print(v_sol.shape)
+			# t_deriv = trajectory_derivative(t)
+			
 			# update current configurqtion
-			#print(np.matrix(v_sol * dt).shape)
-			#print(q.shape)
-			q = pin.integrate(self.model, q, np.matrix(v_sol * dt).T)
-			#print(q.shape)
+			q = pin.integrate(self.model, q, v * dt)
 		
 			q_s_result.append([float(q[15])] + [float(q[16])] + [float(q[17])] + [float(q[18])] + [float(q[19])] + [float(q[32])])
 
@@ -89,10 +78,10 @@ if __name__ == "__main__":
 
 	ik = NaoInverseKinematics("NAOH25V33.urdf")
 
-	trajectory = lambda x: np.zeros(3)
-	trajectory_derivative = lambda t: np.zeros(6)
+	trajectory = lambda t: np.array([1 * t, 1 * t, t])
+	trajectory_derivative = lambda t: np.array([0.01, 0.01, 0.0])
 
-	q = ik.compute(trajectory, trajectory_derivative, 1)
+	q = ik.compute(trajectory, trajectory_derivative, 25, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
 	print(q.shape)
-	print(q[-1, :])
+	print(q)

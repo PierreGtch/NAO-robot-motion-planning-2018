@@ -10,14 +10,23 @@ class NaoControlAngles:
     def __init__(self, motionProxy,urdf_file):
         self.motionProxy = motionProxy
         self.inverter = NaoInverseKinematics(urdf_file)
-        self.poly_deg = 3
+        self.poly_deg = 1
 
     def send(self, time, path, isAbsolute=True):
         assert isAbsolute
         trajectory = interpolate_nd(time, path, d=self.poly_deg)
-
         trajectory_derivative = interpolate_nd(time, path, d=self.poly_deg,deriv=1)
         duration = time[-1] - time[0]
+
+        import matplotlib.pyplot as plt
+        timer = [duration*i/10000 for i in range(10000)]
+
+        traj = np.array([trajectory(t) for t in timer])
+
+        for i,l in enumerate(["x","y","z"]):
+            plt.plot(timer,traj[:,i],label=l)
+        plt.legend()
+        plt.show()
 
         print "Cinématique inverse..."
         current = self.motionProxy.getAngles(self.inverter.joint_names,True)
@@ -34,7 +43,7 @@ class NaoControlAngles:
         isAbsolute = False
         print "Envoie de la commande, durée du mouvement :"
         print np.max(timeLists)
-        mode = True
+        mode = False
         if mode:
             print "MY ZONE"
             print joint_names
@@ -51,6 +60,7 @@ class NaoControlAngles:
                 self.motionProxy.setAngles(joint_names, c, fractionMaxSpeed)
                 py_time.sleep(0.02)
         else:
+            configurations = configurations.T.reshape(nb_joints,nb_step)
             self.motionProxy.angleInterpolation(joint_names, configurations.tolist(), timeLists, isAbsolute)
         print "Done!!"
 
