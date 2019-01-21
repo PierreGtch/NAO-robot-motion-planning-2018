@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{Analysis of handwriting and extraction of trajectory function}{4}{0}{1}
+\beamer@sectionintoc {2}{Inverse kinematics}{6}{0}{2}
+\beamer@subsectionintoc {2}{1}{modeling the coordinate system}{8}{0}{2}
+\beamer@subsectionintoc {2}{2}{finding the next ``angles step'' by computing jacobien}{10}{0}{2}

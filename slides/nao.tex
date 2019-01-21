@@ -1,9 +1,12 @@
 \documentclass{beamer}
 \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{url}
 \usepackage{ragged2e}
 \usetheme{metropolis}
 \setbeamercolor{background canvas}{bg=white}
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,shapes.geometric}
 
 \title{Writing with NAO}
 \author{Adrien Bardes, Marius Dufraisse, Pierre Guetschel, Mengda Li}
@@ -15,14 +18,62 @@
 \frame{\titlepage}
 
 \begin{frame}{Goal of our project}
-We want to make our robot NAO write!
-\medskip
-
-\includegraphics[scale = 0.7]{NAO_writes.jpg}\cite{1}
+\begin{itemize}
+	\item We want to make our robot NAO write!
+\end{itemize}
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.8
+\linewidth]{NAO_writes.jpg}\cite{1}
+\end{figure}
 \end{frame}
 
+
 \begin{frame}{Methodology}
-\tableofcontents
+%\tableofcontents
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[>=latex']
+\tikzset{block/.style= {draw, rectangle, align=center,minimum width=1cm,minimum height=6mm,font=\tiny},
+}
+\node [block]  (start) {Calibration};
+\node [block, below right = 1mm of start] (dess){Dessin};
+\node [block, right = 3mm of dess] (transfert){2D vers 3D};
+\node [block, right = 3mm of transfert] (interpolation){Interpolation};
+\node [block, right = 3mm of interpolation] (kin){Cinématique inverse};
+\node [block, right = 3mm of kin] (com){Commande};
+
+
+
+
+
+\path[draw, ->,rounded corners=5pt]
+	(start) -- (dess);
+
+\path[draw, ->]
+	(dess) -- (transfert);
+\path[draw, ->]
+	(transfert) -- (interpolation);
+\path[draw, ->]
+	(interpolation) -- (kin);
+\path[draw, ->]
+	(kin) -- (com);
+%	(ADL) -- (AUL)
+%	(AUL) edge (A1)
+%	(A1) edge (A2)
+%	(A2) -- (AUR)
+%	(AUR) -- (ADR)
+%	(ADR) edge (AEnd)
+%
+%	(start) -- (BUL)
+%	(BUL) -- (BDL)
+%	(BDL) edge (B1)
+%	(B1) edge (B2)
+%	(B2) -- (BDR)
+%	(BDR) -- (BUR)
+%	(BUR) -- (BEnd);
+\end{tikzpicture}
+\end{figure}
 \end{frame}
 
 \section{Analysis of handwriting and extraction of trajectory function}
