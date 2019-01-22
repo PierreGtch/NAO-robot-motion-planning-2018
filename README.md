@@ -65,7 +65,7 @@ and place it in front of a little desk
 ## Usage
 
 Once all requirements installed and the robot connected,
-lunch our program with :
+launch our program with :
 ```bash
 python2 src/main.py
 ```
