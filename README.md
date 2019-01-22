@@ -7,7 +7,9 @@ http://diplome.di.ens.fr/English.html#Planification_de_mouvement_en_robotique
 
 It is about making the NAO robot draw on a board !
 
-![](https://github.com/PierreGtch/NAO-robot-motion-planning-2018/blob/c4a90e370a0305a1cbd6b1e9f3046d5767743815/slides/NAO_writes.jpg)
+_demonstration :_
+
+![gif](slides/demo.gif)
 
 
 
