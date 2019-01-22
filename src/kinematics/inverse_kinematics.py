@@ -15,7 +15,7 @@ class NaoInverseKinematics():
 		self.joint_names = ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw", "LHand"]
 		self.joint_ids = [15, 16, 17, 18, 19, 32]
 
-	def compute(self, trajectory, trajectory_derivative, duration, initial_angles, dt = 0.01, lam = 25.0):
+	def compute(self, trajectory, trajectory_derivative, duration, initial_angles, dt = 0.1, lam = 10.0):
 		"""
 		trajectory: A lambda, the trajectory to follow
 		duration:   The total duration of the movement
@@ -47,7 +47,7 @@ class NaoInverseKinematics():
 			pin.computeJointJacobians(self.model, data, q)
 
 			# Get the Jacobians of the joint to control in the world repair
-			J = pin.getJointJacobian(self.model, data, id_LH, pin.ReferenceFrame.LOCAL)[:3, :]
+			J = pin.getJointJacobian(self.model, data, id_LH, pin.ReferenceFrame.LOCAL)[:3, 7:]
 			
 			# Solve the inverse kinematics
 			# 1. calculer l'erreur courante en fonction de la position des organes terminaux
@@ -55,18 +55,25 @@ class NaoInverseKinematics():
 			
 			X = data.oMi[id_LH].translation
 			R = data.oMi[id_LH].rotation
+			#print(trajectory(t)).T
 			Xdes = np.matrix(trajectory(t)).T
 			
 			error = R.T * (X - Xdes)
-			# print(np.linalg.norm(error))
+
+			error_norm = np.linalg.norm(error)
+			#print(error_norm)
 			deriv = np.matrix(trajectory_derivative(t)).T
 			v = -np.dot(np.linalg.pinv(J), deriv + lam * error)
+			
+			z = np.matrix(np.zeros((6, 1)))
+			v = np.concatenate((z, v))
 			
 			# v_sol is the solution of the least square problem
 			# t_deriv = trajectory_derivative(t)
 			
 			# update current configurqtion
 			q = pin.integrate(self.model, q, v * dt)
+			#print(q.T)
 			#print(q[15:20].T)
 			q_s_result.append([float(q[15])] + [float(q[16])] + [float(q[17])] + [float(q[18])] + [float(q[19])] + [float(q[32])])
 			
@@ -80,8 +87,8 @@ if __name__ == "__main__":
 
 	ik = NaoInverseKinematics("NAOH25V33.urdf")
 
-	trajectory = lambda t: np.array([0.5, -0.5, 0.5])
-	trajectory_derivative = lambda t: np.array([0, 0, 0])
+	trajectory = lambda t: np.array([t * 0.01, t * 0.01, 0.0])
+	trajectory_derivative = lambda t: np.array([0.01, 0.01, 0.0])
 
 	q = ik.compute(trajectory, trajectory_derivative, 1, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
