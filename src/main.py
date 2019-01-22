@@ -31,7 +31,7 @@ from control import NaoqiInterpolation, NaoControlAngles, PenControler, Dab
 color = "black"
 
 robotIP = "169.254.226.148"
-#robotIP = "127.0.0.1"
+robotIP = "127.0.0.1"
 PORT = 9559
 
 dab_when_quit_pressed = True
@@ -277,7 +277,7 @@ if __name__ == "__main__":
     with open("converter_mini2.pickle","rb") as f:
         converter = pickle.load(f)
 
-    converter = get_converter(proxy)
+    #converter = get_converter(proxy)
     pen_controler = PenControler(converter, distance=0.1)
     api_fun = NaoqiInterpolation(proxy, 'LArm', motion.FRAME_TORSO, 7)
     inverse_fun = NaoControlAngles(proxy,"kinematics/NAOH25V33.urdf")

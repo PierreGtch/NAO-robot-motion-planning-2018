@@ -43,7 +43,7 @@ class NaoControlAngles:
         isAbsolute = True
         print "Envoie de la commande, durée du mouvement :"
         print np.max(timeLists)
-        mode = True
+        mode = False
         if mode:
             print "MY ZONE"
             print joint_names
