@@ -138,7 +138,7 @@ def moveMouse(event):
         if xState is not None and yState is not None:
             if ovals:
                 event.widget.create_oval(xState,yState,event.x,event.y, outline = color, fill = color)
-            event.widget.create_line(xState,yState,event.x,event.y, fill = color)
+            event.widget.create_line(xState,yState,event.x,event.y, fill = color,width=4)
         # then populate xState and yState with the coords of the mouse position - aka draw :)
         xState = event.x
         yState = event.y
